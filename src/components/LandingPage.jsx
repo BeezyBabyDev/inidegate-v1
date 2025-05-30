@@ -1,11 +1,24 @@
 import Button from './Button'
 
-// InideGate Logo Component
-const InideGateLogo = ({ className = 'w-8 h-8' }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="currentColor">
-    <rect x="20" y="20" width="40" height="40" />
-    <rect x="40" y="40" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="4" />
-    <rect x="52" y="52" width="16" height="16" fill="currentColor" />
+// InideGate Logo Component - Updated Design
+const InideGateLogo = ({ className = "w-12 h-12" }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none">
+    <defs>
+      <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#60A5FA" />
+        <stop offset="100%" stopColor="#3B82F6" />
+      </linearGradient>
+      <linearGradient id="logoGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#3B82F6" />
+        <stop offset="100%" stopColor="#1D4ED8" />
+      </linearGradient>
+    </defs>
+    {/* Background square */}
+    <rect x="15" y="25" width="50" height="50" fill="url(#logoGradient)" rx="4" />
+    {/* Overlapping square */}
+    <rect x="35" y="15" width="50" height="50" fill="url(#logoGradientDark)" rx="4" />
+    {/* Inner detail square */}
+    <rect x="55" y="35" width="15" height="15" fill="white" rx="2" />
   </svg>
 )
 
@@ -50,7 +63,7 @@ const LandingPage = ({ onSelectPortal }) => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="text-white">
             <div className="flex items-center space-x-3">
-              <InideGateLogo className="w-10 h-10 text-blue-400" />
+              <InideGateLogo className="w-12 h-12 text-blue-400" />
               <div>
                 <h1 className="text-2xl font-bold">
                   InideGate.<span className="text-blue-400">v1</span>
