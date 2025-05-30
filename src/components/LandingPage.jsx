@@ -50,7 +50,7 @@ const LandingPage = ({ onSelectPortal }) => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="text-white">
             <div className="flex items-center space-x-3">
-              <InideGateLogo className="w-8 h-8 text-blue-400" />
+              <InideGateLogo className="w-10 h-10 text-blue-400" />
               <div>
                 <h1 className="text-2xl font-bold">
                   InideGate.<span className="text-blue-400">v1</span>
@@ -86,7 +86,7 @@ const LandingPage = ({ onSelectPortal }) => {
           {/* Hero Content */}
           <div className="mb-16">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Connect. Create. <span className="text-blue-400">Cinema.</span>
+              Start with a vision. Build a bridge. <span className="text-blue-400">Keep it human.</span>
             </h2>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
               The premier AI-driven platform connecting visionary film investors with exceptional
