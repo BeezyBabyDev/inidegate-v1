@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import LandingPage from './components/LandingPage';
 import InvestorPortal from './components/InvestorPortal';
 import TalentPortal from './components/TalentPortal';
