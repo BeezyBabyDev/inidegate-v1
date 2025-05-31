@@ -1,39 +1,45 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage';
+import CreativePortal from './components/CreativePortal';
 import InvestorPortal from './components/InvestorPortal';
-import TalentPortal from './components/TalentPortal';
 
 function App() {
   const [currentView, setCurrentView] = useState('landing');
-  const [userType, setUserType] = useState(null);
 
-  const handlePortalSelection = (portal) => {
-    setUserType(portal);
-    setCurrentView('portal');
-  };
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const portal = urlParams.get('portal');
+    
+    if (portal === 'talent') {
+      setCurrentView('talent');
+    } else if (portal === 'investor') {
+      setCurrentView('investor');
+    }
+  }, []);
 
   const handleLogout = () => {
-    setUserType(null);
+    window.history.pushState({}, '', '/');
     setCurrentView('landing');
   };
 
-  // Landing Page
+  const handleSelectPortal = (portal) => {
+    window.history.pushState({}, '', `/?portal=${portal}`);
+    setCurrentView(portal);
+  };
+
   if (currentView === 'landing') {
-    return <LandingPage onSelectPortal={handlePortalSelection} />;
+    return <LandingPage onSelectPortal={handleSelectPortal} />;
   }
 
-  // Portal Views
-  if (currentView === 'portal') {
-    if (userType === 'investor') {
-      return <InvestorPortal onLogout={handleLogout} />;
-    }
-    if (userType === 'talent') {
-      return <TalentPortal onLogout={handleLogout} />;
-    }
+  if (currentView === 'talent') {
+    return <CreativePortal onLogout={handleLogout} />;
   }
 
-  // Fallback to landing
-  return <LandingPage onSelectPortal={handlePortalSelection} />;
+  if (currentView === 'investor') {
+    return <InvestorPortal onLogout={handleLogout} />;
+  }
+
+  return <LandingPage onSelectPortal={handleSelectPortal} />;
 }
 
 export default App;

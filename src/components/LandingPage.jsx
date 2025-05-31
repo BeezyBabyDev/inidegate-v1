@@ -346,71 +346,39 @@ const LandingPage = ({ onSelectPortal }) => {
               </Button>
             </div>
 
-            {/* Talent Portal */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-6">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Talent Network</h3>
-              <p className="text-blue-100 mb-6">
-                Showcase your film industry skills, connect with innovative productions, and build
-                the next generation of groundbreaking cinema.
+            {/* Creative Portal */}
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group">
+              <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🎬</div>
+              <h3 className="text-2xl font-bold text-white mb-4">For Creatives</h3>
+              <p className="text-white/80 mb-6">
+                Showcase your talent, connect with projects, and build your career in independent film.
               </p>
-
-              {/* Talent Categories */}
-              <div className="text-left mb-6">
-                <p className="text-sm font-medium text-blue-200 mb-3">Network Includes:</p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {talentCategories.slice(0, 6).map((category, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-purple-500/20 text-purple-200 text-xs rounded-full"
-                    >
-                      {category}
-                    </span>
-                  ))}
-                  <span className="px-2 py-1 bg-purple-500/30 text-purple-100 text-xs rounded-full font-medium">
-                    +{talentCategories.length - 6} more
-                  </span>
-                </div>
-              </div>
-
-              <ul className="text-left text-blue-100 mb-8 space-y-2">
+              <ul className="text-white/70 mb-8 space-y-2">
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
-                  Film Project Opportunities
+                  <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Build professional profiles
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
-                  AI Skills Matching
+                  <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Connect with opportunities
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
-                  Portfolio & Reel Builder
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
-                  Industry Career Growth
+                  <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Join our community
                 </li>
               </ul>
-              <Button
+              <button
                 onClick={() => onSelectPortal('talent')}
-                className="w-full bg-purple-500 hover:bg-purple-600 text-white py-3"
+                className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
               >
-                Enter Talent Portal
-              </Button>
+                Enter Creative Portal
+              </button>
             </div>
           </div>
 

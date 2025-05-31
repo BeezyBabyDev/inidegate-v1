@@ -1,121 +1,89 @@
 import { useState } from 'react'
 
-function Navbar() {
+function Navbar({ isScrolled }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  const handleInvestorLogin = () => {
+    window.location.href = '/?portal=investor';
+  };
+
+  const handleCreativeLogin = () => {
+    window.location.href = '/?portal=talent';
+  };
+
   return (
-    <nav className="bg-white shadow-lg border-b border-gray-200">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-gray-800">
-                IndieGate<span className="text-blue-600">.io</span>
-              </h1>
-            </div>
+          <div className="flex items-center space-x-2">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 200 200"
+              className="transition-transform duration-300 hover:scale-110"
+            >
+              <defs>
+                <clipPath id="projectorLens">
+                  <rect x="50" y="50" width="100" height="100" rx="15" />
+                </clipPath>
+                <clipPath id="screen">
+                  <rect x="25" y="75" width="80" height="60" rx="8" />
+                </clipPath>
+              </defs>
+              <rect x="50" y="50" width="100" height="100" rx="15" fill="#2563eb" />
+              <rect x="25" y="75" width="80" height="60" rx="8" fill="#60a5fb" />
+              <rect x="55" y="55" width="90" height="90" rx="12" fill="none" stroke="#60a5fb" strokeWidth="2" clipPath="url(#projectorLens)" />
+              <rect x="30" y="80" width="70" height="50" rx="6" fill="none" stroke="#2563eb" strokeWidth="2" clipPath="url(#screen)" />
+            </svg>
+            <span className={`text-xl font-bold transition-colors duration-300 ${
+              isScrolled ? 'text-gray-900' : 'text-white'
+            }`}>
+              IndieGate.io
+            </span>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Dashboard
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Projects
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Analytics
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Settings
-              </a>
-            </div>
-          </div>
-
-          {/* User Menu */}
-          <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                Sign In
-              </button>
-            </div>
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-8">
+            <a href="#about" className={`transition-colors duration-300 hover:text-purple-600 ${
+              isScrolled ? 'text-gray-700' : 'text-white'
+            }`}>
+              About
+            </a>
+            <a href="#contact" className={`transition-colors duration-300 hover:text-purple-600 ${
+              isScrolled ? 'text-gray-700' : 'text-white'
+            }`}>
+              Contact
+            </a>
+            
+            {/* Portal Buttons */}
+            <button
+              onClick={handleCreativeLogin}
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              Creative Portal
+            </button>
+            <button
+              onClick={handleInvestorLogin}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Investor Portal
+            </button>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
+            <button className={`transition-colors duration-300 ${
+              isScrolled ? 'text-gray-700' : 'text-white'
+            }`}>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 rounded-lg mt-2">
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Dashboard
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Projects
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Analytics
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Settings
-              </a>
-              <button className="w-full text-left bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-base font-medium transition-colors">
-                Sign In
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   )

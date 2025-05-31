@@ -298,15 +298,34 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
       {/* Profile Header */}
       <Card className="p-6">
         <div className="flex items-start space-x-6">
-          <img
-            src={avatar}
-            alt={name}
-            className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
-          />
+          <div className="relative">
+            <img
+              src={avatar}
+              alt={name}
+              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+            />
+            <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
           <div className="flex-1">
             <div className="flex items-center space-x-3">
               <h1 className="text-2xl font-bold text-gray-900">{name}</h1>
-              {/* Add verification logic here */}
+              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
             <p className="text-lg text-purple-600 font-medium">{title}</p>
             <p className="text-gray-600">{company}</p>

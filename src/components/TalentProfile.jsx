@@ -350,7 +350,7 @@ const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
             <span className="px-3 py-1 bg-purple-500/20 text-purple-100 rounded-full text-sm">
               {talentData.rates}
             </span>
-            {talentData.unions.map((union, index) => (
+            {talentData.unions && talentData.unions.map((union, index) => (
               <span
                 key={index}
                 className="px-3 py-1 bg-blue-500/20 text-blue-100 rounded-full text-sm"
