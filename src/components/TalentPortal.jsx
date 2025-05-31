@@ -2,29 +2,98 @@ import { useState } from 'react';
 import Navbar from './Navbar';
 import Card from './Card';
 import Button from './Button';
+import TalentProfile from './TalentProfile';
+import TalentProfileEditor from './TalentProfileEditor';
 
 const TalentPortal = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('opportunities');
+  const [profileView, setProfileView] = useState('showcase'); // 'showcase' or 'editor'
+
+  // Sample profile data - in real app this would come from API
+  const [profileData, setProfileData] = useState({
+    name: 'Alex Rivera',
+    role: 'Actor',
+    location: 'Los Angeles, CA',
+    bio: 'Versatile actor with 8+ years of experience in film and television. Known for dramatic roles and character work.',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+    email: 'alex.rivera@email.com',
+    phone: '(555) 123-4567',
+    website: 'www.alexrivera.com',
+    instagram: '@alexriveraactor',
+    actorAccess: 'alex.rivera',
+    castingNetworks: 'alexrivera',
+    imdb: 'nm1234567',
+    availability: 'Available',
+    rates: '$1,500-2,500/day',
+    unions: ['SAG-AFTRA'],
+    specialSkills: ['Spanish (Fluent)', 'Stage Combat', 'Horseback Riding', 'Guitar', 'New York Accent'],
+    demoReel: 'https://vimeo.com/alex-rivera-reel',
+    headshots: [
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop&crop=face'
+    ],
+    credits: [
+      { id: 1, title: 'The Last Stand', role: 'Detective Martinez', type: 'Feature Film', year: '2023', director: 'Sarah Chen' },
+      { id: 2, title: 'City Streets', role: 'Marco', type: 'TV Series', year: '2022', director: 'Mike Johnson' },
+      { id: 3, title: 'Broken Dreams', role: 'Lead', type: 'Short Film', year: '2021', director: 'Lisa Park' }
+    ],
+    awards: ['Best Actor - LA Indie Film Festival 2022'],
+    verified: true
+  });
 
   const projectOpportunities = [
-    { id: 1, title: 'Senior React Developer', company: 'TechFlow AI', type: 'Full-time', salary: '$120K - $150K', location: 'Remote', skills: ['React', 'TypeScript', 'Node.js'], posted: '2 days ago' },
-    { id: 2, title: 'Full Stack Engineer', company: 'GreenEnergy Labs', type: 'Contract', salary: '$80-100/hr', location: 'San Francisco', skills: ['Python', 'Django', 'AWS'], posted: '1 week ago' },
-    { id: 3, title: 'DevOps Engineer', company: 'CloudSync', type: 'Full-time', salary: '$130K - $160K', location: 'New York', skills: ['Docker', 'Kubernetes', 'CI/CD'], posted: '3 days ago' },
-    { id: 4, title: 'Mobile App Developer', company: 'HealthTech Plus', type: 'Part-time', salary: '$60-80/hr', location: 'Remote', skills: ['React Native', 'iOS', 'Android'], posted: '5 days ago' },
+    { id: 1, title: 'Leading Man - Indie Drama', company: 'Moonlight Productions', type: 'Feature Film', salary: '$15K + Backend', location: 'Atlanta, GA', skills: ['Drama', 'Spanish', 'Age 25-35'], posted: '2 days ago' },
+    { id: 2, title: 'Supporting Role - Netflix Series', company: 'StreamVision Studios', type: 'TV Series', salary: '$5K/episode', location: 'Los Angeles, CA', skills: ['Comedy', 'Improv', 'Series Regular'], posted: '1 week ago' },
+    { id: 3, title: 'Stunt Double - Action Film', company: 'ActionFlix Pictures', type: 'Feature Film', salary: '$800-1200/day', location: 'Vancouver, BC', skills: ['Stunt Work', 'Martial Arts', 'Driving'], posted: '3 days ago' },
+    { id: 4, title: 'Voice Over - Animation', company: 'ToonTime Animation', type: 'Voice Work', salary: '$500-800/session', location: 'Remote', skills: ['Voice Acting', 'Character Voices', 'Animation'], posted: '5 days ago' },
   ];
 
   const myApplications = [
-    { id: 1, title: 'Frontend Developer', company: 'DataViz Pro', status: 'Interview Scheduled', applied: '1 week ago', stage: 'Technical Interview' },
-    { id: 2, title: 'React Developer', company: 'AI Assistant', status: 'Under Review', applied: '3 days ago', stage: 'Initial Review' },
-    { id: 3, title: 'Software Engineer', company: 'FinScope Analytics', status: 'Accepted', applied: '2 weeks ago', stage: 'Offer Received' },
+    { id: 1, title: 'Lead Role - Thriller', company: 'Dark Cinema Films', status: 'Callback Scheduled', applied: '1 week ago', stage: 'Final Audition' },
+    { id: 2, title: 'Guest Star - Crime Drama', company: 'Network Television', status: 'Under Review', applied: '3 days ago', stage: 'Initial Audition' },
+    { id: 3, title: 'Supporting Role - Romance', company: 'Heartstring Pictures', status: 'Booked', applied: '2 weeks ago', stage: 'Contract Negotiation' },
   ];
 
   const skillAssessments = [
-    { skill: 'JavaScript', level: 'Expert', score: 95, color: 'green' },
-    { skill: 'React', level: 'Advanced', score: 88, color: 'blue' },
-    { skill: 'Node.js', level: 'Intermediate', score: 72, color: 'yellow' },
-    { skill: 'Python', level: 'Beginner', score: 45, color: 'red' },
+    { skill: 'Dramatic Acting', level: 'Expert', score: 95, color: 'green' },
+    { skill: 'Comedy', level: 'Advanced', score: 88, color: 'blue' },
+    { skill: 'Voice Acting', level: 'Intermediate', score: 72, color: 'yellow' },
+    { skill: 'Stage Combat', level: 'Advanced', score: 85, color: 'blue' },
   ];
+
+  const handleProfileSave = (updatedProfile) => {
+    setProfileData(updatedProfile);
+    setProfileView('showcase');
+  };
+
+  const handleProfileCancel = () => {
+    setProfileView('showcase');
+  };
+
+  // Profile tab rendering
+  const renderProfileTab = () => {
+    if (profileView === 'editor') {
+      return (
+        <TalentProfileEditor
+          initialData={profileData}
+          onSave={handleProfileSave}
+          onCancel={handleProfileCancel}
+        />
+      );
+    }
+
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-gray-900">My Profile</h2>
+          <Button onClick={() => setProfileView('editor')}>
+            Edit Profile
+          </Button>
+        </div>
+        <TalentProfile profileData={profileData} />
+      </div>
+    );
+  };
 
   const renderOpportunitiesTab = () => (
     <div className="space-y-6">
@@ -163,8 +232,8 @@ const TalentPortal = ({ onLogout }) => {
                 </div>
                 <div className="text-right">
                   <span className={`px-3 py-1 text-sm font-medium rounded-full ${
-                    application.status === 'Accepted' ? 'bg-green-100 text-green-800' :
-                    application.status === 'Interview Scheduled' ? 'bg-blue-100 text-blue-800' :
+                    application.status === 'Booked' ? 'bg-green-100 text-green-800' :
+                    application.status === 'Callback Scheduled' ? 'bg-blue-100 text-blue-800' :
                     'bg-yellow-100 text-yellow-800'
                   }`}>
                     {application.status}
@@ -179,8 +248,8 @@ const TalentPortal = ({ onLogout }) => {
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" variant="outline">View Details</Button>
-                  {application.status === 'Interview Scheduled' && (
-                    <Button size="sm">Prepare Interview</Button>
+                  {application.status === 'Callback Scheduled' && (
+                    <Button size="sm">Prepare Audition</Button>
                   )}
                 </div>
               </div>
@@ -224,17 +293,17 @@ const TalentPortal = ({ onLogout }) => {
       </Card>
 
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recommended Learning</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recommended Training</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="border border-gray-200 rounded-lg p-4">
-            <h4 className="font-medium text-gray-900 mb-2">Advanced Python Programming</h4>
-            <p className="text-sm text-gray-600 mb-3">Boost your Python skills to expert level</p>
-            <Button size="sm" variant="outline">Start Learning</Button>
+            <h4 className="font-medium text-gray-900 mb-2">Advanced Scene Study</h4>
+            <p className="text-sm text-gray-600 mb-3">Deepen your dramatic acting technique</p>
+            <Button size="sm" variant="outline">Enroll Now</Button>
           </div>
           <div className="border border-gray-200 rounded-lg p-4">
-            <h4 className="font-medium text-gray-900 mb-2">System Design Fundamentals</h4>
-            <p className="text-sm text-gray-600 mb-3">Learn to design scalable systems</p>
-            <Button size="sm" variant="outline">Start Learning</Button>
+            <h4 className="font-medium text-gray-900 mb-2">On-Camera Technique</h4>
+            <p className="text-sm text-gray-600 mb-3">Master film and TV acting skills</p>
+            <Button size="sm" variant="outline">Enroll Now</Button>
           </div>
         </div>
       </Card>
@@ -244,9 +313,9 @@ const TalentPortal = ({ onLogout }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar 
-        title="Talent Portal"
+        title="Talent Network"
         onLogout={onLogout}
-        user={{ name: "Sarah Chen", role: "Developer" }}
+        user={{ name: "Alex Rivera", role: "Actor" }}
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -254,7 +323,7 @@ const TalentPortal = ({ onLogout }) => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Talent Dashboard</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Discover opportunities, track applications, and grow your career.
+            Discover film opportunities, track auditions, and build your career.
           </p>
         </div>
 
@@ -308,12 +377,7 @@ const TalentPortal = ({ onLogout }) => {
         {activeTab === 'opportunities' && renderOpportunitiesTab()}
         {activeTab === 'applications' && renderApplicationsTab()}
         {activeTab === 'skills' && renderSkillsTab()}
-        {activeTab === 'profile' && (
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Management</h3>
-            <p className="text-gray-600">Build and customize your professional profile...</p>
-          </Card>
-        )}
+        {activeTab === 'profile' && renderProfileTab()}
       </div>
     </div>
   );
