@@ -420,7 +420,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
             Edit Profile
           </Button>
         </div>
-        <TalentProfile profileData={profileData} />
+        <TalentProfile talent={profileData} />
       </div>
     )
   }
