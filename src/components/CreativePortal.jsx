@@ -620,46 +620,52 @@ const CreativePortal = ({ onLogout, onBack }) => {
   )
 
   // Enhanced IndieGate.io Header Component - Matching Landing Page Exactly
-  const IndieGateHeader = () => (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24">
-          {/* Logo + Text Combo - Exact same as landing page */}
-          <div className="text-gray-900">
-            <div 
-              className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
-              onClick={onBack}
-            >
-              <IndieGateLogo className="w-20 h-20" />
-              <div>
-                <h1 className="text-xl font-bold">
-                  IndieGate.<span className="text-blue-600">io</span>
-                </h1>
-                <p className="text-xs text-gray-500 mt-1">
-                  Creative Portal
-                </p>
+  const IndieGateHeader = () => {
+    const handleLogoClick = () => {
+      window.location.href = 'https://indiegate.io/';
+    };
+
+    return (
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-24">
+            {/* Logo + Text Combo - Exact same as landing page */}
+            <div className="text-gray-900">
+              <div 
+                className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={handleLogoClick}
+              >
+                <IndieGateLogo className="w-20 h-20" />
+                <div>
+                  <h1 className="text-xl font-bold">
+                    IndieGate.<span className="text-blue-600">io</span>
+                  </h1>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Creative Portal
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Actions */}
+            <div className="flex items-center space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onBack}
+                className="text-gray-700 border-gray-300 hover:bg-gray-50"
+              >
+                Back to Home
+              </Button>
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-bold">JB</span>
               </div>
             </div>
           </div>
-
-          {/* Navigation Actions */}
-          <div className="flex items-center space-x-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onBack}
-              className="text-gray-700 border-gray-300 hover:bg-gray-50"
-            >
-              Back to Home
-            </Button>
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-bold">JB</span>
-            </div>
-          </div>
         </div>
-      </div>
-    </header>
-  )
+      </header>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
