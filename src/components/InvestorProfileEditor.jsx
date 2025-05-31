@@ -674,6 +674,25 @@ const InvestorProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
     onSave(formData);
   };
 
+  // Add section-by-section save functionality
+  const handleSectionSave = (sectionName) => {
+    // Save current progress
+    onSave(formData);
+    
+    // Show success message
+    const savedMessage = document.createElement('div');
+    savedMessage.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+    savedMessage.textContent = `${sectionName} saved successfully!`;
+    document.body.appendChild(savedMessage);
+    
+    // Remove message after 3 seconds
+    setTimeout(() => {
+      if (document.body.contains(savedMessage)) {
+        document.body.removeChild(savedMessage);
+      }
+    }, 3000);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto p-6">
@@ -736,6 +755,15 @@ const InvestorProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
             </div>
 
             <div className="flex gap-3">
+              {/* Section Save Button */}
+              <Button 
+                variant="outline"
+                onClick={() => handleSectionSave(steps[currentStep - 1].title)}
+                className="bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100"
+              >
+                💾 Save {steps[currentStep - 1].title}
+              </Button>
+              
               <Button variant="outline" onClick={onCancel}>
                 Cancel
               </Button>
@@ -746,7 +774,7 @@ const InvestorProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
                 </Button>
               ) : (
                 <Button onClick={handleSave} className="bg-green-600 hover:bg-green-700">
-                  Save Profile
+                  Save Complete Profile
                 </Button>
               )}
             </div>
