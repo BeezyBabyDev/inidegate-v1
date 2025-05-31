@@ -130,6 +130,18 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
     updateFormData('credits', formData.credits.filter(credit => credit.id !== creditId));
   };
 
+  // Handle image upload
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        updateFormData('avatar', e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const getFieldsForRole = (role) => {
     const baseFields = ['specialSkills', 'demoReel', 'portfolio', 'credits', 'awards'];
     
@@ -150,6 +162,31 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
 
   const renderBasicInfo = () => (
     <div className="space-y-6">
+      {/* Profile Image Upload */}
+      <div className="flex flex-col items-center mb-8">
+        <div className="relative mb-4">
+          <img
+            src={formData.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'}
+            alt="Profile"
+            className="w-32 h-32 rounded-full object-cover border-4 border-purple-200 shadow-lg"
+          />
+          <label className="absolute bottom-0 right-0 bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-full cursor-pointer transition-colors shadow-lg">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+          </label>
+        </div>
+        <p className="text-sm text-gray-600 text-center">
+          Click the + button to upload your professional headshot
+        </p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
