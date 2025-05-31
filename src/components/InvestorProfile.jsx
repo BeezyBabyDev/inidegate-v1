@@ -3,6 +3,7 @@ import Card from './Card'
 import Button from './Button'
 
 const InvestorProfile = ({ profileData: initialProfileData }) => {
+  console.log('InvestorProfile rendering with data:', initialProfileData);
   const [activeTab, setActiveTab] = useState('overview')
 
   // Default profile data with Jourdain Bell profile
