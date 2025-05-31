@@ -1,7 +1,7 @@
 import Button from './Button'
 
-// InideGate Logo Component - Updated Design
-const InideGateLogo = ({ className = 'w-12 h-12' }) => (
+// IndieGate Logo Component - Updated Design
+const IndieGateLogo = ({ className = 'w-12 h-12' }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none">
     <defs>
       <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -63,7 +63,7 @@ const LandingPage = ({ onSelectPortal }) => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="text-white">
             <div className="flex items-center space-x-3">
-              <InideGateLogo className="w-12 h-12 text-blue-400" />
+              <IndieGateLogo className="w-12 h-12 text-blue-400" />
               <div>
                 <h1 className="text-2xl font-bold">
                   IndieGate.<span className="text-blue-400">io</span>
