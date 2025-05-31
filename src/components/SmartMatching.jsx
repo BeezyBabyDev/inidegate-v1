@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Button from './Button'
 import Card from './Card'
+import MessagingSystem from './MessagingSystem'
 
 const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   const [matches, setMatches] = useState([])
@@ -16,6 +17,12 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   const [likedMatches, setLikedMatches] = useState([])
   const [savedMatches, setSavedMatches] = useState([])
   const [minMatchThreshold, setMinMatchThreshold] = useState(71) // Minimum match percentage
+  const [activeChat, setActiveChat] = useState(null) // New state for messaging
+  const [currentUser] = useState({ // Mock current user data
+    id: 'user_123',
+    name: userType === 'talent' ? 'Sarah Chen' : 'Michael Investor',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face'
+  })
 
   // Sample matching data - will be replaced with real AI matching
   const generateMatches = () => {
@@ -204,9 +211,21 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   }
 
   const handleSave = (matchId) => {
-    if (!savedMatches.includes(matchId)) {
-      setSavedMatches([...savedMatches, matchId])
+    setSavedMatches([...savedMatches, matchId])
+    // Don't move to next match when saving
+  }
+
+  const handleMessage = (match) => {
+    // Prepare match data for messaging
+    const chatMatch = {
+      id: match.id,
+      name: match.name || match.title,
+      avatar: match.avatar,
+      compatibility: match.matchScore,
+      role: match.role || match.company,
+      location: match.location
     }
+    setActiveChat(chatMatch)
   }
 
   const nextMatch = () => {
@@ -326,7 +345,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
 
         {/* Action Buttons */}
         {isInteractive && (
-          <div className="flex items-center justify-center space-x-4 p-6 pt-0">
+          <div className="flex items-center justify-center space-x-3 p-6 pt-0">
             <button
               onClick={handlePass}
               className="w-12 h-12 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full flex items-center justify-center transition-colors"
@@ -342,6 +361,15 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+            </button>
+            
+            <button
+              onClick={() => handleMessage(match)}
+              className="w-12 h-12 bg-purple-100 hover:bg-purple-200 text-purple-600 rounded-full flex items-center justify-center transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
             </button>
             
@@ -542,6 +570,14 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
               <Button variant="outline">Update Profile</Button>
             </div>
           </Card>
+        )}
+
+        {activeChat && (
+          <MessagingSystem
+            match={activeChat}
+            currentUser={currentUser}
+            onClose={() => setActiveChat(null)}
+          />
         )}
       </div>
     </div>

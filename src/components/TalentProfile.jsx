@@ -169,6 +169,45 @@ const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
 
   const talentData = { ...defaultTalent, ...talent }
 
+  const IndieGateLogo = () => (
+    <div className="flex justify-center mb-8">
+      <div className="flex items-center">
+        <svg
+          viewBox="0 0 200 50"
+          className="h-12 w-auto"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <clipPath id="logoClip">
+              <rect x="0" y="0" width="200" height="50"/>
+            </clipPath>
+          </defs>
+          
+          {/* Logo Elements */}
+          <g clipPath="url(#logoClip)">
+            {/* Projector (thicker square) */}
+            <rect x="8" y="12" width="14" height="14" rx="2" fill="#2563eb" stroke="#60a5fb" strokeWidth="0.5"/>
+            <circle cx="15" cy="19" r="3" fill="none" stroke="#60a5fb" strokeWidth="1"/>
+            <circle cx="15" cy="19" r="1.5" fill="#60a5fb"/>
+            
+            {/* Screen (thinner square) */}
+            <rect x="26" y="15" width="10" height="8" rx="1" fill="none" stroke="#2563eb" strokeWidth="1.5"/>
+            <rect x="27" y="16" width="8" height="6" fill="#60a5fb" opacity="0.3"/>
+            
+            {/* Connection beam */}
+            <path d="M22 19 L26 19" stroke="#60a5fb" strokeWidth="1" opacity="0.6"/>
+            <path d="M22 18 L26 18" stroke="#60a5fb" strokeWidth="0.5" opacity="0.4"/>
+            <path d="M22 20 L26 20" stroke="#60a5fb" strokeWidth="0.5" opacity="0.4"/>
+            
+            {/* Text */}
+            <text x="44" y="22" className="fill-gray-800 text-lg font-bold">IndieGate</text>
+            <text x="44" y="32" className="fill-blue-600 text-sm font-medium">.io</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  )
+
   const ProfileHeader = () => (
     <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-8 rounded-t-lg">
       <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
@@ -1025,6 +1064,7 @@ const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
       {/* Profile Container */}
       <div className="max-w-4xl mx-auto pb-8">
         <Card className="mb-6 overflow-hidden">
+          <IndieGateLogo />
           <ProfileHeader />
 
           {/* Navigation Tabs */}

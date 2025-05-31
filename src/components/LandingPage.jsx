@@ -2,7 +2,7 @@ import Button from './Button'
 
 // IndieGate.io Logo Component - Official Design
 // Authentic projector lens & screen symbolizing independent filmmaking and breaking Hollywood gatekeeping
-const IndieGateLogo = ({ className = 'w-12 h-12' }) => (
+const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
   <svg className={className} viewBox="0 0 375 375" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <clipPath id="6a8c5b7ec9">
@@ -232,7 +232,7 @@ const LandingPage = ({ onSelectPortal }) => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="text-white">
             <div className="flex items-center space-x-3">
-              <IndieGateLogo className="w-12 h-12 text-blue-400" />
+              <IndieGateLogo className="w-16 h-16 text-blue-400" />
               <div>
                 <h1 className="text-2xl font-bold">
                   IndieGate.<span className="text-blue-400">io</span>

@@ -60,6 +60,45 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
     verified = true,
   } = initialProfileData || {}
 
+  const IndieGateLogo = () => (
+    <div className="flex justify-center mb-8">
+      <div className="flex items-center">
+        <svg
+          viewBox="0 0 200 50"
+          className="h-12 w-auto"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <clipPath id="logoClipInvestor">
+              <rect x="0" y="0" width="200" height="50"/>
+            </clipPath>
+          </defs>
+          
+          {/* Logo Elements */}
+          <g clipPath="url(#logoClipInvestor)">
+            {/* Projector (thicker square) */}
+            <rect x="8" y="12" width="14" height="14" rx="2" fill="#2563eb" stroke="#60a5fb" strokeWidth="0.5"/>
+            <circle cx="15" cy="19" r="3" fill="none" stroke="#60a5fb" strokeWidth="1"/>
+            <circle cx="15" cy="19" r="1.5" fill="#60a5fb"/>
+            
+            {/* Screen (thinner square) */}
+            <rect x="26" y="15" width="10" height="8" rx="1" fill="none" stroke="#2563eb" strokeWidth="1.5"/>
+            <rect x="27" y="16" width="8" height="6" fill="#60a5fb" opacity="0.3"/>
+            
+            {/* Connection beam */}
+            <path d="M22 19 L26 19" stroke="#60a5fb" strokeWidth="1" opacity="0.6"/>
+            <path d="M22 18 L26 18" stroke="#60a5fb" strokeWidth="0.5" opacity="0.4"/>
+            <path d="M22 20 L26 20" stroke="#60a5fb" strokeWidth="0.5" opacity="0.4"/>
+            
+            {/* Text */}
+            <text x="44" y="22" className="fill-gray-800 text-lg font-bold">IndieGate</text>
+            <text x="44" y="32" className="fill-blue-600 text-sm font-medium">.io</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  )
+
   const renderOverview = () => (
     <div className="space-y-6">
       {/* Profile Header */}
@@ -252,7 +291,7 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
                   className="flex items-center gap-2 p-2 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.030-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" />
+                    <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.030-.916-.086.631 1.953 2.445 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" />
                   </svg>
                   Twitter
                 </a>
@@ -424,6 +463,8 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <IndieGateLogo />
+      
       {/* Tab Navigation */}
       <div className="border-b border-gray-200 mb-6">
         <nav className="-mb-px flex space-x-8">
