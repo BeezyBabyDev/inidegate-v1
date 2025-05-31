@@ -15,6 +15,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   const [viewMode, setViewMode] = useState('cards') // 'cards' or 'list'
   const [likedMatches, setLikedMatches] = useState([])
   const [savedMatches, setSavedMatches] = useState([])
+  const [minMatchThreshold, setMinMatchThreshold] = useState(71) // Minimum match percentage
 
   // Sample matching data - will be replaced with real AI matching
   const generateMatches = () => {
@@ -185,8 +186,11 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   }
 
   useEffect(() => {
-    setMatches(generateMatches())
-  }, [userType, filters])
+    const allMatches = generateMatches()
+    // Filter matches based on minimum threshold
+    const filteredMatches = allMatches.filter(match => match.matchScore >= minMatchThreshold)
+    setMatches(filteredMatches)
+  }, [userType, filters, minMatchThreshold])
 
   const currentMatch = matches[currentMatchIndex]
 
@@ -218,7 +222,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   }
 
   const MatchCard = ({ match, isInteractive = true }) => (
-    <Card className="max-w-md mx-auto">
+    <Card className="max-w-md mx-auto bg-white shadow-lg">
       {/* Match Header */}
       <div className="relative">
         <div className="p-6 pb-4">
@@ -302,11 +306,11 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             <div className="grid grid-cols-2 gap-4 text-sm mb-4">
               <div>
                 <span className="text-gray-500">Role:</span>
-                <span className="ml-1 font-medium">{match.requirements?.role}</span>
+                <span className="ml-1 font-medium text-gray-900">{match.requirements?.role}</span>
               </div>
               <div>
                 <span className="text-gray-500">Start:</span>
-                <span className="ml-1 font-medium">{new Date(match.startDate).toLocaleDateString()}</span>
+                <span className="ml-1 font-medium text-gray-900">{new Date(match.startDate).toLocaleDateString()}</span>
               </div>
             </div>
           )}
@@ -356,14 +360,30 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   )
 
   const FilterBar = () => (
-    <Card className="p-4 mb-6">
+    <Card className="p-4 mb-6 bg-white shadow-lg">
       <div className="flex flex-wrap items-center gap-4">
+        {/* Match Threshold Control */}
+        <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-50 to-blue-50 px-3 py-2 rounded-lg border border-purple-200">
+          <label className="text-sm font-medium text-gray-700">Min Match:</label>
+          <input
+            type="range"
+            min="50"
+            max="95"
+            value={minMatchThreshold}
+            onChange={(e) => setMinMatchThreshold(parseInt(e.target.value))}
+            className="w-20 accent-purple-600"
+          />
+          <span className="text-sm font-bold text-purple-700 min-w-[45px]">{minMatchThreshold}%</span>
+        </div>
+
+        <div className="h-6 w-px bg-gray-300"></div>
+
         <div className="flex items-center space-x-2">
           <label className="text-sm font-medium text-gray-700">Location:</label>
           <select 
             value={filters.location} 
             onChange={(e) => setFilters({...filters, location: e.target.value})}
-            className="text-sm border border-gray-300 rounded-md px-2 py-1"
+            className="text-sm border border-gray-300 rounded-md px-2 py-1 text-gray-700"
           >
             <option value="all">All Locations</option>
             <option value="los-angeles">Los Angeles</option>
@@ -379,7 +399,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             <select 
               value={filters.budget} 
               onChange={(e) => setFilters({...filters, budget: e.target.value})}
-              className="text-sm border border-gray-300 rounded-md px-2 py-1"
+              className="text-sm border border-gray-300 rounded-md px-2 py-1 text-gray-700"
             >
               <option value="all">All Budgets</option>
               <option value="micro">Under $100K</option>
@@ -395,7 +415,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           <select 
             value={filters.genre} 
             onChange={(e) => setFilters({...filters, genre: e.target.value})}
-            className="text-sm border border-gray-300 rounded-md px-2 py-1"
+            className="text-sm border border-gray-300 rounded-md px-2 py-1 text-gray-700"
           >
             <option value="all">All Genres</option>
             <option value="drama">Drama</option>
@@ -443,19 +463,20 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card className="p-4 text-center">
+          <Card className="p-4 text-center bg-white shadow-lg">
             <div className="text-2xl font-bold text-blue-600">{matches.length}</div>
-            <div className="text-sm text-gray-600">Total Matches</div>
+            <div className="text-sm text-gray-600">Quality Matches</div>
+            <div className="text-xs text-gray-500 mt-1">≥{minMatchThreshold}% compatibility</div>
           </Card>
-          <Card className="p-4 text-center">
+          <Card className="p-4 text-center bg-white shadow-lg">
             <div className="text-2xl font-bold text-green-600">{likedMatches.length}</div>
             <div className="text-sm text-gray-600">Liked</div>
           </Card>
-          <Card className="p-4 text-center">
+          <Card className="p-4 text-center bg-white shadow-lg">
             <div className="text-2xl font-bold text-purple-600">{savedMatches.length}</div>
             <div className="text-sm text-gray-600">Saved</div>
           </Card>
-          <Card className="p-4 text-center">
+          <Card className="p-4 text-center bg-white shadow-lg">
             <div className="text-2xl font-bold text-yellow-600">
               {matches.length > 0 ? Math.round(matches.reduce((acc, match) => acc + match.matchScore, 0) / matches.length) : 0}%
             </div>
@@ -480,7 +501,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
                 ← Previous
               </Button>
               <span className="text-sm text-gray-600">
-                {currentMatchIndex + 1} of {matches.length}
+                {currentMatchIndex + 1} of {matches.length} quality matches
               </span>
               <Button 
                 onClick={nextMatch}
@@ -506,15 +527,20 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
 
         {/* Empty State */}
         {matches.length === 0 && (
-          <Card className="p-12 text-center">
+          <Card className="p-12 text-center bg-white shadow-lg">
             <div className="text-gray-400 mb-4">
               <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No matches found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your filters or update your profile for better matches.</p>
-            <Button>Update Profile</Button>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No matches meet your criteria</h3>
+            <p className="text-gray-600 mb-4">Try lowering your minimum match threshold to {minMatchThreshold - 10}% or adjusting your filters.</p>
+            <div className="flex justify-center space-x-3">
+              <Button onClick={() => setMinMatchThreshold(Math.max(50, minMatchThreshold - 10))}>
+                Lower Threshold to {Math.max(50, minMatchThreshold - 10)}%
+              </Button>
+              <Button variant="outline">Update Profile</Button>
+            </div>
           </Card>
         )}
       </div>
