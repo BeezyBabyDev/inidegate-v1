@@ -1,24 +1,46 @@
 import Button from './Button'
 
-// IndieGate Logo Component - Updated Design
+// IndieGate.io Logo Component - Projector Lens & Screen Design
+// Symbolizes: Independent filmmaking, breaking Hollywood gatekeeping, projecting vision onto reality
 const IndieGateLogo = ({ className = 'w-12 h-12' }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none">
     <defs>
-      <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#60A5FA" />
-        <stop offset="100%" stopColor="#3B82F6" />
-      </linearGradient>
-      <linearGradient id="logoGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      {/* Blue gradient for projector lens */}
+      <linearGradient id="lensGradient" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#3B82F6" />
         <stop offset="100%" stopColor="#1D4ED8" />
       </linearGradient>
     </defs>
-    {/* Background square */}
-    <rect x="15" y="25" width="50" height="50" fill="url(#logoGradient)" rx="4" />
-    {/* Overlapping square */}
-    <rect x="35" y="15" width="50" height="50" fill="url(#logoGradientDark)" rx="4" />
-    {/* Inner detail square */}
-    <rect x="55" y="35" width="15" height="15" fill="white" rx="2" />
+
+    {/* Screen (thinner square) - The projected story/vision */}
+    <rect
+      x="10"
+      y="35"
+      width="45"
+      height="45"
+      fill="white"
+      stroke="#E5E7EB"
+      strokeWidth="1"
+      rx="2"
+    />
+
+    {/* Projector Lens (thicker square) - The filmmaker's vision/craft */}
+    <rect
+      x="45"
+      y="20"
+      width="45"
+      height="45"
+      fill="url(#lensGradient)"
+      rx="3"
+      style={{ filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.2))' }}
+    />
+
+    {/* Lens detail - Inner circle representing the actual lens */}
+    <circle cx="67.5" cy="42.5" r="12" fill="white" fillOpacity="0.9" />
+    <circle cx="67.5" cy="42.5" r="8" fill="none" stroke="#1D4ED8" strokeWidth="1.5" />
+
+    {/* Projection beam - Subtle connection between lens and screen */}
+    <path d="M45 35 L32 50 M45 50 L32 65" stroke="#60A5FA" strokeWidth="1" strokeOpacity="0.3" />
   </svg>
 )
 
