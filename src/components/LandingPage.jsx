@@ -1,7 +1,7 @@
 import Button from './Button'
 
 // InideGate Logo Component - Updated Design
-const InideGateLogo = ({ className = "w-12 h-12" }) => (
+const InideGateLogo = ({ className = 'w-12 h-12' }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none">
     <defs>
       <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -99,27 +99,13 @@ const LandingPage = ({ onSelectPortal }) => {
           {/* Hero Content */}
           <div className="mb-16">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Start with a vision. Build a bridge. <span className="text-blue-400">Keep it human.</span>
+              Start with a vision. Build a bridge.{' '}
+              <span className="text-blue-400">Keep it human.</span>
             </h2>
-            <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
               The premier AI-driven platform connecting visionary film investors with exceptional
               indie filmmakers. Turn your creative vision into cinematic reality.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg"
-              >
-                Start Your Film Journey
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-white border-white hover:bg-white hover:text-blue-900 px-8 py-4 text-lg"
-              >
-                Watch Platform Demo
-              </Button>
-            </div>
           </div>
 
           {/* Portal Selection */}
@@ -330,7 +316,7 @@ const LandingPage = ({ onSelectPortal }) => {
 
           {/* Industry Impact Stats */}
           <div className="mt-16 p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-            <h3 className="text-2xl font-bold mb-6">Powering Independent Cinema</h3>
+            <h3 className="text-2xl font-bold mb-6">Powering Independent Filmmaking</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <p className="text-3xl font-bold text-blue-400">50K+</p>
