@@ -238,34 +238,33 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   const renderProfileTab = () => {
     console.log('Profile tab is being rendered', profileData);
     
-    if (profileView === 'editor') {
-      return (
-        <InvestorProfileEditor
-          initialData={profileData}
-          onSave={handleProfileSave}
-          onCancel={handleProfileCancel}
-        />
-      )
-    }
-
     return (
       <div className="space-y-6">
         {/* Emergency Test Message */}
         <div className="bg-green-600 text-white p-4 rounded-lg mb-4">
           <h2 className="text-xl font-bold">✅ Profile Tab is Working!</h2>
           <p>This is a test message. Profile data is loading for: {profileData.name}</p>
+          <p>Current tab: {activeTab}</p>
         </div>
         
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-white">My Investor Profile</h2>
-          <Button
-            onClick={() => setProfileView('editor')}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            Edit Profile
-          </Button>
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <h2 className="text-2xl font-bold text-white mb-4">My Investor Profile</h2>
+          <div className="space-y-4">
+            <div className="bg-white/5 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-white">Profile Information</h3>
+              <p className="text-green-200">Name: {profileData.name}</p>
+              <p className="text-green-200">Role: {profileData.primaryRole}</p>
+              <p className="text-green-200">Company: {profileData.company}</p>
+              <p className="text-green-200">Location: {profileData.location}</p>
+            </div>
+            <Button
+              onClick={() => setProfileView('editor')}
+              className="bg-green-600 hover:bg-green-700 text-white"
+            >
+              Edit Profile (Test)
+            </Button>
+          </div>
         </div>
-        <InvestorProfile profileData={profileData} />
       </div>
     )
   }
