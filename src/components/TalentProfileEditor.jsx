@@ -7,7 +7,9 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
     // Basic Information
     name: '',
-    role: '',
+    primaryRole: '',
+    secondaryRole: '',
+    additionalRoles: [],
     location: '',
     bio: '',
     avatar: '',
@@ -167,8 +169,8 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
             Primary Role *
           </label>
           <select
-            value={formData.role}
-            onChange={(e) => updateFormData('role', e.target.value)}
+            value={formData.primaryRole}
+            onChange={(e) => updateFormData('primaryRole', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
           >
             <option value="">Select your primary role</option>
@@ -177,6 +179,49 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
             ))}
           </select>
         </div>
+      </div>
+
+      {/* Multi-Role Selection */}
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Roles</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Secondary Role (Optional)
+            </label>
+            <select
+              value={formData.secondaryRole}
+              onChange={(e) => updateFormData('secondaryRole', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="">Select secondary role</option>
+              {filmRoles.map(role => (
+                <option key={role} value={role}>{role}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Additional Roles
+            </label>
+            <select
+              multiple
+              value={formData.additionalRoles}
+              onChange={(e) => updateFormData('additionalRoles', Array.from(e.target.selectedOptions, option => option.value))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 h-20"
+              size={3}
+            >
+              {filmRoles.map(role => (
+                <option key={role} value={role}>{role}</option>
+              ))}
+            </select>
+            <p className="text-xs text-gray-500 mt-1">Hold Cmd/Ctrl to select multiple</p>
+          </div>
+        </div>
+        <p className="text-sm text-gray-600 mt-2">
+          Many film professionals wear multiple hats. This helps with better project matching.
+        </p>
       </div>
 
       <div>
@@ -265,7 +310,7 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
         </div>
       </div>
 
-      {(formData.role === 'Actor' || getFieldsForRole(formData.role).includes('actorAccess')) && (
+      {(formData.primaryRole === 'Actor' || getFieldsForRole(formData.primaryRole).includes('actorAccess')) && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -370,7 +415,7 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
       {/* Special Skills */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Special Skills {formData.role === 'Actor' && '(Accents, Languages, Sports, etc.)'}
+          Special Skills {formData.primaryRole === 'Actor' && '(Accents, Languages, Sports, etc.)'}
         </label>
         <div className="flex gap-2 mb-3">
           <input
@@ -418,7 +463,7 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
         />
       </div>
 
-      {formData.role === 'Actor' && (
+      {formData.primaryRole === 'Actor' && (
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Headshots
@@ -533,8 +578,8 @@ const TalentProfileEditor = ({ initialData = {}, onSave, onCancel }) => {
 
   const handleSave = () => {
     // Validation logic here
-    if (!formData.name || !formData.role) {
-      alert('Please fill in required fields (Name and Role)');
+    if (!formData.name || !formData.primaryRole) {
+      alert('Please fill in required fields (Name and Primary Role)');
       return;
     }
     
