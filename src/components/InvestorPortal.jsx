@@ -238,31 +238,183 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   const renderProfileTab = () => {
     console.log('Profile tab is being rendered', profileData);
     
+    if (profileView === 'editor') {
+      return (
+        <InvestorProfileEditor
+          initialData={profileData}
+          onSave={handleProfileSave}
+          onCancel={handleProfileCancel}
+        />
+      )
+    }
+
     return (
       <div className="space-y-6">
-        {/* Emergency Test Message */}
-        <div className="bg-green-600 text-white p-4 rounded-lg mb-4">
-          <h2 className="text-xl font-bold">✅ Profile Tab is Working!</h2>
-          <p>This is a test message. Profile data is loading for: {profileData.name}</p>
-          <p>Current tab: {activeTab}</p>
-        </div>
-        
+        {/* Profile Header */}
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-          <h2 className="text-2xl font-bold text-white mb-4">My Investor Profile</h2>
-          <div className="space-y-4">
-            <div className="bg-white/5 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-white">Profile Information</h3>
-              <p className="text-green-200">Name: {profileData.name}</p>
-              <p className="text-green-200">Role: {profileData.primaryRole}</p>
-              <p className="text-green-200">Company: {profileData.company}</p>
-              <p className="text-green-200">Location: {profileData.location}</p>
-            </div>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white">My Investor Profile</h2>
             <Button
               onClick={() => setProfileView('editor')}
               className="bg-green-600 hover:bg-green-700 text-white"
             >
-              Edit Profile (Test)
+              Edit Profile
             </Button>
+          </div>
+          
+          <div className="flex items-start space-x-6">
+            <div className="relative">
+              <img
+                src={profileData.avatar}
+                alt={profileData.name}
+                className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+              />
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center space-x-3">
+                <h1 className="text-2xl font-bold text-white">{profileData.name}</h1>
+                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-lg text-green-400 font-medium">{profileData.primaryRole}</p>
+              <p className="text-purple-200">{profileData.company}</p>
+              <p className="text-sm text-gray-300 flex items-center mt-1">
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {profileData.location}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-gray-300">Investment Range</p>
+              <p className="text-xl font-bold text-green-400">{profileData.investmentRange}</p>
+            </div>
+          </div>
+          <p className="mt-4 text-gray-200 leading-relaxed">{profileData.bio}</p>
+        </div>
+
+        {/* Investment Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-center">
+            <div className="text-2xl font-bold text-white">{profileData.totalInvestments}</div>
+            <div className="text-sm text-green-100">Total Invested</div>
+          </div>
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-6 text-center">
+            <div className="text-2xl font-bold text-white">{profileData.projectsFinanced}</div>
+            <div className="text-sm text-blue-100">Projects Financed</div>
+          </div>
+          <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg p-6 text-center">
+            <div className="text-2xl font-bold text-white">{profileData.averageROI}</div>
+            <div className="text-sm text-purple-100">Average ROI</div>
+          </div>
+          <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg p-6 text-center">
+            <div className="text-2xl font-bold text-white">A+</div>
+            <div className="text-sm text-orange-100">Investor Rating</div>
+          </div>
+        </div>
+
+        {/* Smart Matching Preferences */}
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">🤖 Smart Matching Preferences</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-medium text-white mb-2">Preferred Genres</h4>
+              <div className="flex flex-wrap gap-2">
+                {profileData.preferredGenres.map((genre, index) => (
+                  <span key={index} className="px-3 py-1 bg-purple-600 text-purple-100 text-sm rounded-full">
+                    {genre}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Investment Stages</h4>
+              <div className="flex flex-wrap gap-2">
+                {profileData.investmentStage.map((stage, index) => (
+                  <span key={index} className="px-3 py-1 bg-blue-600 text-blue-100 text-sm rounded-full">
+                    {stage}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div>
+              <h4 className="font-medium text-white mb-2">Budget Range</h4>
+              <p className="text-green-400 font-semibold">{profileData.budgetRange.min} - {profileData.budgetRange.max}</p>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Geographic Focus</h4>
+              <p className="text-blue-400">Global Projects</p>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Target ROI</h4>
+              <p className="text-purple-400">15-25% IRR</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Information */}
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Contact Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span className="text-white">{profileData.email}</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span className="text-white">{profileData.phone}</span>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+                </svg>
+                <span className="text-white">{profileData.website}</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                <span className="text-white">{profileData.linkedin}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Investment Availability */}
+        <div className="bg-gradient-to-r from-green-600/20 to-blue-600/20 backdrop-blur-lg border border-green-500/30 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">🎯 Current Investment Status</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-400">Actively Investing</div>
+              <div className="text-sm text-gray-300">Investment Status</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-400">$2.5M</div>
+              <div className="text-sm text-gray-300">Available Capital</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-400">Q1 2024</div>
+              <div className="text-sm text-gray-300">Next Review Cycle</div>
+            </div>
           </div>
         </div>
       </div>
