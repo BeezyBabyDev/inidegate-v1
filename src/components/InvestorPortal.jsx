@@ -5,6 +5,7 @@ import Button from './Button'
 import InvestorProfile from './InvestorProfile'
 import InvestorProfileEditor from './InvestorProfileEditor'
 import CommunityForum from './CommunityForum'
+import SmartMatching from './SmartMatching'
 
 const InvestorPortal = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('opportunities')
@@ -506,85 +507,98 @@ const InvestorPortal = ({ onLogout }) => {
     </div>
   )
 
+  const renderSmartMatchingTab = () => (
+    <div className="space-y-6">
+      <SmartMatching userType="investor" userProfile={profileData} />
+    </div>
+  )
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <Navbar
-        title="Investor Network"
-        onLogout={onLogout}
-        user={{ name: 'Sarah Montgomery', role: 'Executive Producer' }}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-green-800">
+      <Navbar onLogout={onLogout} isAuthenticated />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">Investor Dashboard</h1>
-          <p className="mt-1 text-sm text-green-200">
-            Discover film investment opportunities and manage your entertainment portfolio.
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-2">Investor Portal</h1>
+          <p className="text-green-100">
+            Discover promising projects, manage investments, and connect with filmmakers
           </p>
         </div>
 
-        {/* Tabs */}
-        <div className="border-b border-white/20 mb-6">
-          <nav className="-mb-px flex space-x-8">
-            <button
-              onClick={() => setActiveTab('opportunities')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'opportunities'
-                  ? 'border-green-400 text-green-300'
-                  : 'border-transparent text-green-200 hover:text-white hover:border-green-300'
-              }`}
-            >
-              Deal Flow
-            </button>
-            <button
-              onClick={() => setActiveTab('investments')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'investments'
-                  ? 'border-green-400 text-green-300'
-                  : 'border-transparent text-green-200 hover:text-white hover:border-green-300'
-              }`}
-            >
-              My Investments
-            </button>
-            <button
-              onClick={() => setActiveTab('analytics')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'analytics'
-                  ? 'border-green-400 text-green-300'
-                  : 'border-transparent text-green-200 hover:text-white hover:border-green-300'
-              }`}
-            >
-              Analytics
-            </button>
-            <button
-              onClick={() => setActiveTab('community')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'community'
-                  ? 'border-green-400 text-green-300'
-                  : 'border-transparent text-green-200 hover:text-white hover:border-green-300'
-              }`}
-            >
-              Community
-            </button>
-            <button
-              onClick={() => setActiveTab('profile')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'profile'
-                  ? 'border-green-400 text-green-300'
-                  : 'border-transparent text-green-200 hover:text-white hover:border-green-300'
-              }`}
-            >
-              Profile
-            </button>
-          </nav>
+        {/* Navigation Tabs */}
+        <div className="flex flex-wrap justify-center mb-8 space-x-1">
+          <button
+            onClick={() => setActiveTab('opportunities')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'opportunities'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            💼 Deal Flow
+          </button>
+          <button
+            onClick={() => setActiveTab('smart-matching')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'smart-matching'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            🤖 Smart Matching
+          </button>
+          <button
+            onClick={() => setActiveTab('investments')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'investments'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            📊 My Investments
+          </button>
+          <button
+            onClick={() => setActiveTab('profile')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'profile'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            👤 Profile
+          </button>
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'analytics'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            📈 Analytics
+          </button>
+          <button
+            onClick={() => setActiveTab('community')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'community'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            💬 Community
+          </button>
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'opportunities' && renderOpportunitiesTab()}
-        {activeTab === 'investments' && renderInvestmentsTab()}
-        {activeTab === 'analytics' && renderAnalyticsTab()}
-        {activeTab === 'community' && renderCommunityTab()}
-        {activeTab === 'profile' && renderProfileTab()}
+        <div className="mb-8">
+          {activeTab === 'opportunities' && renderOpportunitiesTab()}
+          {activeTab === 'smart-matching' && renderSmartMatchingTab()}
+          {activeTab === 'investments' && renderInvestmentsTab()}
+          {activeTab === 'profile' && renderProfileTab()}
+          {activeTab === 'analytics' && renderAnalyticsTab()}
+          {activeTab === 'community' && renderCommunityTab()}
+        </div>
       </div>
     </div>
   )

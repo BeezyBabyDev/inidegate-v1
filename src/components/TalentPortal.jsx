@@ -5,6 +5,7 @@ import Button from './Button'
 import TalentProfile from './TalentProfile'
 import TalentProfileEditor from './TalentProfileEditor'
 import CommunityForum from './CommunityForum'
+import SmartMatching from './SmartMatching'
 
 const TalentPortal = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('opportunities')
@@ -421,85 +422,98 @@ const TalentPortal = ({ onLogout }) => {
     </div>
   )
 
+  const renderSmartMatchingTab = () => (
+    <div className="space-y-6">
+      <SmartMatching userType="talent" userProfile={profileData} />
+    </div>
+  )
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <Navbar
-        title="Talent Network"
-        onLogout={onLogout}
-        user={{ name: 'Alex Rivera', role: 'Actor' }}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-purple-800">
+      <Navbar onLogout={onLogout} isAuthenticated />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">Talent Dashboard</h1>
-          <p className="mt-1 text-sm text-purple-200">
-            Discover opportunities, showcase your talent, and connect with the film community.
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-2">Talent Portal</h1>
+          <p className="text-blue-100">
+            Manage your career, discover opportunities, and connect with the film community
           </p>
         </div>
 
-        {/* Tabs */}
-        <div className="border-b border-white/20 mb-6">
-          <nav className="-mb-px flex space-x-8">
-            <button
-              onClick={() => setActiveTab('opportunities')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'opportunities'
-                  ? 'border-purple-400 text-purple-300'
-                  : 'border-transparent text-purple-200 hover:text-white hover:border-purple-300'
-              }`}
-            >
-              Opportunities
-            </button>
-            <button
-              onClick={() => setActiveTab('applications')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'applications'
-                  ? 'border-purple-400 text-purple-300'
-                  : 'border-transparent text-purple-200 hover:text-white hover:border-purple-300'
-              }`}
-            >
-              My Applications
-            </button>
-            <button
-              onClick={() => setActiveTab('skills')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'skills'
-                  ? 'border-purple-400 text-purple-300'
-                  : 'border-transparent text-purple-200 hover:text-white hover:border-purple-300'
-              }`}
-            >
-              Skills & Training
-            </button>
-            <button
-              onClick={() => setActiveTab('community')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'community'
-                  ? 'border-purple-400 text-purple-300'
-                  : 'border-transparent text-purple-200 hover:text-white hover:border-purple-300'
-              }`}
-            >
-              Community
-            </button>
-            <button
-              onClick={() => setActiveTab('profile')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'profile'
-                  ? 'border-purple-400 text-purple-300'
-                  : 'border-transparent text-purple-200 hover:text-white hover:border-purple-300'
-              }`}
-            >
-              Profile
-            </button>
-          </nav>
+        {/* Navigation Tabs */}
+        <div className="flex flex-wrap justify-center mb-8 space-x-1">
+          <button
+            onClick={() => setActiveTab('opportunities')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'opportunities'
+                ? 'bg-white text-purple-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            📋 Opportunities
+          </button>
+          <button
+            onClick={() => setActiveTab('smart-matching')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'smart-matching'
+                ? 'bg-white text-purple-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            🤖 Smart Matching
+          </button>
+          <button
+            onClick={() => setActiveTab('applications')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'applications'
+                ? 'bg-white text-purple-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            📝 Applications
+          </button>
+          <button
+            onClick={() => setActiveTab('profile')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'profile'
+                ? 'bg-white text-purple-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            👤 Profile
+          </button>
+          <button
+            onClick={() => setActiveTab('skills')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'skills'
+                ? 'bg-white text-purple-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            🎯 Skills
+          </button>
+          <button
+            onClick={() => setActiveTab('community')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === 'community'
+                ? 'bg-white text-purple-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            💬 Community
+          </button>
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'opportunities' && renderOpportunitiesTab()}
-        {activeTab === 'applications' && renderApplicationsTab()}
-        {activeTab === 'skills' && renderSkillsTab()}
-        {activeTab === 'community' && renderCommunityTab()}
-        {activeTab === 'profile' && renderProfileTab()}
+        <div className="mb-8">
+          {activeTab === 'opportunities' && renderOpportunitiesTab()}
+          {activeTab === 'smart-matching' && renderSmartMatchingTab()}
+          {activeTab === 'applications' && renderApplicationsTab()}
+          {activeTab === 'profile' && renderProfileTab()}
+          {activeTab === 'skills' && renderSkillsTab()}
+          {activeTab === 'community' && renderCommunityTab()}
+        </div>
       </div>
     </div>
   )
