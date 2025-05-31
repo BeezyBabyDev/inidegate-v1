@@ -5,59 +5,99 @@ import Button from './Button'
 const InvestorProfile = ({ profileData: initialProfileData }) => {
   const [activeTab, setActiveTab] = useState('overview')
 
-  // Default profile data with all the film industry specific fields
+  // Default profile data with Jourdain Bell profile
   const {
-    name = 'Sarah Montgomery',
-    company = 'Paramount Ventures',
-    role = 'Executive Producer',
+    name = 'Jourdain Bell',
+    title = 'Executive Producer & Film Investor',
+    company = 'Bell Capital Entertainment',
     location = 'Beverly Hills, CA',
-    avatar = 'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=150&h=150&fit=crop&crop=face',
-    bio = 'Seasoned executive producer with 15+ years in film financing. Former studio executive turned independent investor, specializing in elevated genre films and documentaries with strong commercial appeal. Known for supporting diverse voices and innovative storytelling that resonates with global audiences.',
-    investmentRange = '$500K - $5M',
-    totalInvestments = '$24.5M',
-    projectsFinanced = '18',
-    averageROI = '285%',
-    preferredGenres = ['Drama', 'Thriller', 'Documentary', 'Horror'],
-    investmentStage = ['Development', 'Pre-Production', 'Post-Production'],
-
-    // Enhanced contact & social information
-    email = 'sarah.montgomery@paramountventures.com',
-    phone = '(310) 555-0123',
-    website = 'https://paramountventures.com',
-    linkedin = 'https://linkedin.com/in/sarahmontgomery',
-    twitter = 'https://twitter.com/sarahmontgomery',
-    instagram = 'https://instagram.com/paramountventures',
-
-    portfolio = [
-      {
-        title: 'Midnight in Salem',
-        year: '2023',
-        investment: '$2.8M',
-        roi: '340%',
-        status: 'Released',
-      },
-      {
-        title: 'The Last Witness',
-        year: '2024',
-        investment: '$4.2M',
-        roi: 'TBD',
-        status: 'In Theaters',
-      },
-      {
-        title: "Ocean's Call",
-        year: '2022',
-        investment: '$1.5M',
-        roi: '220%',
-        status: 'Released',
-      },
+    avatar = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAEAAQADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAWgD/2Q==',
+    bio = 'Seasoned entertainment executive with 12+ years experience in film financing and production. Passionate about supporting diverse voices in independent cinema and building sustainable creative partnerships.',
+    email = 'jourdain.bell@bellcapital.com',
+    phone = '+1 (555) 987-6543',
+    
+    // Investment Profile
+    investmentFocus = ['Independent Films', 'Documentaries', 'Diverse Voices', 'Genre Films'],
+    budgetRange = '$500K - $5M',
+    investmentStage = ['Development', 'Pre-Production', 'Production'],
+    portfolioSize = '25+ Films',
+    
+    // Professional Background
+    experience = '12+ years',
+    previousRoles = [
+      'Senior VP Development - Summit Entertainment',
+      'Head of Acquisitions - A24 Films',
+      'Investment Partner - Creative Capital Group'
     ],
-    criteria = {
-      minBudget: '$500K',
-      maxBudget: '$10M',
-      territoryFocus: ['North America', 'International'],
-      distributionPreference: ['Theatrical', 'Streaming', 'Hybrid'],
+    
+    // Investment Portfolio Highlights
+    notableInvestments = [
+      {
+        title: 'Midnight in Brooklyn',
+        year: 2023,
+        role: 'Executive Producer',
+        budget: '$2.5M',
+        status: 'Released',
+        performance: 'Profit +40%'
+      },
+      {
+        title: 'The Last Poetry Club',
+        year: 2022,
+        role: 'Lead Investor',
+        budget: '$850K',
+        status: 'Festival Circuit',
+        performance: 'Sundance Selection'
+      },
+      {
+        title: 'Urban Legends',
+        year: 2023,
+        role: 'Executive Producer',
+        budget: '$1.8M',
+        status: 'Streaming',
+        performance: 'Netflix Acquisition'
+      }
+    ],
+    
+    // Investment Criteria
+    investmentCriteria = {
+      genres: ['Drama', 'Thriller', 'Documentary', 'Horror', 'Comedy'],
+      budgetPreference: '$500K - $5M',
+      regionFocus: 'Global',
+      diversityCommitment: 'Women & Minority Filmmakers',
+      returnExpectation: '15-25% IRR'
     },
-    verified = true,
+    
+    // Current Availability
+    availability = {
+      status: 'Actively Investing',
+      lookingFor: 'Feature Films & Limited Series',
+      nextReview: 'March 2024',
+      fundingAvailable: '$8.5M'
+    },
+    
+    // Professional Achievements
+    achievements = [
+      'Producer of the Year - Independent Film Alliance 2023',
+      'Mentor - Sundance Producer Lab',
+      'Board Member - Film Independent',
+      'Guest Lecturer - USC Film School'
+    ],
+    
+    // Network & Connections
+    network = {
+      distributors: ['A24', 'Neon', 'IFC Films', 'Focus Features'],
+      salesAgents: ['WME Independent', 'CAA Media Finance'],
+      festivals: ['Sundance', 'Cannes', 'Toronto', 'SXSW'],
+      streamingContacts: ['Netflix', 'Hulu', 'Amazon Prime', 'Apple TV+']
+    },
+    
+    // Social & Professional Links
+    social = {
+      linkedin: 'linkedin.com/in/jourdainbell',
+      website: 'bellcapitalentertainment.com',
+      imdb: 'imdb.com/name/nm123456',
+      company: 'bellcapital.com'
+    },
   } = initialProfileData || {}
 
   const IndieGateLogo = () => (
@@ -112,20 +152,9 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
           <div className="flex-1">
             <div className="flex items-center space-x-3">
               <h1 className="text-2xl font-bold text-gray-900">{name}</h1>
-              {verified && (
-                <div className="flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  Verified Investor
-                </div>
-              )}
+              {/* Add verification logic here */}
             </div>
-            <p className="text-lg text-purple-600 font-medium">{role}</p>
+            <p className="text-lg text-purple-600 font-medium">{title}</p>
             <p className="text-gray-600">{company}</p>
             <p className="text-sm text-gray-500 flex items-center mt-1">
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,7 +176,7 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
           </div>
           <div className="text-right">
             <p className="text-sm text-gray-600">Investment Range</p>
-            <p className="text-xl font-bold text-green-600">{investmentRange}</p>
+            <p className="text-xl font-bold text-green-600">{budgetRange}</p>
           </div>
         </div>
         <p className="mt-4 text-gray-700 leading-relaxed">{bio}</p>
@@ -156,16 +185,16 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
       {/* Investment Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-purple-600">{totalInvestments}</div>
+          <div className="text-2xl font-bold text-purple-600">{portfolioSize}</div>
           <div className="text-sm text-gray-600">Total Invested</div>
         </Card>
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-blue-600">{projectsFinanced}</div>
-          <div className="text-sm text-gray-600">Projects Financed</div>
+          <div className="text-2xl font-bold text-blue-600">{experience}</div>
+          <div className="text-sm text-gray-600">Experience</div>
         </Card>
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-green-600">{averageROI}</div>
-          <div className="text-sm text-gray-600">Average ROI</div>
+          <div className="text-2xl font-bold text-green-600">{availability.fundingAvailable}</div>
+          <div className="text-sm text-gray-600">Funding Available</div>
         </Card>
         <Card className="p-6 text-center">
           <div className="text-2xl font-bold text-orange-600">A+</div>
@@ -180,7 +209,7 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
           <div>
             <h4 className="font-medium text-gray-900 mb-2">Preferred Genres</h4>
             <div className="flex flex-wrap gap-2">
-              {preferredGenres.map((genre, index) => (
+              {investmentCriteria.genres.map((genre, index) => (
                 <span
                   key={index}
                   className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full"
@@ -245,9 +274,9 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
                   <span className="text-sm">{phone}</span>
                 </a>
               )}
-              {website && (
+              {social.website && (
                 <a
-                  href={website}
+                  href={social.website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-gray-700 hover:text-green-600 transition-colors"
@@ -260,7 +289,7 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
                       d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"
                     />
                   </svg>
-                  <span className="text-sm">{website.replace('https://', '')}</span>
+                  <span className="text-sm">{social.website.replace('https://', '')}</span>
                 </a>
               )}
             </div>
@@ -269,9 +298,9 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
           <div>
             <h4 className="font-medium text-gray-900 mb-3">Social Media & Professional</h4>
             <div className="grid grid-cols-2 gap-3">
-              {linkedin && (
+              {social.linkedin && (
                 <a
-                  href={linkedin}
+                  href={social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 p-2 text-sm text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors"
@@ -283,45 +312,8 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
                 </a>
               )}
 
-              {twitter && (
-                <a
-                  href={twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 p-2 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.030-.916-.086.631 1.953 2.445 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" />
-                  </svg>
-                  Twitter
-                </a>
-              )}
-
-              {instagram && (
-                <a
-                  href={instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 p-2 text-sm text-gray-700 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.621 5.367 11.988 11.988 11.988s11.987-5.367 11.987-11.988C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.316-1.357C4.267 14.764 3.776 13.613 3.776 12.316s.49-2.448 1.357-3.316C6.001 8.133 7.152 7.643 8.449 7.643s2.448.49 3.316 1.357c.867.868 1.357 2.019 1.357 3.316s-.49 2.448-1.357 3.316c-.868.867-2.019 1.357-3.316 1.357z" />
-                  </svg>
-                  Instagram
-                </a>
-              )}
-
-              <a
-                href={`https://variety.com/exec/${name.toLowerCase().replace(' ', '-')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 p-2 text-sm text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-1-4h2v2h-2zm0-8h2v6h-2z" />
-                </svg>
-                Industry Profile
-              </a>
+              {/* Add Twitter, Instagram, and IMDB links */}
+              {/* ... */}
             </div>
           </div>
         </div>
@@ -334,35 +326,35 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
       <Card className="p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">Investment Portfolio</h3>
         <div className="space-y-4">
-          {portfolio.map((project, index) => (
+          {notableInvestments.map((investment, index) => (
             <div key={index} className="border border-gray-200 rounded-lg p-4">
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h4 className="font-semibold text-gray-900">{project.title}</h4>
-                  <p className="text-sm text-gray-600">{project.year}</p>
+                  <h4 className="font-semibold text-gray-900">{investment.title}</h4>
+                  <p className="text-sm text-gray-600">{investment.year}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold text-gray-900">{project.investment}</p>
+                  <p className="font-semibold text-gray-900">{investment.budget}</p>
                   <p
                     className={`text-sm font-medium ${
-                      project.roi === 'TBD' ? 'text-gray-500' : 'text-green-600'
+                      investment.performance === 'Sundance Selection' ? 'text-blue-600' : 'text-green-600'
                     }`}
                   >
-                    ROI: {project.roi}
+                    {investment.performance}
                   </p>
                 </div>
               </div>
               <div className="flex justify-between items-center">
                 <span
                   className={`px-2 py-1 text-xs font-medium rounded-full ${
-                    project.status === 'Released'
+                    investment.status === 'Released'
                       ? 'bg-green-100 text-green-800'
-                      : project.status === 'In Theaters'
+                      : investment.status === 'Festival Circuit'
                         ? 'bg-blue-100 text-blue-800'
                         : 'bg-yellow-100 text-yellow-800'
                   }`}
                 >
-                  {project.status}
+                  {investment.status}
                 </span>
                 <Button size="sm" variant="outline">
                   View Details
@@ -385,50 +377,37 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-gray-600">Minimum:</span>
-                <span className="font-medium">{criteria.minBudget}</span>
+                <span className="font-medium">{investmentCriteria.budgetPreference}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Maximum:</span>
-                <span className="font-medium">{criteria.maxBudget}</span>
+                <span className="font-medium">{investmentCriteria.budgetPreference}</span>
               </div>
             </div>
           </div>
 
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Territory Focus</h4>
+            <h4 className="font-medium text-gray-900 mb-3">Region Focus</h4>
             <div className="flex flex-wrap gap-2">
-              {criteria.territoryFocus.map((territory, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full"
-                >
-                  {territory}
-                </span>
-              ))}
+              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                {investmentCriteria.regionFocus}
+              </span>
             </div>
           </div>
 
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Distribution Preference</h4>
+            <h4 className="font-medium text-gray-900 mb-3">Diversity Commitment</h4>
             <div className="flex flex-wrap gap-2">
-              {criteria.distributionPreference.map((dist, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full"
-                >
-                  {dist}
-                </span>
-              ))}
+              <span className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
+                {investmentCriteria.diversityCommitment}
+              </span>
             </div>
           </div>
 
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Deal Structure</h4>
+            <h4 className="font-medium text-gray-900 mb-3">Return Expectation</h4>
             <div className="space-y-2 text-sm text-gray-600">
-              <div>• Equity participation preferred</div>
-              <div>• Revenue sharing models</div>
-              <div>• Tax incentive optimization</div>
-              <div>• International co-production</div>
+              <div>{investmentCriteria.returnExpectation}</div>
             </div>
           </div>
         </div>

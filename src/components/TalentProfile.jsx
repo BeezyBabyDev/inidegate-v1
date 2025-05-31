@@ -5,165 +5,113 @@ import Card from './Card'
 const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
   const [activeTab, setActiveTab] = useState('overview')
 
-  // Sample talent data - will be dynamic based on role
+  // Default talent data with Joe Bell profile
   const defaultTalent = {
-    name: 'Sarah Chen',
-    role: 'Actor', // Actor, Director of Photography, Director, Sound Engineer, etc.
+    name: 'Joe Bell',
+    role: 'Actor/Director',
     location: 'Los Angeles, CA',
-    avatar:
-      'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face',
-    bio: 'Versatile actor with 8+ years experience in independent film, television, and theater. Specializing in dramatic roles with a strong background in method acting. Known for bringing depth and authenticity to complex characters, with a particular passion for stories that explore human connection and social issues.',
-
-    // Actor-specific fields
-    actorAccess: 'sarahchen_actor',
-    castingNetworks: 'sarah.chen.actor',
-    imdb: 'nm1234567',
-    demoReel: 'https://vimeo.com/123456789',
-    headshots: [
-      'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=400&h=500&fit=crop&crop=face',
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face',
+    avatar: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAEAAQADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAWgD/2Q==',
+    bio: 'Multi-talented actor and director with a passion for authentic storytelling. Specializes in character-driven narratives and has extensive experience in both independent films and commercial projects. Known for bringing depth and nuance to every role.',
+    email: 'joe.bell@indiegate.io',
+    phone: '+1 (555) 123-4567',
+    experience: '6+ years',
+    height: '5\'10"',
+    age: 28,
+    union: true,
+    verified: true,
+    
+    // Skills & Expertise
+    coreSkills: [
+      'Method Acting',
+      'Character Development', 
+      'Directing',
+      'Improvisation',
+      'Voice Work',
+      'Physical Theater'
     ],
-    specialSkills: [
-      'American Accent',
-      'British Accent',
-      'Stage Combat',
-      'Piano',
-      'Spanish (Fluent)',
-      'Horseback Riding',
+    
+    languages: ['English (Native)', 'Spanish (Conversational)'],
+    
+    specialties: [
+      'Urban Drama',
+      'Character Studies',
+      'Independent Films',
+      'Commercial Work'
     ],
-
-    // Common fields for all roles
-    credits: [
-      {
-        title: 'Indie Dreams',
-        role: 'Lead',
-        type: 'Feature Film',
-        year: '2024',
-        director: 'Mike Johnson',
-        status: 'Released',
-        festivals: ['Sundance', 'TIFF'],
-      },
-      {
-        title: 'City Lights',
-        role: 'Supporting',
-        type: 'TV Series',
-        year: '2023',
-        director: 'Anna Smith',
-        status: 'Streaming',
-        platform: 'Netflix',
-      },
-      {
-        title: 'The Last Call',
-        role: 'Lead',
-        type: 'Short Film',
-        year: '2023',
-        director: 'David Wilson',
-        status: 'Festival Circuit',
-        festivals: ['Cannes Short Film Corner'],
-      },
+    
+    // Experience & Background
+    experienceLevel: 'Experienced',
+    training: [
+      'Meisner Technique - Neighborhood Playhouse',
+      'Film Directing Workshop - UCLA',
+      'Voice & Speech - RADA'
     ],
-
+    
+    // Portfolio
     portfolio: [
       {
-        title: 'Character Study Reel',
-        url: 'https://vimeo.com/123456',
-        thumbnail:
-          'https://images.unsplash.com/photo-1478720568477-b0ac33de26d7?w=300&h=200&fit=crop',
+        type: 'Feature Film',
+        title: 'Urban Stories',
+        role: 'Lead Actor/Director',
+        year: 2023,
+        description: 'Gritty urban drama exploring family dynamics in contemporary Los Angeles'
       },
       {
-        title: 'Commercial Work',
-        url: 'https://vimeo.com/789012',
-        thumbnail:
-          'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=300&h=200&fit=crop',
+        type: 'Commercial',
+        title: 'Nike Campaign',
+        role: 'Lead Actor',
+        year: 2023,
+        description: 'National commercial campaign showcasing athletic determination'
       },
-    ],
-
-    awards: [
-      { title: 'Best Actress', festival: 'LA Independent Film Festival', year: '2023' },
-      { title: 'Outstanding Performance', festival: 'Sundance Film Festival', year: '2022' },
-    ],
-
-    availability: 'Available',
-    rates: '$500-800/day',
-    unions: ['SAG-AFTRA'],
-
-    // Contact & Social - Enhanced section
-    email: 'sarah@sarahchenactor.com',
-    phone: '(555) 123-4567',
-    website: 'https://www.sarahchenactor.com',
-    instagram: 'https://instagram.com/sarahchenactor',
-    twitter: 'https://twitter.com/sarahchenactor',
-    linkedin: 'https://linkedin.com/in/sarahchenactor',
-    youtube: 'https://youtube.com/c/sarahchenactor',
-    tiktok: 'https://tiktok.com/@sarahchenactor',
-
-    // Verification status
-    verified: true,
-    profileCompletion: 92,
-
-    // Enhanced Skills & Expertise System
-    coreSkills: [
-      { name: 'Method Acting', level: 'Expert', years: 8 },
-      { name: 'Scene Study', level: 'Expert', years: 8 },
-      { name: 'Improvisation', level: 'Advanced', years: 6 },
-      { name: 'Voice Acting', level: 'Intermediate', years: 3 },
-      { name: 'Movement/Dance', level: 'Advanced', years: 5 },
-    ],
-
-    technicalSkills: [
-      'Teleprompter',
-      'Green Screen',
-      'Motion Capture',
-      'ADR/Dubbing',
-      'Self-Taping',
-    ],
-
-    languages: [
-      { language: 'English', proficiency: 'Native' },
-      { language: 'Spanish', proficiency: 'Fluent' },
-      { language: 'French', proficiency: 'Conversational' },
-    ],
-
-    certifications: [
-      { name: 'Stage Combat Certified', issuer: 'SAFD', year: '2023' },
-      { name: 'First Aid/CPR', issuer: 'Red Cross', year: '2024' },
-    ],
-
-    // Enhanced Achievement System
-    achievements: [
       {
-        type: 'Award',
-        title: 'Best Actress',
-        organization: 'LA Independent Film Festival',
-        year: '2023',
-      },
-      { type: 'Recognition', title: 'Rising Star', organization: 'Variety Magazine', year: '2023' },
-      { type: 'Milestone', title: '100+ Auditions Completed', year: '2023' },
-      {
-        type: 'Feature',
-        title: 'Spotlight Interview',
-        organization: 'Backstage Magazine',
-        year: '2024',
-      },
+        type: 'Short Film',
+        title: 'Crossroads',
+        role: 'Director/Writer',
+        year: 2022,
+        description: 'Award-winning short about second chances and redemption'
+      }
     ],
-
-    // Project Status & Availability Enhancement
+    
+    // Current Projects
     currentProjects: [
-      { title: 'Untitled Drama', role: 'Lead', status: 'Pre-Production', startDate: '2024-03-01' },
       {
-        title: 'Commercial Campaign',
-        role: 'Spokesperson',
-        status: 'Shooting',
-        startDate: '2024-02-15',
-      },
+        title: 'The Corner Store Chronicles',
+        role: 'Director/Producer',
+        status: 'Pre-Production',
+        description: 'Web series exploring community stories through neighborhood connections'
+      }
     ],
-
-    availabilityDetails: {
+    
+    // Achievements
+    achievements: [
+      'Best Actor - LA Indie Film Festival 2023',
+      'Audience Choice Award - Urban Stories',
+      'Featured in Variety "Rising Talent" 2023'
+    ],
+    
+    // Availability
+    availability: {
       status: 'Available',
-      nextAvailable: '2024-03-15',
-      workingLocations: ['Los Angeles', 'New York', 'Atlanta'],
-      travelWilling: true,
-      remoteCapable: true,
+      timeframe: 'Immediate',
+      workType: ['Film', 'Television', 'Commercial', 'Theater'],
+      locationFlexibility: 'Willing to travel'
+    },
+    
+    // Rates & Union
+    rates: {
+      dayRate: '$850',
+      weeklyRate: '$4,250',
+      negotiable: true
+    },
+    
+    unionStatus: 'SAG-AFTRA',
+    
+    // Social & Professional Links
+    social: {
+      instagram: '@joebell.creates',
+      linkedin: 'linkedin.com/in/joebellactor',
+      website: 'joebell.com',
+      reel: 'vimeo.com/joebell/reel'
     },
   }
 

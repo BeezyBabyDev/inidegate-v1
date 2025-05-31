@@ -7,9 +7,10 @@ import InvestorProfileEditor from './InvestorProfileEditor'
 import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 
-const InvestorPortal = ({ onLogout }) => {
-  const [activeTab, setActiveTab] = useState('opportunities')
+const InvestorPortal = ({ onLogout, onBack }) => {
+  const [activeTab, setActiveTab] = useState('💼 Investments')
   const [profileView, setProfileView] = useState('showcase') // 'showcase' or 'editor'
+  const [selectedProject, setSelectedProject] = useState(null)
 
   // Scroll to top when portal loads
   useEffect(() => {
@@ -513,35 +514,102 @@ const InvestorPortal = ({ onLogout }) => {
     </div>
   )
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-green-800">
-      <Navbar onLogout={onLogout} isAuthenticated />
+  // Enhanced IndieGate.io Header Component
+  const IndieGateHeader = () => (
+    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo + Text Combo */}
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
+              {/* IndieGate.io SVG Logo */}
+              <svg
+                viewBox="0 0 40 40"
+                className="h-8 w-8 sm:h-10 sm:w-10"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <clipPath id="logoClipHeaderInvestor">
+                    <rect x="0" y="0" width="40" height="40"/>
+                  </clipPath>
+                </defs>
+                
+                {/* Logo Elements */}
+                <g clipPath="url(#logoClipHeaderInvestor)">
+                  {/* Projector (thicker square) */}
+                  <rect x="6" y="14" width="12" height="12" rx="2" fill="#2563eb" stroke="#60a5fb" strokeWidth="0.5"/>
+                  <circle cx="12" cy="20" r="2.5" fill="none" stroke="#60a5fb" strokeWidth="1"/>
+                  <circle cx="12" cy="20" r="1.2" fill="#60a5fb"/>
+                  
+                  {/* Screen (thinner square) */}
+                  <rect x="22" y="16" width="8" height="6" rx="1" fill="none" stroke="#2563eb" strokeWidth="1.2"/>
+                  <rect x="23" y="17" width="6" height="4" fill="#60a5fb" opacity="0.3"/>
+                  
+                  {/* Connection beam */}
+                  <path d="M18 20 L22 20" stroke="#60a5fb" strokeWidth="1" opacity="0.6"/>
+                  <path d="M18 19 L22 19" stroke="#60a5fb" strokeWidth="0.5" opacity="0.4"/>
+                  <path d="M18 21 L22 21" stroke="#60a5fb" strokeWidth="0.5" opacity="0.4"/>
+                </g>
+              </svg>
+              
+              {/* IndieGate.io Text */}
+              <div className="flex items-baseline space-x-1">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                  IndieGate
+                </h1>
+                <span className="text-lg sm:text-xl font-bold text-blue-600">.io</span>
+              </div>
+            </div>
+          </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Investor Portal</h1>
-          <p className="text-green-100">
-            Discover promising projects, manage investments, and connect with filmmakers
-          </p>
+          {/* Navigation Actions */}
+          <div className="flex items-center space-x-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onBack}
+              className="hidden sm:inline-flex"
+            >
+              Back to Home
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onBack}
+              className="sm:hidden"
+            >
+              ←
+            </Button>
+            <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-sm font-bold">JB</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </header>
+  )
 
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-indigo-900">
+      <IndieGateHeader />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">
           <button
-            onClick={() => setActiveTab('opportunities')}
+            onClick={() => setActiveTab('💼 Investments')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === 'opportunities'
+              activeTab === '💼 Investments'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            💼 Deal Flow
+            💼 Investments
           </button>
           <button
-            onClick={() => setActiveTab('smart-matching')}
+            onClick={() => setActiveTab('🤖 Smart Matching')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === 'smart-matching'
+              activeTab === '🤖 Smart Matching'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
@@ -549,9 +617,9 @@ const InvestorPortal = ({ onLogout }) => {
             🤖 Smart Matching
           </button>
           <button
-            onClick={() => setActiveTab('investments')}
+            onClick={() => setActiveTab('📊 My Investments')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === 'investments'
+              activeTab === '📊 My Investments'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
@@ -559,9 +627,9 @@ const InvestorPortal = ({ onLogout }) => {
             📊 My Investments
           </button>
           <button
-            onClick={() => setActiveTab('profile')}
+            onClick={() => setActiveTab('👤 Profile')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === 'profile'
+              activeTab === '👤 Profile'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
@@ -569,9 +637,9 @@ const InvestorPortal = ({ onLogout }) => {
             👤 Profile
           </button>
           <button
-            onClick={() => setActiveTab('analytics')}
+            onClick={() => setActiveTab('📈 Analytics')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === 'analytics'
+              activeTab === '📈 Analytics'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
@@ -579,9 +647,9 @@ const InvestorPortal = ({ onLogout }) => {
             📈 Analytics
           </button>
           <button
-            onClick={() => setActiveTab('community')}
+            onClick={() => setActiveTab('💬 Community')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === 'community'
+              activeTab === '💬 Community'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
@@ -592,12 +660,12 @@ const InvestorPortal = ({ onLogout }) => {
 
         {/* Tab Content */}
         <div className="mb-8">
-          {activeTab === 'opportunities' && renderOpportunitiesTab()}
-          {activeTab === 'smart-matching' && renderSmartMatchingTab()}
-          {activeTab === 'investments' && renderInvestmentsTab()}
-          {activeTab === 'profile' && renderProfileTab()}
-          {activeTab === 'analytics' && renderAnalyticsTab()}
-          {activeTab === 'community' && renderCommunityTab()}
+          {activeTab === '💼 Investments' && renderOpportunitiesTab()}
+          {activeTab === '🤖 Smart Matching' && renderSmartMatchingTab()}
+          {activeTab === '📊 My Investments' && renderInvestmentsTab()}
+          {activeTab === '👤 Profile' && renderProfileTab()}
+          {activeTab === '📈 Analytics' && renderAnalyticsTab()}
+          {activeTab === '💬 Community' && renderCommunityTab()}
         </div>
       </div>
     </div>
