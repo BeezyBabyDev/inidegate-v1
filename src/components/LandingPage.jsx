@@ -348,28 +348,59 @@ const LandingPage = ({ onSelectPortal }) => {
 
             {/* Creative Portal */}
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group">
-              <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🎬</div>
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
               <h3 className="text-2xl font-bold text-white mb-4">For Creatives</h3>
               <p className="text-white/80 mb-6">
                 Showcase your talent, connect with projects, and build your career in independent film.
               </p>
-              <ul className="text-white/70 mb-8 space-y-2">
+
+              {/* Creative Categories */}
+              <div className="text-left mb-6">
+                <p className="text-sm font-medium text-blue-200 mb-3">Network Includes:</p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {talentCategories.slice(0, 6).map((category, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 bg-purple-500/20 text-purple-200 text-xs rounded-full"
+                    >
+                      {category}
+                    </span>
+                  ))}
+                  <span className="px-2 py-1 bg-purple-500/30 text-purple-100 text-xs rounded-full font-medium">
+                    +{talentCategories.length - 6} more
+                  </span>
+                </div>
+              </div>
+
+              <ul className="text-left text-white/70 mb-8 space-y-2">
                 <li className="flex items-center">
-                  <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
+                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
                   Build professional profiles
                 </li>
                 <li className="flex items-center">
-                  <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
+                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
                   Connect with opportunities
                 </li>
                 <li className="flex items-center">
-                  <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
+                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
+                  AI-Powered Project Matching
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
                   Join our community
                 </li>
               </ul>
