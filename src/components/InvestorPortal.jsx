@@ -236,6 +236,8 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   }
 
   const renderProfileTab = () => {
+    console.log('Profile tab is being rendered', profileData);
+    
     if (profileView === 'editor') {
       return (
         <InvestorProfileEditor
@@ -248,6 +250,12 @@ const InvestorPortal = ({ onLogout, onBack }) => {
 
     return (
       <div className="space-y-6">
+        {/* Emergency Test Message */}
+        <div className="bg-green-600 text-white p-4 rounded-lg mb-4">
+          <h2 className="text-xl font-bold">✅ Profile Tab is Working!</h2>
+          <p>This is a test message. Profile data is loading for: {profileData.name}</p>
+        </div>
+        
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold text-white">My Investor Profile</h2>
           <Button
