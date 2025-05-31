@@ -198,7 +198,7 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 )
 
 const InvestorPortal = ({ onLogout, onBack }) => {
-  const [activeTab, setActiveTab] = useState('👤 Profile')
+  const [activeTab, setActiveTab] = useState('💰 Deal Flow')
   const [profileView, setProfileView] = useState('showcase')
   
   // Sample investor profile data
@@ -262,67 +262,234 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     )
   }
 
-  const renderComingSoon = (tabName) => (
-    <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-12 text-center">
-      <div className="text-6xl mb-4">🚀</div>
-      <h3 className="text-2xl font-bold text-white mb-4">{tabName} Coming Soon</h3>
-      <p className="text-green-200">This feature is being developed and will be available soon!</p>
+  const renderDealFlowTab = () => (
+    <div className="space-y-6">
+      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
+        <h3 className="text-lg font-semibold text-white mb-6">Active Investment Opportunities</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Midnight in Brooklyn",
+              genre: "Drama",
+              budget: "$2.8M",
+              seeking: "$1.2M",
+              stage: "Pre-Production",
+              director: "Sarah Chen",
+              roi: "Est. 280%",
+              status: "Hot Deal"
+            },
+            {
+              title: "Digital Nomad",
+              genre: "Thriller",
+              budget: "$1.5M",
+              seeking: "$750K",
+              stage: "Development",
+              director: "Mike Rodriguez",
+              roi: "Est. 320%",
+              status: "Featured"
+            },
+            {
+              title: "The Last Record Store",
+              genre: "Documentary",
+              budget: "$500K",
+              seeking: "$300K",
+              stage: "Production",
+              director: "Alex Kim",
+              roi: "Est. 180%",
+              status: "Limited Time"
+            }
+          ].map((project, index) => (
+            <div key={index} className="bg-white/5 rounded-lg p-4 space-y-3">
+              <div className="flex justify-between items-start">
+                <h4 className="font-semibold text-white">{project.title}</h4>
+                <span className="text-xs bg-green-600 text-white px-2 py-1 rounded">
+                  {project.status}
+                </span>
+              </div>
+              <p className="text-green-200 text-sm">{project.genre} • {project.stage}</p>
+              <p className="text-purple-200 text-sm">Director: {project.director}</p>
+              <div className="space-y-1">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-300">Budget:</span>
+                  <span className="text-white">{project.budget}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-300">Seeking:</span>
+                  <span className="text-green-400">{project.seeking}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-300">Est. ROI:</span>
+                  <span className="text-green-400">{project.roi}</span>
+                </div>
+              </div>
+              <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">
+                View Details
+              </Button>
+            </div>
+          ))}
+        </div>
+      </Card>
     </div>
   )
 
-  // Simple Header Component
-  const SimpleHeader = () => (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-3">
-            <div className="text-2xl font-bold text-purple-600">IndieGate.io</div>
-            <span className="text-sm text-gray-500">Investor Portal</span>
+  const renderPortfolioTab = () => (
+    <div className="space-y-6">
+      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
+        <h3 className="text-lg font-semibold text-white mb-6">Investment Portfolio</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-center">
+            <h4 className="text-2xl font-bold text-white">$12.8M</h4>
+            <p className="text-green-100">Total Invested</p>
           </div>
-          <div className="flex items-center space-x-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onBack}
-              className="text-gray-700 border-gray-300 hover:bg-gray-50"
-            >
-              Back to Home
-            </Button>
-            <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-bold">JB</span>
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-6 text-center">
+            <h4 className="text-2xl font-bold text-white">24</h4>
+            <p className="text-blue-100">Projects Financed</p>
+          </div>
+          <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg p-6 text-center">
+            <h4 className="text-2xl font-bold text-white">315%</h4>
+            <p className="text-purple-100">Average ROI</p>
+          </div>
+        </div>
+
+        <h4 className="text-lg font-semibold text-white mb-4">Recent Investments</h4>
+        <div className="space-y-4">
+          {[
+            {
+              title: "The Silent Hour",
+              amount: "$850K",
+              stage: "Completed",
+              roi: "+420%",
+              status: "success"
+            },
+            {
+              title: "City of Dreams",
+              amount: "$1.2M",
+              stage: "Post-Production",
+              roi: "Pending",
+              status: "pending"
+            },
+            {
+              title: "Broken Chains",
+              amount: "$650K",
+              stage: "Distribution",
+              roi: "+280%",
+              status: "success"
+            }
+          ].map((investment, index) => (
+            <div key={index} className="flex justify-between items-center p-4 bg-white/5 rounded-lg">
+              <div>
+                <h5 className="font-medium text-white">{investment.title}</h5>
+                <p className="text-sm text-gray-300">{investment.stage}</p>
+              </div>
+              <div className="text-right">
+                <p className="font-medium text-white">{investment.amount}</p>
+                <p className={`text-sm ${
+                  investment.status === 'success' ? 'text-green-400' : 'text-yellow-400'
+                }`}>
+                  {investment.roi}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  )
+
+  const renderAnalyticsTab = () => (
+    <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-12 text-center">
+      <div className="text-6xl mb-4">📈</div>
+      <h3 className="text-2xl font-bold text-white mb-4">Analytics Dashboard Coming Soon</h3>
+      <p className="text-green-200">Advanced portfolio analytics and market insights will be available soon!</p>
+    </div>
+  )
+
+  const renderCommunityTab = () => (
+    <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+      <CommunityForum userType="investor" userName={profileData.name} />
+    </div>
+  )
+
+  const renderSmartMatchingTab = () => (
+    <div className="space-y-6">
+      <SmartMatching userType="investor" userProfile={profileData} />
+    </div>
+  )
+
+  // Enhanced IndieGate.io Header Component - Matching Landing Page Exactly
+  const IndieGateHeader = () => {
+    const handleLogoClick = () => {
+      window.location.href = 'https://indiegate.io/';
+    };
+
+    return (
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-24">
+            {/* Logo + Text Combo - Exact same as landing page */}
+            <div className="text-gray-900">
+              <div 
+                className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={handleLogoClick}
+              >
+                <IndieGateLogo className="w-20 h-20" />
+                <div>
+                  <h1 className="text-xl font-bold">
+                    IndieGate.<span className="text-blue-600">io</span>
+                  </h1>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Investor Portal
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Actions */}
+            <div className="flex items-center space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onBack}
+                className="text-gray-700 border-gray-300 hover:bg-gray-50"
+              >
+                Back to Home
+              </Button>
+              <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-bold">JB</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </header>
-  )
+      </header>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-indigo-900">
-      <SimpleHeader />
+      <IndieGateHeader />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">
           <button
-            onClick={() => setActiveTab('👤 Profile')}
+            onClick={() => setActiveTab('💰 Deal Flow')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '👤 Profile'
+              activeTab === '💰 Deal Flow'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            👤 Profile
+            💰 Deal Flow
           </button>
           <button
-            onClick={() => setActiveTab('💼 Investments')}
+            onClick={() => setActiveTab('📊 Portfolio')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '💼 Investments'
+              activeTab === '📊 Portfolio'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            💼 Investments
+            📊 Portfolio
           </button>
           <button
             onClick={() => setActiveTab('🤖 Smart Matching')}
@@ -335,6 +502,16 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             🤖 Smart Matching
           </button>
           <button
+            onClick={() => setActiveTab('👤 Profile')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '👤 Profile'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            👤 Profile
+          </button>
+          <button
             onClick={() => setActiveTab('📈 Analytics')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '📈 Analytics'
@@ -344,14 +521,26 @@ const InvestorPortal = ({ onLogout, onBack }) => {
           >
             📈 Analytics
           </button>
+          <button
+            onClick={() => setActiveTab('💬 Community')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '💬 Community'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            💬 Community
+          </button>
         </div>
 
         {/* Tab Content */}
         <div className="mb-8">
+          {activeTab === '💰 Deal Flow' && renderDealFlowTab()}
+          {activeTab === '📊 Portfolio' && renderPortfolioTab()}
+          {activeTab === '🤖 Smart Matching' && renderSmartMatchingTab()}
           {activeTab === '👤 Profile' && renderProfileTab()}
-          {activeTab === '💼 Investments' && renderComingSoon('Investment Opportunities')}
-          {activeTab === '🤖 Smart Matching' && renderComingSoon('Smart Matching')}
-          {activeTab === '📈 Analytics' && renderComingSoon('Portfolio Analytics')}
+          {activeTab === '📈 Analytics' && renderAnalyticsTab()}
+          {activeTab === '💬 Community' && renderCommunityTab()}
         </div>
       </div>
     </div>
