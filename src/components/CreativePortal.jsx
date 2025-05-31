@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import Navbar from './Navbar'
 import Card from './Card'
 import Button from './Button'
 import TalentProfile from './TalentProfile'
@@ -200,7 +199,6 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 const CreativePortal = ({ onLogout, onBack }) => {
   const [activeTab, setActiveTab] = useState('🎬 Opportunities')
   const [profileView, setProfileView] = useState('showcase') // 'showcase' or 'editor'
-  const [selectedTalent, setSelectedTalent] = useState(null)
 
   // Scroll to top when portal loads
   useEffect(() => {
@@ -227,7 +225,12 @@ const CreativePortal = ({ onLogout, onBack }) => {
     availability: 'Available',
     rates: '$2500-3500/day',
     unions: ['DGA (Directors Guild)', 'WGA (Writers Guild)'],
-    specialSkills: ['Narrative Storytelling', 'Documentary Style', 'Digital Cinematography', 'Post-Production Workflow'],
+    specialSkills: [
+      'Narrative Storytelling',
+      'Documentary Style',
+      'Digital Cinematography',
+      'Post-Production Workflow',
+    ],
     equipment: ['RED Digital Cinema Camera', 'DJI Drone System', 'Professional Audio Kit'],
     softwareProficiency: ['Final Cut Pro', 'DaVinci Resolve', 'Pro Tools'],
     genres: ['Drama', 'Documentary', 'Thriller', 'Independent'],
@@ -396,6 +399,36 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
   const handleProfileCancel = () => {
     setProfileView('showcase')
+  }
+
+  // Ensure we have a working back function
+  const handleBackToHome = () => {
+    console.log('handleBackToHome called') // Debug log
+
+    // Multiple fallback strategies for reliable navigation
+    try {
+      // Method 1: Use provided callback
+      if (typeof onBack === 'function') {
+        console.log('Using onBack callback')
+        onBack()
+        return
+      }
+
+      // Method 2: Use onLogout if available
+      if (typeof onLogout === 'function') {
+        console.log('Using onLogout callback')
+        onLogout()
+        return
+      }
+
+      // Method 3: Direct window navigation
+      console.log('Using direct navigation')
+      window.location.href = '/'
+    } catch (error) {
+      console.error('Navigation error:', error)
+      // Final fallback
+      window.location.href = '/'
+    }
   }
 
   const renderProfileTab = () => {
@@ -662,27 +695,31 @@ const CreativePortal = ({ onLogout, onBack }) => {
   // Enhanced IndieGate.io Header Component - Matching Landing Page Exactly
   const IndieGateHeader = () => {
     const handleLogoClick = () => {
-      window.location.href = 'https://indiegate.io/';
-    };
+      console.log('Logo clicked, calling handleBackToHome') // Debug log
+      handleBackToHome()
+    }
+
+    const handleButtonClick = () => {
+      console.log('Back to Home button clicked, calling handleBackToHome') // Debug log
+      handleBackToHome()
+    }
 
     return (
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
-            {/* Logo + Text Combo - Exact same as landing page */}
+          <div className="flex justify-between items-center h-32">
+            {/* Logo + Text Combo - Triple size with tighter spacing */}
             <div className="text-gray-900">
-              <div 
-                className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
+              <div
+                className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={handleLogoClick}
               >
-                <IndieGateLogo className="w-20 h-20" />
+                <IndieGateLogo className="w-48 h-48" />
                 <div>
-                  <h1 className="text-xl font-bold">
+                  <h1 className="text-3xl font-bold">
                     IndieGate.<span className="text-blue-600">io</span>
                   </h1>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Creative Portal
-                  </p>
+                  <p className="text-base text-gray-500 mt-1">Creative Portal</p>
                 </div>
               </div>
             </div>
@@ -692,25 +729,25 @@ const CreativePortal = ({ onLogout, onBack }) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={onBack}
-                className="text-gray-700 border-gray-300 hover:bg-gray-50"
+                onClick={handleButtonClick}
+                className="text-gray-700 border-gray-300 hover:bg-gray-50 font-medium"
               >
                 Back to Home
               </Button>
               <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">JB</span>
+                <span className="text-white text-sm font-bold">MB</span>
               </div>
             </div>
           </div>
         </div>
       </header>
-    );
+    )
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       <IndieGateHeader />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">

@@ -231,13 +231,13 @@ const LandingPage = ({ onSelectPortal }) => {
       <header className="px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="text-white">
-            <div className="flex items-center space-x-3">
-              <IndieGateLogo className="w-16 h-16 text-blue-400" />
+            <div className="flex items-center space-x-2">
+              <IndieGateLogo className="w-48 h-48 text-blue-400" />
               <div>
-                <h1 className="text-2xl font-bold">
+                <h1 className="text-3xl font-bold">
                   IndieGate.<span className="text-blue-400">io</span>
                 </h1>
-                <p className="text-xs text-blue-200 mt-1">
+                <p className="text-base text-blue-200 mt-1">
                   AI-Driven Platform for Indie Filmmakers & Investors
                 </p>
               </div>
@@ -246,17 +246,16 @@ const LandingPage = ({ onSelectPortal }) => {
           <div className="space-x-4">
             <Button
               variant="outline"
-              size="sm"
-              className="text-white border-white hover:bg-white hover:text-blue-900"
+              className="text-white border-white hover:bg-white hover:text-blue-900 font-medium"
+              onClick={() => onSelectPortal('talent')}
             >
-              About
+              Creative Portal
             </Button>
             <Button
-              variant="outline"
-              size="sm"
-              className="text-white border-white hover:bg-white hover:text-blue-900"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-medium"
+              onClick={() => onSelectPortal('investor')}
             >
-              Contact
+              Investor Portal
             </Button>
           </div>
         </div>
@@ -365,7 +364,8 @@ const LandingPage = ({ onSelectPortal }) => {
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">For Creatives</h3>
               <p className="text-white/80 mb-6">
-                Showcase your talent, connect with projects, and build your career in independent film.
+                Showcase your talent, connect with projects, and build your career in independent
+                film.
               </p>
 
               {/* Creative Categories */}

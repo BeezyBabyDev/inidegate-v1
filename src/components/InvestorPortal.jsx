@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import Navbar from './Navbar'
 import Card from './Card'
 import Button from './Button'
-import InvestorProfile from './InvestorProfile'
 import InvestorProfileEditor from './InvestorProfileEditor'
 import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
@@ -200,7 +198,7 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 const InvestorPortal = ({ onLogout, onBack }) => {
   const [activeTab, setActiveTab] = useState('💰 Deal Flow')
   const [profileView, setProfileView] = useState('showcase')
-  
+
   // Sample investor profile data
   const [profileData, setProfileData] = useState({
     name: 'Jourdain Bell',
@@ -209,7 +207,8 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     additionalRoles: ['Family Office', 'Strategic Partner'],
     location: 'Los Angeles, CA',
     bio: 'Experienced film industry executive and entrepreneur with deep expertise in independent film financing and distribution. Co-founder of IndieGate.io, passionate about empowering emerging filmmakers through strategic investment and mentorship.',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+    avatar:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     company: 'Bell Entertainment Ventures',
     title: 'Managing Partner & Co-Founder',
     email: 'jourdain@indiegate.io',
@@ -235,9 +234,39 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     setProfileView('showcase')
   }
 
+  // Ensure we have a working back function
+  const handleBackToHome = () => {
+    console.log('handleBackToHome called') // Debug log
+
+    // Multiple fallback strategies for reliable navigation
+    try {
+      // Method 1: Use provided callback
+      if (typeof onBack === 'function') {
+        console.log('Using onBack callback')
+        onBack()
+        return
+      }
+
+      // Method 2: Use onLogout if available
+      if (typeof onLogout === 'function') {
+        console.log('Using onLogout callback')
+        onLogout()
+        return
+      }
+
+      // Method 3: Direct window navigation
+      console.log('Using direct navigation')
+      window.location.href = '/'
+    } catch (error) {
+      console.error('Navigation error:', error)
+      // Final fallback
+      window.location.href = '/'
+    }
+  }
+
   const renderProfileTab = () => {
-    console.log('Profile tab is being rendered', profileData);
-    
+    console.log('Profile tab is being rendered', profileData)
+
     if (profileView === 'editor') {
       return (
         <InvestorProfileEditor
@@ -261,7 +290,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
               Edit Profile
             </Button>
           </div>
-          
+
           <div className="flex items-start space-x-6">
             <div className="relative">
               <img
@@ -271,7 +300,11 @@ const InvestorPortal = ({ onLogout, onBack }) => {
               />
               <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
                 <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
             </div>
@@ -280,7 +313,11 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 <h1 className="text-2xl font-bold text-white">{profileData.name}</h1>
                 <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
               </div>
@@ -288,8 +325,18 @@ const InvestorPortal = ({ onLogout, onBack }) => {
               <p className="text-purple-200">{profileData.company}</p>
               <p className="text-sm text-gray-300 flex items-center mt-1">
                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
                 {profileData.location}
               </p>
@@ -330,7 +377,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
               <h4 className="font-medium text-white mb-2">Preferred Genres</h4>
               <div className="flex flex-wrap gap-2">
                 {profileData.preferredGenres.map((genre, index) => (
-                  <span key={index} className="px-3 py-1 bg-purple-600 text-purple-100 text-sm rounded-full">
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-purple-600 text-purple-100 text-sm rounded-full"
+                  >
                     {genre}
                   </span>
                 ))}
@@ -340,18 +390,23 @@ const InvestorPortal = ({ onLogout, onBack }) => {
               <h4 className="font-medium text-white mb-2">Investment Stages</h4>
               <div className="flex flex-wrap gap-2">
                 {profileData.investmentStage.map((stage, index) => (
-                  <span key={index} className="px-3 py-1 bg-blue-600 text-blue-100 text-sm rounded-full">
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-blue-600 text-blue-100 text-sm rounded-full"
+                  >
                     {stage}
                   </span>
                 ))}
               </div>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <div>
               <h4 className="font-medium text-white mb-2">Budget Range</h4>
-              <p className="text-green-400 font-semibold">{profileData.budgetRange.min} - {profileData.budgetRange.max}</p>
+              <p className="text-green-400 font-semibold">
+                {profileData.budgetRange.min} - {profileData.budgetRange.max}
+              </p>
             </div>
             <div>
               <h4 className="font-medium text-white mb-2">Geographic Focus</h4>
@@ -370,28 +425,58 @@ const InvestorPortal = ({ onLogout, onBack }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                <svg
+                  className="w-5 h-5 text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
                 </svg>
                 <span className="text-white">{profileData.email}</span>
               </div>
               <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                <svg
+                  className="w-5 h-5 text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
                 </svg>
                 <span className="text-white">{profileData.phone}</span>
               </div>
             </div>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+                <svg
+                  className="w-5 h-5 text-purple-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"
+                  />
                 </svg>
                 <span className="text-white">{profileData.website}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                 </svg>
                 <span className="text-white">{profileData.linkedin}</span>
               </div>
@@ -428,35 +513,35 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
-              title: "Midnight in Brooklyn",
-              genre: "Drama",
-              budget: "$2.8M",
-              seeking: "$1.2M",
-              stage: "Pre-Production",
-              director: "Sarah Chen",
-              roi: "Est. 280%",
-              status: "Hot Deal"
+              title: 'Midnight in Brooklyn',
+              genre: 'Drama',
+              budget: '$2.8M',
+              seeking: '$1.2M',
+              stage: 'Pre-Production',
+              director: 'Sarah Chen',
+              roi: 'Est. 280%',
+              status: 'Hot Deal',
             },
             {
-              title: "Digital Nomad",
-              genre: "Thriller",
-              budget: "$1.5M",
-              seeking: "$750K",
-              stage: "Development",
-              director: "Mike Rodriguez",
-              roi: "Est. 320%",
-              status: "Featured"
+              title: 'Digital Nomad',
+              genre: 'Thriller',
+              budget: '$1.5M',
+              seeking: '$750K',
+              stage: 'Development',
+              director: 'Mike Rodriguez',
+              roi: 'Est. 320%',
+              status: 'Featured',
             },
             {
-              title: "The Last Record Store",
-              genre: "Documentary",
-              budget: "$500K",
-              seeking: "$300K",
-              stage: "Production",
-              director: "Alex Kim",
-              roi: "Est. 180%",
-              status: "Limited Time"
-            }
+              title: 'The Last Record Store',
+              genre: 'Documentary',
+              budget: '$500K',
+              seeking: '$300K',
+              stage: 'Production',
+              director: 'Alex Kim',
+              roi: 'Est. 180%',
+              status: 'Limited Time',
+            },
           ].map((project, index) => (
             <div key={index} className="bg-white/5 rounded-lg p-4 space-y-3">
               <div className="flex justify-between items-start">
@@ -465,7 +550,9 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                   {project.status}
                 </span>
               </div>
-              <p className="text-green-200 text-sm">{project.genre} • {project.stage}</p>
+              <p className="text-green-200 text-sm">
+                {project.genre} • {project.stage}
+              </p>
               <p className="text-purple-200 text-sm">Director: {project.director}</p>
               <div className="space-y-1">
                 <div className="flex justify-between text-sm">
@@ -514,37 +601,42 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         <div className="space-y-4">
           {[
             {
-              title: "The Silent Hour",
-              amount: "$850K",
-              stage: "Completed",
-              roi: "+420%",
-              status: "success"
+              title: 'The Silent Hour',
+              amount: '$850K',
+              stage: 'Completed',
+              roi: '+420%',
+              status: 'success',
             },
             {
-              title: "City of Dreams",
-              amount: "$1.2M",
-              stage: "Post-Production",
-              roi: "Pending",
-              status: "pending"
+              title: 'City of Dreams',
+              amount: '$1.2M',
+              stage: 'Post-Production',
+              roi: 'Pending',
+              status: 'pending',
             },
             {
-              title: "Broken Chains",
-              amount: "$650K",
-              stage: "Distribution",
-              roi: "+280%",
-              status: "success"
-            }
+              title: 'Broken Chains',
+              amount: '$650K',
+              stage: 'Distribution',
+              roi: '+280%',
+              status: 'success',
+            },
           ].map((investment, index) => (
-            <div key={index} className="flex justify-between items-center p-4 bg-white/5 rounded-lg">
+            <div
+              key={index}
+              className="flex justify-between items-center p-4 bg-white/5 rounded-lg"
+            >
               <div>
                 <h5 className="font-medium text-white">{investment.title}</h5>
                 <p className="text-sm text-gray-300">{investment.stage}</p>
               </div>
               <div className="text-right">
                 <p className="font-medium text-white">{investment.amount}</p>
-                <p className={`text-sm ${
-                  investment.status === 'success' ? 'text-green-400' : 'text-yellow-400'
-                }`}>
+                <p
+                  className={`text-sm ${
+                    investment.status === 'success' ? 'text-green-400' : 'text-yellow-400'
+                  }`}
+                >
                   {investment.roi}
                 </p>
               </div>
@@ -559,7 +651,9 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-12 text-center">
       <div className="text-6xl mb-4">📈</div>
       <h3 className="text-2xl font-bold text-white mb-4">Analytics Dashboard Coming Soon</h3>
-      <p className="text-green-200">Advanced portfolio analytics and market insights will be available soon!</p>
+      <p className="text-green-200">
+        Advanced portfolio analytics and market insights will be available soon!
+      </p>
     </div>
   )
 
@@ -578,27 +672,31 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   // Enhanced IndieGate.io Header Component - Matching Landing Page Exactly
   const IndieGateHeader = () => {
     const handleLogoClick = () => {
-      window.location.href = 'https://indiegate.io/';
-    };
+      console.log('Logo clicked, calling handleBackToHome') // Debug log
+      handleBackToHome()
+    }
+
+    const handleButtonClick = () => {
+      console.log('Back to Home button clicked, calling handleBackToHome') // Debug log
+      handleBackToHome()
+    }
 
     return (
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
-            {/* Logo + Text Combo - Exact same as landing page */}
+          <div className="flex justify-between items-center h-32">
+            {/* Logo + Text Combo - Triple size with tighter spacing */}
             <div className="text-gray-900">
-              <div 
-                className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
+              <div
+                className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={handleLogoClick}
               >
-                <IndieGateLogo className="w-20 h-20" />
+                <IndieGateLogo className="w-48 h-48" />
                 <div>
-                  <h1 className="text-xl font-bold">
+                  <h1 className="text-3xl font-bold">
                     IndieGate.<span className="text-blue-600">io</span>
                   </h1>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Investor Portal
-                  </p>
+                  <p className="text-base text-gray-500 mt-1">Investor Portal</p>
                 </div>
               </div>
             </div>
@@ -608,8 +706,8 @@ const InvestorPortal = ({ onLogout, onBack }) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={onBack}
-                className="text-gray-700 border-gray-300 hover:bg-gray-50"
+                onClick={handleButtonClick}
+                className="text-gray-700 border-gray-300 hover:bg-gray-50 font-medium"
               >
                 Back to Home
               </Button>
@@ -620,13 +718,13 @@ const InvestorPortal = ({ onLogout, onBack }) => {
           </div>
         </div>
       </header>
-    );
+    )
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-indigo-900">
       <IndieGateHeader />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">
