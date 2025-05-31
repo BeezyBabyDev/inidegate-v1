@@ -198,13 +198,160 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 )
 
 const InvestorPortal = ({ onLogout, onBack }) => {
+  const [activeTab, setActiveTab] = useState('👤 Profile')
+  const [profileView, setProfileView] = useState('showcase')
+  
+  // Sample investor profile data
+  const [profileData, setProfileData] = useState({
+    name: 'Jourdain Bell',
+    primaryRole: 'Executive Producer',
+    secondaryRole: 'Angel Investor',
+    additionalRoles: ['Family Office', 'Strategic Partner'],
+    location: 'Los Angeles, CA',
+    bio: 'Experienced film industry executive and entrepreneur with deep expertise in independent film financing and distribution. Co-founder of IndieGate.io, passionate about empowering emerging filmmakers through strategic investment and mentorship.',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+    company: 'Bell Entertainment Ventures',
+    title: 'Managing Partner & Co-Founder',
+    email: 'jourdain@indiegate.io',
+    phone: '(310) 555-0123',
+    website: 'www.bellentertainment.com',
+    linkedin: 'linkedin.com/in/jourdainbell',
+    investmentRange: '$250K - $3M',
+    totalInvestments: '$12.8M',
+    projectsFinanced: 24,
+    averageROI: '315%',
+    preferredGenres: ['Drama', 'Thriller', 'Documentary', 'Comedy'],
+    investmentStage: ['Development', 'Pre-Production', 'Production'],
+    budgetRange: { min: '100K', max: '3M' },
+    verified: true,
+  })
+
+  const handleProfileSave = updatedProfile => {
+    setProfileData(updatedProfile)
+    setProfileView('showcase')
+  }
+
+  const handleProfileCancel = () => {
+    setProfileView('showcase')
+  }
+
+  const renderProfileTab = () => {
+    if (profileView === 'editor') {
+      return (
+        <InvestorProfileEditor
+          initialData={profileData}
+          onSave={handleProfileSave}
+          onCancel={handleProfileCancel}
+        />
+      )
+    }
+
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-white">My Investor Profile</h2>
+          <Button
+            onClick={() => setProfileView('editor')}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            Edit Profile
+          </Button>
+        </div>
+        <InvestorProfile profileData={profileData} />
+      </div>
+    )
+  }
+
+  const renderComingSoon = (tabName) => (
+    <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-12 text-center">
+      <div className="text-6xl mb-4">🚀</div>
+      <h3 className="text-2xl font-bold text-white mb-4">{tabName} Coming Soon</h3>
+      <p className="text-green-200">This feature is being developed and will be available soon!</p>
+    </div>
+  )
+
+  // Simple Header Component
+  const SimpleHeader = () => (
+    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center space-x-3">
+            <div className="text-2xl font-bold text-purple-600">IndieGate.io</div>
+            <span className="text-sm text-gray-500">Investor Portal</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onBack}
+              className="text-gray-700 border-gray-300 hover:bg-gray-50"
+            >
+              Back to Home
+            </Button>
+            <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-sm font-bold">JB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  )
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center py-20">
-          <h1 className="text-4xl font-bold text-white mb-4">IndieGate.io Investor Portal</h1>
-          <p className="text-green-200 text-lg">🎯 Portal is loading successfully!</p>
-          <p className="text-purple-200 mt-2">Emergency test version - checking portal accessibility</p>
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-indigo-900">
+      <SimpleHeader />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Navigation Tabs */}
+        <div className="flex flex-wrap justify-center mb-8 space-x-1">
+          <button
+            onClick={() => setActiveTab('👤 Profile')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '👤 Profile'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            👤 Profile
+          </button>
+          <button
+            onClick={() => setActiveTab('💼 Investments')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '💼 Investments'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            💼 Investments
+          </button>
+          <button
+            onClick={() => setActiveTab('🤖 Smart Matching')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '🤖 Smart Matching'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            🤖 Smart Matching
+          </button>
+          <button
+            onClick={() => setActiveTab('📈 Analytics')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '📈 Analytics'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            📈 Analytics
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        <div className="mb-8">
+          {activeTab === '👤 Profile' && renderProfileTab()}
+          {activeTab === '💼 Investments' && renderComingSoon('Investment Opportunities')}
+          {activeTab === '🤖 Smart Matching' && renderComingSoon('Smart Matching')}
+          {activeTab === '📈 Analytics' && renderComingSoon('Portfolio Analytics')}
         </div>
       </div>
     </div>
