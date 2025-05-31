@@ -66,7 +66,7 @@ const LandingPage = ({ onSelectPortal }) => {
               <InideGateLogo className="w-12 h-12 text-blue-400" />
               <div>
                 <h1 className="text-2xl font-bold">
-                  InideGate.<span className="text-blue-400">v1</span>
+                  IndieGate.<span className="text-blue-400">io</span>
                 </h1>
                 <p className="text-xs text-blue-200 mt-1">
                   AI-Driven Platform for Indie Filmmakers & Investors
@@ -343,7 +343,7 @@ const LandingPage = ({ onSelectPortal }) => {
       <footer className="px-6 py-8 mt-16 border-t border-white/10">
         <div className="max-w-7xl mx-auto text-center text-blue-200">
           <p>
-            &copy; 2025 InideGate.v1 - AI-Driven Platform for Indie Filmmakers & Investors. All
+            &copy; 2025 IndieGate.io - AI-Driven Platform for Indie Filmmakers & Investors. All
             rights reserved.
           </p>
         </div>

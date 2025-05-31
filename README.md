@@ -1,4 +1,4 @@
-# InideGate.v1
+# IndieGate.io
 
 A modern React application built with Vite, Tailwind CSS, and a comprehensive development toolchain.
 
@@ -7,7 +7,6 @@ A modern React application built with Vite, Tailwind CSS, and a comprehensive de
 - ⚛️ **React 19** - Latest React with modern features
 - ⚡ **Vite** - Lightning fast development and build tool
 - 🎨 **Tailwind CSS** - Utility-first CSS framework
-- 🧪 **Vitest** - Fast unit testing with React Testing Library
 - 📏 **ESLint** - Code linting and quality checks
 - 💅 **Prettier** - Code formatting
 - 🐕 **Husky** - Git hooks for quality assurance
@@ -25,8 +24,8 @@ A modern React application built with Vite, Tailwind CSS, and a comprehensive de
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/inidegate-v1.git
-   cd inidegate-v1
+   git clone https://github.com/yourusername/indiedgate-io.git
+   cd indiedgate-io
    ```
 
 2. **Install dependencies**
@@ -111,7 +110,6 @@ import Button from './components/Button'
 
 ```jsx
 import Card from './components/Card'
-
 ;<Card>
   <h3>Card Title</h3>
   <p>Card content goes here.</p>
