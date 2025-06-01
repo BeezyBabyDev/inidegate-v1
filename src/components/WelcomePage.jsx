@@ -216,13 +216,19 @@ const WelcomePage = ({ onEnterCode }) => {
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
       {/* Header */}
       <header className="px-6 py-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+        <div className="max-w-7xl mx-auto">
+          {/* Logo - Top Center */}
+          <div className="flex justify-center mb-6">
             <IndieGateLogo className="w-48 h-48" />
-            <div className="text-white">
-              <h1 className="text-3xl font-bold">IndieGate.io</h1>
-              <p className="text-xl text-blue-200">AI-Driven Platform for Indie Filmmakers & Investors</p>
-            </div>
+          </div>
+          
+          {/* Text - Top Left */}
+          <div className="text-left">
+            <h1 className="text-3xl font-bold">
+              <span className="text-white">IndieGate</span>
+              <span className="text-blue-400">.io</span>
+            </h1>
+            <p className="text-xl text-blue-200">AI-Driven Platform for Indie Filmmakers, Talent, Brands, & Investors</p>
           </div>
         </div>
       </header>
@@ -293,6 +299,14 @@ const WelcomePage = ({ onEnterCode }) => {
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
               <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
               <p className="text-blue-200 mb-6">Enter your registrant code to access your portal</p>
+              
+              {/* MVP Demo Access Code Highlight */}
+              <div className="bg-blue-500/20 border border-blue-400/30 rounded-lg p-4 mb-6">
+                <h4 className="text-lg font-semibold text-blue-300 mb-2">🚀 MVP Demo Access</h4>
+                <p className="text-blue-200 text-sm mb-2">Use the demo access code:</p>
+                <code className="text-xl font-bold text-blue-100 bg-blue-900/50 px-3 py-2 rounded">DEMO2024</code>
+                <p className="text-blue-300 text-xs mt-2">Full platform access • All 4 portals available</p>
+              </div>
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>

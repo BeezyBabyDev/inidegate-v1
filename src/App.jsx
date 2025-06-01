@@ -32,8 +32,16 @@ function App() {
   }, [])
 
   const handleEnterCode = (code) => {
-    // Simple code validation - in production this would be an API call
-    const validCodes = ['DEMO2024', 'INDIE', 'FILMMAKER', 'INVESTOR', 'TALENT', 'BRANDS']
+    // Enhanced code validation for MVP demo
+    const validCodes = [
+      'INDIEGATE2024',  // Master access code for MVP demo
+      'DEMO2024', 
+      'INDIE', 
+      'FILMMAKER', 
+      'INVESTOR', 
+      'TALENT', 
+      'BRANDS'
+    ]
     
     if (validCodes.includes(code.toUpperCase())) {
       setHasValidCode(true)
@@ -43,7 +51,7 @@ function App() {
       const url = window.location.origin + window.location.pathname + '?code=' + code
       window.history.pushState({}, '', url)
     } else {
-      alert('Invalid registrant code. Please try: DEMO2024, INDIE, FILMMAKER, INVESTOR, TALENT, or BRANDS')
+      alert('Invalid registrant code. Try the demo code: DEMO2024')
     }
   }
 
@@ -114,6 +122,9 @@ function App() {
   // Individual portal views
   if (currentView === 'filmmakers' || currentView === 'talent') {
     // Map 'talent' to CreativePortal for backward compatibility
+    if (currentView === 'talent') {
+      return <TalentPortalComponent onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+    }
     return <CreativePortal onLogout={handleLogout} onBack={handleBackToPortalSelection} />
   }
 
