@@ -222,13 +222,14 @@ const WelcomePage = ({ onEnterCode }) => {
             <IndieGateLogo className="w-48 h-48" />
           </div>
           
-          {/* Text - Top Left */}
-          <div className="text-left">
-            <h1 className="text-3xl font-bold">
-              <span className="text-white">IndieGate</span>
-              <span className="text-blue-400">.io</span>
+          {/* Welcome Text - Centered under logo */}
+          <div className="text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
+              Welcome to <span className="text-blue-400">IndieGate.io</span>
             </h1>
-            <p className="text-xl text-blue-200">AI-Driven Platform for Indie Filmmakers, Talent, Brands, & Investors</p>
+            <p className="text-xl md:text-2xl text-blue-200 font-semibold">
+              AI-Driven Platform for Indie Filmmakers, Talent, Brands, & Investors
+            </p>
           </div>
         </div>
       </header>
@@ -236,18 +237,7 @@ const WelcomePage = ({ onEnterCode }) => {
       {/* Hero Section */}
       <main className="px-6 py-16">
         <div className="max-w-4xl mx-auto text-center text-white">
-          {/* Hero Content */}
-          <div className="mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Welcome to <span className="text-blue-400">IndieGate.io</span>
-            </h2>
-            <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              The premier AI-driven platform connecting visionary film investors, talented filmmakers, 
-              on-camera talent, and brand partners. Turn your creative vision into cinematic reality.
-            </p>
-          </div>
-
-          {/* Platform Overview */}
+          {/* Platform Overview - 4 Portal Cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {/* Investors */}
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
@@ -292,6 +282,14 @@ const WelcomePage = ({ onEnterCode }) => {
               <h3 className="text-lg font-semibold mb-2">Brands</h3>
               <p className="text-blue-200 text-sm">Companies seeking authentic product placement opportunities and equity partnerships in film projects.</p>
             </div>
+          </div>
+
+          {/* Descriptive Text - Between portal cards and registration */}
+          <div className="mb-16">
+            <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+              The premier AI-driven platform connecting visionary film investors, talented filmmakers, 
+              on-camera talent, and brand partners. Turn your creative vision into cinematic reality.
+            </p>
           </div>
 
           {/* Registrant Code Entry */}
