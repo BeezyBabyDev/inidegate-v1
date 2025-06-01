@@ -211,14 +211,15 @@ const WelcomePage = ({ onEnterCode }) => {
       return
     }
     
-    // Basic validation - in production this would call an API
-    if (registrantCode.length < 4) {
+    // Valid demo codes and basic validation
+    const validDemoCodes = ['Demo2025', 'DEMO2025', 'demo2025']
+    
+    if (validDemoCodes.includes(registrantCode) || registrantCode.length >= 4) {
+      setError('')
+      onEnterCode(registrantCode)
+    } else {
       setError('Invalid registrant code')
-      return
     }
-
-    setError('')
-    onEnterCode(registrantCode)
   }
 
   const handleAccessRequest = (e) => {
