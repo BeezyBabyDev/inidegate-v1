@@ -233,11 +233,12 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
       {/* Header */}
       <header className="px-6 py-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <IndieGateLogo className="w-48 h-48" />
+          {/* Cohesive Brand Lockup - Logo + Text as unified element */}
+          <div className="flex items-center space-x-3">
+            <IndieGateLogo className="w-16 h-16" />
             <div className="text-white">
-              <h1 className="text-3xl font-bold">IndieGate.io</h1>
-              <p className="text-xl text-blue-200">Select Your Portal</p>
+              <h1 className="text-3xl font-bold leading-none">IndieGate.io</h1>
+              <p className="text-xl text-blue-200 leading-none">Select Your Portal</p>
             </div>
           </div>
           <div className="flex space-x-4">
