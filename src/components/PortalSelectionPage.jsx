@@ -235,7 +235,7 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Cohesive Brand Lockup - Logo + Text as unified element */}
           <div className="flex items-center space-x-3">
-            <IndieGateLogo className="w-16 h-16" />
+            <IndieGateLogo className="w-48 h-48" />
             <div className="text-white">
               <h1 className="text-3xl font-bold leading-none">IndieGate.io</h1>
               <p className="text-xl text-blue-200 leading-none">Select Your Portal</p>

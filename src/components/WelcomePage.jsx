@@ -194,6 +194,15 @@ const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
 const WelcomePage = ({ onEnterCode }) => {
   const [registrantCode, setRegistrantCode] = useState('')
   const [error, setError] = useState('')
+  const [accessRequest, setAccessRequest] = useState({
+    name: '',
+    email: '',
+    company: '',
+    role: '',
+    message: ''
+  })
+  const [showAccessRequest, setShowAccessRequest] = useState(false)
+  const [requestSubmitted, setRequestSubmitted] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -210,6 +219,19 @@ const WelcomePage = ({ onEnterCode }) => {
 
     setError('')
     onEnterCode(registrantCode)
+  }
+
+  const handleAccessRequest = (e) => {
+    e.preventDefault()
+    if (!accessRequest.name || !accessRequest.email) {
+      setError('Please fill in all required fields')
+      return
+    }
+    
+    // In production, this would submit to an API
+    console.log('Access request submitted:', accessRequest)
+    setRequestSubmitted(true)
+    setError('')
   }
 
   return (
@@ -296,49 +318,158 @@ const WelcomePage = ({ onEnterCode }) => {
           <div className="max-w-md mx-auto">
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
               <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
-              <p className="text-blue-200 mb-6">Enter your registrant code to access your portal</p>
               
-              {/* MVP Demo Access Code Highlight */}
-              <div className="bg-blue-500/20 border border-blue-400/30 rounded-lg p-4 mb-6">
-                <h4 className="text-lg font-semibold text-blue-300 mb-2">🚀 MVP Demo Access</h4>
-                <p className="text-blue-200 text-sm mb-2">Use the demo access code:</p>
-                <code className="text-xl font-bold text-blue-100 bg-blue-900/50 px-3 py-2 rounded">DEMO2024</code>
-                <p className="text-blue-300 text-xs mt-2">Full platform access • All 4 portals available</p>
-              </div>
-              
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <input
-                    type="text"
-                    value={registrantCode}
-                    onChange={(e) => {
-                      setRegistrantCode(e.target.value)
-                      setError('')
-                    }}
-                    placeholder="Enter registrant code"
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-                  />
-                  {error && (
-                    <p className="text-red-400 text-sm mt-2">{error}</p>
-                  )}
-                </div>
-                
-                <Button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  Access Platform
-                </Button>
-              </form>
+              {!showAccessRequest ? (
+                <>
+                  <p className="text-blue-200 mb-6">Enter your registrant code to access your portal</p>
+                  
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <input
+                        type="text"
+                        value={registrantCode}
+                        onChange={(e) => {
+                          setRegistrantCode(e.target.value)
+                          setError('')
+                        }}
+                        placeholder="Enter registrant code"
+                        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                      />
+                      {error && (
+                        <p className="text-red-400 text-sm mt-2">{error}</p>
+                      )}
+                    </div>
+                    
+                    <Button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    >
+                      Access Platform
+                    </Button>
+                  </form>
 
-              <div className="mt-6 pt-6 border-t border-white/20">
-                <p className="text-blue-200 text-sm">
-                  Don't have a registrant code? Contact us at{' '}
-                  <a href="mailto:access@indiegate.io" className="text-blue-400 hover:text-blue-300">
-                    access@indiegate.io
-                  </a>
-                </p>
-              </div>
+                  <div className="mt-6 pt-6 border-t border-white/20 text-center">
+                    <p className="text-blue-200 text-sm mb-4">
+                      Don't have a registrant code?
+                    </p>
+                    <button
+                      onClick={() => setShowAccessRequest(true)}
+                      className="bg-gradient-to-r from-purple-600 to-purple-700 text-white py-2 px-4 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-300"
+                    >
+                      Request Access Code
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {!requestSubmitted ? (
+                    <>
+                      <p className="text-blue-200 mb-6">Request access to the IndieGate.io platform</p>
+                      
+                      <form onSubmit={handleAccessRequest} className="space-y-4">
+                        <div>
+                          <input
+                            type="text"
+                            value={accessRequest.name}
+                            onChange={(e) => setAccessRequest({...accessRequest, name: e.target.value})}
+                            placeholder="Full Name *"
+                            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                            required
+                          />
+                        </div>
+                        
+                        <div>
+                          <input
+                            type="email"
+                            value={accessRequest.email}
+                            onChange={(e) => setAccessRequest({...accessRequest, email: e.target.value})}
+                            placeholder="Email Address *"
+                            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                            required
+                          />
+                        </div>
+                        
+                        <div>
+                          <input
+                            type="text"
+                            value={accessRequest.company}
+                            onChange={(e) => setAccessRequest({...accessRequest, company: e.target.value})}
+                            placeholder="Company/Organization"
+                            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                          />
+                        </div>
+                        
+                        <div>
+                          <select
+                            value={accessRequest.role}
+                            onChange={(e) => setAccessRequest({...accessRequest, role: e.target.value})}
+                            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                          >
+                            <option value="">Select Your Role</option>
+                            <option value="investor">Investor</option>
+                            <option value="filmmaker">Filmmaker</option>
+                            <option value="talent">Talent</option>
+                            <option value="brand">Brand Representative</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <textarea
+                            value={accessRequest.message}
+                            onChange={(e) => setAccessRequest({...accessRequest, message: e.target.value})}
+                            placeholder="Tell us about your interest in IndieGate.io..."
+                            rows="3"
+                            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent resize-none"
+                          />
+                        </div>
+                        
+                        {error && (
+                          <p className="text-red-400 text-sm">{error}</p>
+                        )}
+                        
+                        <Button
+                          type="submit"
+                          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                        >
+                          Submit Access Request
+                        </Button>
+                      </form>
+                      
+                      <div className="mt-4 text-center">
+                        <button
+                          onClick={() => setShowAccessRequest(false)}
+                          className="text-blue-400 hover:text-blue-300 text-sm"
+                        >
+                          ← Back to Code Entry
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h4 className="text-xl font-bold text-green-400 mb-2">Request Submitted!</h4>
+                      <p className="text-blue-200 mb-4">
+                        Thank you for your interest in IndieGate.io. We'll review your request and send you a demo access code within 24 hours.
+                      </p>
+                      <button
+                        onClick={() => {
+                          setShowAccessRequest(false)
+                          setRequestSubmitted(false)
+                          setAccessRequest({name: '', email: '', company: '', role: '', message: ''})
+                        }}
+                        className="text-blue-400 hover:text-blue-300 text-sm"
+                      >
+                        ← Back to Code Entry
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
 
