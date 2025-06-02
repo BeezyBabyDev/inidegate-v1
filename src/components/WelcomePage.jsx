@@ -249,25 +249,73 @@ const WelcomePage = ({ onEnterCode }) => {
 
       // Option 1: EmailJS Integration (when configured)
       if (isEmailJSConfigured()) {
-        await emailjs.send(
-          EMAILJS_CONFIG.serviceId,
-          EMAILJS_CONFIG.templateId,
-          {
-            to_email: EMAILJS_CONFIG.adminEmail,
-            from_name: formData.name,
-            from_email: formData.email,
-            company: formData.company || 'Not specified',
-            role: formData.role || 'Not specified',
-            message: formData.message || 'No message provided',
-            timestamp: formData.timestamp,
-            submission_date: formData.submissionDate,
-            submission_time: formData.submissionTime,
-            user_agent: formData.userAgent,
-            referrer: formData.referrer
-          },
-          EMAILJS_CONFIG.publicKey
-        )
-        console.log('✅ Email sent successfully via EmailJS')
+        // Send email to all three recipients
+        const emailPromises = [
+          // Email to Joe
+          emailjs.send(
+            EMAILJS_CONFIG.serviceId,
+            EMAILJS_CONFIG.templateId,
+            {
+              to_email: EMAILJS_CONFIG.adminEmails.primary,
+              to_name: 'Joe',
+              from_name: formData.name,
+              from_email: formData.email,
+              company: formData.company || 'Not specified',
+              role: formData.role || 'Not specified',
+              message: formData.message || 'No message provided',
+              timestamp: formData.timestamp,
+              submission_date: formData.submissionDate,
+              submission_time: formData.submissionTime,
+              user_agent: formData.userAgent,
+              referrer: formData.referrer
+            },
+            EMAILJS_CONFIG.publicKey
+          ),
+          // Email to Jourdain
+          emailjs.send(
+            EMAILJS_CONFIG.serviceId,
+            EMAILJS_CONFIG.templateId,
+            {
+              to_email: EMAILJS_CONFIG.adminEmails.secondary,
+              to_name: 'Jourdain',
+              from_name: formData.name,
+              from_email: formData.email,
+              company: formData.company || 'Not specified',
+              role: formData.role || 'Not specified',
+              message: formData.message || 'No message provided',
+              timestamp: formData.timestamp,
+              submission_date: formData.submissionDate,
+              submission_time: formData.submissionTime,
+              user_agent: formData.userAgent,
+              referrer: formData.referrer
+            },
+            EMAILJS_CONFIG.publicKey
+          ),
+          // Email to Partnerships
+          emailjs.send(
+            EMAILJS_CONFIG.serviceId,
+            EMAILJS_CONFIG.templateId,
+            {
+              to_email: EMAILJS_CONFIG.adminEmails.partnerships,
+              to_name: 'Partnerships Team',
+              from_name: formData.name,
+              from_email: formData.email,
+              company: formData.company || 'Not specified',
+              role: formData.role || 'Not specified',
+              message: formData.message || 'No message provided',
+              timestamp: formData.timestamp,
+              submission_date: formData.submissionDate,
+              submission_time: formData.submissionTime,
+              user_agent: formData.userAgent,
+              referrer: formData.referrer
+            },
+            EMAILJS_CONFIG.publicKey
+          )
+        ]
+
+        // Send all emails simultaneously
+        await Promise.all(emailPromises)
+        console.log('✅ Emails sent successfully to all FBFMH recipients')
       } else {
         console.log('⚠️ EmailJS not configured - using localStorage backup only')
       }
