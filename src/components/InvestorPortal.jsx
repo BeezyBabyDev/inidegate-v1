@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react'
 import Card from './Card'
 import Button from './Button'
@@ -582,14 +583,18 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     <div className="space-y-6">
       <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
         <h3 className="text-lg font-semibold text-white mb-6">Investment Portfolio</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-center">
             <h4 className="text-2xl font-bold text-white">$12.8M</h4>
             <p className="text-green-100">Total Invested</p>
           </div>
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-6 text-center">
+            <h4 className="text-2xl font-bold text-white">$15.2M</h4>
+            <p className="text-blue-100">Total Commitments</p>
+          </div>
+          <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg p-6 text-center">
             <h4 className="text-2xl font-bold text-white">24</h4>
-            <p className="text-blue-100">Projects Financed</p>
+            <p className="text-indigo-100">Films Financed</p>
           </div>
           <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg p-6 text-center">
             <h4 className="text-2xl font-bold text-white">315%</h4>
@@ -598,50 +603,105 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         </div>
 
         <h4 className="text-lg font-semibold text-white mb-4">Recent Investments</h4>
-        <div className="space-y-4">
-          {[
-            {
-              title: 'The Silent Hour',
-              amount: '$850K',
-              stage: 'Completed',
-              roi: '+420%',
-              status: 'success',
-            },
-            {
-              title: 'City of Dreams',
-              amount: '$1.2M',
-              stage: 'Post-Production',
-              roi: 'Pending',
-              status: 'pending',
-            },
-            {
-              title: 'Broken Chains',
-              amount: '$650K',
-              stage: 'Distribution',
-              roi: '+280%',
-              status: 'success',
-            },
-          ].map((investment, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center p-4 bg-white/5 rounded-lg"
-            >
-              <div>
-                <h5 className="font-medium text-white">{investment.title}</h5>
-                <p className="text-sm text-gray-300">{investment.stage}</p>
+        
+        {/* Enhanced Table Header */}
+        <div className="bg-white/5 rounded-lg mb-4">
+          <div className="grid grid-cols-6 gap-4 p-4 text-sm font-medium text-gray-300 border-b border-white/10">
+            <div>Project Name</div>
+            <div>Status</div>
+            <div>Commitment</div>
+            <div>Fees</div>
+            <div>Expenses</div>
+            <div>Contributions</div>
+          </div>
+          
+          {/* Investment Rows */}
+          <div className="space-y-0">
+            {[
+              {
+                title: 'The Silent Hour',
+                stage: 'Completed',
+                commitment: '$850K',
+                fees: '$42.5K',
+                expenses: '$78.2K',
+                contributions: '$729.3K',
+                status: 'success',
+                statusColor: 'text-green-400'
+              },
+              {
+                title: 'City of Dreams',
+                stage: 'Post-Production',
+                commitment: '$1.2M',
+                fees: '$60K',
+                expenses: '$124.8K',
+                contributions: '$1.015M',
+                status: 'pending',
+                statusColor: 'text-yellow-400'
+              },
+              {
+                title: 'Broken Chains',
+                stage: 'Distribution',
+                commitment: '$650K',
+                fees: '$32.5K',
+                expenses: '$89.7K',
+                contributions: '$527.8K',
+                status: 'success',
+                statusColor: 'text-green-400'
+              },
+            ].map((investment, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-6 gap-4 p-4 hover:bg-white/5 transition-colors border-b border-white/5 last:border-b-0"
+              >
+                <div>
+                  <h5 className="font-medium text-white">{investment.title}</h5>
+                </div>
+                <div>
+                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                    investment.status === 'success' 
+                      ? 'bg-green-900/30 text-green-400 border border-green-700/50' 
+                      : 'bg-yellow-900/30 text-yellow-400 border border-yellow-700/50'
+                  }`}>
+                    {investment.stage}
+                  </span>
+                </div>
+                <div>
+                  <p className="font-medium text-white">{investment.commitment}</p>
+                </div>
+                <div>
+                  <p className="text-gray-300">{investment.fees}</p>
+                </div>
+                <div>
+                  <p className="text-gray-300">{investment.expenses}</p>
+                </div>
+                <div>
+                  <p className="font-medium text-blue-400">{investment.contributions}</p>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="font-medium text-white">{investment.amount}</p>
-                <p
-                  className={`text-sm ${
-                    investment.status === 'success' ? 'text-green-400' : 'text-yellow-400'
-                  }`}
-                >
-                  {investment.roi}
-                </p>
-              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Portfolio Summary */}
+        <div className="mt-6 p-4 bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-lg border border-blue-700/30">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <p className="text-sm text-gray-300">Total Commitments</p>
+              <p className="text-lg font-semibold text-white">$2.7M</p>
             </div>
-          ))}
+            <div>
+              <p className="text-sm text-gray-300">Total Fees</p>
+              <p className="text-lg font-semibold text-yellow-400">$135K</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-300">Total Expenses</p>
+              <p className="text-lg font-semibold text-red-400">$292.7K</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-300">Net Contributions</p>
+              <p className="text-lg font-semibold text-green-400">$2.272M</p>
+            </div>
+          </div>
         </div>
       </Card>
     </div>
