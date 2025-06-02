@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import Button from './Button'
+import { EMAILJS_CONFIG, isEmailJSConfigured } from '../config/emailjs'
 
 // IndieGate.io Logo Component - Official Design
 const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
@@ -204,6 +206,7 @@ const WelcomePage = ({ onEnterCode }) => {
   })
   const [showAccessRequest, setShowAccessRequest] = useState(false)
   const [requestSubmitted, setRequestSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -223,17 +226,83 @@ const WelcomePage = ({ onEnterCode }) => {
     }
   }
 
-  const handleAccessRequest = (e) => {
+  const handleAccessRequest = async (e) => {
     e.preventDefault()
     if (!accessRequest.name || !accessRequest.email) {
       setError('Please fill in all required fields')
       return
     }
     
-    // In production, this would submit to an API
-    console.log('Access request submitted:', accessRequest)
-    setRequestSubmitted(true)
+    setIsSubmitting(true)
     setError('')
+
+    try {
+      // Prepare form data with timestamp
+      const formData = {
+        ...accessRequest,
+        timestamp: new Date().toISOString(),
+        submissionDate: new Date().toLocaleDateString(),
+        submissionTime: new Date().toLocaleTimeString(),
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || 'Direct visit'
+      }
+
+      // Option 1: EmailJS Integration (when configured)
+      if (isEmailJSConfigured()) {
+        await emailjs.send(
+          EMAILJS_CONFIG.serviceId,
+          EMAILJS_CONFIG.templateId,
+          {
+            to_email: EMAILJS_CONFIG.adminEmail,
+            from_name: formData.name,
+            from_email: formData.email,
+            company: formData.company || 'Not specified',
+            role: formData.role || 'Not specified',
+            message: formData.message || 'No message provided',
+            timestamp: formData.timestamp,
+            submission_date: formData.submissionDate,
+            submission_time: formData.submissionTime,
+            user_agent: formData.userAgent,
+            referrer: formData.referrer
+          },
+          EMAILJS_CONFIG.publicKey
+        )
+        console.log('✅ Email sent successfully via EmailJS')
+      } else {
+        console.log('⚠️ EmailJS not configured - using localStorage backup only')
+      }
+
+      // Option 2: Alternative backup - localStorage + console (always runs)
+      const storedRequests = JSON.parse(localStorage.getItem('indiegate_access_requests') || '[]')
+      storedRequests.push(formData)
+      localStorage.setItem('indiegate_access_requests', JSON.stringify(storedRequests))
+      
+      console.log('📧 Access request submitted:', formData)
+      console.log('💾 Stored in localStorage for backup')
+      
+      setRequestSubmitted(true)
+      
+    } catch (error) {
+      console.error('❌ Error submitting access request:', error)
+      setError('Failed to submit request. Please try again or contact support.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  // Admin function to view stored requests (for development)
+  const viewStoredRequests = () => {
+    const stored = localStorage.getItem('indiegate_access_requests')
+    if (stored) {
+      console.log('📋 Stored Access Requests:', JSON.parse(stored))
+    } else {
+      console.log('📋 No stored requests found')
+    }
+  }
+
+  // Call this in console: window.viewStoredRequests()
+  if (typeof window !== 'undefined') {
+    window.viewStoredRequests = viewStoredRequests
   }
 
   return (
@@ -432,9 +501,23 @@ const WelcomePage = ({ onEnterCode }) => {
                         
                         <Button
                           type="submit"
-                          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                          disabled={isSubmitting}
+                          className={`w-full ${isSubmitting 
+                            ? 'bg-gray-600 cursor-not-allowed' 
+                            : 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
+                          } text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg`}
                         >
-                          Submit Access Request
+                          {isSubmitting ? (
+                            <div className="flex items-center justify-center space-x-2">
+                              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              <span>Submitting...</span>
+                            </div>
+                          ) : (
+                            'Submit Access Request'
+                          )}
                         </Button>
                       </form>
                       
