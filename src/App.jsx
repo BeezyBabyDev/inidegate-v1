@@ -36,7 +36,8 @@ function App() {
     // Enhanced code validation for MVP demo
     const validCodes = [
       'INDIEGATE2024',  // Master access code for MVP demo
-      'DEMO2024', 
+      'DEMO2025',      // Current demo code
+      'DEMO2024',      // Legacy demo code 
       'INDIE', 
       'FILMMAKER', 
       'INVESTOR', 
@@ -52,7 +53,7 @@ function App() {
       const url = window.location.origin + window.location.pathname + '?code=' + code
       window.history.pushState({}, '', url)
     } else {
-      alert('Invalid registrant code. Try the demo code: DEMO2024')
+      alert('Invalid registrant code. Try the demo code: DEMO2025')
     }
   }
 
@@ -89,7 +90,7 @@ function App() {
 
     try {
       const baseUrl = window.location.origin + window.location.pathname.replace(/\/+$/, '') || ''
-      const newUrl = `${baseUrl}?portal=${portal}&code=DEMO2024`
+      const newUrl = `${baseUrl}?portal=${portal}&code=DEMO2025`
       window.history.pushState({}, '', newUrl)
       setCurrentView(portal)
     } catch (error) {
@@ -101,7 +102,7 @@ function App() {
   const handleBackToPortalSelection = () => {
     setCurrentView('portal-selection')
     // Update URL to remove portal parameter but keep code
-    const url = window.location.origin + window.location.pathname + '?code=DEMO2024'
+    const url = window.location.origin + window.location.pathname + '?code=DEMO2025'
     window.history.pushState({}, '', url)
   }
 
