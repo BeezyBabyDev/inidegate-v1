@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from './Button'
 
 // IndieGate.io Logo Component - Official Design
