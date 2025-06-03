@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Button from './Button'
 
 // IndieGate.io Logo Component - Official Design
@@ -223,121 +223,6 @@ const WelcomePage = ({ onEnterCode }) => {
     }
   }
 
-  const handleAccessRequest = async (e) => {
-    e.preventDefault()
-    if (!accessRequest.name || !accessRequest.email) {
-      setError('Please fill in all required fields')
-      return
-    }
-    
-    setIsSubmitting(true)
-    setError('')
-
-    try {
-      // Prepare form data with timestamp
-      const formData = {
-        ...accessRequest,
-        timestamp: new Date().toISOString(),
-        submissionDate: new Date().toLocaleDateString(),
-        submissionTime: new Date().toLocaleTimeString(),
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || 'Direct visit'
-      }
-
-      // Option 1: EmailJS Integration (when configured)
-      if (isEmailJSConfigured()) {
-        // Send email to all three recipients
-        const emailPromises = [
-          // Email to Joe
-          emailjs.send(
-            EMAILJS_CONFIG.serviceId,
-            EMAILJS_CONFIG.templateId,
-            {
-              to_email: EMAILJS_CONFIG.adminEmails.primary,
-              to_name: 'Joe',
-              from_name: formData.name,
-              from_email: formData.email,
-              company: formData.company || 'Not specified',
-              role: formData.role || 'Not specified',
-              message: formData.message || 'No message provided',
-              timestamp: formData.timestamp,
-              submission_date: formData.submissionDate,
-              submission_time: formData.submissionTime,
-              user_agent: formData.userAgent,
-              referrer: formData.referrer
-            },
-            EMAILJS_CONFIG.publicKey
-          ),
-          // Email to Jourdain
-          emailjs.send(
-            EMAILJS_CONFIG.serviceId,
-            EMAILJS_CONFIG.templateId,
-            {
-              to_email: EMAILJS_CONFIG.adminEmails.secondary,
-              to_name: 'Jourdain',
-              from_name: formData.name,
-              from_email: formData.email,
-              company: formData.company || 'Not specified',
-              role: formData.role || 'Not specified',
-              message: formData.message || 'No message provided',
-              timestamp: formData.timestamp,
-              submission_date: formData.submissionDate,
-              submission_time: formData.submissionTime,
-              user_agent: formData.userAgent,
-              referrer: formData.referrer
-            },
-            EMAILJS_CONFIG.publicKey
-          ),
-          // Email to Partnerships
-          emailjs.send(
-            EMAILJS_CONFIG.serviceId,
-            EMAILJS_CONFIG.templateId,
-            {
-              to_email: EMAILJS_CONFIG.adminEmails.partnerships,
-              to_name: 'Partnerships Team',
-              from_name: formData.name,
-              from_email: formData.email,
-              company: formData.company || 'Not specified',
-              role: formData.role || 'Not specified',
-              message: formData.message || 'No message provided',
-              timestamp: formData.timestamp,
-              submission_date: formData.submissionDate,
-              submission_time: formData.submissionTime,
-              user_agent: formData.userAgent,
-              referrer: formData.referrer
-            },
-            EMAILJS_CONFIG.publicKey
-          )
-        ]
-
-        // Send all emails simultaneously
-        await Promise.all(emailPromises)
-        console.log('✅ Emails sent successfully to all FBFMH recipients')
-      } else {
-        console.log('⚠️ EmailJS not configured - using localStorage backup only')
-      }
-
-      // Option 2: Alternative backup - localStorage + console (always runs)
-      const storedRequests = JSON.parse(localStorage.getItem('indiegate_access_requests') || '[]')
-      storedRequests.push(formData)
-      localStorage.setItem('indiegate_access_requests', JSON.stringify(storedRequests))
-      
-      console.log('📧 Access request submitted:', formData)
-      console.log('💾 Stored in localStorage for backup')
-      
-      setRequestSubmitted(true)
-      
-    } catch (error) {
-      console.error('❌ Error submitting access request:', error)
-      setError('Failed to submit request. Please try again or contact support.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  // Admin function to view stored requests (for development)
-  const viewStoredRequests = () => {
-    const stored = localStorage.getItem('indiegate_access_requests')
     if (stored) {
       console.log('📋 Stored Access Requests:', JSON.parse(stored))
     } else {
@@ -345,10 +230,6 @@ const WelcomePage = ({ onEnterCode }) => {
     }
   }
 
-  // Call this in console: window.viewStoredRequests()
-  if (typeof window !== 'undefined') {
-    window.viewStoredRequests = viewStoredRequests
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
@@ -466,7 +347,7 @@ const WelcomePage = ({ onEnterCode }) => {
 
                   <div className="mt-6 pt-6 border-t border-white/20 text-center">
                     <p className="text-blue-200 text-sm mb-4">
-                      Don't have a registrant code?
+                      Don&apos;t have a registrant code?
                     </p>
                     <button
                       onClick={() => setShowAccessRequest(true)}
@@ -482,7 +363,7 @@ const WelcomePage = ({ onEnterCode }) => {
                     <>
                       <p className="text-blue-200 mb-6">Request access to the IndieGate.io platform</p>
                       
-                      <form onSubmit={handleAccessRequest} className="space-y-4">
+                      <form action="https://formspree.io/f/mldneoov" method="POST" className="space-y-4">
                         <div>
                           <input
                             type="text"
