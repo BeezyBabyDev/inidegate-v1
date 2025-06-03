@@ -1,8 +1,5 @@
-import React from 'react'
-import { useState } from 'react'
-import emailjs from '@emailjs/browser'
+import React, { useState } from 'react'
 import Button from './Button'
-import { EMAILJS_CONFIG, isEmailJSConfigured } from '../config/emailjs'
 
 // IndieGate.io Logo Component - Official Design
 const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
