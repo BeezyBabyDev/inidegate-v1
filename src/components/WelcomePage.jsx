@@ -129,13 +129,9 @@ const WelcomePage = ({ onEnterCode }) => {
       React.createElement(
         'h1',
         { className: 'text-4xl md:text-6xl font-bold text-white mb-6' },
-        'The premier AI-driven platform connecting visionary film investors, talented filmmakers,'
+        'Welcome to IndieGate.io'
       ),
-      React.createElement(
-        'p',
-        { className: 'text-xl text-indigo-200 max-w-4xl mx-auto' },
-        'on-camera talent, and brand partners. Turn your creative vision into cinematic reality.'
-      )
+      React.createElement('p', { className: 'text-xl text-indigo-200 max-w-4xl mx-auto' }, '')
     ),
     React.createElement(
       'div',
