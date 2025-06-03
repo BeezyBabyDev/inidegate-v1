@@ -125,13 +125,12 @@ const WelcomePage = ({ onEnterCode }) => {
     },
     React.createElement(
       'div',
-      { className: 'text-center py-16' },
+      { className: 'text-center pt-20 md:pt-24 pb-12' },
       React.createElement(
         'h1',
         { className: 'text-4xl md:text-6xl font-bold text-white mb-6' },
         'Welcome to IndieGate.io'
-      ),
-      React.createElement('p', { className: 'text-xl text-indigo-200 max-w-4xl mx-auto' }, '')
+      )
     ),
     React.createElement(
       'div',
