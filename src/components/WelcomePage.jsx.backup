@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React from 'react'
+import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 import Button from './Button'
 import { EMAILJS_CONFIG, isEmailJSConfigured } from '../config/emailjs'
@@ -468,7 +469,7 @@ const WelcomePage = ({ onEnterCode }) => {
 
                   <div className="mt-6 pt-6 border-t border-white/20 text-center">
                     <p className="text-blue-200 text-sm mb-4">
-                      Don&apos;t have a registrant code?
+                      Don't have a registrant code?
                     </p>
                     <button
                       onClick={() => setShowAccessRequest(true)}
@@ -586,7 +587,7 @@ const WelcomePage = ({ onEnterCode }) => {
                       </div>
                       <h4 className="text-xl font-bold text-green-400 mb-2">Request Submitted!</h4>
                       <p className="text-blue-200 mb-4">
-                        Thank you for your interest in IndieGate.io. We&apos;ll review your request and send you a demo access code within 24 hours.
+                        Thank you for your interest in IndieGate.io. We'll review your request and send you a demo access code within 24 hours.
                       </p>
                       <button
                         onClick={() => {
