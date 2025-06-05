@@ -5,6 +5,7 @@ import InvestorProfileEditor from './InvestorProfileEditor'
 import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 import PublicProfile from './PublicProfile'
+import MessagingInterface from './MessagingInterface'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
 const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
@@ -201,6 +202,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   const [profileView, setProfileView] = useState('showcase')
   const [showPublicProfile, setShowPublicProfile] = useState(false)
   const [currentPublicProfileId, setCurrentPublicProfileId] = useState(null)
+  const [messagingContact, setMessagingContact] = useState(null)
 
   // Sample investor profile data
   const [profileData, setProfileData] = useState({
@@ -269,7 +271,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   }
 
   // Public Profile Handlers
-  const handleShowPublicProfile = (userId) => {
+  const handleShowPublicProfile = userId => {
     setCurrentPublicProfileId(userId)
     setShowPublicProfile(true)
   }
@@ -277,6 +279,27 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   const handleBackToPortal = () => {
     setShowPublicProfile(false)
     setCurrentPublicProfileId(null)
+  }
+
+  const handleOpenMessaging = userId => {
+    // Convert userId back to name for messaging
+    const publicProfiles = {
+      'sarah-montgomery': { name: 'Sarah Montgomery' },
+      'michael-chen': { name: 'Michael Chen' },
+      'david-park': { name: 'David Park' },
+      'alex-rivera': { name: 'Alex Rivera' },
+      'maria-santos': { name: 'Maria Santos' },
+    }
+
+    const profile = publicProfiles[userId]
+    if (profile) {
+      setMessagingContact({ userId, name: profile.name })
+      setShowPublicProfile(false) // Close public profile when opening messaging
+    }
+  }
+
+  const handleCloseMessaging = () => {
+    setMessagingContact(null)
   }
 
   const renderProfileTab = () => {
@@ -746,10 +769,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
 
   const renderCommunityTab = () => (
     <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-      <CommunityForum 
-        userType="investor" 
-        onShowPublicProfile={handleShowPublicProfile}
-      />
+      <CommunityForum userType="investor" onShowPublicProfile={handleShowPublicProfile} />
     </div>
   )
 
@@ -762,10 +782,21 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   // Main render logic - handle public profile view
   if (showPublicProfile && currentPublicProfileId) {
     return (
-      <PublicProfile 
-        userId={currentPublicProfileId} 
-        onBack={handleBackToPortal}
-      />
+      <>
+        <PublicProfile
+          userId={currentPublicProfileId}
+          onBack={handleBackToPortal}
+          onOpenMessaging={handleOpenMessaging}
+        />
+        {/* Messaging Interface */}
+        {messagingContact && (
+          <MessagingInterface
+            contactUserId={messagingContact.userId}
+            contactName={messagingContact.name}
+            onClose={handleCloseMessaging}
+          />
+        )}
+      </>
     )
   }
 
@@ -900,6 +931,15 @@ const InvestorPortal = ({ onLogout, onBack }) => {
           {activeTab === '📈 Analytics' && renderAnalyticsTab()}
         </div>
       </div>
+
+      {/* Messaging Interface - Available from main portal */}
+      {messagingContact && (
+        <MessagingInterface
+          contactUserId={messagingContact.userId}
+          contactName={messagingContact.name}
+          onClose={handleCloseMessaging}
+        />
+      )}
     </div>
   )
 }
