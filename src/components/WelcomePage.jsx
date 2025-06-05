@@ -1,7 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
-import { User, Camera, TrendingUp, Building, ArrowRight, Zap } from 'lucide-react'
 import Button from './Button'
+
+// Simple icon components as fallback since lucide-react isn't installed
+const User = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '👤')
+const Camera = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🎬')
+const TrendingUp = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '📈')
+const Building = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🏢')
+const ArrowRight = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '→')
+const Zap = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '⚡')
 
 const WelcomePage = ({ onEnterCode }) => {
   const [registrantCode, setRegistrantCode] = useState('')
@@ -11,7 +18,7 @@ const WelcomePage = ({ onEnterCode }) => {
   const [showPortalSelection, setShowPortalSelection] = useState(false)
   
   // Debug log to confirm component is loading
-  console.log('WelcomePage loaded with portal selection interface')
+  console.log('WelcomePage loaded with portal selection interface - FIXED ICON ISSUE')
   const handleSubmit = e => {
     e.preventDefault()
     if (!registrantCode.trim()) {
