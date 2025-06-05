@@ -171,42 +171,42 @@ const WelcomePage = ({ onEnterCode }) => {
     return React.createElement(
       'div',
       {
-        className: 'min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 flex items-center justify-center p-4'
+        className: 'min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 flex items-center justify-center p-2'
       },
       React.createElement(
         'div',
         {
-          className: 'bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-md w-full border border-white/20'
+          className: 'bg-white/10 backdrop-blur-lg rounded-lg p-3 max-w-xs w-full border border-white/20 transform scale-75'
         },
         React.createElement(
           'div',
-          { className: 'text-center mb-8' },
+          { className: 'text-center mb-3' },
           React.createElement(
             'div',
-            { className: `w-16 h-16 bg-gradient-to-r ${config.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl` },
-            React.createElement(IconComponent, { className: 'w-8 h-8 text-white' })
+            { className: `w-6 h-6 bg-gradient-to-r ${config.color} rounded-lg flex items-center justify-center mx-auto mb-2 shadow-lg` },
+            React.createElement(IconComponent, { className: 'w-3 h-3 text-white' })
           ),
           React.createElement(
             'h2',
-            { className: 'text-3xl font-bold text-white mb-4' },
+            { className: 'text-lg font-bold text-white mb-2' },
             config.title
           ),
           React.createElement(
             'p',
-            { className: 'text-indigo-200 text-sm' },
+            { className: 'text-indigo-200 text-xs' },
             config.description
           )
         ),
 
         React.createElement(
           'div',
-          { className: 'space-y-4 mb-6' },
+          { className: 'space-y-2 mb-3' },
           React.createElement(
             'div',
             {},
             React.createElement(
               'p',
-              { className: 'text-indigo-300 mb-3 text-sm font-medium' },
+              { className: 'text-indigo-300 mb-1 text-xs font-medium' },
               'Enter your portal access code:'
             ),
             React.createElement(
@@ -218,24 +218,24 @@ const WelcomePage = ({ onEnterCode }) => {
                     onEnterCode(registrantCode);
                   }
                 },
-                className: 'space-y-4' 
+                className: 'space-y-2' 
               },
               React.createElement('input', {
                 type: 'text',
                 placeholder: 'Enter portal access code',
                 value: registrantCode,
                 onChange: (e) => setRegistrantCode(e.target.value),
-                className: 'w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                className: 'w-full px-2 py-1 bg-white/10 border border-white/20 rounded-md text-xs text-white placeholder-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-500'
               }),
-              error && React.createElement('div', { className: 'text-red-400 text-center text-sm' }, error),
+              error && React.createElement('div', { className: 'text-red-400 text-center text-xs' }, error),
               React.createElement(
                 'button',
                 {
                   type: 'submit',
-                  className: `w-full bg-gradient-to-r ${config.color} hover:opacity-90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2`
+                  className: `w-full bg-gradient-to-r ${config.color} hover:opacity-90 text-white font-semibold py-1 px-3 rounded-md transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-1 text-xs`
                 },
                 React.createElement('span', {}, `Enter ${config.title}`),
-                React.createElement(ArrowRight, { className: 'w-5 h-5' })
+                React.createElement(ArrowRight, { className: 'w-3 h-3' })
               )
             )
           ),
@@ -245,12 +245,12 @@ const WelcomePage = ({ onEnterCode }) => {
             {},
             React.createElement(
               'p',
-              { className: 'text-indigo-300 mb-3 text-sm font-medium' },
+              { className: 'text-indigo-300 mb-1 text-xs font-medium' },
               'Demo access codes:'
             ),
             React.createElement(
               'div',
-              { className: 'grid grid-cols-1 gap-2' },
+              { className: 'grid grid-cols-1 gap-1' },
               config.codes.map((code, index) => 
                 React.createElement(
                   'button',
@@ -260,17 +260,17 @@ const WelcomePage = ({ onEnterCode }) => {
                       setRegistrantCode(code);
                       onEnterCode(code);
                     },
-                    className: 'text-left p-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-colors group'
+                    className: 'text-left p-1 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md transition-colors group'
                   },
                   React.createElement(
                     'div',
                     { className: 'flex items-center justify-between' },
                     React.createElement(
                       'code',
-                      { className: 'text-yellow-300 text-sm font-mono' },
+                      { className: 'text-yellow-300 text-xs font-mono' },
                       code
                     ),
-                    React.createElement(Zap, { className: 'w-4 h-4 text-indigo-300 group-hover:text-white transition-colors' })
+                    React.createElement(Zap, { className: 'w-2 h-2 text-indigo-300 group-hover:text-white transition-colors' })
                   )
                 )
               )
@@ -280,7 +280,7 @@ const WelcomePage = ({ onEnterCode }) => {
 
         React.createElement(
           'div',
-          { className: 'text-center' },
+          { className: 'text-center mt-2' },
           React.createElement(
             'button',
             {
@@ -290,7 +290,7 @@ const WelcomePage = ({ onEnterCode }) => {
                 setRegistrantCode('');
                 setError('');
               },
-              className: 'text-indigo-300 hover:text-white transition-colors text-sm'
+              className: 'text-indigo-300 hover:text-white transition-colors text-xs'
             },
             '← Back to Portal Selection'
           )
