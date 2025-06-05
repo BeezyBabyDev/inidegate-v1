@@ -9,6 +9,9 @@ const WelcomePage = ({ onEnterCode }) => {
   const [showAccessRequest, setShowAccessRequest] = useState(false)
   const [selectedPortal, setSelectedPortal] = useState(null)
   const [showPortalSelection, setShowPortalSelection] = useState(false)
+  
+  // Debug log to confirm component is loading
+  console.log('WelcomePage loaded with portal selection interface')
   const handleSubmit = e => {
     e.preventDefault()
     if (!registrantCode.trim()) {
