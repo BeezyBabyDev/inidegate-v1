@@ -1,6 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { User, Camera, TrendingUp, Building, Bell, MessageCircle, Users, Star, ArrowLeft, Settings, LogOut, Eye, EyeOff, Loader2, CheckCircle, AlertCircle, Home } from 'lucide-react';
 import { getProfile } from '../data/demoProfiles';
+
+// Simple icon components as fallback since lucide-react isn't installed
+const User = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '👤')
+const Camera = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🎬')
+const TrendingUp = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '📈')
+const Building = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🏢')
+const Bell = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🔔')
+const MessageCircle = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '💬')
+const Users = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '👥')
+const Star = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '⭐')
+const ArrowLeft = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '←')
+const Settings = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '⚙️')
+const LogOut = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🚪')
+const Eye = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '👁️')
+const EyeOff = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🙈')
+const Loader2 = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white animate-spin` }, '⟳')
+const CheckCircle = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-green-400` }, '✓')
+const AlertCircle = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-red-400` }, '⚠️')
+const Home = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🏠')
 
 const MultiPortalSystem = () => {
   const [currentView, setCurrentView] = useState('login');

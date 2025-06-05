@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { User, Camera, TrendingUp, Building, Copy, Check, ArrowRight, Users, Star, Zap } from 'lucide-react';
+// Simple icon components as fallback since lucide-react isn't installed
+const User = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '👤')
+const Camera = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🎬')
+const TrendingUp = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '📈')
+const Building = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '🏢')
+const Copy = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '📋')
+const Check = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-green-400` }, '✓')
+const ArrowRight = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '→')
+const Users = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '👥')
+const Star = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '⭐')
+const Zap = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '⚡')
 
 const DemoLandingPage = ({ onAccessMultiPortal }) => {
   const [copiedCredential, setCopiedCredential] = useState(null);
