@@ -44,31 +44,31 @@ const WelcomePage = ({ onEnterCode }) => {
         'div',
         {
           className:
-            'bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-md w-full border border-white/20',
+            'bg-white/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20',
         },
         React.createElement(
           'div',
-          { className: 'text-center mb-8' },
+          { className: 'text-center mb-6' },
           React.createElement(
             'h2',
-            { className: 'text-3xl font-bold text-white mb-4' },
+            { className: 'text-2xl font-bold text-white mb-4' },
             'Ready to Get Started?'
           ),
           React.createElement(
             'p',
-            { className: 'text-indigo-200' },
+            { className: 'text-indigo-200 text-sm' },
             'Request access to the IndieGate.io platform'
           )
         ),
         React.createElement(
           'form',
-          { action: 'https://formspree.io/f/mldneoov', method: 'POST', className: 'space-y-6' },
+          { action: 'https://formspree.io/f/mldneoov', method: 'POST', className: 'space-y-4' },
           React.createElement('input', {
             type: 'text',
             name: 'name',
             placeholder: 'Full Name *',
             className:
-              'w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
+              'w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
             required: true,
           }),
           React.createElement('input', {
@@ -76,7 +76,7 @@ const WelcomePage = ({ onEnterCode }) => {
             name: 'email',
             placeholder: 'Email Address *',
             className:
-              'w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
+              'w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
             required: true,
           }),
           React.createElement('input', {
@@ -84,14 +84,14 @@ const WelcomePage = ({ onEnterCode }) => {
             name: 'company',
             placeholder: 'Company/Organization',
             className:
-              'w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
+              'w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
           }),
           React.createElement(
             'select',
             {
               name: 'role',
               className:
-                'w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500',
+                'w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500',
             },
             React.createElement('option', { value: '' }, 'Select Your Role'),
             React.createElement('option', { value: 'Investor' }, 'Investor'),
@@ -102,28 +102,28 @@ const WelcomePage = ({ onEnterCode }) => {
           React.createElement('textarea', {
             name: 'message',
             placeholder: 'Tell us about your interest in IndieGate.io...',
-            rows: 4,
+            rows: 3,
             className:
-              'w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none',
+              'w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none',
           }),
           React.createElement(
             'button',
             {
               type: 'submit',
               className:
-                'w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105',
+                'w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 text-sm',
             },
             'Submit Access Request'
           )
         ),
         React.createElement(
           'div',
-          { className: 'text-center mt-6' },
+          { className: 'text-center mt-4' },
           React.createElement(
             'button',
             {
               onClick: () => setShowAccessRequest(false),
-              className: 'text-indigo-300 hover:text-white transition-colors',
+              className: 'text-indigo-300 hover:text-white transition-colors text-sm',
             },
             '← Back to Code Entry'
           )
