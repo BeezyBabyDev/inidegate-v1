@@ -485,6 +485,8 @@ const CreativePortal = ({ onLogout, onBack }) => {
   }
 
   const renderProfileTab = () => {
+    console.log('🎬 ProfileTab: Rendering filmmaker profile', profileData)
+
     if (profileView === 'editor') {
       return (
         <TalentProfileEditor
@@ -497,16 +499,196 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
     return (
       <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-white">My Talent Profile</h2>
-          <Button
-            onClick={() => setProfileView('editor')}
-            className="bg-purple-600 hover:bg-purple-700 text-white"
-          >
-            Edit Profile
-          </Button>
+        {/* Enhanced Profile Header */}
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white">My Filmmaker Profile</h2>
+            <Button
+              onClick={() => setProfileView('editor')}
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              Edit Profile
+            </Button>
+          </div>
+
+          <div className="flex items-start space-x-6">
+            <div className="relative">
+              <img
+                src={profileData.avatar}
+                alt={profileData.name}
+                className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+              />
+              {profileData.verified && (
+                <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              )}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center space-x-3">
+                <h1 className="text-2xl font-bold text-white">{profileData.name}</h1>
+                {profileData.verified && (
+                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <p className="text-lg text-purple-400 font-medium">{profileData.primaryRole}</p>
+              <p className="text-blue-200">{profileData.careerStage || 'Independent Filmmaker'}</p>
+              <div className="flex items-center space-x-4 mt-2">
+                <p className="text-sm text-gray-300 flex items-center">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  {profileData.location}
+                </p>
+                <p className="text-sm text-gray-300">{profileData.yearsExperience || '8+ years'}</p>
+                <p className="text-sm text-gray-300">{profileData.education || 'Film School Graduate'}</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="flex space-x-2 mb-3">
+                <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+                  Connect
+                </Button>
+                <Button size="sm" variant="outline" className="border-white text-white hover:bg-white/10">
+                  Message
+                </Button>
+                <Button size="sm" variant="outline" className="border-white text-white hover:bg-white/10">
+                  Follow
+                </Button>
+              </div>
+              <p className="text-sm text-gray-300">Status: {profileData.availability}</p>
+            </div>
+          </div>
+          <p className="mt-4 text-gray-200 leading-relaxed">{profileData.bio}</p>
         </div>
-        <TalentProfile talent={profileData} />
+
+        {/* Network Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg p-6 text-center">
+            <div className="text-2xl font-bold text-white">{profileData.connections || 142}</div>
+            <div className="text-sm text-purple-100">Connections</div>
+          </div>
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-6 text-center">
+            <div className="text-2xl font-bold text-white">{profileData.followers || 1847}</div>
+            <div className="text-sm text-blue-100">Followers</div>
+          </div>
+          <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-center">
+            <div className="text-2xl font-bold text-white">{profileData.profileViews || 3291}</div>
+            <div className="text-sm text-green-100">Profile Views</div>
+          </div>
+        </div>
+
+        {/* Skills & Expertise */}
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Skills & Expertise</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-medium text-white mb-2">Primary Roles</h4>
+              <div className="flex flex-wrap gap-2">
+                {(profileData.primaryRoles || [profileData.primaryRole, profileData.secondaryRole]).filter(Boolean).map((role, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-purple-600 text-purple-100 text-sm rounded-full"
+                  >
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Genre Specializations</h4>
+              <div className="flex flex-wrap gap-2">
+                {(profileData.genreSpecializations || profileData.genres || ['Drama', 'Documentary']).map((genre, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-blue-600 text-blue-100 text-sm rounded-full"
+                  >
+                    {genre}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Technical Skills</h4>
+              <div className="flex flex-wrap gap-2">
+                {(profileData.technicalSkills || profileData.specialSkills || ['Digital Cinematography', 'Post-Production']).map((skill, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-green-600 text-green-100 text-sm rounded-full"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Budget Experience</h4>
+              <div className="flex flex-wrap gap-2">
+                {(profileData.budgetExperience || ['Micro ($0-50K)', 'Low ($50K-1M)']).map((range, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-orange-600 text-orange-100 text-sm rounded-full"
+                  >
+                    {range}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Professional Status */}
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Professional Status</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <h4 className="font-medium text-white mb-2">Current Status</h4>
+              <p className="text-green-400 font-semibold">{profileData.availability}</p>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Rate Range</h4>
+              <p className="text-blue-400">{profileData.rates}</p>
+            </div>
+            <div>
+              <h4 className="font-medium text-white mb-2">Union Memberships</h4>
+              <div className="flex flex-wrap gap-2">
+                {(profileData.unions || []).map((union, index) => (
+                  <span
+                    key={index}
+                    className="px-2 py-1 bg-gray-600 text-gray-100 text-xs rounded-full"
+                  >
+                    {union}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -939,11 +1121,119 @@ const CreativePortal = ({ onLogout, onBack }) => {
     </div>
   )
 
-  const renderCommunityTab = () => (
-    <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-      <CommunityForum userType="filmmaker" onShowPublicProfile={handleShowPublicProfile} />
-    </div>
-  )
+  const renderCommunityTab = () => {
+    console.log('🎬 CommunityTab: Rendering community tab');
+    
+    try {
+      return (
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <div className="space-y-6">
+            {/* Community Header */}
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold text-white">Filmmaker Community</h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                <span className="text-sm text-gray-300">1,247 active filmmakers</span>
+              </div>
+            </div>
+
+            {/* Error Boundary for CommunityForum */}
+            <CommunityErrorWrapper>
+              <CommunityForum 
+                userType="talent" 
+                onShowPublicProfile={handleShowPublicProfile} 
+              />
+            </CommunityErrorWrapper>
+          </div>
+        </div>
+      )
+    } catch (error) {
+      console.error('🎬 CommunityTab: Render error', error);
+      return (
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+          <div className="text-center py-8">
+            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Community Temporarily Unavailable</h3>
+            <p className="text-gray-300 mb-4">We're working to restore the community features.</p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              Refresh Page
+            </Button>
+          </div>
+        </div>
+      )
+    }
+  }
+
+  // Error Boundary Component for Community
+  const CommunityErrorWrapper = ({ children }) => {
+    const [hasError, setHasError] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleError = (error, errorInfo) => {
+      console.error('🎬 CommunityErrorWrapper: Caught error', error, errorInfo);
+      setHasError(true);
+      setError(error);
+    };
+
+    // Reset error state when component remounts
+    const resetError = () => {
+      setHasError(false);
+      setError(null);
+    };
+
+    if (hasError) {
+      return (
+        <div className="text-center py-8">
+          <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">Community Loading Error</h3>
+          <p className="text-gray-300 mb-4">
+            Unable to load community forum. Please try refreshing the page.
+          </p>
+          <div className="space-x-2">
+            <Button
+              onClick={resetError}
+              variant="outline"
+              className="border-white text-white hover:bg-white/10"
+            >
+              Try Again
+            </Button>
+            <Button
+              onClick={() => window.location.reload()}
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              Refresh Page
+            </Button>
+          </div>
+          {process.env.NODE_ENV === 'development' && error && (
+            <details className="mt-4 text-left">
+              <summary className="text-gray-400 cursor-pointer">Error Details (Dev Mode)</summary>
+              <pre className="bg-black/50 p-4 rounded mt-2 text-red-300 text-sm overflow-auto">
+                {error.toString()}
+              </pre>
+            </details>
+          )}
+        </div>
+      );
+    }
+
+    try {
+      return children;
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
+  }
 
   // Enhanced IndieGate.io Header Component - Matching Landing Page Exactly
   const IndieGateHeader = () => {
