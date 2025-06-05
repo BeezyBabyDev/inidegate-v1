@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Card from './Card'
 import Button from './Button'
 
-const CommunityForum = ({ userType = 'talent' }) => {
+const CommunityForum = ({ userType = 'talent', onShowPublicProfile }) => {
   const [activeTab, setActiveTab] = useState('network')
   const [crossNetworkEnabled, setCrossNetworkEnabled] = useState(true)
   const [newPostContent, setNewPostContent] = useState('')
@@ -223,13 +223,41 @@ const CommunityForum = ({ userType = 'talent' }) => {
 
   const themeClasses = getThemeClasses()
 
+  // Helper function to get userId from author name
+  const getUserIdFromName = (authorName) => {
+    // Convert name to userId format (lowercase, replace spaces with hyphens)
+    return authorName.toLowerCase().replace(/\s+/g, '-')
+  }
+
+  // Helper function to handle profile click
+  const handleProfileClick = (authorName) => {
+    if (onShowPublicProfile) {
+      const userId = getUserIdFromName(authorName)
+      onShowPublicProfile(userId)
+    }
+  }
+
   const renderPost = post => (
     <Card key={post.id} className="p-6 mb-4 hover:shadow-lg transition-shadow">
       <div className="flex items-start space-x-4">
-        <img src={post.avatar} alt={post.author} className="w-12 h-12 rounded-full object-cover" />
+        <img 
+          src={post.avatar} 
+          alt={post.author} 
+          className={`w-12 h-12 rounded-full object-cover ${
+            onShowPublicProfile ? 'cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all' : ''
+          }`}
+          onClick={() => handleProfileClick(post.author)}
+        />
         <div className="flex-1">
           <div className="flex items-center space-x-2 mb-2">
-            <h4 className="font-semibold text-gray-900">{post.author}</h4>
+            <h4 
+              className={`font-semibold text-gray-900 ${
+                onShowPublicProfile ? 'cursor-pointer hover:text-blue-600 transition-colors' : ''
+              }`}
+              onClick={() => handleProfileClick(post.author)}
+            >
+              {post.author}
+            </h4>
             <span
               className={`px-2 py-1 text-xs rounded-full ${
                 post.userType === 'investor'

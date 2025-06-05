@@ -1,10 +1,10 @@
+import React from 'react'
 import { useState } from 'react'
 import Card from './Card'
 import Button from './Button'
 import InvestorProfileEditor from './InvestorProfileEditor'
 import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
-import PublicProfile from './PublicProfile'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
 const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
@@ -199,8 +199,6 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 const InvestorPortal = ({ onLogout, onBack }) => {
   const [activeTab, setActiveTab] = useState('👤 Profile')
   const [profileView, setProfileView] = useState('showcase')
-  const [showPublicProfile, setShowPublicProfile] = useState(false)
-  const [currentPublicProfileId, setCurrentPublicProfileId] = useState(null)
 
   // Sample investor profile data
   const [profileData, setProfileData] = useState({
@@ -209,7 +207,6 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     secondaryRole: 'Angel Investor',
     additionalRoles: ['Family Office', 'Strategic Partner'],
     location: 'Los Angeles, CA',
-    memberSince: 'January 2023',
     bio: 'Experienced film industry executive and entrepreneur with deep expertise in independent film financing and distribution. Co-founder of IndieGate.io, passionate about empowering emerging filmmakers through strategic investment and mentorship.',
     avatar:
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
@@ -266,17 +263,6 @@ const InvestorPortal = ({ onLogout, onBack }) => {
       // Final fallback
       window.location.href = '/'
     }
-  }
-
-  // Public Profile Handlers
-  const handleShowPublicProfile = (userId) => {
-    setCurrentPublicProfileId(userId)
-    setShowPublicProfile(true)
-  }
-
-  const handleBackToPortal = () => {
-    setShowPublicProfile(false)
-    setCurrentPublicProfileId(null)
   }
 
   const renderProfileTab = () => {
@@ -354,17 +340,6 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                   />
                 </svg>
                 {profileData.location}
-              </p>
-              <p className="text-sm text-gray-300 flex items-center mt-1">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                Member since {profileData.memberSince}
               </p>
             </div>
             <div className="text-right">
@@ -628,7 +603,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         </div>
 
         <h4 className="text-lg font-semibold text-white mb-4">Recent Investments</h4>
-
+        
         {/* Enhanced Table Header */}
         <div className="bg-white/5 rounded-lg mb-4">
           <div className="grid grid-cols-6 gap-4 p-4 text-sm font-medium text-gray-300 border-b border-white/10">
@@ -639,7 +614,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             <div>Expenses</div>
             <div>Contributions</div>
           </div>
-
+          
           {/* Investment Rows */}
           <div className="space-y-0">
             {[
@@ -651,7 +626,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 expenses: '$78.2K',
                 contributions: '$729.3K',
                 status: 'success',
-                statusColor: 'text-green-400',
+                statusColor: 'text-green-400'
               },
               {
                 title: 'City of Dreams',
@@ -661,7 +636,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 expenses: '$124.8K',
                 contributions: '$1.015M',
                 status: 'pending',
-                statusColor: 'text-yellow-400',
+                statusColor: 'text-yellow-400'
               },
               {
                 title: 'Broken Chains',
@@ -671,7 +646,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 expenses: '$89.7K',
                 contributions: '$527.8K',
                 status: 'success',
-                statusColor: 'text-green-400',
+                statusColor: 'text-green-400'
               },
             ].map((investment, index) => (
               <div
@@ -682,13 +657,11 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                   <h5 className="font-medium text-white">{investment.title}</h5>
                 </div>
                 <div>
-                  <span
-                    className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                      investment.status === 'success'
-                        ? 'bg-green-900/30 text-green-400 border border-green-700/50'
-                        : 'bg-yellow-900/30 text-yellow-400 border border-yellow-700/50'
-                    }`}
-                  >
+                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                    investment.status === 'success' 
+                      ? 'bg-green-900/30 text-green-400 border border-green-700/50' 
+                      : 'bg-yellow-900/30 text-yellow-400 border border-yellow-700/50'
+                  }`}>
                     {investment.stage}
                   </span>
                 </div>
@@ -746,10 +719,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
 
   const renderCommunityTab = () => (
     <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-      <CommunityForum 
-        userType="investor" 
-        onShowPublicProfile={handleShowPublicProfile}
-      />
+      <CommunityForum userType="investor" userName={profileData.name} />
     </div>
   )
 
@@ -758,16 +728,6 @@ const InvestorPortal = ({ onLogout, onBack }) => {
       <SmartMatching userType="investor" userProfile={profileData} />
     </div>
   )
-
-  // Main render logic - handle public profile view
-  if (showPublicProfile && currentPublicProfileId) {
-    return (
-      <PublicProfile 
-        userId={currentPublicProfileId} 
-        onBack={handleBackToPortal}
-      />
-    )
-  }
 
   // Enhanced IndieGate.io Header Component - Matching Landing Page Exactly
   const IndieGateHeader = () => {
@@ -829,14 +789,14 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">
           <button
-            onClick={() => setActiveTab('👤 Profile')}
+            onClick={() => setActiveTab('💰 Deal Flow')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '👤 Profile'
+              activeTab === '💰 Deal Flow'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            👤 Profile
+            💰 Deal Flow
           </button>
           <button
             onClick={() => setActiveTab('📊 Portfolio')}
@@ -849,26 +809,6 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             📊 Portfolio
           </button>
           <button
-            onClick={() => setActiveTab('💰 Deal Flow')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '💰 Deal Flow'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            💰 Deal Flow
-          </button>
-          <button
-            onClick={() => setActiveTab('💬 Community')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '💬 Community'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            💬 Community
-          </button>
-          <button
             onClick={() => setActiveTab('🤖 Smart Matching')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '🤖 Smart Matching'
@@ -877,6 +817,16 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             }`}
           >
             🤖 Smart Matching
+          </button>
+          <button
+            onClick={() => setActiveTab('👤 Profile')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '👤 Profile'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            👤 Profile
           </button>
           <button
             onClick={() => setActiveTab('📈 Analytics')}
@@ -888,16 +838,26 @@ const InvestorPortal = ({ onLogout, onBack }) => {
           >
             📈 Analytics
           </button>
+          <button
+            onClick={() => setActiveTab('💬 Community')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '💬 Community'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            💬 Community
+          </button>
         </div>
 
         {/* Tab Content */}
         <div className="mb-8">
-          {activeTab === '👤 Profile' && renderProfileTab()}
-          {activeTab === '📊 Portfolio' && renderPortfolioTab()}
           {activeTab === '💰 Deal Flow' && renderDealFlowTab()}
-          {activeTab === '💬 Community' && renderCommunityTab()}
+          {activeTab === '📊 Portfolio' && renderPortfolioTab()}
           {activeTab === '🤖 Smart Matching' && renderSmartMatchingTab()}
+          {activeTab === '👤 Profile' && renderProfileTab()}
           {activeTab === '📈 Analytics' && renderAnalyticsTab()}
+          {activeTab === '💬 Community' && renderCommunityTab()}
         </div>
       </div>
     </div>
