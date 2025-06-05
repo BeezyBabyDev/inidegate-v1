@@ -7,6 +7,7 @@ import FilmakersPortal from './components/FilmakersPortal'
 import InvestorPortal from './components/InvestorPortal'
 import TalentPortalComponent from './components/TalentPortalComponent'
 import BrandsPortal from './components/BrandsPortal'
+import MultiPortalSystem from './components/MultiPortalSystem'
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome')
@@ -16,6 +17,14 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search)
     const portal = urlParams.get('portal')
     const hasCode = urlParams.get('code')
+    const multiPortal = urlParams.get('multi-portal')
+
+    // Check for multi-portal system access
+    if (multiPortal === 'true') {
+      setCurrentView('multi-portal')
+      setHasValidCode(true)
+      return
+    }
 
     // If there's a portal parameter and code, show portal selection or specific portal
     if (hasCode) {
@@ -42,18 +51,25 @@ function App() {
       'FILMMAKER', 
       'INVESTOR', 
       'TALENT', 
-      'BRANDS'
+      'BRANDS',
+      'MULTI-PORTAL'   // New multi-portal system access code
     ]
     
     if (validCodes.includes(code.toUpperCase())) {
       setHasValidCode(true)
-      setCurrentView('portal-selection')
       
-      // Update URL to include code
-      const url = window.location.origin + window.location.pathname + '?code=' + code
-      window.history.pushState({}, '', url)
+      // Check for multi-portal system
+      if (code.toUpperCase() === 'MULTI-PORTAL') {
+        setCurrentView('multi-portal')
+        const url = window.location.origin + window.location.pathname + '?multi-portal=true'
+        window.history.pushState({}, '', url)
+      } else {
+        setCurrentView('portal-selection')
+        const url = window.location.origin + window.location.pathname + '?code=' + code
+        window.history.pushState({}, '', url)
+      }
     } else {
-      alert('Invalid registrant code. Try the demo code: DEMO2025')
+      alert('Invalid registrant code. Try: DEMO2025 or MULTI-PORTAL')
     }
   }
 
@@ -140,6 +156,11 @@ function App() {
 
   if (currentView === 'brands') {
     return <BrandsPortal onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+  }
+
+  // Multi-Portal System
+  if (currentView === 'multi-portal') {
+    return <MultiPortalSystem />
   }
 
   // Default fallback

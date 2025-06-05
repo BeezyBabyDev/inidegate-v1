@@ -178,18 +178,46 @@ const WelcomePage = ({ onEnterCode }) => {
           'div',
           { className: 'mt-8 pt-6 border-t border-white/20' },
           React.createElement(
-            'p',
-            { className: 'text-indigo-300 mb-4' },
-            "Don't have a registrant code?"
-          ),
-          React.createElement(
-            Button,
-            {
-              onClick: () => setShowAccessRequest(true),
-              className:
-                'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105',
-            },
-            'Request Access Code'
+            'div',
+            { className: 'space-y-4' },
+            React.createElement(
+              'div',
+              {},
+              React.createElement(
+                'p',
+                { className: 'text-indigo-300 mb-2 text-sm' },
+                "Try the demo codes:"
+              ),
+              React.createElement(
+                'div',
+                { className: 'text-center space-y-1' },
+                React.createElement(
+                  'code',
+                  { className: 'text-yellow-300 bg-white/10 px-2 py-1 rounded text-sm' },
+                  'DEMO2025'
+                ),
+                React.createElement('br'),
+                React.createElement(
+                  'code',
+                  { className: 'text-green-300 bg-white/10 px-2 py-1 rounded text-sm' },
+                  'MULTI-PORTAL'
+                )
+              )
+            ),
+            React.createElement(
+              'p',
+              { className: 'text-indigo-300 mb-4' },
+              "Don't have a registrant code?"
+            ),
+            React.createElement(
+              Button,
+              {
+                onClick: () => setShowAccessRequest(true),
+                className:
+                  'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105',
+              },
+              'Request Access Code'
+            )
           )
         )
       )
