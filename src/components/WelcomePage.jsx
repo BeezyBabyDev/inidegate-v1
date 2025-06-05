@@ -307,47 +307,47 @@ const WelcomePage = ({ onEnterCode }) => {
     },
     React.createElement(
       'div',
-      { className: 'text-center pt-16 md:pt-20 pb-8' },
+      { className: 'text-center pt-12 md:pt-16 pb-6' },
       React.createElement(
         'h1',
-        { className: 'text-4xl md:text-5xl font-bold text-white mb-3' },
+        { className: 'text-3xl md:text-4xl font-bold text-white mb-2' },
         'Welcome to IndieGate.io'
       ),
       React.createElement(
         'p',
-        { className: 'text-lg md:text-xl text-indigo-200 font-medium italic' },
+        { className: 'text-base md:text-lg text-indigo-200 font-medium italic' },
         'Have a vision. Build a bridge. Keep it human.'
       )
     ),
     React.createElement(
       'div',
-      { className: 'flex-1 flex items-center justify-center px-4 pb-16' },
+      { className: 'flex-1 flex items-start justify-center px-4 pt-4 pb-20' },
       React.createElement(
         'div',
         {
           className:
-            'bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-lg w-full text-center border border-white/20',
+            'bg-white/10 backdrop-blur-lg rounded-2xl p-6 max-w-2xl w-full text-center border border-white/20',
         },
         React.createElement(
           'h2',
-          { className: 'text-2xl font-bold text-white mb-6' },
+          { className: 'text-xl font-bold text-white mb-4' },
           'Ready to Get Started?'
         ),
         React.createElement(
           'p',
-          { className: 'text-indigo-200 mb-6' },
+          { className: 'text-indigo-200 mb-4' },
           'Enter your registrant code to access your portal'
         ),
                   React.createElement(
             'form',
-            { onSubmit: handleSubmit, className: 'space-y-4' },
+            { onSubmit: handleSubmit, className: 'space-y-3' },
                       React.createElement('input', {
               type: 'text',
               placeholder: 'Enter registrant code',
               value: registrantCode,
               onChange: e => setRegistrantCode(e.target.value),
               className:
-                'w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
+                'w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
             }),
           error &&
             React.createElement('div', { className: 'text-red-400 text-center text-sm' }, error),
@@ -356,14 +356,14 @@ const WelcomePage = ({ onEnterCode }) => {
               {
                 type: 'submit',
                 className:
-                  'w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-200 transform hover:scale-105',
+                  'w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105',
               },
               'Access Platform'
             )
         ),
                   React.createElement(
             'div',
-            { className: 'mt-6 pt-5 border-t border-white/20' },
+            { className: 'mt-8 pt-6 border-t border-white/20' },
           React.createElement(
             'div',
             { className: 'space-y-4' },
@@ -379,7 +379,7 @@ const WelcomePage = ({ onEnterCode }) => {
               // Portal Selection Buttons
               React.createElement(
                 'div',
-                { className: 'grid grid-cols-2 gap-2.5 mb-5' },
+                { className: 'grid grid-cols-2 gap-2 mb-6' },
                 
                 // Talent Portal Button
                 React.createElement(
@@ -389,15 +389,15 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('talent');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white p-3 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
-                    { className: 'flex flex-col items-center space-y-1' },
-                    React.createElement(User, { className: 'w-5 h-5' }),
+                    { className: 'flex flex-col items-center space-y-0.5' },
+                    React.createElement(User, { className: 'w-4 h-4' }),
                     React.createElement(
                       'span',
-                      { className: 'text-sm font-semibold' },
+                      { className: 'text-xs font-semibold' },
                       'Talent'
                     )
                   )
@@ -411,15 +411,15 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('filmmaker');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white p-3 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
-                    { className: 'flex flex-col items-center space-y-1' },
-                    React.createElement(Camera, { className: 'w-5 h-5' }),
+                    { className: 'flex flex-col items-center space-y-0.5' },
+                    React.createElement(Camera, { className: 'w-4 h-4' }),
                     React.createElement(
                       'span',
-                      { className: 'text-sm font-semibold' },
+                      { className: 'text-xs font-semibold' },
                       'Filmmaker'
                     )
                   )
@@ -433,15 +433,15 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('investor');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white p-3 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
-                    { className: 'flex flex-col items-center space-y-1' },
-                    React.createElement(TrendingUp, { className: 'w-5 h-5' }),
+                    { className: 'flex flex-col items-center space-y-0.5' },
+                    React.createElement(TrendingUp, { className: 'w-4 h-4' }),
                     React.createElement(
                       'span',
-                      { className: 'text-sm font-semibold' },
+                      { className: 'text-xs font-semibold' },
                       'Investor'
                     )
                   )
@@ -455,15 +455,15 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('brands');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white p-3 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
-                    { className: 'flex flex-col items-center space-y-1' },
-                    React.createElement(Building, { className: 'w-5 h-5' }),
+                    { className: 'flex flex-col items-center space-y-0.5' },
+                    React.createElement(Building, { className: 'w-4 h-4' }),
                     React.createElement(
                       'span',
-                      { className: 'text-sm font-semibold' },
+                      { className: 'text-xs font-semibold' },
                       'Brands'
                     )
                   )
@@ -518,7 +518,7 @@ const WelcomePage = ({ onEnterCode }) => {
               {
                 onClick: () => setShowAccessRequest(true),
                 className:
-                  'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-200 transform hover:scale-105',
+                  'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 mb-4',
               },
               'Request Access Code'
             )
