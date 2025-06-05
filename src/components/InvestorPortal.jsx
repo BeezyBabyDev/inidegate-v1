@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import Card from './Card'
 import Button from './Button'
@@ -197,7 +196,7 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 )
 
 const InvestorPortal = ({ onLogout, onBack }) => {
-  const [activeTab, setActiveTab] = useState('💰 Deal Flow')
+  const [activeTab, setActiveTab] = useState('👤 Profile')
   const [profileView, setProfileView] = useState('showcase')
 
   // Sample investor profile data
@@ -603,7 +602,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         </div>
 
         <h4 className="text-lg font-semibold text-white mb-4">Recent Investments</h4>
-        
+
         {/* Enhanced Table Header */}
         <div className="bg-white/5 rounded-lg mb-4">
           <div className="grid grid-cols-6 gap-4 p-4 text-sm font-medium text-gray-300 border-b border-white/10">
@@ -614,7 +613,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             <div>Expenses</div>
             <div>Contributions</div>
           </div>
-          
+
           {/* Investment Rows */}
           <div className="space-y-0">
             {[
@@ -626,7 +625,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 expenses: '$78.2K',
                 contributions: '$729.3K',
                 status: 'success',
-                statusColor: 'text-green-400'
+                statusColor: 'text-green-400',
               },
               {
                 title: 'City of Dreams',
@@ -636,7 +635,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 expenses: '$124.8K',
                 contributions: '$1.015M',
                 status: 'pending',
-                statusColor: 'text-yellow-400'
+                statusColor: 'text-yellow-400',
               },
               {
                 title: 'Broken Chains',
@@ -646,7 +645,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 expenses: '$89.7K',
                 contributions: '$527.8K',
                 status: 'success',
-                statusColor: 'text-green-400'
+                statusColor: 'text-green-400',
               },
             ].map((investment, index) => (
               <div
@@ -657,11 +656,13 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                   <h5 className="font-medium text-white">{investment.title}</h5>
                 </div>
                 <div>
-                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                    investment.status === 'success' 
-                      ? 'bg-green-900/30 text-green-400 border border-green-700/50' 
-                      : 'bg-yellow-900/30 text-yellow-400 border border-yellow-700/50'
-                  }`}>
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                      investment.status === 'success'
+                        ? 'bg-green-900/30 text-green-400 border border-green-700/50'
+                        : 'bg-yellow-900/30 text-yellow-400 border border-yellow-700/50'
+                    }`}
+                  >
                     {investment.stage}
                   </span>
                 </div>
@@ -789,14 +790,14 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">
           <button
-            onClick={() => setActiveTab('💰 Deal Flow')}
+            onClick={() => setActiveTab('👤 Profile')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '💰 Deal Flow'
+              activeTab === '👤 Profile'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            💰 Deal Flow
+            👤 Profile
           </button>
           <button
             onClick={() => setActiveTab('📊 Portfolio')}
@@ -809,34 +810,14 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             📊 Portfolio
           </button>
           <button
-            onClick={() => setActiveTab('🤖 Smart Matching')}
+            onClick={() => setActiveTab('💰 Deal Flow')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '🤖 Smart Matching'
+              activeTab === '💰 Deal Flow'
                 ? 'bg-white text-green-900 shadow-lg'
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            🤖 Smart Matching
-          </button>
-          <button
-            onClick={() => setActiveTab('👤 Profile')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '👤 Profile'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            👤 Profile
-          </button>
-          <button
-            onClick={() => setActiveTab('📈 Analytics')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '📈 Analytics'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            📈 Analytics
+            💰 Deal Flow
           </button>
           <button
             onClick={() => setActiveTab('💬 Community')}
@@ -848,16 +829,36 @@ const InvestorPortal = ({ onLogout, onBack }) => {
           >
             💬 Community
           </button>
+          <button
+            onClick={() => setActiveTab('🤖 Smart Matching')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '🤖 Smart Matching'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            🤖 Smart Matching
+          </button>
+          <button
+            onClick={() => setActiveTab('📈 Analytics')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              activeTab === '📈 Analytics'
+                ? 'bg-white text-green-900 shadow-lg'
+                : 'text-white hover:bg-white/10'
+            }`}
+          >
+            📈 Analytics
+          </button>
         </div>
 
         {/* Tab Content */}
         <div className="mb-8">
-          {activeTab === '💰 Deal Flow' && renderDealFlowTab()}
-          {activeTab === '📊 Portfolio' && renderPortfolioTab()}
-          {activeTab === '🤖 Smart Matching' && renderSmartMatchingTab()}
           {activeTab === '👤 Profile' && renderProfileTab()}
-          {activeTab === '📈 Analytics' && renderAnalyticsTab()}
+          {activeTab === '📊 Portfolio' && renderPortfolioTab()}
+          {activeTab === '💰 Deal Flow' && renderDealFlowTab()}
           {activeTab === '💬 Community' && renderCommunityTab()}
+          {activeTab === '🤖 Smart Matching' && renderSmartMatchingTab()}
+          {activeTab === '📈 Analytics' && renderAnalyticsTab()}
         </div>
       </div>
     </div>
