@@ -6,6 +6,7 @@ import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 import PublicProfile from './PublicProfile'
 import MessagingInterface from './MessagingInterface'
+import ProjectDetails from './ProjectDetails'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
 const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
@@ -203,6 +204,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   const [showPublicProfile, setShowPublicProfile] = useState(false)
   const [currentPublicProfileId, setCurrentPublicProfileId] = useState(null)
   const [messagingContact, setMessagingContact] = useState(null)
+  const [selectedProject, setSelectedProject] = useState(null)
 
   // Sample investor profile data
   const [profileData, setProfileData] = useState({
@@ -562,30 +564,36 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
+              id: 'midnight-brooklyn',
               title: 'Midnight in Brooklyn',
               genre: 'Drama',
               budget: '$2.8M',
               seeking: '$1.2M',
+              equity: '15%',
               stage: 'Pre-Production',
               director: 'Sarah Chen',
               roi: 'Est. 280%',
               status: 'Hot Deal',
             },
             {
+              id: 'digital-nomad',
               title: 'Digital Nomad',
               genre: 'Thriller',
               budget: '$1.5M',
               seeking: '$750K',
+              equity: '12%',
               stage: 'Development',
               director: 'Mike Rodriguez',
               roi: 'Est. 320%',
               status: 'Featured',
             },
             {
+              id: 'last-record-store',
               title: 'The Last Record Store',
               genre: 'Documentary',
               budget: '$500K',
               seeking: '$300K',
+              equity: '20%',
               stage: 'Production',
               director: 'Alex Kim',
               roi: 'Est. 180%',
@@ -613,11 +621,19 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                   <span className="text-green-400">{project.seeking}</span>
                 </div>
                 <div className="flex justify-between text-sm">
+                  <span className="text-gray-300">Equity:</span>
+                  <span className="text-blue-400">{project.equity}</span>
+                </div>
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-300">Est. ROI:</span>
                   <span className="text-green-400">{project.roi}</span>
                 </div>
               </div>
-              <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">
+              <Button
+                size="sm"
+                className="w-full bg-green-600 hover:bg-green-700"
+                onClick={() => setSelectedProject(project.id)}
+              >
                 View Details
               </Button>
             </div>
@@ -779,7 +795,17 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     </div>
   )
 
-  // Main render logic - handle public profile view
+  // Main render logic - handle different views
+  if (selectedProject) {
+    return (
+      <ProjectDetails
+        projectId={selectedProject}
+        onBack={() => setSelectedProject(null)}
+        onShowProfile={handleShowPublicProfile}
+      />
+    )
+  }
+
   if (showPublicProfile && currentPublicProfileId) {
     return (
       <>
