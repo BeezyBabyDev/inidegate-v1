@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Camera, TrendingUp, Building, Bell, MessageCircle, Users, Star, ArrowLeft, Settings, LogOut, Eye, EyeOff, Loader2, CheckCircle, AlertCircle, Home } from 'lucide-react';
+import { getProfile } from '../data/demoProfiles';
 
 const MultiPortalSystem = () => {
   const [currentView, setCurrentView] = useState('login');
@@ -8,6 +9,36 @@ const MultiPortalSystem = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loginAnimating, setLoginAnimating] = useState(false);
+
+  // Check for direct profile access on component mount
+  useEffect(() => {
+    const selectedProfile = sessionStorage.getItem('selectedProfile');
+    const directAccess = sessionStorage.getItem('directAccess');
+    
+    if (directAccess === 'true' && selectedProfile) {
+      // Determine portal type from URL or stored data
+      const urlParams = new URLSearchParams(window.location.search);
+      const portal = urlParams.get('portal');
+      
+      if (portal) {
+        // Load the profile data
+        const profileData = getProfile(portal, selectedProfile);
+        if (profileData) {
+          // Convert profile data to user format and set current user
+          const user = {
+            ...profileData,
+            portal: portal
+          };
+          setCurrentUser(user);
+          setCurrentView(portal);
+          
+          // Clear the session storage after use
+          sessionStorage.removeItem('selectedProfile');
+          sessionStorage.removeItem('directAccess');
+        }
+      }
+    }
+  }, []);
 
   // Enhanced user database with 20 profiles
   const users = {

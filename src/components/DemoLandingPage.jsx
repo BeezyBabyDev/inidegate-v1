@@ -187,8 +187,8 @@ const DemoLandingPage = ({ onAccessMultiPortal }) => {
               Multi-Portal Demo Access
             </h2>
             <p className="text-xl text-blue-200 mb-8 max-w-3xl mx-auto">
-              Test our comprehensive platform with 20 demo accounts across 4 specialized portals. 
-              Each portal is designed for specific industry professionals in the indie film ecosystem.
+              Test our platform with 20 individual persona access codes for direct portal access, 
+              or browse all credentials with the multi-portal login system.
             </p>
             
             {/* Quick Access Button */}
@@ -226,25 +226,221 @@ const DemoLandingPage = ({ onAccessMultiPortal }) => {
         </div>
       </div>
 
-      {/* Demo Credentials Section */}
-      <div className="max-w-7xl mx-auto px-4 pb-16">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-white mb-4">Demo Login Credentials</h3>
-          <p className="text-blue-200 max-w-2xl mx-auto">
-            Click the copy button next to any account to copy the credentials, then use them in the login system. 
-            Each portal offers a unique experience tailored to different industry roles.
-          </p>
-        </div>
+              {/* Demo Access Methods */}
+        <div className="max-w-7xl mx-auto px-4 pb-16">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-white mb-4">Two Ways to Access Demos</h3>
+            <p className="text-blue-200 max-w-3xl mx-auto mb-8">
+              Choose your preferred demo method: Individual Access Codes for direct portal entry, 
+              or Multi-Portal Login System to browse all credentials.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {Object.entries(demoCredentials).map(([portalType, credentials]) => (
-            <PortalSection 
-              key={portalType}
-              portalType={portalType}
-              credentials={credentials}
-            />
-          ))}
-        </div>
+          {/* Access Method Tabs */}
+          <div className="flex justify-center mb-12">
+            <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-1 border border-white border-opacity-20">
+              <div className="grid grid-cols-2 gap-1">
+                <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold">
+                  Individual Access Codes
+                </button>
+                <button 
+                  onClick={onAccessMultiPortal}
+                  className="px-6 py-3 text-white hover:bg-white hover:bg-opacity-10 rounded-lg font-semibold transition-colors"
+                >
+                  Multi-Portal Login
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Individual Access Codes Section */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h4 className="text-2xl font-bold text-white mb-4">🚀 Individual Access Codes</h4>
+              <p className="text-blue-200 max-w-2xl mx-auto">
+                Enter any of these codes on the welcome page for direct portal access with pre-loaded profiles.
+              </p>
+            </div>
+            
+            {/* Individual Access Code Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+              {/* Talent Portal Codes */}
+              <div className="bg-white bg-opacity-5 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-10">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <User className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h5 className="text-xl font-bold text-white">Talent Portal</h5>
+                    <p className="text-red-300 text-sm">Direct access codes</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    { code: 'SOPHIA-STAR', name: 'Sophia Martinez', role: 'Lead Actor' },
+                    { code: 'MARCUS-VOICE', name: 'Marcus Thompson', role: 'Voice Artist' },
+                    { code: 'ELENA-MODEL', name: 'Elena Rodriguez', role: 'Model & Influencer' },
+                    { code: 'JAMES-SUPPORT', name: 'James Wilson', role: 'Supporting Actor' },
+                    { code: 'ARIA-DANCE', name: 'Aria Chen', role: 'Background Performer' }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition-colors">
+                      <div>
+                        <div className="font-mono text-yellow-300 text-sm font-bold">{item.code}</div>
+                        <div className="text-white text-xs">{item.name} - {item.role}</div>
+                      </div>
+                      <button
+                        onClick={() => copyToClipboard(item.code, item.code)}
+                        className="p-2 rounded-lg border border-red-500 border-opacity-30 hover:bg-red-500 hover:bg-opacity-20 transition-colors"
+                      >
+                        {copiedCredential === item.code ? (
+                          <Check className="w-4 h-4 text-green-400" />
+                        ) : (
+                          <Copy className="w-4 h-4 text-white" />
+                        )}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Filmmaker Portal Codes */}
+              <div className="bg-white bg-opacity-5 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-10">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <Camera className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h5 className="text-xl font-bold text-white">Filmmaker Portal</h5>
+                    <p className="text-purple-300 text-sm">Direct access codes</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    { code: 'ALEX-DIRECTOR', name: 'Alexandra Brooks', role: 'Director' },
+                    { code: 'RYAN-PRODUCER', name: 'Ryan Mitchell', role: 'Producer' },
+                    { code: 'MAYA-CINEMA', name: 'Maya Patel', role: 'Cinematographer' },
+                    { code: 'DIEGO-EDIT', name: 'Diego Santos', role: 'Post Production' },
+                    { code: 'SARAH-CREW', name: 'Sarah Johnson', role: 'Production Crew' }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition-colors">
+                      <div>
+                        <div className="font-mono text-yellow-300 text-sm font-bold">{item.code}</div>
+                        <div className="text-white text-xs">{item.name} - {item.role}</div>
+                      </div>
+                      <button
+                        onClick={() => copyToClipboard(item.code, item.code)}
+                        className="p-2 rounded-lg border border-purple-500 border-opacity-30 hover:bg-purple-500 hover:bg-opacity-20 transition-colors"
+                      >
+                        {copiedCredential === item.code ? (
+                          <Check className="w-4 h-4 text-green-400" />
+                        ) : (
+                          <Copy className="w-4 h-4 text-white" />
+                        )}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Investor Portal Codes */}
+              <div className="bg-white bg-opacity-5 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-10">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <TrendingUp className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h5 className="text-xl font-bold text-white">Investor Network</h5>
+                    <p className="text-green-300 text-sm">Direct access codes</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    { code: 'VENTURE-CAPITAL', name: 'Victoria Sterling', role: 'VC Partner' },
+                    { code: 'ANGEL-FUNDS', name: 'Michael Chen', role: 'Angel Investor' },
+                    { code: 'STRATEGIC-PARTNER', name: 'Amanda Foster', role: 'Strategic Partner' },
+                    { code: 'HIGH-NET-WORTH', name: 'Robert Kim', role: 'HNWI' },
+                    { code: 'FILM-FINANCE', name: 'Isabella Moore', role: 'Film Financier' }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition-colors">
+                      <div>
+                        <div className="font-mono text-yellow-300 text-sm font-bold">{item.code}</div>
+                        <div className="text-white text-xs">{item.name} - {item.role}</div>
+                      </div>
+                      <button
+                        onClick={() => copyToClipboard(item.code, item.code)}
+                        className="p-2 rounded-lg border border-green-500 border-opacity-30 hover:bg-green-500 hover:bg-opacity-20 transition-colors"
+                      >
+                        {copiedCredential === item.code ? (
+                          <Check className="w-4 h-4 text-green-400" />
+                        ) : (
+                          <Copy className="w-4 h-4 text-white" />
+                        )}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Brands Portal Codes */}
+              <div className="bg-white bg-opacity-5 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-10">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <Building className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h5 className="text-xl font-bold text-white">Brands Portal</h5>
+                    <p className="text-orange-300 text-sm">Direct access codes</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    { code: 'LUXURY-FASHION', name: 'Elegance & Co', role: 'Fashion & Lifestyle' },
+                    { code: 'TECH-INNOVATION', name: 'TechFlow Solutions', role: 'Technology & Apps' },
+                    { code: 'GOURMET-BRANDS', name: 'Artisan Foods Inc', role: 'Food & Beverage' },
+                    { code: 'AUTO-LUXURY', name: 'Premium Motors', role: 'Automotive' },
+                    { code: 'LIFESTYLE-CO', name: 'Urban Living Co', role: 'Lifestyle Brand' }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition-colors">
+                      <div>
+                        <div className="font-mono text-yellow-300 text-sm font-bold">{item.code}</div>
+                        <div className="text-white text-xs">{item.name} - {item.role}</div>
+                      </div>
+                      <button
+                        onClick={() => copyToClipboard(item.code, item.code)}
+                        className="p-2 rounded-lg border border-orange-500 border-opacity-30 hover:bg-orange-500 hover:bg-opacity-20 transition-colors"
+                      >
+                        {copiedCredential === item.code ? (
+                          <Check className="w-4 h-4 text-green-400" />
+                        ) : (
+                          <Copy className="w-4 h-4 text-white" />
+                        )}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Multi-Portal Login Section */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h4 className="text-2xl font-bold text-white mb-4">🔐 Multi-Portal Login System</h4>
+              <p className="text-blue-200 max-w-2xl mx-auto">
+                Browse all 20 demo accounts with login credentials. Copy any username/password combination for testing.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {Object.entries(demoCredentials).map(([portalType, credentials]) => (
+                <PortalSection 
+                  key={portalType}
+                  portalType={portalType}
+                  credentials={credentials}
+                />
+              ))}
+            </div>
+          </div>
 
         {/* Quick Access Section */}
         <div className="mt-12 bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center border border-white border-opacity-20">

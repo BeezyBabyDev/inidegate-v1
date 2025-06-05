@@ -18,6 +18,7 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search)
     const portal = urlParams.get('portal')
     const hasCode = urlParams.get('code')
+    const profile = urlParams.get('profile')
     const multiPortal = urlParams.get('multi-portal')
 
     // Check for multi-portal system access
@@ -34,10 +35,21 @@ function App() {
       return
     }
 
+    // Check for direct profile access (persona access codes)
+    if (portal && profile && hasCode) {
+      setHasValidCode(true)
+      setCurrentView(portal)
+      
+      // Store profile for pre-loading
+      sessionStorage.setItem('selectedProfile', profile)
+      sessionStorage.setItem('directAccess', 'true')
+      return
+    }
+
     // If there's a portal parameter and code, show portal selection or specific portal
     if (hasCode) {
       setHasValidCode(true)
-      if (portal) {
+      if (portal && !profile) {
         setCurrentView(portal)
       } else {
         setCurrentView('portal-selection')
@@ -50,10 +62,10 @@ function App() {
   }, [])
 
   const handleEnterCode = (code) => {
-    // Enhanced code validation for MVP demo
+    // Enhanced code validation with individual persona access codes
     const validCodes = [
       'INDIEGATE2024',  // Master access code for MVP demo
-      'DEMO2025',      // Current demo code
+      'DEMO2025',      // Current demo code - portal selection overview
       'DEMO2024',      // Legacy demo code 
       'INDIE', 
       'FILMMAKER', 
@@ -62,12 +74,61 @@ function App() {
       'BRANDS',
       'MULTI-PORTAL'   // New multi-portal system access code
     ]
+
+    // Individual persona access codes for direct portal access
+    const personaAccessCodes = {
+      // Talent Portal Direct Access
+      'SOPHIA-STAR': { portal: 'talent', profile: 'sophia' },
+      'MARCUS-VOICE': { portal: 'talent', profile: 'marcus' },
+      'ELENA-MODEL': { portal: 'talent', profile: 'elena' },
+      'JAMES-SUPPORT': { portal: 'talent', profile: 'james' },
+      'ARIA-DANCE': { portal: 'talent', profile: 'aria' },
+      
+      // Filmmaker Portal Direct Access
+      'ALEX-DIRECTOR': { portal: 'filmmaker', profile: 'alex' },
+      'RYAN-PRODUCER': { portal: 'filmmaker', profile: 'ryan' },
+      'MAYA-CINEMA': { portal: 'filmmaker', profile: 'maya' },
+      'DIEGO-EDIT': { portal: 'filmmaker', profile: 'diego' },
+      'SARAH-CREW': { portal: 'filmmaker', profile: 'sarah' },
+      
+      // Investor Portal Direct Access
+      'VENTURE-CAPITAL': { portal: 'investor', profile: 'victoria' },
+      'ANGEL-FUNDS': { portal: 'investor', profile: 'michael' },
+      'STRATEGIC-PARTNER': { portal: 'investor', profile: 'amanda' },
+      'HIGH-NET-WORTH': { portal: 'investor', profile: 'robert' },
+      'FILM-FINANCE': { portal: 'investor', profile: 'isabella' },
+      
+      // Brands Portal Direct Access
+      'LUXURY-FASHION': { portal: 'brands', profile: 'elegance' },
+      'TECH-INNOVATION': { portal: 'brands', profile: 'techflow' },
+      'GOURMET-BRANDS': { portal: 'brands', profile: 'artisan' },
+      'AUTO-LUXURY': { portal: 'brands', profile: 'premium' },
+      'LIFESTYLE-CO': { portal: 'brands', profile: 'urban' }
+    }
     
-    if (validCodes.includes(code.toUpperCase())) {
+    const upperCode = code.toUpperCase()
+    
+    // Check for persona access codes first (direct access)
+    if (personaAccessCodes[upperCode]) {
+      const { portal, profile } = personaAccessCodes[upperCode]
+      setHasValidCode(true)
+      setCurrentView(portal)
+      
+      // Store the selected profile for pre-loading
+      sessionStorage.setItem('selectedProfile', profile)
+      sessionStorage.setItem('directAccess', 'true')
+      
+      const url = window.location.origin + window.location.pathname + `?portal=${portal}&profile=${profile}&code=${code}`
+      window.history.pushState({}, '', url)
+      return
+    }
+    
+    // Check for standard access codes (overview access)
+    if (validCodes.includes(upperCode)) {
       setHasValidCode(true)
       
       // Check for multi-portal system
-      if (code.toUpperCase() === 'MULTI-PORTAL') {
+      if (upperCode === 'MULTI-PORTAL') {
         setCurrentView('demo-landing')
         const url = window.location.origin + window.location.pathname + '?multi-portal=demo'
         window.history.pushState({}, '', url)
@@ -77,7 +138,7 @@ function App() {
         window.history.pushState({}, '', url)
       }
     } else {
-      alert('Invalid registrant code. Try: DEMO2025 or MULTI-PORTAL')
+      alert('Invalid registrant code. Try: DEMO2025, MULTI-PORTAL, or individual persona codes like SOPHIA-STAR')
     }
   }
 
