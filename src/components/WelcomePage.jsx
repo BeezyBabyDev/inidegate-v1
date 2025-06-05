@@ -171,42 +171,42 @@ const WelcomePage = ({ onEnterCode }) => {
     return React.createElement(
       'div',
       {
-        className: 'min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 flex items-center justify-center p-2'
+        className: 'min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 flex items-center justify-center p-4'
       },
       React.createElement(
         'div',
         {
-          className: 'bg-white/10 backdrop-blur-lg rounded-lg p-3 max-w-xs w-full border border-white/20 transform scale-75'
+          className: 'bg-white/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20'
         },
         React.createElement(
           'div',
-          { className: 'text-center mb-3' },
+          { className: 'text-center mb-6' },
           React.createElement(
             'div',
-            { className: `w-6 h-6 bg-gradient-to-r ${config.color} rounded-lg flex items-center justify-center mx-auto mb-2 shadow-lg` },
-            React.createElement(IconComponent, { className: 'w-3 h-3 text-white' })
+            { className: `w-12 h-12 bg-gradient-to-r ${config.color} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-xl` },
+            React.createElement(IconComponent, { className: 'w-6 h-6 text-white' })
           ),
           React.createElement(
             'h2',
-            { className: 'text-lg font-bold text-white mb-2' },
+            { className: 'text-2xl font-bold text-white mb-4' },
             config.title
           ),
           React.createElement(
             'p',
-            { className: 'text-indigo-200 text-xs' },
+            { className: 'text-indigo-200 text-sm' },
             config.description
           )
         ),
 
         React.createElement(
           'div',
-          { className: 'space-y-2 mb-3' },
+          { className: 'space-y-4 mb-6' },
           React.createElement(
             'div',
             {},
             React.createElement(
               'p',
-              { className: 'text-indigo-300 mb-1 text-xs font-medium' },
+              { className: 'text-indigo-300 mb-2 text-sm font-medium' },
               'Enter your portal access code:'
             ),
             React.createElement(
@@ -218,24 +218,24 @@ const WelcomePage = ({ onEnterCode }) => {
                     onEnterCode(registrantCode);
                   }
                 },
-                className: 'space-y-2' 
+                className: 'space-y-4' 
               },
               React.createElement('input', {
                 type: 'text',
                 placeholder: 'Enter portal access code',
                 value: registrantCode,
                 onChange: (e) => setRegistrantCode(e.target.value),
-                className: 'w-full px-2 py-1 bg-white/10 border border-white/20 rounded-md text-xs text-white placeholder-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-500'
+                className: 'w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
               }),
-              error && React.createElement('div', { className: 'text-red-400 text-center text-xs' }, error),
+              error && React.createElement('div', { className: 'text-red-400 text-center text-sm' }, error),
               React.createElement(
                 'button',
                 {
                   type: 'submit',
-                  className: `w-full bg-gradient-to-r ${config.color} hover:opacity-90 text-white font-semibold py-1 px-3 rounded-md transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-1 text-xs`
+                  className: `w-full bg-gradient-to-r ${config.color} hover:opacity-90 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2 text-sm`
                 },
                 React.createElement('span', {}, `Enter ${config.title}`),
-                React.createElement(ArrowRight, { className: 'w-3 h-3' })
+                React.createElement(ArrowRight, { className: 'w-4 h-4' })
               )
             )
           ),
@@ -245,12 +245,12 @@ const WelcomePage = ({ onEnterCode }) => {
             {},
             React.createElement(
               'p',
-              { className: 'text-indigo-300 mb-1 text-xs font-medium' },
+              { className: 'text-indigo-300 mb-2 text-sm font-medium' },
               'Demo access codes:'
             ),
             React.createElement(
               'div',
-              { className: 'grid grid-cols-1 gap-1' },
+              { className: 'grid grid-cols-1 gap-2' },
               config.codes.map((code, index) => 
                 React.createElement(
                   'button',
@@ -260,17 +260,17 @@ const WelcomePage = ({ onEnterCode }) => {
                       setRegistrantCode(code);
                       onEnterCode(code);
                     },
-                    className: 'text-left p-1 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md transition-colors group'
+                    className: 'text-left p-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-colors group'
                   },
                   React.createElement(
                     'div',
                     { className: 'flex items-center justify-between' },
                     React.createElement(
                       'code',
-                      { className: 'text-yellow-300 text-xs font-mono' },
+                      { className: 'text-yellow-300 text-sm font-mono' },
                       code
                     ),
-                    React.createElement(Zap, { className: 'w-2 h-2 text-indigo-300 group-hover:text-white transition-colors' })
+                    React.createElement(Zap, { className: 'w-4 h-4 text-indigo-300 group-hover:text-white transition-colors' })
                   )
                 )
               )
@@ -280,7 +280,7 @@ const WelcomePage = ({ onEnterCode }) => {
 
         React.createElement(
           'div',
-          { className: 'text-center mt-2' },
+          { className: 'text-center mt-4' },
           React.createElement(
             'button',
             {
@@ -290,7 +290,7 @@ const WelcomePage = ({ onEnterCode }) => {
                 setRegistrantCode('');
                 setError('');
               },
-              className: 'text-indigo-300 hover:text-white transition-colors text-xs'
+              className: 'text-indigo-300 hover:text-white transition-colors text-sm'
             },
             '← Back to Portal Selection'
           )
@@ -307,79 +307,79 @@ const WelcomePage = ({ onEnterCode }) => {
     },
     React.createElement(
       'div',
-      { className: 'text-center pt-12 md:pt-16 pb-6' },
+      { className: 'text-center pt-6 md:pt-8 pb-3' },
       React.createElement(
         'h1',
-        { className: 'text-3xl md:text-4xl font-bold text-white mb-2' },
+        { className: 'text-lg md:text-2xl font-bold text-white mb-1' },
         'Welcome to IndieGate.io'
       ),
       React.createElement(
         'p',
-        { className: 'text-base md:text-lg text-indigo-200 font-medium italic' },
+        { className: 'text-sm md:text-base text-indigo-200 font-medium italic' },
         'Have a vision. Build a bridge. Keep it human.'
       )
     ),
     React.createElement(
       'div',
-      { className: 'flex-1 flex items-start justify-center px-4 pt-4 pb-20' },
+      { className: 'flex-1 flex items-start justify-center px-2 pt-2 pb-10' },
       React.createElement(
         'div',
         {
           className:
-            'bg-white/10 backdrop-blur-lg rounded-2xl p-6 max-w-2xl w-full text-center border border-white/20',
+            'bg-white/10 backdrop-blur-lg rounded-xl p-3 max-w-xl w-full text-center border border-white/20',
         },
         React.createElement(
           'h2',
-          { className: 'text-xl font-bold text-white mb-4' },
+          { className: 'text-sm font-bold text-white mb-2' },
           'Ready to Get Started?'
         ),
         React.createElement(
           'p',
-          { className: 'text-indigo-200 mb-4' },
+          { className: 'text-indigo-200 mb-2 text-sm' },
           'Enter your registrant code to access your portal'
         ),
                   React.createElement(
             'form',
-            { onSubmit: handleSubmit, className: 'space-y-3' },
+            { onSubmit: handleSubmit, className: 'space-y-2' },
                       React.createElement('input', {
               type: 'text',
               placeholder: 'Enter registrant code',
               value: registrantCode,
               onChange: e => setRegistrantCode(e.target.value),
               className:
-                'w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500',
+                'w-full px-2 py-1 bg-white/10 border border-white/20 rounded-md text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-500',
             }),
           error &&
-            React.createElement('div', { className: 'text-red-400 text-center text-sm' }, error),
+            React.createElement('div', { className: 'text-red-400 text-center text-xs' }, error),
                       React.createElement(
               Button,
               {
                 type: 'submit',
                 className:
-                  'w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105',
+                  'w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-1 px-3 rounded-md transition-all duration-200 transform hover:scale-105 text-sm',
               },
               'Access Platform'
             )
         ),
                   React.createElement(
             'div',
-            { className: 'mt-8 pt-6 border-t border-white/20' },
+            { className: 'mt-4 pt-3 border-t border-white/20' },
           React.createElement(
             'div',
-            { className: 'space-y-4' },
+            { className: 'space-y-2' },
             React.createElement(
               'div',
               {},
               React.createElement(
                 'p',
-                { className: 'text-indigo-300 mb-3 text-sm' },
+                { className: 'text-indigo-300 mb-2 text-xs' },
                 "Select your portal or enter an access code:"
               ),
               
               // Portal Selection Buttons
               React.createElement(
                 'div',
-                { className: 'grid grid-cols-2 gap-2 mb-6' },
+                { className: 'grid grid-cols-2 gap-1 mb-3' },
                 
                 // Talent Portal Button
                 React.createElement(
@@ -389,12 +389,12 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('talent');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white py-1 px-1.5 rounded-md transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
                     { className: 'flex flex-col items-center space-y-0.5' },
-                    React.createElement(User, { className: 'w-4 h-4' }),
+                    React.createElement(User, { className: 'w-2 h-2' }),
                     React.createElement(
                       'span',
                       { className: 'text-xs font-semibold' },
@@ -411,12 +411,12 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('filmmaker');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white py-1 px-1.5 rounded-md transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
                     { className: 'flex flex-col items-center space-y-0.5' },
-                    React.createElement(Camera, { className: 'w-4 h-4' }),
+                    React.createElement(Camera, { className: 'w-2 h-2' }),
                     React.createElement(
                       'span',
                       { className: 'text-xs font-semibold' },
@@ -433,12 +433,12 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('investor');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-1 px-1.5 rounded-md transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
                     { className: 'flex flex-col items-center space-y-0.5' },
-                    React.createElement(TrendingUp, { className: 'w-4 h-4' }),
+                    React.createElement(TrendingUp, { className: 'w-2 h-2' }),
                     React.createElement(
                       'span',
                       { className: 'text-xs font-semibold' },
@@ -455,12 +455,12 @@ const WelcomePage = ({ onEnterCode }) => {
                       setSelectedPortal('brands');
                       setShowPortalSelection(true);
                     },
-                    className: 'group bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white py-2 px-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 border border-white/20'
+                    className: 'group bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white py-1 px-1.5 rounded-md transition-all duration-200 transform hover:scale-105 border border-white/20'
                   },
                   React.createElement(
                     'div',
                     { className: 'flex flex-col items-center space-y-0.5' },
-                    React.createElement(Building, { className: 'w-4 h-4' }),
+                    React.createElement(Building, { className: 'w-2 h-2' }),
                     React.createElement(
                       'span',
                       { className: 'text-xs font-semibold' },
@@ -475,33 +475,33 @@ const WelcomePage = ({ onEnterCode }) => {
                 { className: 'text-center space-y-1' },
                 React.createElement(
                   'p',
-                  { className: 'text-indigo-300 text-xs mb-2' },
+                  { className: 'text-indigo-300 text-xs mb-1' },
                   "Quick demo codes:"
                 ),
                 React.createElement(
                   'div',
-                  { className: 'flex flex-wrap justify-center gap-2' },
+                  { className: 'flex flex-wrap justify-center gap-1' },
                   React.createElement(
                     'code',
-                    { className: 'text-yellow-300 bg-white/10 px-2 py-1 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
+                    { className: 'text-yellow-300 bg-white/10 px-1 py-0.5 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
                       onClick: () => { setRegistrantCode('DEMO2025'); } },
                     'DEMO2025'
                   ),
                   React.createElement(
                     'code',
-                    { className: 'text-yellow-300 bg-white/10 px-2 py-1 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
+                    { className: 'text-yellow-300 bg-white/10 px-1 py-0.5 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
                       onClick: () => { setRegistrantCode('SOPHIA-STAR'); } },
                     'SOPHIA-STAR'
                   ),
                   React.createElement(
                     'code',
-                    { className: 'text-yellow-300 bg-white/10 px-2 py-1 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
+                    { className: 'text-yellow-300 bg-white/10 px-1 py-0.5 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
                       onClick: () => { setRegistrantCode('ALEX-DIRECTOR'); } },
                     'ALEX-DIRECTOR'
                   ),
                   React.createElement(
                     'code',
-                    { className: 'text-green-300 bg-white/10 px-2 py-1 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
+                    { className: 'text-green-300 bg-white/10 px-1 py-0.5 rounded text-xs cursor-pointer hover:bg-white/20 transition-colors',
                       onClick: () => { setRegistrantCode('MULTI-PORTAL'); } },
                     'MULTI-PORTAL'
                   )
@@ -510,7 +510,7 @@ const WelcomePage = ({ onEnterCode }) => {
             ),
             React.createElement(
               'p',
-              { className: 'text-indigo-300 mb-3' },
+              { className: 'text-indigo-300 mb-2 text-xs' },
               "Don't have a registrant code?"
             ),
             React.createElement(
@@ -518,7 +518,7 @@ const WelcomePage = ({ onEnterCode }) => {
               {
                 onClick: () => setShowAccessRequest(true),
                 className:
-                  'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 mb-4',
+                  'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-1 px-3 rounded-md transition-all duration-200 transform hover:scale-105 mb-2 text-sm',
               },
               'Request Access Code'
             )
