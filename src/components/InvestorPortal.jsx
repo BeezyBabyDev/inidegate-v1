@@ -206,6 +206,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     secondaryRole: 'Angel Investor',
     additionalRoles: ['Family Office', 'Strategic Partner'],
     location: 'Los Angeles, CA',
+    memberSince: 'January 2023',
     bio: 'Experienced film industry executive and entrepreneur with deep expertise in independent film financing and distribution. Co-founder of IndieGate.io, passionate about empowering emerging filmmakers through strategic investment and mentorship.',
     avatar:
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
@@ -339,6 +340,17 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                   />
                 </svg>
                 {profileData.location}
+              </p>
+              <p className="text-sm text-gray-300 flex items-center mt-1">
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                Member since {profileData.memberSince}
               </p>
             </div>
             <div className="text-right">
