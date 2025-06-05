@@ -315,6 +315,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
         project: 'Voices Unheard',
       },
     ],
+    verified: true,
   })
 
   const opportunities = [
@@ -733,215 +734,15 @@ const CreativePortal = ({ onLogout, onBack }) => {
     </div>
   )
 
-  const renderActiveProjectsTab = () => (
-    <div className="space-y-6">
-      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
-        <h3 className="text-lg font-semibold text-white mb-6">Current Projects</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              id: 'urban-legends-2',
-              title: 'Urban Legends 2',
-              genre: 'Horror',
-              stage: 'Pre-Production',
-              fundingStatus: 'Partially Funded',
-              budget: '$850K',
-              secured: '$620K',
-              role: 'Director/Producer',
-              timeline: 'Production starts March 2024',
-              status: 'On Track',
-            },
-            {
-              id: 'voices-unheard',
-              title: 'Voices Unheard',
-              genre: 'Documentary',
-              stage: 'Development',
-              fundingStatus: 'Seeking Investment',
-              budget: '$320K',
-              secured: '$85K',
-              role: 'Director/Writer',
-              timeline: 'Pre-production Q2 2024',
-              status: 'Funding Required',
-            },
-            {
-              id: 'midnight-shift',
-              title: 'Midnight Shift',
-              genre: 'Drama',
-              stage: 'Post-Production',
-              fundingStatus: 'Fully Funded',
-              budget: '$1.2M',
-              secured: '$1.2M',
-              role: 'Executive Producer',
-              timeline: 'Festival submissions Q1 2024',
-              status: 'On Schedule',
-            },
-          ].map((project, index) => (
-            <div key={index} className="bg-white/5 rounded-lg p-4 space-y-3">
-              <div className="flex justify-between items-start">
-                <h4 className="font-semibold text-white">{project.title}</h4>
-                <span className={`text-xs px-2 py-1 rounded ${
-                  project.status === 'On Track' || project.status === 'On Schedule' ? 'bg-green-600 text-white' :
-                  project.status === 'Funding Required' ? 'bg-yellow-600 text-white' : 'bg-blue-600 text-white'
-                }`}>
-                  {project.status}
-                </span>
-              </div>
-              <p className="text-purple-200 text-sm">
-                {project.genre} • {project.stage}
-              </p>
-              <p className="text-blue-200 text-sm">Role: {project.role}</p>
-              <div className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Budget:</span>
-                  <span className="text-white">{project.budget}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Secured:</span>
-                  <span className="text-green-400">{project.secured}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Status:</span>
-                  <span className={
-                    project.fundingStatus === 'Fully Funded' ? 'text-green-400' :
-                    project.fundingStatus === 'Partially Funded' ? 'text-yellow-400' : 'text-red-400'
-                  }>{project.fundingStatus}</span>
-                </div>
-              </div>
-              <p className="text-sm text-gray-300">{project.timeline}</p>
-              <Button size="sm" className="bg-purple-600 hover:bg-purple-700 w-full">
-                View Details
-              </Button>
-            </div>
-          ))}
-        </div>
-      </Card>
-    </div>
-  )
-
-  const renderProgressTrackerTab = () => (
-    <div className="space-y-6">
-      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
-        <h3 className="text-lg font-semibold text-white mb-6">Project Timeline Overview</h3>
-        <div className="space-y-6">
-          {[
-            { project: 'Urban Legends 2', phase: 'Pre-Production', progress: 75, daysLeft: 45 },
-            { project: 'Voices Unheard', phase: 'Development', progress: 40, daysLeft: 120 },
-            { project: 'Midnight Shift', phase: 'Post-Production', progress: 90, daysLeft: 30 },
-          ].map((item, index) => (
-            <div key={index} className="space-y-3">
-              <div className="flex justify-between items-center">
-                <h4 className="font-medium text-white">{item.project}</h4>
-                <span className="text-sm text-gray-300">{item.daysLeft} days remaining</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-purple-200">{item.phase}</span>
-                <span className="text-sm text-blue-300">{item.progress}% complete</span>
-              </div>
-              <div className="w-full bg-white/10 rounded-full h-2">
-                <div
-                  className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"
-                  style={{ width: `${item.progress}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-    </div>
-  )
-
-  const renderFundFinderTab = () => (
-    <div className="space-y-6">
-      <SmartMatching userType="filmmaker" userProfile={profileData} />
-      
-      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
-        <h3 className="text-lg font-semibold text-white mb-6">Grant & Competition Opportunities</h3>
-        <div className="space-y-4">
-          {[
-            {
-              title: 'Sundance Development Grant',
-              amount: '$25,000',
-              deadline: 'March 15, 2024',
-              type: 'Development Grant',
-              match: '95% match',
-            },
-            {
-              title: 'Independent Film Tax Credit',
-              amount: 'Up to 30%',
-              deadline: 'Ongoing',
-              type: 'Tax Incentive',
-              match: '87% match',
-            },
-            {
-              title: 'Documentary Fund for Social Impact',
-              amount: '$50,000',
-              deadline: 'April 30, 2024',
-              type: 'Documentary Grant',
-              match: '78% match',
-            },
-          ].map((grant, index) => (
-            <div key={index} className="flex justify-between items-center p-4 bg-white/5 rounded-lg">
-              <div>
-                <h4 className="font-semibold text-white">{grant.title}</h4>
-                <p className="text-sm text-gray-300">{grant.type} • Deadline: {grant.deadline}</p>
-              </div>
-              <div className="text-right">
-                <p className="font-semibold text-green-400">{grant.amount}</p>
-                <p className="text-sm text-blue-300">{grant.match}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-    </div>
-  )
-
-  const renderPortfolioTab = () => (
-    <div className="space-y-6">
-      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
-        <h3 className="text-lg font-semibold text-white mb-6">Portfolio Showcase</h3>
-        
-        <div className="mb-8">
-          <h4 className="text-lg font-medium text-white mb-4">Director's Reel</h4>
-          <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4">
-            <div className="w-full h-full flex items-center justify-center bg-gray-800">
-              <div className="text-center">
-                <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h6m-3-3v6" />
-                </svg>
-                <p className="text-gray-400">Director's Reel</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-medium text-white mb-4">Completed Projects</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {profileData.portfolio?.map((project, index) => (
-              <div key={index} className="bg-white/5 rounded-lg overflow-hidden">
-                <div className="aspect-video bg-gray-700 flex items-center justify-center">
-                  <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <div className="p-4">
-                  <h5 className="font-semibold text-white">{project.title}</h5>
-                  <p className="text-sm text-purple-200">{project.type} • {project.year}</p>
-                  <p className="text-sm text-blue-200">Role: {project.role}</p>
-                  <p className="text-sm text-gray-300 mt-2">{project.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Card>
-    </div>
-  )
-
   const renderCommunityTab = () => (
     <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-      <CommunityForum userType="filmmaker" onShowPublicProfile={handleShowPublicProfile} />
+      <CommunityForum userType="talent" userName={profileData.name} />
+    </div>
+  )
+
+  const renderSmartMatchingTab = () => (
+    <div className="space-y-6">
+      <SmartMatching userType="talent" userProfile={profileData} />
     </div>
   )
 
@@ -972,7 +773,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
                   <h1 className="text-3xl font-bold">
                     IndieGate.<span className="text-blue-600">io</span>
                   </h1>
-                  <p className="text-base text-gray-500 mt-1">Filmmaker Portal</p>
+                  <p className="text-base text-gray-500 mt-1">Creative Portal</p>
                 </div>
               </div>
             </div>
@@ -994,27 +795,6 @@ const CreativePortal = ({ onLogout, onBack }) => {
           </div>
         </div>
       </header>
-    )
-  }
-
-  // Main render logic - handle different views
-  if (showPublicProfile && currentPublicProfileId) {
-    return (
-      <>
-        <PublicProfile
-          userId={currentPublicProfileId}
-          onBack={handleBackToPortal}
-          onOpenMessaging={handleOpenMessaging}
-        />
-        {/* Messaging Interface */}
-        {messagingContact && (
-          <MessagingInterface
-            contactUserId={messagingContact.userId}
-            contactName={messagingContact.name}
-            onClose={handleCloseMessaging}
-          />
-        )}
-      </>
     )
   }
 
@@ -1097,15 +877,6 @@ const CreativePortal = ({ onLogout, onBack }) => {
           {activeTab === '📁 Portfolio' && renderPortfolioTab()}
         </div>
       </div>
-
-      {/* Messaging Interface */}
-      {messagingContact && (
-        <MessagingInterface
-          contactUserId={messagingContact.userId}
-          contactName={messagingContact.name}
-          onClose={handleCloseMessaging}
-        />
-      )}
     </div>
   )
 }
