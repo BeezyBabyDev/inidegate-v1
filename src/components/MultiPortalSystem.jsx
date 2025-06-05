@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { User, Camera, TrendingUp, Building, Bell, MessageCircle, Users, Star, ArrowLeft, Settings, LogOut, Eye, EyeOff } from 'lucide-react';
+import { User, Camera, TrendingUp, Building, Bell, MessageCircle, Users, Star, ArrowLeft, Settings, LogOut, Eye, EyeOff, Loader2, CheckCircle, AlertCircle, Home } from 'lucide-react';
 
 const MultiPortalSystem = () => {
   const [currentView, setCurrentView] = useState('login');
   const [currentUser, setCurrentUser] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loginAnimating, setLoginAnimating] = useState(false);
 
   // Enhanced user database with 20 profiles
   const users = {
@@ -245,9 +247,11 @@ const MultiPortalSystem = () => {
 
   const [loginData, setLoginData] = useState({ username: '', password: '' });
   const [loginError, setLoginError] = useState('');
+  const [loginSuccess, setLoginSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
 
-  // Auto-populate demo credentials
+  // Auto-populate demo credentials with animation
   const populateDemo = (type) => {
     const demoCredentials = {
       talent: { username: 'sophia.star', password: 'talent123' },
@@ -255,15 +259,49 @@ const MultiPortalSystem = () => {
       investor: { username: 'venture.capital', password: 'invest123' },
       brand: { username: 'luxury.fashion', password: 'brand123' }
     };
-    setLoginData(demoCredentials[type]);
+    
+    setLoginAnimating(true);
+    setLoginError('');
+    setLoginSuccess('Demo credentials loaded!');
+    
+    setTimeout(() => {
+      setLoginData(demoCredentials[type]);
+      setLoginAnimating(false);
+      setTimeout(() => setLoginSuccess(''), 2000);
+    }, 500);
+  };
+
+  // Remember me functionality
+  useEffect(() => {
+    const savedCredentials = localStorage.getItem('multiPortalCredentials');
+    if (savedCredentials) {
+      const { username, password, remember } = JSON.parse(savedCredentials);
+      if (remember) {
+        setLoginData({ username, password });
+        setRememberMe(true);
+      }
+    }
+  }, []);
+
+  const saveCredentials = (credentials, remember) => {
+    if (remember) {
+      localStorage.setItem('multiPortalCredentials', JSON.stringify({
+        ...credentials,
+        remember: true
+      }));
+    } else {
+      localStorage.removeItem('multiPortalCredentials');
+    }
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
     setLoginError('');
+    setLoginSuccess('');
     setIsLoading(true);
+    setLoginAttempts(prev => prev + 1);
     
-    // Simulate loading for better UX
+    // Enhanced loading simulation with validation
     setTimeout(() => {
       // Search all user types for matching credentials
       let foundUser = null;
@@ -279,14 +317,27 @@ const MultiPortalSystem = () => {
       }
       
       if (foundUser) {
-        setCurrentUser({ ...foundUser, portalType: userType });
-        setCurrentView('portal-entry');
-        setLoginData({ username: '', password: '' });
+        setLoginSuccess('Login successful! Redirecting...');
+        saveCredentials(loginData, rememberMe);
+        
+        setTimeout(() => {
+          setCurrentUser({ ...foundUser, portalType: userType });
+          setCurrentView('portal-entry');
+          if (!rememberMe) {
+            setLoginData({ username: '', password: '' });
+          }
+          setIsLoading(false);
+        }, 1000);
       } else {
-        setLoginError('Invalid username or password. Try the demo accounts below.');
+        const errorMessages = [
+          'Invalid username or password. Try the demo accounts below.',
+          'Authentication failed. Please check your credentials.',
+          'Unable to authenticate. Use demo accounts for testing.'
+        ];
+        setLoginError(errorMessages[Math.min(loginAttempts, errorMessages.length - 1)]);
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    }, 800);
+    }, 1200);
   };
 
   const getPortalConfig = (type) => {
@@ -345,12 +396,17 @@ const MultiPortalSystem = () => {
     
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-2xl p-6 max-w-md w-full shadow-2xl">
+        <div className="bg-white bg-opacity-95 backdrop-blur-lg rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl border border-white border-opacity-20 max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-bold text-gray-800">Notifications</h3>
+            <div className="flex items-center space-x-3">
+              <div className={`w-8 h-8 bg-gradient-to-r ${config.color} rounded-lg flex items-center justify-center text-white`}>
+                <Bell className="w-4 h-4" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800">Notifications</h3>
+            </div>
             <button 
               onClick={onClose} 
-              className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
+              className="text-gray-500 hover:text-gray-700 text-2xl leading-none p-1 hover:bg-gray-100 rounded-lg transition-colors"
             >
               ×
             </button>
@@ -390,12 +446,12 @@ const MultiPortalSystem = () => {
         <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md shadow-2xl border border-white border-opacity-20">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white mb-2">IndieGate.io</h1>
-            <h2 className="text-xl font-semibold text-white mb-2">Portal Access</h2>
+            <h2 className="text-xl font-semibold text-white mb-2">Multi-Portal Access</h2>
             <p className="text-blue-200">Sign in to your specialized portal</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-6">
-            <div>
+            <div className={`transition-all duration-300 ${loginAnimating ? 'scale-105' : 'scale-100'}`}>
               <input
                 type="text"
                 placeholder="Username"
@@ -406,7 +462,7 @@ const MultiPortalSystem = () => {
               />
             </div>
             
-            <div className="relative">
+            <div className={`relative transition-all duration-300 ${loginAnimating ? 'scale-105' : 'scale-100'}`}>
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
@@ -423,22 +479,56 @@ const MultiPortalSystem = () => {
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
+
+            {/* Remember Me & Forgot Password */}
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center space-x-2 text-blue-200 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="rounded border-white border-opacity-30"
+                />
+                <span>Remember me</span>
+              </label>
+              <button
+                type="button"
+                className="text-blue-300 hover:text-white transition-colors"
+                onClick={() => alert('Demo system - password reset not available')}
+              >
+                Forgot password?
+              </button>
+            </div>
             
             {loginError && (
-              <div className="p-3 bg-red-500 bg-opacity-20 border border-red-500 border-opacity-30 rounded-lg">
-                <p className="text-red-300 text-sm text-center">{loginError}</p>
+              <div className="p-3 bg-red-500 bg-opacity-20 border border-red-500 border-opacity-30 rounded-lg flex items-center space-x-2">
+                <AlertCircle className="w-4 h-4 text-red-300 flex-shrink-0" />
+                <p className="text-red-300 text-sm">{loginError}</p>
+              </div>
+            )}
+
+            {loginSuccess && (
+              <div className="p-3 bg-green-500 bg-opacity-20 border border-green-500 border-opacity-30 rounded-lg flex items-center space-x-2">
+                <CheckCircle className="w-4 h-4 text-green-300 flex-shrink-0" />
+                <p className="text-green-300 text-sm">{loginSuccess}</p>
               </div>
             )}
             
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center"
+              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
             >
               {isLoading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Authenticating...</span>
+                </>
               ) : (
-                'Sign In'
+                <>
+                  <User className="w-5 h-5" />
+                  <span>Sign In</span>
+                </>
               )}
             </button>
           </form>
@@ -475,6 +565,17 @@ const MultiPortalSystem = () => {
                 luxury.fashion
               </button>
             </div>
+          </div>
+
+          {/* Back to Demo Landing */}
+          <div className="text-center mt-6">
+            <button
+              onClick={() => window.history.back()}
+              className="flex items-center space-x-2 text-blue-300 hover:text-white transition-colors mx-auto"
+            >
+              <Home className="w-4 h-4" />
+              <span>Back to Demo Landing</span>
+            </button>
           </div>
         </div>
       </div>

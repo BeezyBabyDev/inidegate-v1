@@ -8,6 +8,7 @@ import InvestorPortal from './components/InvestorPortal'
 import TalentPortalComponent from './components/TalentPortalComponent'
 import BrandsPortal from './components/BrandsPortal'
 import MultiPortalSystem from './components/MultiPortalSystem'
+import DemoLandingPage from './components/DemoLandingPage'
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome')
@@ -22,6 +23,13 @@ function App() {
     // Check for multi-portal system access
     if (multiPortal === 'true') {
       setCurrentView('multi-portal')
+      setHasValidCode(true)
+      return
+    }
+
+    // Check for demo landing page access
+    if (multiPortal === 'demo') {
+      setCurrentView('demo-landing')
       setHasValidCode(true)
       return
     }
@@ -60,8 +68,8 @@ function App() {
       
       // Check for multi-portal system
       if (code.toUpperCase() === 'MULTI-PORTAL') {
-        setCurrentView('multi-portal')
-        const url = window.location.origin + window.location.pathname + '?multi-portal=true'
+        setCurrentView('demo-landing')
+        const url = window.location.origin + window.location.pathname + '?multi-portal=demo'
         window.history.pushState({}, '', url)
       } else {
         setCurrentView('portal-selection')
@@ -156,6 +164,11 @@ function App() {
 
   if (currentView === 'brands') {
     return <BrandsPortal onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+  }
+
+  // Demo Landing Page
+  if (currentView === 'demo-landing') {
+    return <DemoLandingPage onAccessMultiPortal={() => setCurrentView('multi-portal')} />
   }
 
   // Multi-Portal System
