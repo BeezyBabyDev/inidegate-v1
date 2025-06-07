@@ -9,12 +9,29 @@ import TalentPortalComponent from './components/TalentPortalComponent'
 import BrandsPortal from './components/BrandsPortal'
 import MultiPortalSystem from './components/MultiPortalSystem'
 import DemoLandingPage from './components/DemoLandingPage'
+import AuthPortalSelection from './components/AuthPortalSelection'
+import ProfileManager from './components/ProfileManager'
+import FilmProjectDetailDemo from './components/FilmProjectDetailDemo'
+import { authService } from './config/auth.js'
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome')
   const [hasValidCode, setHasValidCode] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+  const [showAccountSystem, setShowAccountSystem] = useState(false)
 
   useEffect(() => {
+    // Check for existing authentication
+    const user = authService.getCurrentUser()
+    if (user && authService.isAuthenticated()) {
+      setIsAuthenticated(true)
+      setCurrentUser(user)
+      setCurrentView(user.portal) // Go directly to user's portal
+      setHasValidCode(true)
+      return
+    }
+
     const urlParams = new URLSearchParams(window.location.search)
     const portal = urlParams.get('portal')
     const hasCode = urlParams.get('code')
@@ -155,6 +172,12 @@ function App() {
     console.log('handleLogout called - navigating back to welcome page')
 
     try {
+      // Logout from authentication system
+      authService.logout()
+      setIsAuthenticated(false)
+      setCurrentUser(null)
+      setShowAccountSystem(false)
+
       // Clear any URL parameters and go to root
       const url = window.location.origin + window.location.pathname.replace(/\/+$/, '') || '/'
       window.history.pushState({}, '', url)
@@ -168,6 +191,30 @@ function App() {
       // Fallback to direct navigation
       window.location.href = '/'
     }
+  }
+
+  const handleAuthSuccess = (user) => {
+    setIsAuthenticated(true)
+    setCurrentUser(user)
+    setShowAccountSystem(false)
+    setCurrentView(user.portal)
+    setHasValidCode(true)
+    
+    // Update URL
+    const url = window.location.origin + window.location.pathname + `?portal=${user.portal}&authenticated=true`
+    window.history.pushState({}, '', url)
+  }
+
+  const handleShowAccountSystem = () => {
+    setShowAccountSystem(true)
+  }
+
+  const handleProfileUpdate = (updatedUser) => {
+    setCurrentUser(updatedUser)
+  }
+
+  const handleShowFilmDemo = () => {
+    setCurrentView('film-detail-demo')
   }
 
   const handleSelectPortal = portal => {
@@ -191,9 +238,35 @@ function App() {
     window.history.pushState({}, '', url)
   }
 
+  // Show account system
+  if (showAccountSystem) {
+    return (
+      <AuthPortalSelection 
+        onBackToWelcome={handleBackToWelcome}
+        onAuthSuccess={handleAuthSuccess}
+      />
+    )
+  }
+
+  // Show profile manager if requested
+  if (currentView === 'profile' && isAuthenticated && currentUser) {
+    return (
+      <ProfileManager
+        user={currentUser}
+        onProfileUpdate={handleProfileUpdate}
+        onBack={() => setCurrentView(currentUser.portal)}
+      />
+    )
+  }
+
+  // Show film project detail demo
+  if (currentView === 'film-detail-demo') {
+    return <FilmProjectDetailDemo />
+  }
+
   // Welcome page - entry point
   if (currentView === 'welcome') {
-    return <WelcomePage onEnterCode={handleEnterCode} />
+    return <WelcomePage onEnterCode={handleEnterCode} onShowAccountSystem={handleShowAccountSystem} onShowFilmDemo={handleShowFilmDemo} />
   }
 
   // Portal selection page - after code entry
@@ -210,21 +283,55 @@ function App() {
   if (currentView === 'filmmakers' || currentView === 'talent') {
     // Map 'talent' to CreativePortal for backward compatibility
     if (currentView === 'talent') {
-      return <TalentPortalComponent onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+      return <TalentPortalComponent 
+        onLogout={handleLogout} 
+        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+        user={currentUser}
+        isAuthenticated={isAuthenticated}
+      />
     }
-    return <CreativePortal onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+    return <CreativePortal 
+      onLogout={handleLogout} 
+      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+      user={currentUser}
+      isAuthenticated={isAuthenticated}
+    />
   }
 
   if (currentView === 'investor') {
-    return <InvestorPortal onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+    return <InvestorPortal 
+      onLogout={handleLogout} 
+      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+      user={currentUser}
+      isAuthenticated={isAuthenticated}
+    />
+  }
+
+  if (currentView === 'filmmaker') {
+    return <CreativePortal 
+      onLogout={handleLogout} 
+      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+      user={currentUser}
+      isAuthenticated={isAuthenticated}
+    />
   }
 
   if (currentView === 'talent-new') {
-    return <TalentPortalComponent onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+    return <TalentPortalComponent 
+      onLogout={handleLogout} 
+      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+      user={currentUser}
+      isAuthenticated={isAuthenticated}
+    />
   }
 
-  if (currentView === 'brands') {
-    return <BrandsPortal onLogout={handleLogout} onBack={handleBackToPortalSelection} />
+  if (currentView === 'brand') {
+    return <BrandsPortal 
+      onLogout={handleLogout} 
+      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+      user={currentUser}
+      isAuthenticated={isAuthenticated}
+    />
   }
 
   // Demo Landing Page

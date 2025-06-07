@@ -10,7 +10,7 @@ const Building = ({ className }) => React.createElement('div', { className: `${c
 const ArrowRight = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '→')
 const Zap = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '⚡')
 
-const WelcomePage = ({ onEnterCode }) => {
+const WelcomePage = ({ onEnterCode, onShowAccountSystem, onShowFilmDemo }) => {
   const [registrantCode, setRegistrantCode] = useState('')
   const [error, setError] = useState('')
   const [showAccessRequest, setShowAccessRequest] = useState(false)
@@ -521,6 +521,33 @@ const WelcomePage = ({ onEnterCode }) => {
                   'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-1 px-3 rounded-md transition-all duration-200 transform hover:scale-105 mb-2 text-sm',
               },
               'Request Access Code'
+            ),
+            React.createElement(
+              'div',
+              { className: 'text-center mt-2 pt-2 border-t border-white/20' },
+              React.createElement(
+                'p',
+                { className: 'text-indigo-300 mb-2 text-xs' },
+                "Ready to join IndieGate?"
+              ),
+                             React.createElement(
+                 Button,
+                 {
+                   onClick: onShowAccountSystem,
+                   className:
+                     'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-semibold py-1 px-3 rounded-md transition-all duration-200 transform hover:scale-105 text-sm mb-2',
+                 },
+                 'Create Account or Sign In'
+               ),
+               onShowFilmDemo && React.createElement(
+                 Button,
+                 {
+                   onClick: onShowFilmDemo,
+                   className:
+                     'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-1 px-3 rounded-md transition-all duration-200 transform hover:scale-105 text-sm',
+                 },
+                 '🎬 View Film Investment Demo'
+               )
             )
           )
         )
