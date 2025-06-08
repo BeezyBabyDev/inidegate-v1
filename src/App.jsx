@@ -137,6 +137,7 @@ function App() {
       
       const url = window.location.origin + window.location.pathname + `?portal=${portal}&profile=${profile}&code=${code}`
       window.history.pushState({}, '', url)
+      window.scrollTo(0, 0) // Scroll to top on navigation
       return
     }
     
@@ -149,10 +150,12 @@ function App() {
         setCurrentView('demo-landing')
         const url = window.location.origin + window.location.pathname + '?multi-portal=demo'
         window.history.pushState({}, '', url)
+        window.scrollTo(0, 0) // Scroll to top on navigation
       } else {
         setCurrentView('portal-selection')
         const url = window.location.origin + window.location.pathname + '?code=' + code
         window.history.pushState({}, '', url)
+        window.scrollTo(0, 0) // Scroll to top on navigation
       }
     } else {
       alert('Invalid registrant code. Try: DEMO2025, MULTI-PORTAL, or individual persona codes like SOPHIA-STAR')
@@ -203,10 +206,12 @@ function App() {
     // Update URL
     const url = window.location.origin + window.location.pathname + `?portal=${user.portal}&authenticated=true`
     window.history.pushState({}, '', url)
+    window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
   const handleShowAccountSystem = () => {
     setShowAccountSystem(true)
+    window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
   const handleProfileUpdate = (updatedUser) => {
@@ -215,6 +220,7 @@ function App() {
 
   const handleShowFilmDemo = () => {
     setCurrentView('film-detail-demo')
+    window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
   const handleSelectPortal = portal => {
@@ -225,9 +231,11 @@ function App() {
       const newUrl = `${baseUrl}?portal=${portal}&code=DEMO2025`
       window.history.pushState({}, '', newUrl)
       setCurrentView(portal)
+      window.scrollTo(0, 0) // Scroll to top on navigation
     } catch (error) {
       console.error('Navigation error in handleSelectPortal:', error)
       setCurrentView(portal)
+      window.scrollTo(0, 0) // Scroll to top on navigation
     }
   }
 
@@ -236,6 +244,7 @@ function App() {
     // Update URL to remove portal parameter but keep code
     const url = window.location.origin + window.location.pathname + '?code=DEMO2025'
     window.history.pushState({}, '', url)
+    window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
   // Show account system

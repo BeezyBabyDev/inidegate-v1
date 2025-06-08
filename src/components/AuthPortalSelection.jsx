@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import { useScrollToTop } from '../hooks/useScrollToTop';
 import { PORTAL_TYPES, PORTAL_CONFIGS } from '../config/auth.js';
 import AccountRegistration from './AccountRegistration';
 import AccountLogin from './AccountLogin';
 import { authService } from '../config/auth.js';
 
 const AuthPortalSelection = ({ onBackToWelcome, onAuthSuccess }) => {
+  // Automatically scroll to top when component mounts
+  useScrollToTop()
+  
   const [currentView, setCurrentView] = useState('selection'); // 'selection', 'register', 'login'
   const [selectedPortal, setSelectedPortal] = useState(null);
   const [authMessage, setAuthMessage] = useState('');

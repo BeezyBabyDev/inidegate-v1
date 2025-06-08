@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import Button from './Button'
+import { useScrollToTop } from '../hooks/useScrollToTop'
 
 // Simple icon components as fallback since lucide-react isn't installed
 const User = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '👤')
@@ -11,6 +12,9 @@ const ArrowRight = ({ className }) => React.createElement('div', { className: `$
 const Zap = ({ className }) => React.createElement('div', { className: `${className} flex items-center justify-center text-white` }, '⚡')
 
 const WelcomePage = ({ onEnterCode, onShowAccountSystem, onShowFilmDemo }) => {
+  // Automatically scroll to top when component mounts
+  useScrollToTop()
+  
   const [registrantCode, setRegistrantCode] = useState('')
   const [error, setError] = useState('')
   const [showAccessRequest, setShowAccessRequest] = useState(false)

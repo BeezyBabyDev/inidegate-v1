@@ -7,6 +7,7 @@ import SmartMatching from './SmartMatching'
 import PublicProfile from './PublicProfile'
 import MessagingInterface from './MessagingInterface'
 import FilmProjectDetail from './FilmProjectDetail'
+import { useScrollToTop, scrollToTop } from '../hooks/useScrollToTop'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
 const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
@@ -199,6 +200,9 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 )
 
 const InvestorPortal = ({ onLogout, onBack }) => {
+  // Automatically scroll to top when component mounts
+  useScrollToTop()
+  
   const [activeTab, setActiveTab] = useState('👤 Profile')
   const [profileView, setProfileView] = useState('showcase')
   const [showPublicProfile, setShowPublicProfile] = useState(false)
@@ -885,7 +889,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">
           <button
-            onClick={() => setActiveTab('👤 Profile')}
+            onClick={() => {
+              setActiveTab('👤 Profile')
+              scrollToTop()
+            }}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '👤 Profile'
                 ? 'bg-white text-green-900 shadow-lg'
@@ -895,7 +902,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             👤 Profile
           </button>
           <button
-            onClick={() => setActiveTab('📊 Portfolio')}
+            onClick={() => {
+              setActiveTab('📊 Portfolio')
+              scrollToTop()
+            }}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '📊 Portfolio'
                 ? 'bg-white text-green-900 shadow-lg'
@@ -905,7 +915,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             📊 Portfolio
           </button>
           <button
-            onClick={() => setActiveTab('💰 Deal Flow')}
+            onClick={() => {
+              setActiveTab('💰 Deal Flow')
+              scrollToTop()
+            }}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '💰 Deal Flow'
                 ? 'bg-white text-green-900 shadow-lg'
@@ -915,7 +928,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             💰 Deal Flow
           </button>
           <button
-            onClick={() => setActiveTab('💬 Community')}
+            onClick={() => {
+              setActiveTab('💬 Community')
+              scrollToTop()
+            }}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '💬 Community'
                 ? 'bg-white text-green-900 shadow-lg'
@@ -925,7 +941,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             💬 Community
           </button>
           <button
-            onClick={() => setActiveTab('🤖 Smart Matching')}
+            onClick={() => {
+              setActiveTab('🤖 Smart Matching')
+              scrollToTop()
+            }}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '🤖 Smart Matching'
                 ? 'bg-white text-green-900 shadow-lg'
@@ -935,7 +954,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
             🤖 Smart Matching
           </button>
           <button
-            onClick={() => setActiveTab('📈 Analytics')}
+            onClick={() => {
+              setActiveTab('📈 Analytics')
+              scrollToTop()
+            }}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === '📈 Analytics'
                 ? 'bg-white text-green-900 shadow-lg'

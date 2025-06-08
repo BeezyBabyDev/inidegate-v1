@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useScrollToTop } from '../hooks/useScrollToTop'
 import Button from './Button'
 import TalentProfile from './TalentProfile'
 
@@ -193,6 +194,9 @@ const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
 )
 
 const TalentPortalComponent = ({ onLogout, onBack }) => {
+  // Automatically scroll to top when component mounts
+  useScrollToTop()
+  
   const [activeTab, setActiveTab] = useState('🎭 Dashboard')
   const [currentView, setCurrentView] = useState('dashboard')
   const [selectedProfile, setSelectedProfile] = useState(null)

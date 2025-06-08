@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from './Button'
+import { useScrollToTop } from '../hooks/useScrollToTop'
 
 // IndieGate.io Logo Component - Official Design
 const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
@@ -192,6 +193,9 @@ const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
 )
 
 const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
+  // Automatically scroll to top when component mounts
+  useScrollToTop()
+  
   // Category data for each portal
   const filmmakersCategories = [
     'Directors & Producers',

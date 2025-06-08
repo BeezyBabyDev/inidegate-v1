@@ -7,6 +7,7 @@ import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 import PublicProfile from './PublicProfile'
 import MessagingInterface from './MessagingInterface'
+import { useScrollToTop } from '../hooks/useScrollToTop'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
 const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
@@ -199,17 +200,15 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 )
 
 const CreativePortal = ({ onLogout, onBack }) => {
+  // Automatically scroll to top when component mounts
+  useScrollToTop()
+  
   const [activeTab, setActiveTab] = useState('👤 Profile')
   const [profileView, setProfileView] = useState('showcase')
   const [showPublicProfile, setShowPublicProfile] = useState(false)
   const [currentPublicProfileId, setCurrentPublicProfileId] = useState(null)
   const [messagingContact, setMessagingContact] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
-
-  // Scroll to top when portal loads
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
 
   // Enhanced filmmaker profile data
   const [profileData, setProfileData] = useState({

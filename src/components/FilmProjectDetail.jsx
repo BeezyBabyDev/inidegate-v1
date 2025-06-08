@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const FilmProjectDetail = ({ onBack, project = null }) => {
+  // Automatically scroll to top when component mounts
+  useScrollToTop()
+  
   const [activeTab, setActiveTab] = useState('overview');
 
   // Default project data for "Midnight in Brooklyn"
