@@ -6,7 +6,7 @@ import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 import PublicProfile from './PublicProfile'
 import MessagingInterface from './MessagingInterface'
-import ProjectDetails from './ProjectDetails'
+import FilmProjectDetail from './FilmProjectDetail'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
 const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
@@ -632,7 +632,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
               <Button
                 size="sm"
                 className="w-full bg-green-600 hover:bg-green-700"
-                onClick={() => setSelectedProject(project.id)}
+                onClick={() => setSelectedProject(project)}
               >
                 View Details
               </Button>
@@ -798,10 +798,9 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   // Main render logic - handle different views
   if (selectedProject) {
     return (
-      <ProjectDetails
-        projectId={selectedProject}
+      <FilmProjectDetail
         onBack={() => setSelectedProject(null)}
-        onShowProfile={handleShowPublicProfile}
+        project={selectedProject}
       />
     )
   }
