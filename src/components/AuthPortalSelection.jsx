@@ -159,34 +159,7 @@ const AuthPortalSelection = ({ onBackToWelcome, onAuthSuccess }) => {
           ))}
         </div>
 
-        {/* Demo Access Section */}
-        <div className="border-t border-white/20 pt-6">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold text-white mb-2">
-              Demo Access Available
-            </h3>
-            <p className="text-indigo-200 text-sm mb-4">
-              Explore the platform with demo accounts and showcase features
-            </p>
-            <div className="flex flex-wrap justify-center gap-2">
-              <code className="text-yellow-300 bg-white/10 px-3 py-1 rounded text-sm">
-                DEMO2025
-              </code>
-              <code className="text-yellow-300 bg-white/10 px-3 py-1 rounded text-sm">
-                MULTI-PORTAL
-              </code>
-              <code className="text-green-300 bg-white/10 px-3 py-1 rounded text-sm">
-                SOPHIA-STAR
-              </code>
-              <code className="text-green-300 bg-white/10 px-3 py-1 rounded text-sm">
-                ALEX-DIRECTOR
-              </code>
-            </div>
-            <p className="text-indigo-300 text-xs mt-2">
-              Use these codes on the main welcome page for instant demo access
-            </p>
-          </div>
-        </div>
+
 
         {/* Statistics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/20">
