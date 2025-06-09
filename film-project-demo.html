@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Legends 2 - Project Details | IndieGate.io</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #312e81 0%, #7c3aed 50%, #1e40af 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .project-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badges {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .badge-horror {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .badge-pre-prod {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-funded {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .funding-progress {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #374151;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            width: 0%;
+            transition: width 2s ease-out;
+            animation: fillProgress 2s ease-out forwards;
+        }
+
+        @keyframes fillProgress {
+            to { width: 73%; }
+        }
+
+        .funding-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-value.total { color: #60a5fa; }
+        .stat-value.secured { color: #34d399; }
+        .stat-value.needed { color: #f87171; }
+
+        .investment-tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tier-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tier-card:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tier-amount {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .tier-amount.blue {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+        }
+
+        .tier-amount.purple {
+            background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+        }
+
+        .tier-amount.indigo {
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
+        }
+
+        .tier-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .tier-benefits {
+            list-style: none;
+        }
+
+        .tier-benefits li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #cbd5e1;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .tier-benefits li::before {
+            content: "•";
+            color: #34d399;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .team-member {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .team-member .avatar {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .team-member .name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .team-member .role {
+            color: #a78bfa;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .team-member .experience {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .timeline {
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .timeline-dot.current {
+            background: #10b981;
+        }
+
+        .timeline-dot.upcoming {
+            background: #6b7280;
+        }
+
+        .timeline-content .quarter {
+            color: #a78bfa;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .timeline-content .phase {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content .tasks {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2));
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .cta-btn.primary {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+        }
+
+        .cta-btn.primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .cta-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .comparable-films {
+            margin: 20px 0;
+        }
+
+        .film-comparison {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .film-info {
+            flex: 1;
+        }
+
+        .film-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .film-budget {
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+
+        .film-roi {
+            color: #34d399;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .projected-roi {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2));
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .projected-roi .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #34d399;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-title {
+                font-size: 32px;
+            }
+            
+            .investment-tiers {
+                grid-template-columns: 1fr;
+            }
+            
+            .funding-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <span class="logo">IndieGate.io</span>
+                <span style="color: #a78bfa; margin-left: 15px;">Filmmaker Portal</span>
+            </div>
+            <button class="back-btn" onclick="alert('Back to Projects functionality')">
+                ← Back to Projects
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-grid">
+            <!-- Main Content -->
+            <div>
+                <!-- Project Header -->
+                <div class="card">
+                    <h1 class="project-title">Urban Legends 2</h1>
+                    <div class="badges">
+                        <span class="badge badge-horror">Horror</span>
+                        <span class="badge badge-pre-prod">Pre-Production</span>
+                        <span class="badge badge-funded">73% Funded</span>
+                    </div>
+                    <div style="text-align: right; margin-top: 20px;">
+                        <div style="color: #a78bfa; font-size: 14px;">Production Start</div>
+                        <div style="font-weight: bold; font-size: 18px;">Q2 2024</div>
+                    </div>
+                </div>
+
+                <!-- Project Synopsis -->
+                <div class="card">
+                    <h2 style="font-size: 28px; font-weight: bold; margin-bottom: 20px;">Project Synopsis</h2>
+                    <div style="line-height: 1.6; color: #cbd5e1;">
+                        <p style="margin-bottom: 15px;">
+                            <strong style="color: white;">Urban Legends 2</strong> is a supernatural horror film that explores how ancient urban legends adapt and spread through modern digital connectivity. Set in a contemporary college town, the film follows a group of students who discover that viral social media challenges are actually manifestations of centuries-old supernatural entities.
+                        </p>
+                        <p style="margin-bottom: 15px;">
+                            Building on the success of the original Urban Legends (1998), this modern reimagining combines practical effects with cutting-edge technology to create visceral, contemporary scares. The film explores themes of digital addiction, viral misinformation, and the power of collective belief in the internet age.
+                        </p>
+                        <p>
+                            With a focus on practical effects enhanced by modern VFX techniques, Urban Legends 2 aims to deliver authentic horror experiences that resonate with both franchise fans and new audiences seeking intelligent, character-driven supernatural terror.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Investment Tiers -->
+                <div class="card">
+                    <h2 style="font-size: 28px; font-weight: bold; margin-bottom: 20px;">Investment Opportunities</h2>
+                    <div class="investment-tiers">
+                        <div class="tier-card">
+                            <div class="tier-amount blue">$25K+</div>
+                            <h3 class="tier-title">Associate Producer</h3>
+                            <ul class="tier-benefits">
+                                <li>Associate Producer screen credit</li>
+                                <li>Behind-the-scenes set visit</li>
+                                <li>Digital screener access</li>
+                                <li>Monthly progress reports</li>
+                                <li>Invitation to wrap party</li>
+                            </ul>
+                        </div>
+                        <div class="tier-card">
+                            <div class="tier-amount purple">$50K+</div>
+                            <h3 class="tier-title">Executive Producer</h3>
+                            <ul class="tier-benefits">
+                                <li>Executive Producer screen credit</li>
+                                <li>Creative input during production</li>
+                                <li>Two premiere tickets</li>
+                                <li>Revenue sharing participation</li>
+                                <li>Marketing consultation access</li>
+                            </ul>
+                        </div>
+                        <div class="tier-card">
+                            <div class="tier-amount indigo">$100K+</div>
+                            <h3 class="tier-title">Co-Producer</h3>
+                            <ul class="tier-benefits">
+                                <li>Co-Producer credit with logo placement</li>
+                                <li>Distribution strategy consultation</li>
+                                <li>First-look rights on sequel</li>
+                                <li>Premium revenue share tier</li>
+                                <li>Festival screening access</li>
+                                <li>Merchandising participation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Members -->
+                <div class="card">
+                    <h2 style="font-size: 28px; font-weight: bold; margin-bottom: 20px;">Key Team Members</h2>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="avatar">🎬</div>
+                            <div class="name">Marcus Rivera</div>
+                            <div class="role">Director/Producer</div>
+                            <div class="experience">15 years experience, 3 festival awards</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="avatar">📹</div>
+                            <div class="name">Sarah Chen</div>
+                            <div class="role">Cinematographer</div>
+                            <div class="experience">Award-winning DP, practical effects expert</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="avatar">✨</div>
+                            <div class="name">James Kim</div>
+                            <div class="role">VFX Supervisor</div>
+                            <div class="experience">Industry veteran with major horror credits</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Production Timeline -->
+                <div class="card">
+                    <h2 style="font-size: 28px; font-weight: bold; margin-bottom: 20px;">Production Timeline</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot current"></div>
+                            <div class="timeline-content">
+                                <div>
+                                    <span class="quarter">Q1 2024</span>
+                                    <span class="phase">Pre-Production</span>
+                                </div>
+                                <div class="tasks">Cast, locations, pre-viz</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot upcoming"></div>
+                            <div class="timeline-content">
+                                <div>
+                                    <span class="quarter">Q2 2024</span>
+                                    <span class="phase">Principal Photography</span>
+                                </div>
+                                <div class="tasks">30-day shoot schedule</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot upcoming"></div>
+                            <div class="timeline-content">
+                                <div>
+                                    <span class="quarter">Q3-Q4 2024</span>
+                                    <span class="phase">Post-Production</span>
+                                </div>
+                                <div class="tasks">Editing, VFX, sound design</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot upcoming"></div>
+                            <div class="timeline-content">
+                                <div>
+                                    <span class="quarter">Q1 2025</span>
+                                    <span class="phase">Distribution</span>
+                                </div>
+                                <div class="tasks">Festivals, theatrical, streaming</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div>
+                <!-- Funding Overview -->
+                <div class="card">
+                    <h3 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">Funding Overview</h3>
+                    <div class="funding-progress">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: #cbd5e1;">Progress</span>
+                            <span style="color: #34d399; font-weight: bold;">73%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                    <div class="funding-stats">
+                        <div class="stat">
+                            <div class="stat-value total">$850K</div>
+                            <div style="color: #cbd5e1; font-size: 14px;">Total Budget</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value secured">$620K</div>
+                            <div style="color: #cbd5e1; font-size: 14px;">Secured</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value needed">$230K</div>
+                            <div style="color: #cbd5e1; font-size: 14px;">Still Needed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Analysis -->
+                <div class="card">
+                    <h3 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">Market Analysis</h3>
+                    <h4 style="color: #a78bfa; font-weight: 600; margin-bottom: 15px;">Comparable Films ROI</h4>
+                    <div class="comparable-films">
+                        <div class="film-comparison">
+                            <div class="film-info">
+                                <div class="film-title">The Conjuring</div>
+                                <div class="film-budget">Budget: $20M</div>
+                            </div>
+                            <div>
+                                <div class="film-roi">2,100%</div>
+                                <div style="font-size: 12px; color: #cbd5e1;">$420M</div>
+                            </div>
+                        </div>
+                        <div class="film-comparison">
+                            <div class="film-info">
+                                <div class="film-title">Paranormal Activity</div>
+                                <div class="film-budget">Budget: $15K</div>
+                            </div>
+                            <div>
+                                <div class="film-roi">66,900%</div>
+                                <div style="font-size: 12px; color: #cbd5e1;">$193M</div>
+                            </div>
+                        </div>
+                        <div class="film-comparison">
+                            <div class="film-info">
+                                <div class="film-title">Insidious</div>
+                                <div class="film-budget">Budget: $1.5M</div>
+                            </div>
+                            <div>
+                                <div class="film-roi">1,000%</div>
+                                <div style="font-size: 12px; color: #cbd5e1;">$97M</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="projected-roi">
+                        <div style="font-weight: bold; margin-bottom: 10px;">Projected ROI</div>
+                        <div class="value">400-800%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h3 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">Ready to Invest?</h3>
+            <div class="cta-buttons">
+                <button class="cta-btn primary" onclick="alert('Investment call scheduling feature coming soon!')">
+                    Schedule Investment Call
+                </button>
+                <button class="cta-btn secondary" onclick="alert('Pitch deck download feature coming soon!')">
+                    Download Full Pitch Deck
+                </button>
+            </div>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2); color: #cbd5e1; font-size: 14px;">
+                <div>Contact: invest@indiegate.io</div>
+                <div>Phone: (555) 123-4567</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
