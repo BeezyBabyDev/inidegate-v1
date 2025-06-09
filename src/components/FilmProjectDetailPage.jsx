@@ -1,19 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 
-const FilmProjectDetailPage = ({ onBack }) => {
+const FilmProjectDetailPage = ({ onBack, project }) => {
   useScrollToTop();
   
   const [fundingProgress, setFundingProgress] = useState(0);
   const [showFullBudget, setShowFullBudget] = useState(false);
 
+  // Default project data for "Urban Legends 2" if no project is passed
+  const defaultProject = {
+    id: 'urban-legends-2',
+    title: 'Urban Legends 2',
+    genre: 'Horror',
+    stage: 'Pre-Production',
+    fundingStatus: 'Partially Funded',
+    budget: '$850K',
+    secured: '$620K',
+    role: 'Director/Producer',
+    timeline: 'Production starts March 2024',
+    status: 'On Track',
+  };
+
+  const projectData = project || defaultProject;
+
+  // Calculate funding percentage
+  const budgetNumber = parseInt(projectData.budget.replace(/[$K]/g, '')) * 1000;
+  const securedNumber = parseInt(projectData.secured.replace(/[$K]/g, '')) * 1000;
+  const fundingPercentage = Math.round((securedNumber / budgetNumber) * 100);
+
   // Animate funding progress bar on load
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFundingProgress(73);
+      setFundingProgress(fundingPercentage);
     }, 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [fundingPercentage]);
 
   const handleScheduleCall = () => {
     alert('Investment call scheduling feature coming soon! Please contact us directly.');
@@ -135,25 +156,25 @@ const FilmProjectDetailPage = ({ onBack }) => {
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h1 className="text-4xl font-bold text-white mb-2">Urban Legends 2</h1>
+                  <h1 className="text-4xl font-bold text-white mb-2">{projectData.title}</h1>
                   <div className="flex flex-wrap gap-4 text-sm">
                     <span className="px-3 py-1 bg-red-500/20 text-red-300 rounded-full border border-red-400/30">
-                      Horror
+                      {projectData.genre}
                     </span>
                     <span className="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full border border-yellow-400/30">
-                      Pre-Production
+                      {projectData.stage}
                     </span>
                     <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30">
-                      Director/Producer
+                      {projectData.role}
                     </span>
                     <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full border border-green-400/30">
-                      73% Funded
+                      {fundingPercentage}% Funded
                     </span>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="text-indigo-300 text-sm">Production Start</div>
-                  <div className="text-white font-semibold">Q2 2024</div>
+                  <div className="text-white font-semibold">{projectData.timeline}</div>
                 </div>
               </div>
             </div>
@@ -303,15 +324,15 @@ const FilmProjectDetailPage = ({ onBack }) => {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-indigo-200">Total Budget</span>
-                    <span className="text-blue-400 font-bold">$850K</span>
+                    <span className="text-blue-400 font-bold">{projectData.budget}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-indigo-200">Secured</span>
-                    <span className="text-green-400 font-bold">$620K</span>
+                    <span className="text-green-400 font-bold">{projectData.secured}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-indigo-200">Still Needed</span>
-                    <span className="text-red-400 font-bold">$230K</span>
+                    <span className="text-red-400 font-bold">${(budgetNumber - securedNumber) / 1000}K</span>
                   </div>
                 </div>
               </div>

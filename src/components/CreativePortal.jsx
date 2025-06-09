@@ -7,6 +7,7 @@ import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 import PublicProfile from './PublicProfile'
 import MessagingInterface from './MessagingInterface'
+import FilmProjectDetailPage from './FilmProjectDetailPage'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
@@ -209,6 +210,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
   const [currentPublicProfileId, setCurrentPublicProfileId] = useState(null)
   const [messagingContact, setMessagingContact] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
+  const [showProjectDetail, setShowProjectDetail] = useState(false)
 
   // Enhanced filmmaker profile data
   const [profileData, setProfileData] = useState({
@@ -481,6 +483,17 @@ const CreativePortal = ({ onLogout, onBack }) => {
       // Final fallback
       window.location.href = '/'
     }
+  }
+
+  const handleViewProjectDetails = (project) => {
+    console.log('Viewing project details for:', project.title)
+    setSelectedProject(project)
+    setShowProjectDetail(true)
+  }
+
+  const handleBackToProjects = () => {
+    setShowProjectDetail(false)
+    setSelectedProject(null)
   }
 
   const renderProfileTab = () => {
@@ -989,7 +1002,11 @@ const CreativePortal = ({ onLogout, onBack }) => {
                 </div>
               </div>
               <p className="text-sm text-gray-300">{project.timeline}</p>
-              <Button size="sm" className="bg-purple-600 hover:bg-purple-700 w-full">
+              <Button 
+                size="sm" 
+                className="bg-purple-600 hover:bg-purple-700 w-full"
+                onClick={() => handleViewProjectDetails(project)}
+              >
                 View Details
               </Button>
             </div>
@@ -1287,6 +1304,15 @@ const CreativePortal = ({ onLogout, onBack }) => {
   }
 
   // Main render logic - handle different views
+  if (showProjectDetail && selectedProject) {
+    return (
+      <FilmProjectDetailPage 
+        onBack={handleBackToProjects}
+        project={selectedProject}
+      />
+    )
+  }
+
   if (showPublicProfile && currentPublicProfileId) {
     return (
       <>
