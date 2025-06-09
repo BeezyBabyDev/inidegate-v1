@@ -165,6 +165,7 @@ function App() {
   const handleBackToWelcome = () => {
     setCurrentView('welcome')
     setHasValidCode(false)
+    setShowAccountSystem(false) // Reset account system state
     // Clear URL parameters
     const url = window.location.origin + window.location.pathname
     window.history.pushState({}, '', url)
