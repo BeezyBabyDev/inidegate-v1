@@ -141,6 +141,48 @@ const AuthDebugPanel = ({ onClose }) => {
             </div>
           )}
 
+          {/* Demo Mode Controls */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">
+              Demo Mode Controls
+            </h3>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="text-sm text-gray-700 mb-3">
+                <div>Demo Mode: {authService.shouldUseDemoMode() ? '✅ Enabled' : '❌ Disabled'}</div>
+                <div>Stored Demo Users: {authService.getStoredDemoUsers().length}</div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    authService.enableDemoMode();
+                    testConnection();
+                  }}
+                  className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700"
+                >
+                  Enable Demo Mode
+                </button>
+                <button
+                  onClick={() => {
+                    authService.disableDemoMode();
+                    testConnection();
+                  }}
+                  className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                >
+                  Disable Demo Mode
+                </button>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem('indiegate_demo_users');
+                    testConnection();
+                  }}
+                  className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
+                >
+                  Clear Demo Users
+                </button>
+              </div>
+            </div>
+          </div>
+
           {/* Current Authentication State */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-700 mb-3">
@@ -151,7 +193,47 @@ const AuthDebugPanel = ({ onClose }) => {
                 <div>Authenticated: {authService.isAuthenticated() ? '✅ Yes' : '❌ No'}</div>
                 <div>Current User: {authService.getCurrentUser()?.email || 'None'}</div>
                 <div>Session Valid: {authService.isSessionValid() ? '✅ Yes' : '❌ No'}</div>
+                <div>Demo Mode Active: {authService.shouldUseDemoMode() ? '✅ Yes' : '❌ No'}</div>
               </div>
+            </div>
+          </div>
+
+          {/* Test Registration */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">
+              Test Registration System
+            </h3>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600 mb-3">
+                Test the registration system with a demo account to verify fallback functionality.
+              </p>
+              <button
+                onClick={async () => {
+                  const testEmail = `test-${Date.now()}@demo.local`;
+                  try {
+                    const result = await authService.register({
+                      email: testEmail,
+                      password: 'demo123',
+                      firstName: 'Test',
+                      lastName: 'User',
+                      portal: 'investor',
+                      company: 'Test Company'
+                    });
+                    
+                    if (result.success) {
+                      alert(`✅ Test registration successful!\nEmail: ${testEmail}\nDemo Mode: ${result.demoMode ? 'Yes' : 'No'}\n${result.message || ''}`);
+                    } else {
+                      alert(`❌ Test registration failed: ${result.error}`);
+                    }
+                  } catch (error) {
+                    alert(`❌ Test registration error: ${error.message}`);
+                  }
+                  testConnection();
+                }}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Test Registration Flow
+              </button>
             </div>
           </div>
 

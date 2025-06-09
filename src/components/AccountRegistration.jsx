@@ -90,6 +90,11 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
       const result = await onRegister(formData);
       if (!result.success) {
         setErrors({ submit: result.error });
+      } else if (result.demoMode) {
+        // Show demo mode success message
+        setErrors({ 
+          success: result.message || 'Account created successfully in demo mode. Data will be stored locally for this session.' 
+        });
       }
     } catch (error) {
       setErrors({ submit: 'Registration failed. Please try again.' });
@@ -465,10 +470,16 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
             />
           </div>
 
-          {/* Submit Error */}
+          {/* Submit Messages */}
           {errors.submit && (
-            <div className="text-red-400 text-center text-sm">
+            <div className="text-red-400 text-center text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/20">
               {errors.submit}
+            </div>
+          )}
+          {errors.success && (
+            <div className="text-green-400 text-center text-sm bg-green-400/10 p-3 rounded-lg border border-green-400/20">
+              <div className="font-medium">✅ Registration Successful!</div>
+              <div className="mt-1">{errors.success}</div>
             </div>
           )}
 

@@ -74,12 +74,24 @@ export class AuthService {
         throw new Error('User already exists with this email');
       }
 
-      // Create user record in Airtable
+      // Create user record (will fallback to demo mode if database unavailable)
       const userRecord = await this.createUserRecord(userData);
       
       // Auto-login after registration
       const user = this.formatUserData(userRecord);
       this.setCurrentUser(user);
+      
+      // Check if we're in demo mode and provide appropriate message
+      const isDemoUser = userRecord.id && userRecord.id.startsWith('demo-');
+      if (isDemoUser) {
+        console.log('User registered in demo mode');
+        return { 
+          success: true, 
+          user, 
+          demoMode: true,
+          message: 'Account created successfully in demo mode. Data will be stored locally.'
+        };
+      }
       
       return { success: true, user };
     } catch (error) {
@@ -145,7 +157,20 @@ export class AuthService {
 
   // Create user record in Airtable
   async createUserRecord(userData) {
+    // First check if we should use demo mode
+    if (this.shouldUseDemoMode()) {
+      console.log('Creating demo user due to database being in demo mode');
+      return this.createDemoUser(userData);
+    }
+
     try {
+      // Test database connection first
+      const connectionTest = await this.testDatabaseConnection();
+      if (!connectionTest.success) {
+        console.warn('Database connection failed, falling back to demo mode:', connectionTest.error);
+        return this.createDemoUser(userData);
+      }
+
       const url = `https://api.airtable.com/v0/${airtableConfig.baseId}/Users`;
       
       const fields = {
@@ -172,46 +197,100 @@ export class AuthService {
       });
 
       if (!response.ok) {
-        // Handle specific error cases
+        // Handle specific error cases with fallback to demo mode
         if (response.status === 404) {
-          throw new Error('Users table not found. Please contact support to set up your account database.');
+          console.warn('Users table not found, falling back to demo mode');
+          return this.createDemoUser(userData);
         }
         if (response.status === 403) {
-          throw new Error('Database access denied. Please contact support to enable user registration.');
+          console.warn('Database access denied, falling back to demo mode');
+          return this.createDemoUser(userData);
         }
         if (response.status === 422) {
-          throw new Error('Invalid user data. Please check all required fields are filled correctly.');
+          // For validation errors, still try demo mode as table structure might be different
+          console.warn('Invalid user data format for Airtable, falling back to demo mode');
+          return this.createDemoUser(userData);
         }
         
-        throw new Error(`Registration failed (Error ${response.status}). Please try again or contact support.`);
+        // For other errors, fall back to demo mode
+        console.warn(`Registration failed with status ${response.status}, falling back to demo mode`);
+        return this.createDemoUser(userData);
       }
 
-      return await response.json();
+      const result = await response.json();
+      console.log('User successfully created in Airtable');
+      return result;
     } catch (error) {
       console.error('User creation error:', error);
-      
-      // If Airtable is not available, create a temporary local user for demo purposes
-      if (error.message.includes('Database') || error.message.includes('network')) {
-        console.warn('Creating temporary demo user due to database connectivity issues');
-        return {
-          id: `temp-${Date.now()}`,
-          fields: {
-            Email: userData.email,
-            Password: userData.password,
-            FirstName: userData.firstName,
-            LastName: userData.lastName,
-            Portal: userData.portal,
-            Company: userData.company || '',
-            Phone: userData.phone || '',
-            Bio: userData.bio || '',
-            CreatedDate: new Date().toISOString(),
-            LastLogin: new Date().toISOString(),
-            Status: 'Active'
-          }
-        };
+      console.warn('Falling back to demo mode due to error');
+      return this.createDemoUser(userData);
+    }
+  }
+
+  // Create a demo user (local storage based)
+  createDemoUser(userData) {
+    const demoUser = {
+      id: `demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      fields: {
+        Email: userData.email,
+        Password: userData.password,
+        FirstName: userData.firstName,
+        LastName: userData.lastName,
+        Portal: userData.portal,
+        Company: userData.company || '',
+        Phone: userData.phone || '',
+        Bio: userData.bio || '',
+        CreatedDate: new Date().toISOString(),
+        LastLogin: new Date().toISOString(),
+        Status: 'Active'
       }
-      
-      throw error;
+    };
+
+    // Store demo user in local storage for persistence
+    this.storeDemoUser(demoUser);
+    
+    return demoUser;
+  }
+
+  // Check if we should use demo mode
+  shouldUseDemoMode() {
+    // Check for demo mode flag in localStorage
+    const demoMode = localStorage.getItem('indiegate_demo_mode');
+    return demoMode === 'true';
+  }
+
+  // Enable demo mode
+  enableDemoMode() {
+    localStorage.setItem('indiegate_demo_mode', 'true');
+    console.log('Demo mode enabled - all new registrations will be stored locally');
+  }
+
+  // Disable demo mode  
+  disableDemoMode() {
+    localStorage.removeItem('indiegate_demo_mode');
+    console.log('Demo mode disabled - registrations will use Airtable database');
+  }
+
+  // Store demo user in local storage
+  storeDemoUser(userRecord) {
+    try {
+      const existingUsers = this.getStoredDemoUsers();
+      existingUsers.push(userRecord);
+      localStorage.setItem('indiegate_demo_users', JSON.stringify(existingUsers));
+      console.log('Demo user stored locally:', userRecord.fields.Email);
+    } catch (error) {
+      console.error('Error storing demo user:', error);
+    }
+  }
+
+  // Get stored demo users from local storage
+  getStoredDemoUsers() {
+    try {
+      const stored = localStorage.getItem('indiegate_demo_users');
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error('Error retrieving stored demo users:', error);
+      return [];
     }
   }
 
@@ -272,8 +351,21 @@ export class AuthService {
 
   // Find demo user for testing purposes
   findDemoUser(email) {
-    const demoUsers = this.getDemoUsers();
-    return demoUsers.find(user => user.Email === email) || null;
+    // Check built-in demo users
+    const builtInDemoUsers = this.getDemoUsers();
+    const builtInUser = builtInDemoUsers.find(user => user.Email === email);
+    if (builtInUser) {
+      return builtInUser;
+    }
+
+    // Check locally stored demo users
+    const storedDemoUsers = this.getStoredDemoUsers();
+    const storedUser = storedDemoUsers.find(user => user.fields.Email === email);
+    if (storedUser) {
+      return storedUser.fields; // Return just the fields to match format
+    }
+
+    return null;
   }
 
   // Get demo users for testing
