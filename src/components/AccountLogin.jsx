@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PORTAL_TYPES, PORTAL_CONFIGS } from '../config/auth.js';
+import AuthDebugPanel from './AuthDebugPanel.jsx';
 
 const AccountLogin = ({ portal, onLogin, onBack, onSwitchToRegister, onForgotPassword }) => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const AccountLogin = ({ portal, onLogin, onBack, onSwitchToRegister, onForgotPas
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showDebugPanel, setShowDebugPanel] = useState(false);
 
   const portalConfig = PORTAL_CONFIGS[portal];
 
@@ -172,7 +174,16 @@ const AccountLogin = ({ portal, onLogin, onBack, onSwitchToRegister, onForgotPas
           {/* Submit Error */}
           {errors.submit && (
             <div className="text-red-400 text-center text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/20">
-              {errors.submit}
+              <div className="mb-2">{errors.submit}</div>
+              {(errors.submit.includes('403') || errors.submit.includes('Database') || errors.submit.includes('access denied')) && (
+                <button
+                  type="button"
+                  onClick={() => setShowDebugPanel(true)}
+                  className="text-xs text-yellow-300 hover:text-yellow-100 underline"
+                >
+                  Troubleshoot Authentication Issues
+                </button>
+              )}
             </div>
           )}
 
@@ -208,9 +219,20 @@ const AccountLogin = ({ portal, onLogin, onBack, onSwitchToRegister, onForgotPas
             <p className="text-indigo-200 text-sm mb-2">
               <span className="font-medium">Demo Access Available</span>
             </p>
-            <p className="text-indigo-300 text-xs">
-              Use demo codes like DEMO2025 or MULTI-PORTAL for showcase access
+            <p className="text-indigo-300 text-xs mb-2">
+              Try these demo credentials:
             </p>
+            <div className="text-xs text-indigo-200 space-y-1">
+              <div>investor@demo.com / demo123</div>
+              <div>filmmaker@demo.com / demo123</div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowDebugPanel(true)}
+              className="text-xs text-yellow-300 hover:text-yellow-100 underline mt-2"
+            >
+              Need help? View setup guide
+            </button>
           </div>
         </div>
 
@@ -224,6 +246,11 @@ const AccountLogin = ({ portal, onLogin, onBack, onSwitchToRegister, onForgotPas
           </button>
         </div>
       </div>
+
+      {/* Debug Panel */}
+      {showDebugPanel && (
+        <AuthDebugPanel onClose={() => setShowDebugPanel(false)} />
+      )}
     </div>
   );
 };
