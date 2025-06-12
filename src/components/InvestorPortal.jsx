@@ -829,7 +829,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     )
   }
 
-  // Enhanced IndieGate.io Header Component - Matching Landing Page Exactly
+  // Enhanced IndieGate.io Header Component - Mobile Optimized
   const IndieGateHeader = () => {
     const handleLogoClick = () => {
       console.log('Logo clicked, calling handleBackToHome') // Debug log
@@ -844,35 +844,36 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     return (
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-32">
-            {/* Logo + Text Combo - Triple size with tighter spacing */}
+          <div className="flex justify-between items-center h-20 md:h-24 lg:h-32">
+            {/* Logo + Text Combo - Responsive sizing */}
             <div className="text-gray-900">
               <div
-                className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+                className="flex items-center space-x-2 md:space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={handleLogoClick}
               >
-                <IndieGateLogo className="w-48 h-48" />
+                <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
                 <div>
-                  <h1 className="text-3xl font-bold">
+                  <h1 className="text-lg md:text-2xl lg:text-3xl font-bold">
                     IndieGate.<span className="text-blue-600">io</span>
                   </h1>
-                  <p className="text-base text-gray-500 mt-1">Investor Portal</p>
+                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">Investor Portal</p>
                 </div>
               </div>
             </div>
 
-            {/* Navigation Actions */}
-            <div className="flex items-center space-x-3">
+            {/* Navigation Actions - Mobile Optimized */}
+            <div className="flex items-center space-x-2 md:space-x-3">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleButtonClick}
-                className="text-gray-700 border-gray-300 hover:bg-gray-50 font-medium"
+                className="text-xs md:text-sm text-gray-700 border-gray-300 hover:bg-gray-50 font-medium px-2 md:px-4 py-1 md:py-2"
               >
-                Back to Home
+                <span className="hidden sm:inline">Back to Home</span>
+                <span className="sm:hidden">← Home</span>
               </Button>
-              <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">JB</span>
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs md:text-sm font-bold">JB</span>
               </div>
             </div>
           </div>
@@ -885,87 +886,100 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-indigo-900">
       <IndieGateHeader />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Navigation Tabs */}
-        <div className="flex flex-wrap justify-center mb-8 space-x-1">
-          <button
-            onClick={() => {
-              setActiveTab('👤 Profile')
-              scrollToTop()
-            }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '👤 Profile'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            👤 Profile
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab('📊 Portfolio')
-              scrollToTop()
-            }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '📊 Portfolio'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            📊 Portfolio
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab('💰 Deal Flow')
-              scrollToTop()
-            }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '💰 Deal Flow'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            💰 Deal Flow
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab('💬 Community')
-              scrollToTop()
-            }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '💬 Community'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            💬 Community
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab('🤖 Smart Matching')
-              scrollToTop()
-            }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '🤖 Smart Matching'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            🤖 Smart Matching
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab('📈 Analytics')
-              scrollToTop()
-            }}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              activeTab === '📈 Analytics'
-                ? 'bg-white text-green-900 shadow-lg'
-                : 'text-white hover:bg-white/10'
-            }`}
-          >
-            📈 Analytics
-          </button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        {/* Welcome Section - Mobile Optimized */}
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4">
+            Welcome to the Investor Network
+          </h2>
+          <p className="text-base md:text-lg lg:text-xl text-green-200 mb-6 md:mb-8">
+            Discover groundbreaking indie film projects, analyze market opportunities, and build your entertainment portfolio with confidence.
+          </p>
+        </div>
+
+        {/* Mobile-First Navigation Tabs */}
+        <div className="mb-6 md:mb-8">
+          {/* Mobile: Horizontal Scroll Tabs */}
+          <div className="flex space-x-2 md:space-x-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+            <button
+              onClick={() => {
+                setActiveTab('👤 Profile')
+                scrollToTop()
+              }}
+              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                activeTab === '👤 Profile'
+                  ? 'bg-white text-green-900 shadow-lg'
+                  : 'text-white hover:bg-white/10 bg-white/5'
+              }`}
+            >
+              👤 Profile
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('📊 Portfolio')
+                scrollToTop()
+              }}
+              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                activeTab === '📊 Portfolio'
+                  ? 'bg-white text-green-900 shadow-lg'
+                  : 'text-white hover:bg-white/10 bg-white/5'
+              }`}
+            >
+              📊 Portfolio
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('💰 Deal Flow')
+                scrollToTop()
+              }}
+              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                activeTab === '💰 Deal Flow'
+                  ? 'bg-white text-green-900 shadow-lg'
+                  : 'text-white hover:bg-white/10 bg-white/5'
+              }`}
+            >
+              💰 Deal Flow
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('💬 Community')
+                scrollToTop()
+              }}
+              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                activeTab === '💬 Community'
+                  ? 'bg-white text-green-900 shadow-lg'
+                  : 'text-white hover:bg-white/10 bg-white/5'
+              }`}
+            >
+              💬 Community
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('🤖 Smart Matching')
+                scrollToTop()
+              }}
+              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                activeTab === '🤖 Smart Matching'
+                  ? 'bg-white text-green-900 shadow-lg'
+                  : 'text-white hover:bg-white/10 bg-white/5'
+              }`}
+            >
+              🤖 Smart Matching
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('📈 Analytics')
+                scrollToTop()
+              }}
+              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                activeTab === '📈 Analytics'
+                  ? 'bg-white text-green-900 shadow-lg'
+                  : 'text-white hover:bg-white/10 bg-white/5'
+              }`}
+            >
+              📈 Analytics
+            </button>
+          </div>
         </div>
 
         {/* Tab Content */}

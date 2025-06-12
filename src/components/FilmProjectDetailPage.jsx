@@ -129,52 +129,53 @@ const FilmProjectDetailPage = ({ onBack, project }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
-      {/* Header */}
-      <div className="bg-black/20 backdrop-blur-sm border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      {/* Mobile-Optimized Header */}
+      <div className="bg-black/20 backdrop-blur-sm border-b border-white/10 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-white">IndieGate.io</h1>
-              <span className="text-purple-300">Filmmaker Portal</span>
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-white">IndieGate.io</h1>
+              <span className="text-xs md:text-sm text-purple-300 hidden sm:inline">Filmmaker Portal</span>
             </div>
             <button
               onClick={onBack}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-200 flex items-center space-x-2"
+              className="px-2 md:px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-200 flex items-center space-x-1 md:space-x-2 text-sm md:text-base"
             >
               <span>←</span>
-              <span>Back to Projects</span>
+              <span className="hidden sm:inline">Back to Projects</span>
+              <span className="sm:hidden">Back</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Project Header */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h1 className="text-4xl font-bold text-white mb-2">{projectData.title}</h1>
-                  <div className="flex flex-wrap gap-4 text-sm">
-                    <span className="px-3 py-1 bg-red-500/20 text-red-300 rounded-full border border-red-400/30">
+            {/* Project Header - Mobile Optimized */}
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 md:p-6 border border-white/20">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 space-y-4 lg:space-y-0">
+                <div className="flex-1">
+                  <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-2">{projectData.title}</h1>
+                  <div className="flex flex-wrap gap-2 md:gap-3 text-xs md:text-sm">
+                    <span className="px-2 md:px-3 py-1 bg-red-500/20 text-red-300 rounded-full border border-red-400/30">
                       {projectData.genre}
                     </span>
-                    <span className="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full border border-yellow-400/30">
+                    <span className="px-2 md:px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full border border-yellow-400/30">
                       {projectData.stage}
                     </span>
-                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30">
+                    <span className="px-2 md:px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30">
                       {projectData.role}
                     </span>
-                    <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full border border-green-400/30">
+                    <span className="px-2 md:px-3 py-1 bg-green-500/20 text-green-300 rounded-full border border-green-400/30">
                       {fundingPercentage}% Funded
                     </span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-indigo-300 text-sm">Production Start</div>
-                  <div className="text-white font-semibold">{projectData.timeline}</div>
+                <div className="text-left lg:text-right lg:ml-4">
+                  <div className="text-indigo-300 text-xs md:text-sm">Production Start</div>
+                  <div className="text-white font-semibold text-sm md:text-base">{projectData.timeline}</div>
                 </div>
               </div>
             </div>

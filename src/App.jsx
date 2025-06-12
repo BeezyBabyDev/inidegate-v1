@@ -13,6 +13,7 @@ import AuthPortalSelection from './components/AuthPortalSelection'
 import ProfileManager from './components/ProfileManager'
 import FilmProjectDetailDemo from './components/FilmProjectDetailDemo'
 import { authService } from './config/auth.js'
+import './styles/mobile-optimization.css'
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome')

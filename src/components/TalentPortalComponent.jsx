@@ -197,11 +197,11 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
   
-  const [activeTab, setActiveTab] = useState('🎭 Dashboard')
+  const [activeTab, setActiveTab] = useState('🎯 Dashboard')
   const [currentView, setCurrentView] = useState('dashboard')
   const [selectedProfile, setSelectedProfile] = useState(null)
 
-  const tabs = ['🎭 Dashboard', '👤 Profile', '🎬 Auditions', '🤝 Network', '📊 Analytics']
+  const tabs = ['🎯 Dashboard', '👤 Profile', '🎬 Auditions', '🌐 Network', '📊 Analytics']
 
   const handleViewProfile = (profile) => {
     setSelectedProfile(profile)
@@ -547,62 +547,120 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-900 via-rose-900 to-purple-900">
-      {/* Header */}
-      <header className="bg-white/10 backdrop-blur-lg border-b border-white/20 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <IndieGateLogo className="w-48 h-48" />
-            <div className="text-white">
-              <h1 className="text-3xl font-bold">IndieGate.io</h1>
-              <p className="text-xl text-pink-200">Talent Network</p>
+    <div className="min-h-screen bg-gradient-to-br from-red-900 via-pink-900 to-purple-900">
+      {/* Enhanced Mobile Header */}
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20 md:h-24">
+            {/* Logo + Text Combo - Mobile Optimized */}
+            <div className="text-gray-900">
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16" />
+                <div>
+                  <h1 className="text-lg md:text-2xl lg:text-3xl font-bold">
+                    IndieGate.<span className="text-blue-600">io</span>
+                  </h1>
+                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">Talent Network</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" onClick={onBack} className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20">
-              ← Back to Portal Selection
-            </Button>
-            <Button onClick={onLogout} className="bg-pink-600 hover:bg-pink-700 text-white">
-              Logout
-            </Button>
+
+            {/* Navigation Actions - Mobile Optimized */}
+            <div className="flex items-center space-x-2 md:space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleBackToHome}
+                className="text-xs md:text-sm text-gray-700 border-gray-300 hover:bg-gray-50 font-medium px-2 md:px-4 py-1 md:py-2"
+              >
+                <span className="hidden sm:inline">Back to Home</span>
+                <span className="sm:hidden">← Home</span>
+              </Button>
+              <Button
+                onClick={onLogout}
+                className="text-xs md:text-sm bg-pink-600 hover:bg-pink-700 text-white px-2 md:px-4 py-1 md:py-2"
+              >
+                <span className="hidden sm:inline">Logout</span>
+                <span className="sm:hidden">Exit</span>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="px-6 py-8">
+      <main className="px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-7xl mx-auto">
-          {/* Welcome Section */}
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold text-white mb-4">Welcome to the Talent Network</h2>
-            <p className="text-xl text-pink-200 mb-8">
+          {/* Welcome Section - Mobile Optimized */}
+          <div className="mb-6 md:mb-8">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4">
+              Welcome to the Talent Network
+            </h2>
+            <p className="text-base md:text-lg lg:text-xl text-pink-200 mb-6 md:mb-8">
               Connect with casting directors, audition for roles, and showcase your talent to the indie film community.
             </p>
           </div>
 
-          {/* Tabs */}
-          <div className="flex space-x-4 mb-8">
-            {tabs.map((tab, index) => (
-              <button
-                key={index}
-                className={`text-xl font-semibold ${activeTab === tab ? 'border-b-2 border-pink-500' : 'text-pink-200 hover:text-pink-300'}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
+          {/* Mobile-First Tab Navigation */}
+          <div className="mb-6 md:mb-8">
+            {/* Mobile: Horizontal Scroll Tabs */}
+            <div className="flex space-x-2 md:space-x-4 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+              {tabs.map((tab, index) => (
+                <Button
+                  key={index}
+                  variant={activeTab === tab ? "outline" : "ghost"}
+                  onClick={() => setActiveTab(tab)}
+                  className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                    activeTab === tab
+                      ? 'bg-white text-pink-900 shadow-lg'
+                      : 'bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20'
+                  }`}
+                >
+                  {tab}
+                </Button>
+              ))}
+            </div>
           </div>
 
-          {/* Tab Content */}
-          {activeTab === '🎭 Dashboard' && renderDashboardTab()}
-          {activeTab === '👤 Profile' && renderProfileTab()}
-          {activeTab === '🎬 Auditions' && renderAuditionsTab()}
-          {activeTab === '🤝 Network' && renderNetworkTab()}
-          {activeTab === '📊 Analytics' && renderAnalyticsTab()}
+          {/* Tab Content with Mobile Optimization */}
+          <div className="mb-6 md:mb-8">
+            {activeTab === '🎯 Dashboard' && renderDashboardTab()}
+            {activeTab === '👤 Profile' && renderProfileTab()}
+            {activeTab === '🎬 Auditions' && renderAuditionsTab()}
+            {activeTab === '🌐 Network' && renderNetworkTab()}
+            {activeTab === '📊 Analytics' && renderAnalyticsTab()}
+          </div>
         </div>
       </main>
     </div>
   )
 }
+
+// Add mobile-specific styles
+const mobileStyles = `
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .mobile-card {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .mobile-text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+    
+    .mobile-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+`
 
 export default TalentPortalComponent 
