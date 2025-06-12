@@ -47,8 +47,8 @@ export class AuthService {
 
   // Verify password against hash
   verifyPassword(password, hash) {
-    // For demo users, allow plain text comparison
-    if (!hash.startsWith('hash_')) {
+    // For demo users and plain text passwords, allow direct comparison
+    if (!hash || !hash.startsWith('hash_')) {
       return password === hash;
     }
     return this.hashPassword(password) === hash;

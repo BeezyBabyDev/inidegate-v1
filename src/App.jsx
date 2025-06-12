@@ -237,6 +237,23 @@ function App() {
   const handleSelectPortal = portal => {
     console.log('handleSelectPortal called with portal:', portal)
 
+    // Check if this is demo access (has valid code but no authentication)
+    if (hasValidCode && !isAuthenticated) {
+      // Allow demo access without authentication
+      try {
+        const baseUrl = window.location.origin + window.location.pathname.replace(/\/+$/, '') || ''
+        const newUrl = `${baseUrl}?portal=${portal}&code=DEMO2025`
+        window.history.pushState({}, '', newUrl)
+        setCurrentView(portal)
+        window.scrollTo(0, 0)
+      } catch (error) {
+        console.error('Navigation error in handleSelectPortal:', error)
+        setCurrentView(portal)
+        window.scrollTo(0, 0)
+      }
+      return
+    }
+
     // Check if user is authenticated
     if (isAuthenticated && currentUser) {
       // If authenticated, check if user has access to this portal
@@ -322,18 +339,18 @@ function App() {
     )
   }
 
-  // Individual portal views - Require authentication
+  // Individual portal views - Allow demo access or require authentication
   if (currentView === 'filmmakers' || currentView === 'talent') {
-    // Check authentication before allowing portal access
-    if (!isAuthenticated || !currentUser) {
+    // Allow demo access with valid code, or require authentication
+    if (!isAuthenticated && !hasValidCode) {
       setSelectedPortal(currentView === 'talent' ? 'talent' : 'filmmaker')
       setShowAccountSystem(true)
       return null
     }
 
-    // Check if user has access to this specific portal
+    // If authenticated, check if user has access to this specific portal
     const requiredPortal = currentView === 'talent' ? 'talent' : 'filmmaker'
-    if (currentUser.portal !== requiredPortal) {
+    if (isAuthenticated && currentUser && currentUser.portal !== requiredPortal) {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -357,15 +374,15 @@ function App() {
   }
 
   if (currentView === 'investor') {
-    // Check authentication before allowing portal access
-    if (!isAuthenticated || !currentUser) {
+    // Allow demo access with valid code, or require authentication
+    if (!isAuthenticated && !hasValidCode) {
       setSelectedPortal('investor')
       setShowAccountSystem(true)
       return null
     }
 
-    // Check if user has access to this specific portal
-    if (currentUser.portal !== 'investor') {
+    // If authenticated, check if user has access to this specific portal
+    if (isAuthenticated && currentUser && currentUser.portal !== 'investor') {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -380,15 +397,15 @@ function App() {
   }
 
   if (currentView === 'filmmaker') {
-    // Check authentication before allowing portal access
-    if (!isAuthenticated || !currentUser) {
+    // Allow demo access with valid code, or require authentication
+    if (!isAuthenticated && !hasValidCode) {
       setSelectedPortal('filmmaker')
       setShowAccountSystem(true)
       return null
     }
 
-    // Check if user has access to this specific portal
-    if (currentUser.portal !== 'filmmaker') {
+    // If authenticated, check if user has access to this specific portal
+    if (isAuthenticated && currentUser && currentUser.portal !== 'filmmaker') {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -403,15 +420,15 @@ function App() {
   }
 
   if (currentView === 'talent-new') {
-    // Check authentication before allowing portal access
-    if (!isAuthenticated || !currentUser) {
+    // Allow demo access with valid code, or require authentication
+    if (!isAuthenticated && !hasValidCode) {
       setSelectedPortal('talent')
       setShowAccountSystem(true)
       return null
     }
 
-    // Check if user has access to this specific portal
-    if (currentUser.portal !== 'talent') {
+    // If authenticated, check if user has access to this specific portal
+    if (isAuthenticated && currentUser && currentUser.portal !== 'talent') {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -426,15 +443,15 @@ function App() {
   }
 
   if (currentView === 'brands' || currentView === 'brand') {
-    // Check authentication before allowing portal access
-    if (!isAuthenticated || !currentUser) {
+    // Allow demo access with valid code, or require authentication
+    if (!isAuthenticated && !hasValidCode) {
       setSelectedPortal('brand')
       setShowAccountSystem(true)
       return null
     }
 
-    // Check if user has access to this specific portal
-    if (currentUser.portal !== 'brand') {
+    // If authenticated, check if user has access to this specific portal
+    if (isAuthenticated && currentUser && currentUser.portal !== 'brand') {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
