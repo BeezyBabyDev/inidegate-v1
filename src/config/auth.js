@@ -33,6 +33,27 @@ export class AuthService {
     this.initializeSession();
   }
 
+  // Simple password hashing for demo purposes (use bcrypt in production)
+  hashPassword(password) {
+    // Simple hash for demo - in production use bcrypt or similar
+    let hash = 0;
+    for (let i = 0; i < password.length; i++) {
+      const char = password.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return 'hash_' + Math.abs(hash).toString(36);
+  }
+
+  // Verify password against hash
+  verifyPassword(password, hash) {
+    // For demo users, allow plain text comparison
+    if (!hash.startsWith('hash_')) {
+      return password === hash;
+    }
+    return this.hashPassword(password) === hash;
+  }
+
   // Initialize session from localStorage
   initializeSession() {
     const stored = localStorage.getItem('indiegate_user');
@@ -56,7 +77,7 @@ export class AuthService {
   // Check if current session is valid
   isSessionValid() {
     if (!this.currentUser?.loginTime) return false;
-    const sessionDuration = 24 * 60 * 60 * 1000; // 24 hours
+    const sessionDuration = 7 * 24 * 60 * 60 * 1000; // 7 days for better UX
     return (Date.now() - this.currentUser.loginTime) < sessionDuration;
   }
 
@@ -108,8 +129,8 @@ export class AuthService {
         throw new Error('User not found');
       }
 
-      // Verify password (in production, this would be hashed)
-      if (user.password !== password) {
+      // Verify password using hash comparison
+      if (!this.verifyPassword(password, user.password)) {
         throw new Error('Invalid password');
       }
 
@@ -175,7 +196,7 @@ export class AuthService {
       
       const fields = {
         Email: userData.email,
-        Password: userData.password, // In production, hash this
+        Password: this.hashPassword(userData.password), // Hash password for security
         FirstName: userData.firstName,
         LastName: userData.lastName,
         Portal: userData.portal,
@@ -233,7 +254,7 @@ export class AuthService {
       id: `demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       fields: {
         Email: userData.email,
-        Password: userData.password,
+        Password: this.hashPassword(userData.password), // Hash password for demo users too
         FirstName: userData.firstName,
         LastName: userData.lastName,
         Portal: userData.portal,

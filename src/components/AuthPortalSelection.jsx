@@ -5,12 +5,12 @@ import AccountRegistration from './AccountRegistration';
 import AccountLogin from './AccountLogin';
 import { authService } from '../config/auth.js';
 
-const AuthPortalSelection = ({ onBackToWelcome, onAuthSuccess }) => {
+const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcome, onAuthSuccess }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
   
-  const [currentView, setCurrentView] = useState('selection'); // 'selection', 'register', 'login'
-  const [selectedPortal, setSelectedPortal] = useState(null);
+  const [currentView, setCurrentView] = useState(preSelectedPortal ? 'login' : 'selection'); // 'selection', 'register', 'login'
+  const [selectedPortal, setSelectedPortal] = useState(preSelectedPortal || null);
   const [authMessage, setAuthMessage] = useState('');
 
   const handleSelectPortal = (portal, action) => {

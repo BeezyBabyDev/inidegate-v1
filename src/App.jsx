@@ -21,6 +21,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
   const [showAccountSystem, setShowAccountSystem] = useState(false)
+  const [selectedPortal, setSelectedPortal] = useState(null)
 
   useEffect(() => {
     // Check for existing authentication
@@ -167,6 +168,7 @@ function App() {
     setCurrentView('welcome')
     setHasValidCode(false)
     setShowAccountSystem(false) // Reset account system state
+    setSelectedPortal(null) // Reset selected portal
     // Clear URL parameters
     const url = window.location.origin + window.location.pathname
     window.history.pushState({}, '', url)
@@ -182,6 +184,7 @@ function App() {
       setIsAuthenticated(false)
       setCurrentUser(null)
       setShowAccountSystem(false)
+      setSelectedPortal(null)
 
       // Clear any URL parameters and go to root
       const url = window.location.origin + window.location.pathname.replace(/\/+$/, '') || '/'
@@ -216,6 +219,12 @@ function App() {
     window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
+  const handleGoToPortal = (portal) => {
+    setCurrentView(portal)
+    setHasValidCode(true)
+    window.scrollTo(0, 0) // Scroll to top on navigation
+  }
+
   const handleProfileUpdate = (updatedUser) => {
     setCurrentUser(updatedUser)
   }
@@ -228,16 +237,33 @@ function App() {
   const handleSelectPortal = portal => {
     console.log('handleSelectPortal called with portal:', portal)
 
-    try {
-      const baseUrl = window.location.origin + window.location.pathname.replace(/\/+$/, '') || ''
-      const newUrl = `${baseUrl}?portal=${portal}&code=DEMO2025`
-      window.history.pushState({}, '', newUrl)
-      setCurrentView(portal)
-      window.scrollTo(0, 0) // Scroll to top on navigation
-    } catch (error) {
-      console.error('Navigation error in handleSelectPortal:', error)
-      setCurrentView(portal)
-      window.scrollTo(0, 0) // Scroll to top on navigation
+    // Check if user is authenticated
+    if (isAuthenticated && currentUser) {
+      // If authenticated, check if user has access to this portal
+      if (currentUser.portal === portal) {
+        // User has access to this portal, navigate directly
+        try {
+          const baseUrl = window.location.origin + window.location.pathname.replace(/\/+$/, '') || ''
+          const newUrl = `${baseUrl}?portal=${portal}&authenticated=true`
+          window.history.pushState({}, '', newUrl)
+          setCurrentView(portal)
+          window.scrollTo(0, 0)
+        } catch (error) {
+          console.error('Navigation error in handleSelectPortal:', error)
+          setCurrentView(portal)
+          window.scrollTo(0, 0)
+        }
+      } else {
+        // User doesn't have access to this portal, show message and redirect to their portal
+        alert(`You are registered for the ${currentUser.portal} portal. Redirecting you to your portal.`)
+        setCurrentView(currentUser.portal)
+        window.scrollTo(0, 0)
+      }
+    } else {
+      // User not authenticated, show authentication system for selected portal
+      setSelectedPortal(portal)
+      setShowAccountSystem(true)
+      window.scrollTo(0, 0)
     }
   }
 
@@ -253,6 +279,7 @@ function App() {
   if (showAccountSystem) {
     return (
       <AuthPortalSelection 
+        selectedPortal={selectedPortal}
         onBackToWelcome={handleBackToWelcome}
         onAuthSuccess={handleAuthSuccess}
       />
@@ -277,7 +304,12 @@ function App() {
 
   // Welcome page - entry point
   if (currentView === 'welcome') {
-    return <WelcomePage onEnterCode={handleEnterCode} onShowAccountSystem={handleShowAccountSystem} onShowFilmDemo={handleShowFilmDemo} />
+    return <WelcomePage 
+      onEnterCode={handleEnterCode} 
+      onShowAccountSystem={handleShowAccountSystem} 
+      onShowFilmDemo={handleShowFilmDemo}
+      onGoToPortal={handleGoToPortal}
+    />
   }
 
   // Portal selection page - after code entry
@@ -290,8 +322,23 @@ function App() {
     )
   }
 
-  // Individual portal views
+  // Individual portal views - Require authentication
   if (currentView === 'filmmakers' || currentView === 'talent') {
+    // Check authentication before allowing portal access
+    if (!isAuthenticated || !currentUser) {
+      setSelectedPortal(currentView === 'talent' ? 'talent' : 'filmmaker')
+      setShowAccountSystem(true)
+      return null
+    }
+
+    // Check if user has access to this specific portal
+    const requiredPortal = currentView === 'talent' ? 'talent' : 'filmmaker'
+    if (currentUser.portal !== requiredPortal) {
+      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
+      setCurrentView(currentUser.portal)
+      return null
+    }
+
     // Map 'talent' to CreativePortal for backward compatibility
     if (currentView === 'talent') {
       return <TalentPortalComponent 
@@ -310,6 +357,20 @@ function App() {
   }
 
   if (currentView === 'investor') {
+    // Check authentication before allowing portal access
+    if (!isAuthenticated || !currentUser) {
+      setSelectedPortal('investor')
+      setShowAccountSystem(true)
+      return null
+    }
+
+    // Check if user has access to this specific portal
+    if (currentUser.portal !== 'investor') {
+      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
+      setCurrentView(currentUser.portal)
+      return null
+    }
+
     return <InvestorPortal 
       onLogout={handleLogout} 
       onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
@@ -319,6 +380,20 @@ function App() {
   }
 
   if (currentView === 'filmmaker') {
+    // Check authentication before allowing portal access
+    if (!isAuthenticated || !currentUser) {
+      setSelectedPortal('filmmaker')
+      setShowAccountSystem(true)
+      return null
+    }
+
+    // Check if user has access to this specific portal
+    if (currentUser.portal !== 'filmmaker') {
+      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
+      setCurrentView(currentUser.portal)
+      return null
+    }
+
     return <CreativePortal 
       onLogout={handleLogout} 
       onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
@@ -328,6 +403,20 @@ function App() {
   }
 
   if (currentView === 'talent-new') {
+    // Check authentication before allowing portal access
+    if (!isAuthenticated || !currentUser) {
+      setSelectedPortal('talent')
+      setShowAccountSystem(true)
+      return null
+    }
+
+    // Check if user has access to this specific portal
+    if (currentUser.portal !== 'talent') {
+      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
+      setCurrentView(currentUser.portal)
+      return null
+    }
+
     return <TalentPortalComponent 
       onLogout={handleLogout} 
       onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
@@ -337,6 +426,20 @@ function App() {
   }
 
   if (currentView === 'brands' || currentView === 'brand') {
+    // Check authentication before allowing portal access
+    if (!isAuthenticated || !currentUser) {
+      setSelectedPortal('brand')
+      setShowAccountSystem(true)
+      return null
+    }
+
+    // Check if user has access to this specific portal
+    if (currentUser.portal !== 'brand') {
+      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
+      setCurrentView(currentUser.portal)
+      return null
+    }
+
     return <BrandsPortal 
       onLogout={handleLogout} 
       onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
