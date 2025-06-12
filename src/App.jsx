@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import AuthSystem from './components/AuthSystem'
+import { BrowserRouter as Router } from 'react-router-dom'
 import CreativePortal from './components/CreativePortal'
 import InvestorPortal from './components/InvestorPortal'
 import TalentPortalComponent from './components/TalentPortalComponent'
