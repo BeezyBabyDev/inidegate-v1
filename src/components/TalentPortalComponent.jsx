@@ -213,6 +213,35 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
     setCurrentView('dashboard')
   }
 
+  const handleBackToHome = () => {
+    console.log('handleBackToHome called') // Debug log
+
+    // Multiple fallback strategies for reliable navigation
+    try {
+      // Method 1: Use provided callback
+      if (typeof onBack === 'function') {
+        console.log('Using onBack callback')
+        onBack()
+        return
+      }
+
+      // Method 2: Use onLogout if available
+      if (typeof onLogout === 'function') {
+        console.log('Using onLogout callback')
+        onLogout()
+        return
+      }
+
+      // Method 3: Direct window navigation
+      console.log('Using direct navigation')
+      window.location.href = '/'
+    } catch (error) {
+      console.error('Navigation error:', error)
+      // Final fallback
+      window.location.href = '/'
+    }
+  }
+
   const renderDashboardTab = () => (
     <div className="space-y-6">
       {/* Dashboard Cards */}

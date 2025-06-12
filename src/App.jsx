@@ -336,7 +336,7 @@ function App() {
     />
   }
 
-  if (currentView === 'brand') {
+  if (currentView === 'brands' || currentView === 'brand') {
     return <BrandsPortal 
       onLogout={handleLogout} 
       onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
