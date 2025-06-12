@@ -362,8 +362,10 @@ function App() {
     }
 
     // If authenticated, check if user has access to this specific portal
+    // Allow demo users to access all portals for demonstration purposes
     const requiredPortal = currentView === 'talent' ? 'talent' : 'filmmaker'
-    if (isAuthenticated && currentUser && currentUser.portal !== requiredPortal) {
+    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
+    if (isAuthenticated && currentUser && currentUser.portal !== requiredPortal && !isDemoUser) {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -399,7 +401,9 @@ function App() {
     }
 
     // If authenticated, check if user has access to this specific portal
-    if (isAuthenticated && currentUser && currentUser.portal !== 'investor') {
+    // Allow demo users to access all portals for demonstration purposes
+    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
+    if (isAuthenticated && currentUser && currentUser.portal !== 'investor' && !isDemoUser) {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -424,7 +428,9 @@ function App() {
     }
 
     // If authenticated, check if user has access to this specific portal
-    if (isAuthenticated && currentUser && currentUser.portal !== 'filmmaker') {
+    // Allow demo users to access all portals for demonstration purposes
+    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
+    if (isAuthenticated && currentUser && currentUser.portal !== 'filmmaker' && !isDemoUser) {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -449,7 +455,9 @@ function App() {
     }
 
     // If authenticated, check if user has access to this specific portal
-    if (isAuthenticated && currentUser && currentUser.portal !== 'talent') {
+    // Allow demo users to access all portals for demonstration purposes
+    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
+    if (isAuthenticated && currentUser && currentUser.portal !== 'talent' && !isDemoUser) {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
@@ -474,7 +482,9 @@ function App() {
     }
 
     // If authenticated, check if user has access to this specific portal
-    if (isAuthenticated && currentUser && currentUser.portal !== 'brand') {
+    // Allow demo users to access all portals for demonstration purposes
+    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
+    if (isAuthenticated && currentUser && currentUser.portal !== 'brand' && !isDemoUser) {
       alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
       setCurrentView(currentUser.portal)
       return null
