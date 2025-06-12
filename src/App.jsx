@@ -1,19 +1,19 @@
-import React from 'react'
 import { useState, useEffect } from 'react'
-import WelcomePage from './components/WelcomePage'
-import PortalSelectionPage from './components/PortalSelectionPage'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import AuthSystem from './components/AuthSystem'
 import CreativePortal from './components/CreativePortal'
-import FilmakersPortal from './components/FilmakersPortal'
 import InvestorPortal from './components/InvestorPortal'
 import TalentPortalComponent from './components/TalentPortalComponent'
 import BrandsPortal from './components/BrandsPortal'
+import { AuthProvider, useAuth } from './config/auth'
+import './styles/portal-styles.css'
+import WelcomePage from './components/WelcomePage'
+import PortalSelectionPage from './components/PortalSelectionPage'
 import MultiPortalSystem from './components/MultiPortalSystem'
 import DemoLandingPage from './components/DemoLandingPage'
 import AuthPortalSelection from './components/AuthPortalSelection'
 import ProfileManager from './components/ProfileManager'
 import FilmProjectDetailDemo from './components/FilmProjectDetailDemo'
-import { authService } from './config/auth.js'
-import './styles/mobile-optimization.css'
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome')
@@ -58,7 +58,7 @@ function App() {
     if (portal && profile && hasCode) {
       setHasValidCode(true)
       setCurrentView(portal)
-      
+
       // Store profile for pre-loading
       sessionStorage.setItem('selectedProfile', profile)
       sessionStorage.setItem('directAccess', 'true')
@@ -80,18 +80,18 @@ function App() {
     }
   }, [])
 
-  const handleEnterCode = (code) => {
+  const handleEnterCode = code => {
     // Enhanced code validation with individual persona access codes
     const validCodes = [
-      'INDIEGATE2024',  // Master access code for MVP demo
-      'DEMO2025',      // Current demo code - portal selection overview
-      'DEMO2024',      // Legacy demo code 
-      'INDIE', 
-      'FILMMAKER', 
-      'INVESTOR', 
-      'TALENT', 
+      'INDIEGATE2024', // Master access code for MVP demo
+      'DEMO2025', // Current demo code - portal selection overview
+      'DEMO2024', // Legacy demo code
+      'INDIE',
+      'FILMMAKER',
+      'INVESTOR',
+      'TALENT',
       'BRANDS',
-      'MULTI-PORTAL'   // New multi-portal system access code
+      'MULTI-PORTAL', // New multi-portal system access code
     ]
 
     // Individual persona access codes for direct portal access
@@ -102,51 +102,54 @@ function App() {
       'ELENA-MODEL': { portal: 'talent', profile: 'elena' },
       'JAMES-SUPPORT': { portal: 'talent', profile: 'james' },
       'ARIA-DANCE': { portal: 'talent', profile: 'aria' },
-      
+
       // Filmmaker Portal Direct Access
       'ALEX-DIRECTOR': { portal: 'filmmaker', profile: 'alex' },
       'RYAN-PRODUCER': { portal: 'filmmaker', profile: 'ryan' },
       'MAYA-CINEMA': { portal: 'filmmaker', profile: 'maya' },
       'DIEGO-EDIT': { portal: 'filmmaker', profile: 'diego' },
       'SARAH-CREW': { portal: 'filmmaker', profile: 'sarah' },
-      
+
       // Investor Portal Direct Access
       'VENTURE-CAPITAL': { portal: 'investor', profile: 'victoria' },
       'ANGEL-FUNDS': { portal: 'investor', profile: 'michael' },
       'STRATEGIC-PARTNER': { portal: 'investor', profile: 'amanda' },
       'HIGH-NET-WORTH': { portal: 'investor', profile: 'robert' },
       'FILM-FINANCE': { portal: 'investor', profile: 'isabella' },
-      
+
       // Brands Portal Direct Access
       'LUXURY-FASHION': { portal: 'brands', profile: 'elegance' },
       'TECH-INNOVATION': { portal: 'brands', profile: 'techflow' },
       'GOURMET-BRANDS': { portal: 'brands', profile: 'artisan' },
       'AUTO-LUXURY': { portal: 'brands', profile: 'premium' },
-      'LIFESTYLE-CO': { portal: 'brands', profile: 'urban' }
+      'LIFESTYLE-CO': { portal: 'brands', profile: 'urban' },
     }
-    
+
     const upperCode = code.toUpperCase()
-    
+
     // Check for persona access codes first (direct access)
     if (personaAccessCodes[upperCode]) {
       const { portal, profile } = personaAccessCodes[upperCode]
       setHasValidCode(true)
       setCurrentView(portal)
-      
+
       // Store the selected profile for pre-loading
       sessionStorage.setItem('selectedProfile', profile)
       sessionStorage.setItem('directAccess', 'true')
-      
-      const url = window.location.origin + window.location.pathname + `?portal=${portal}&profile=${profile}&code=${code}`
+
+      const url =
+        window.location.origin +
+        window.location.pathname +
+        `?portal=${portal}&profile=${profile}&code=${code}`
       window.history.pushState({}, '', url)
       window.scrollTo(0, 0) // Scroll to top on navigation
       return
     }
-    
+
     // Check for standard access codes (overview access)
     if (validCodes.includes(upperCode)) {
       setHasValidCode(true)
-      
+
       // Check for multi-portal system
       if (upperCode === 'MULTI-PORTAL') {
         setCurrentView('demo-landing')
@@ -160,7 +163,9 @@ function App() {
         window.scrollTo(0, 0) // Scroll to top on navigation
       }
     } else {
-      alert('Invalid registrant code. Try: DEMO2025, MULTI-PORTAL, or individual persona codes like SOPHIA-STAR')
+      alert(
+        'Invalid registrant code. Try: DEMO2025, MULTI-PORTAL, or individual persona codes like SOPHIA-STAR'
+      )
     }
   }
 
@@ -201,15 +206,18 @@ function App() {
     }
   }
 
-  const handleAuthSuccess = (user) => {
+  const handleAuthSuccess = user => {
     setIsAuthenticated(true)
     setCurrentUser(user)
     setShowAccountSystem(false)
     setCurrentView(user.portal)
     setHasValidCode(true)
-    
+
     // Update URL
-    const url = window.location.origin + window.location.pathname + `?portal=${user.portal}&authenticated=true`
+    const url =
+      window.location.origin +
+      window.location.pathname +
+      `?portal=${user.portal}&authenticated=true`
     window.history.pushState({}, '', url)
     window.scrollTo(0, 0) // Scroll to top on navigation
   }
@@ -219,13 +227,13 @@ function App() {
     window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
-  const handleGoToPortal = (portal) => {
+  const handleGoToPortal = portal => {
     setCurrentView(portal)
     setHasValidCode(true)
     window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
-  const handleProfileUpdate = (updatedUser) => {
+  const handleProfileUpdate = updatedUser => {
     setCurrentUser(updatedUser)
   }
 
@@ -260,7 +268,8 @@ function App() {
       if (currentUser.portal === portal) {
         // User has access to this portal, navigate directly
         try {
-          const baseUrl = window.location.origin + window.location.pathname.replace(/\/+$/, '') || ''
+          const baseUrl =
+            window.location.origin + window.location.pathname.replace(/\/+$/, '') || ''
           const newUrl = `${baseUrl}?portal=${portal}&authenticated=true`
           window.history.pushState({}, '', newUrl)
           setCurrentView(portal)
@@ -272,7 +281,9 @@ function App() {
         }
       } else {
         // User doesn't have access to this portal, show message and redirect to their portal
-        alert(`You are registered for the ${currentUser.portal} portal. Redirecting you to your portal.`)
+        alert(
+          `You are registered for the ${currentUser.portal} portal. Redirecting you to your portal.`
+        )
         setCurrentView(currentUser.portal)
         window.scrollTo(0, 0)
       }
@@ -295,7 +306,7 @@ function App() {
   // Show account system
   if (showAccountSystem) {
     return (
-      <AuthPortalSelection 
+      <AuthPortalSelection
         selectedPortal={selectedPortal}
         onBackToWelcome={handleBackToWelcome}
         onAuthSuccess={handleAuthSuccess}
@@ -321,19 +332,21 @@ function App() {
 
   // Welcome page - entry point
   if (currentView === 'welcome') {
-    return <WelcomePage 
-      onEnterCode={handleEnterCode} 
-      onShowAccountSystem={handleShowAccountSystem} 
-      onShowFilmDemo={handleShowFilmDemo}
-      onGoToPortal={handleGoToPortal}
-    />
+    return (
+      <WelcomePage
+        onEnterCode={handleEnterCode}
+        onShowAccountSystem={handleShowAccountSystem}
+        onShowFilmDemo={handleShowFilmDemo}
+        onGoToPortal={handleGoToPortal}
+      />
+    )
   }
 
   // Portal selection page - after code entry
   if (currentView === 'portal-selection') {
     return (
-      <PortalSelectionPage 
-        onSelectPortal={handleSelectPortal} 
+      <PortalSelectionPage
+        onSelectPortal={handleSelectPortal}
         onBackToWelcome={handleBackToWelcome}
       />
     )
@@ -358,19 +371,23 @@ function App() {
 
     // Map 'talent' to CreativePortal for backward compatibility
     if (currentView === 'talent') {
-      return <TalentPortalComponent 
-        onLogout={handleLogout} 
+      return (
+        <TalentPortalComponent
+          onLogout={handleLogout}
+          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+          user={currentUser}
+          isAuthenticated={isAuthenticated}
+        />
+      )
+    }
+    return (
+      <CreativePortal
+        onLogout={handleLogout}
         onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
         user={currentUser}
         isAuthenticated={isAuthenticated}
       />
-    }
-    return <CreativePortal 
-      onLogout={handleLogout} 
-      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-      user={currentUser}
-      isAuthenticated={isAuthenticated}
-    />
+    )
   }
 
   if (currentView === 'investor') {
@@ -388,12 +405,14 @@ function App() {
       return null
     }
 
-    return <InvestorPortal 
-      onLogout={handleLogout} 
-      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-      user={currentUser}
-      isAuthenticated={isAuthenticated}
-    />
+    return (
+      <InvestorPortal
+        onLogout={handleLogout}
+        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+        user={currentUser}
+        isAuthenticated={isAuthenticated}
+      />
+    )
   }
 
   if (currentView === 'filmmaker') {
@@ -411,12 +430,14 @@ function App() {
       return null
     }
 
-    return <CreativePortal 
-      onLogout={handleLogout} 
-      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-      user={currentUser}
-      isAuthenticated={isAuthenticated}
-    />
+    return (
+      <CreativePortal
+        onLogout={handleLogout}
+        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+        user={currentUser}
+        isAuthenticated={isAuthenticated}
+      />
+    )
   }
 
   if (currentView === 'talent-new') {
@@ -434,12 +455,14 @@ function App() {
       return null
     }
 
-    return <TalentPortalComponent 
-      onLogout={handleLogout} 
-      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-      user={currentUser}
-      isAuthenticated={isAuthenticated}
-    />
+    return (
+      <TalentPortalComponent
+        onLogout={handleLogout}
+        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+        user={currentUser}
+        isAuthenticated={isAuthenticated}
+      />
+    )
   }
 
   if (currentView === 'brands' || currentView === 'brand') {
@@ -457,12 +480,14 @@ function App() {
       return null
     }
 
-    return <BrandsPortal 
-      onLogout={handleLogout} 
-      onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-      user={currentUser}
-      isAuthenticated={isAuthenticated}
-    />
+    return (
+      <BrandsPortal
+        onLogout={handleLogout}
+        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+        user={currentUser}
+        isAuthenticated={isAuthenticated}
+      />
+    )
   }
 
   // Demo Landing Page

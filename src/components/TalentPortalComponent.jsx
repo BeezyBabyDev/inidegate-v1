@@ -196,25 +196,25 @@ const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
 const TalentPortalComponent = ({ onLogout, onBack }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
-  
+
   // Inject clean button styles
   React.useEffect(() => {
     const styleElement = document.createElement('style')
     styleElement.textContent = mobileStyles
     document.head.appendChild(styleElement)
-    
+
     return () => {
       document.head.removeChild(styleElement)
     }
   }, [])
-  
+
   const [activeTab, setActiveTab] = useState('👤 Profile')
   const [currentView, setCurrentView] = useState('dashboard')
   const [selectedProfile, setSelectedProfile] = useState(null)
 
   const tabs = ['👤 Profile', '🎯 Dashboard', '🎬 Auditions', '🌐 Network', '📊 Analytics']
 
-  const handleViewProfile = (profile) => {
+  const handleViewProfile = profile => {
     setSelectedProfile(profile)
     setCurrentView('profile')
   }
@@ -260,8 +260,18 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
         {/* Active Auditions Card */}
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
           <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+              />
             </svg>
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">Active Auditions</h3>
@@ -274,9 +284,24 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
         {/* Profile Views Card */}
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
           <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-600 rounded-lg flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              />
             </svg>
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">Profile Views</h3>
@@ -289,8 +314,18 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
         {/* Network Growth Card */}
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
           <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              />
             </svg>
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">Network Growth</h3>
@@ -311,24 +346,37 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
               <div>
                 <h4 className="text-lg font-medium text-white">"Midnight Dreams" - Lead Role</h4>
                 <p className="text-pink-300">Indie Drama • Los Angeles</p>
-                <p className="text-pink-200 text-sm mt-2">Female, 25-35, looking for emotionally complex lead character</p>
+                <p className="text-pink-200 text-sm mt-2">
+                  Female, 25-35, looking for emotionally complex lead character
+                </p>
                 <div className="flex flex-wrap gap-1 mt-3">
-                  <span className="px-2 py-1 bg-pink-500/20 text-pink-200 text-xs rounded-full">Drama</span>
-                  <span className="px-2 py-1 bg-pink-500/20 text-pink-200 text-xs rounded-full">Lead Role</span>
-                  <span className="px-2 py-1 bg-pink-500/20 text-pink-200 text-xs rounded-full">Female</span>
+                  <span className="px-2 py-1 bg-pink-500/20 text-pink-200 text-xs rounded-full">
+                    Drama
+                  </span>
+                  <span className="px-2 py-1 bg-pink-500/20 text-pink-200 text-xs rounded-full">
+                    Lead Role
+                  </span>
+                  <span className="px-2 py-1 bg-pink-500/20 text-pink-200 text-xs rounded-full">
+                    Female
+                  </span>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-pink-300 font-medium">$2,500/day</p>
                 <p className="text-pink-200 text-sm">Closes: Dec 15</p>
-                <span className="inline-block mt-2 px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">95% Match</span>
+                <span className="inline-block mt-2 px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                  95% Match
+                </span>
               </div>
             </div>
             <div className="mt-4 flex space-x-2">
               <Button className="bg-pink-600 hover:bg-pink-700 text-white text-sm">
                 Apply Now
               </Button>
-              <Button variant="outline" className="border-pink-500 text-pink-300 hover:bg-pink-500/20 text-sm">
+              <Button
+                variant="outline"
+                className="border-pink-500 text-pink-300 hover:bg-pink-500/20 text-sm"
+              >
                 Learn More
               </Button>
             </div>
@@ -337,26 +385,41 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
           <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors">
             <div className="flex justify-between items-start">
               <div>
-                <h4 className="text-lg font-medium text-white">"Urban Legends" - Supporting Actor</h4>
+                <h4 className="text-lg font-medium text-white">
+                  "Urban Legends" - Supporting Actor
+                </h4>
                 <p className="text-pink-300">Thriller • Atlanta</p>
-                <p className="text-pink-200 text-sm mt-2">Male, 30-40, charismatic supporting character with depth</p>
+                <p className="text-pink-200 text-sm mt-2">
+                  Male, 30-40, charismatic supporting character with depth
+                </p>
                 <div className="flex flex-wrap gap-1 mt-3">
-                  <span className="px-2 py-1 bg-rose-500/20 text-rose-200 text-xs rounded-full">Thriller</span>
-                  <span className="px-2 py-1 bg-rose-500/20 text-rose-200 text-xs rounded-full">Supporting</span>
-                  <span className="px-2 py-1 bg-rose-500/20 text-rose-200 text-xs rounded-full">Male</span>
+                  <span className="px-2 py-1 bg-rose-500/20 text-rose-200 text-xs rounded-full">
+                    Thriller
+                  </span>
+                  <span className="px-2 py-1 bg-rose-500/20 text-rose-200 text-xs rounded-full">
+                    Supporting
+                  </span>
+                  <span className="px-2 py-1 bg-rose-500/20 text-rose-200 text-xs rounded-full">
+                    Male
+                  </span>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-pink-300 font-medium">$1,800/day</p>
                 <p className="text-pink-200 text-sm">Closes: Dec 20</p>
-                <span className="inline-block mt-2 px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded-full">87% Match</span>
+                <span className="inline-block mt-2 px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded-full">
+                  87% Match
+                </span>
               </div>
             </div>
             <div className="mt-4 flex space-x-2">
               <Button className="bg-pink-600 hover:bg-pink-700 text-white text-sm">
                 Apply Now
               </Button>
-              <Button variant="outline" className="border-pink-500 text-pink-300 hover:bg-pink-500/20 text-sm">
+              <Button
+                variant="outline"
+                className="border-pink-500 text-pink-300 hover:bg-pink-500/20 text-sm"
+              >
                 Learn More
               </Button>
             </div>
@@ -370,7 +433,7 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
     <div className="space-y-6">
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
         <h3 className="text-2xl font-semibold text-white mb-6">Talent Profile</h3>
-        
+
         {/* Profile Header */}
         <div className="flex items-start space-x-6 mb-6">
           <div className="w-24 h-24 bg-gradient-to-r from-pink-500 to-rose-600 rounded-full flex items-center justify-center">
@@ -379,10 +442,19 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
           <div className="flex-1">
             <h4 className="text-xl font-bold text-white">Jane Doe</h4>
             <p className="text-pink-300">Lead Actress • Los Angeles, CA</p>
-            <p className="text-pink-200 mt-2">Versatile performer with 8+ years experience in independent film and theater</p>
+            <p className="text-pink-200 mt-2">
+              Versatile performer with 8+ years experience in independent film and theater
+            </p>
             <div className="flex space-x-2 mt-3">
-              <Button className="bg-pink-600 hover:bg-pink-700 text-white text-sm">Edit Profile</Button>
-              <Button variant="outline" className="border-pink-500 text-pink-300 hover:bg-pink-500/20 text-sm">View Public Profile</Button>
+              <Button className="bg-pink-600 hover:bg-pink-700 text-white text-sm">
+                Edit Profile
+              </Button>
+              <Button
+                variant="outline"
+                className="border-pink-500 text-pink-300 hover:bg-pink-500/20 text-sm"
+              >
+                View Public Profile
+              </Button>
             </div>
           </div>
         </div>
@@ -391,8 +463,19 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
         <div className="mb-6">
           <h5 className="text-lg font-semibold text-white mb-3">Skills & Specialties</h5>
           <div className="flex flex-wrap gap-2">
-            {['Drama', 'Comedy', 'Action', 'Voice Acting', 'Stage Combat', 'Method Acting', 'Improvisation'].map((skill, index) => (
-              <span key={index} className="px-3 py-1 bg-pink-500/20 text-pink-200 text-sm rounded-full">
+            {[
+              'Drama',
+              'Comedy',
+              'Action',
+              'Voice Acting',
+              'Stage Combat',
+              'Method Acting',
+              'Improvisation',
+            ].map((skill, index) => (
+              <span
+                key={index}
+                className="px-3 py-1 bg-pink-500/20 text-pink-200 text-sm rounded-full"
+              >
                 {skill}
               </span>
             ))}
@@ -406,12 +489,16 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
             <div className="bg-white/5 border border-white/10 rounded-lg p-4">
               <h6 className="font-medium text-white">"Silent Waters" (2024)</h6>
               <p className="text-pink-300 text-sm">Lead Role - Sarah Mitchell</p>
-              <p className="text-pink-200 text-xs">Dir. Michael Chen • Awarded Best Actress at Sundance</p>
+              <p className="text-pink-200 text-xs">
+                Dir. Michael Chen • Awarded Best Actress at Sundance
+              </p>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-lg p-4">
               <h6 className="font-medium text-white">"City Dreams" (2023)</h6>
               <p className="text-pink-300 text-sm">Supporting Role - Emma Rodriguez</p>
-              <p className="text-pink-200 text-xs">Dir. Lisa Park • Selected for Cannes Film Festival</p>
+              <p className="text-pink-200 text-xs">
+                Dir. Lisa Park • Selected for Cannes Film Festival
+              </p>
             </div>
           </div>
         </div>
@@ -423,7 +510,7 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
     <div className="space-y-6">
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
         <h3 className="text-2xl font-semibold text-white mb-6">Audition Dashboard</h3>
-        
+
         {/* Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
@@ -453,21 +540,27 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
                 <h5 className="font-medium text-white">"Midnight Dreams" - Lead Role</h5>
                 <p className="text-pink-300 text-sm">Applied 3 days ago</p>
               </div>
-              <span className="px-3 py-1 bg-yellow-500/20 text-yellow-300 text-sm rounded-full">Under Review</span>
+              <span className="px-3 py-1 bg-yellow-500/20 text-yellow-300 text-sm rounded-full">
+                Under Review
+              </span>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex justify-between items-center">
               <div>
                 <h5 className="font-medium text-white">"Urban Legends" - Supporting</h5>
                 <p className="text-pink-300 text-sm">Applied 1 week ago</p>
               </div>
-              <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm rounded-full">Callback Scheduled</span>
+              <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm rounded-full">
+                Callback Scheduled
+              </span>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex justify-between items-center">
               <div>
                 <h5 className="font-medium text-white">"The Voice Within" - Voice Over</h5>
                 <p className="text-pink-300 text-sm">Applied 2 weeks ago</p>
               </div>
-              <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm rounded-full">Booked!</span>
+              <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm rounded-full">
+                Booked!
+              </span>
             </div>
           </div>
         </div>
@@ -479,7 +572,7 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
     <div className="space-y-6">
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
         <h3 className="text-2xl font-semibold text-white mb-6">Professional Network</h3>
-        
+
         {/* Network Stats */}
         <div className="grid md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
@@ -534,7 +627,7 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
     <div className="space-y-6">
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
         <h3 className="text-2xl font-semibold text-white mb-6">Performance Analytics</h3>
-        
+
         {/* Key Metrics */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
@@ -564,11 +657,16 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
           <h4 className="text-lg font-semibold text-white mb-4">Recent Activity</h4>
           <div className="space-y-2">
             <div className="bg-white/5 border border-white/10 rounded-lg p-3 text-sm">
-              <p className="text-white">Profile viewed by <span className="text-pink-400">Sarah Wilson (Casting Director)</span></p>
+              <p className="text-white">
+                Profile viewed by{' '}
+                <span className="text-pink-400">Sarah Wilson (Casting Director)</span>
+              </p>
               <p className="text-pink-300">2 hours ago</p>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-lg p-3 text-sm">
-              <p className="text-white">Callback scheduled for <span className="text-pink-400">"Midnight Dreams"</span></p>
+              <p className="text-white">
+                Callback scheduled for <span className="text-pink-400">"Midnight Dreams"</span>
+              </p>
               <p className="text-pink-300">1 day ago</p>
             </div>
           </div>
@@ -578,29 +676,26 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
   )
 
   if (currentView === 'profile' && selectedProfile) {
-    return (
-      <TalentProfile
-        talentData={selectedProfile}
-        onBack={handleBackToDashboard}
-      />
-    )
+    return <TalentProfile talentData={selectedProfile} onBack={handleBackToDashboard} />
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-900 via-pink-900 to-purple-900">
+    <div className="portal-container">
       {/* Enhanced Mobile Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+      <header className="portal-header">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20 md:h-24">
             {/* Logo + Text Combo - Mobile Optimized */}
-            <div className="text-gray-900">
+            <div className="text-white">
               <div className="flex items-center space-x-2 md:space-x-3">
                 <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16" />
                 <div>
                   <h1 className="text-lg md:text-2xl lg:text-3xl font-bold">
-                    IndieGate.<span className="text-blue-600">io</span>
+                    IndieGate.<span className="text-blue-400">io</span>
                   </h1>
-                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">Talent Network</p>
+                  <p className="text-xs md:text-sm lg:text-base text-pink-200 mt-1">
+                    Talent Network
+                  </p>
                 </div>
               </div>
             </div>
@@ -611,14 +706,14 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
                 variant="outline"
                 size="sm"
                 onClick={handleBackToHome}
-                className="text-xs md:text-sm text-gray-700 border-gray-300 hover:bg-gray-50 font-medium px-2 md:px-4 py-1 md:py-2"
+                className="portal-btn-secondary text-xs md:text-sm px-2 md:px-4 py-1 md:py-2"
               >
                 <span className="hidden sm:inline">Back to Home</span>
                 <span className="sm:hidden">← Home</span>
               </Button>
               <Button
                 onClick={onLogout}
-                className="text-xs md:text-sm bg-pink-600 hover:bg-pink-700 text-white px-2 md:px-4 py-1 md:py-2"
+                className="portal-btn-primary text-xs md:text-sm px-2 md:px-4 py-1 md:py-2"
               >
                 <span className="hidden sm:inline">Logout</span>
                 <span className="sm:hidden">Exit</span>
@@ -632,11 +727,10 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
         <div className="max-w-7xl mx-auto">
           {/* Welcome Section - Mobile Optimized */}
           <div className="mb-6 md:mb-8">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4">
-              Welcome to the Talent Network
-            </h2>
-            <p className="text-base md:text-lg lg:text-xl text-pink-200 mb-6 md:mb-8">
-              Connect with casting directors, audition for roles, and showcase your talent to the indie film community.
+            <h2 className="portal-heading-main portal-fade-in">Welcome to the Talent Network</h2>
+            <p className="portal-text-large text-pink-200 mb-6 md:mb-8 text-center">
+              Connect with casting directors, audition for roles, and showcase your talent to the
+              indie film community.
             </p>
           </div>
 
@@ -719,4 +813,4 @@ const mobileStyles = `
   }
 `
 
-export default TalentPortalComponent 
+export default TalentPortalComponent

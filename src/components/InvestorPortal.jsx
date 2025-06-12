@@ -202,7 +202,7 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 const InvestorPortal = ({ onLogout, onBack }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
-  
+
   const [activeTab, setActiveTab] = useState('👤 Profile')
   const [profileView, setProfileView] = useState('showcase')
   const [showPublicProfile, setShowPublicProfile] = useState(false)
@@ -801,12 +801,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
 
   // Main render logic - handle different views
   if (selectedProject) {
-    return (
-      <FilmProjectDetail
-        onBack={() => setSelectedProject(null)}
-        project={selectedProject}
-      />
-    )
+    return <FilmProjectDetail onBack={() => setSelectedProject(null)} project={selectedProject} />
   }
 
   if (showPublicProfile && currentPublicProfileId) {
@@ -856,7 +851,9 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                   <h1 className="text-lg md:text-2xl lg:text-3xl font-bold">
                     IndieGate.<span className="text-blue-600">io</span>
                   </h1>
-                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">Investor Portal</p>
+                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">
+                    Investor Portal
+                  </p>
                 </div>
               </div>
             </div>
@@ -883,17 +880,16 @@ const InvestorPortal = ({ onLogout, onBack }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-indigo-900">
+    <div className="portal-container">
       <IndieGateHeader />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Welcome Section - Mobile Optimized */}
         <div className="mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4">
-            Welcome to the Investor Network
-          </h2>
-          <p className="text-base md:text-lg lg:text-xl text-green-200 mb-6 md:mb-8">
-            Discover groundbreaking indie film projects, analyze market opportunities, and build your entertainment portfolio with confidence.
+          <h2 className="portal-heading-main portal-fade-in">Welcome to the Investor Network</h2>
+          <p className="portal-text-large text-green-200 mb-6 md:mb-8 text-center">
+            Discover groundbreaking indie film projects, analyze market opportunities, and build
+            your entertainment portfolio with confidence.
           </p>
         </div>
 

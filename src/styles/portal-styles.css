@@ -1,0 +1,315 @@
+/* IndieGate.io Portal Styling - Matching Reference Design */
+
+/* Base Portal Styles */
+.portal-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #312e81 0%, #7c3aed 50%, #1e40af 100%);
+  color: white;
+}
+
+/* Translucent/Semi-transparent Headings */
+.portal-heading-main {
+  font-size: 48px !important;
+  font-weight: bold !important;
+  margin-bottom: 20px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 15px !important;
+  padding: 25px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  text-align: center !important;
+}
+
+.portal-heading-section {
+  font-size: 24px !important;
+  font-weight: bold !important;
+  margin-bottom: 15px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 12px !important;
+  padding: 15px 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.portal-heading-subsection {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  margin-bottom: 10px !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(8px) !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Card Styling */
+.portal-card {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 15px !important;
+  padding: 25px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  margin-bottom: 20px !important;
+  transition: all 0.3s ease !important;
+}
+
+.portal-card:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-5px) !important;
+}
+
+.portal-card-small {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  margin-bottom: 15px !important;
+  transition: all 0.3s ease !important;
+}
+
+.portal-card-small:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.02) !important;
+}
+
+/* Button Styling - Consistent Sizes */
+.portal-btn-primary {
+  padding: 15px 30px !important;
+  border-radius: 10px !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+  cursor: pointer !important;
+  background: linear-gradient(45deg, #10b981, #059669) !important;
+  color: white !important;
+}
+
+.portal-btn-primary:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3) !important;
+}
+
+.portal-btn-secondary {
+  padding: 15px 30px !important;
+  border-radius: 10px !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  transition: all 0.3s ease !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  cursor: pointer !important;
+}
+
+.portal-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+.portal-btn-small {
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+/* Text Sizing */
+.portal-text-large {
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+}
+
+.portal-text-medium {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+.portal-text-small {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* Header Styling */
+.portal-header {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 20px 0 !important;
+  margin-bottom: 30px !important;
+}
+
+/* Navigation Tabs */
+.portal-nav-tab {
+  padding: 12px 24px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: white !important;
+  cursor: pointer !important;
+}
+
+.portal-nav-tab.active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1) !important;
+}
+
+.portal-nav-tab:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Progress Bars */
+.portal-progress-bar {
+  width: 100% !important;
+  height: 12px !important;
+  background: #374151 !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  margin-bottom: 15px !important;
+}
+
+.portal-progress-fill {
+  height: 100% !important;
+  background: linear-gradient(90deg, #10b981, #059669) !important;
+  transition: width 2s ease-out !important;
+}
+
+/* Stats/Metrics */
+.portal-stat {
+  padding: 15px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 10px !important;
+  text-align: center !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.portal-stat-value {
+  font-size: 24px !important;
+  font-weight: bold !important;
+  margin-bottom: 5px !important;
+}
+
+/* Badges */
+.portal-badge {
+  padding: 8px 16px !important;
+  border-radius: 25px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border: 1px solid !important;
+  display: inline-block !important;
+  margin: 2px !important;
+}
+
+.portal-badge-success {
+  background: rgba(34, 197, 94, 0.2) !important;
+  color: #86efac !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+}
+
+.portal-badge-warning {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #fcd34d !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.portal-badge-info {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #93c5fd !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.portal-badge-error {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .portal-heading-main {
+    font-size: 32px !important;
+    padding: 20px !important;
+  }
+
+  .portal-heading-section {
+    font-size: 20px !important;
+    padding: 12px 16px !important;
+  }
+
+  .portal-btn-primary,
+  .portal-btn-secondary {
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+  }
+
+  .portal-card {
+    padding: 20px !important;
+  }
+
+  .portal-nav-tab {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Animation Classes */
+.portal-fade-in {
+  animation: portalFadeIn 0.6s ease-out !important;
+}
+
+@keyframes portalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.portal-slide-up {
+  animation: portalSlideUp 0.4s ease-out !important;
+}
+
+@keyframes portalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility Classes */
+.portal-blur-bg {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.portal-text-gradient {
+  background: linear-gradient(45deg, #fbbf24, #f59e0b) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+.portal-shadow {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+.portal-shadow-lg {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
+}

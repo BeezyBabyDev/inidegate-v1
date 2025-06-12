@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Card from './Card'
 import Button from './Button'
-import TalentProfile from './TalentProfile'
 import TalentProfileEditor from './TalentProfileEditor'
 import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
@@ -203,7 +202,7 @@ const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
 const CreativePortal = ({ onLogout, onBack }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
-  
+
   const [activeTab, setActiveTab] = useState('👤 Profile')
   const [profileView, setProfileView] = useState('showcase')
   const [showPublicProfile, setShowPublicProfile] = useState(false)
@@ -234,14 +233,14 @@ const CreativePortal = ({ onLogout, onBack }) => {
     availability: 'Available for Projects',
     rates: '$2500-3500/day',
     unions: ['DGA (Directors Guild)', 'WGA (Writers Guild)'],
-    
+
     // Skills & Expertise (moved from separate tab)
     primaryRoles: ['Director', 'Writer', 'Producer'],
     genreSpecializations: ['Drama', 'Documentary', 'Thriller', 'Independent'],
     technicalSkills: ['Digital Cinematography', 'Post-Production Workflow', 'Sound Design'],
     productionScale: ['Short Films', 'Features', 'Limited Series'],
     budgetExperience: ['Micro ($0-50K)', 'Low ($50K-1M)', 'Mid ($1M-10M)'],
-    
+
     specialSkills: [
       'Narrative Storytelling',
       'Documentary Style',
@@ -252,7 +251,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
     softwareProficiency: ['Final Cut Pro', 'DaVinci Resolve', 'Pro Tools'],
     genres: ['Drama', 'Documentary', 'Thriller', 'Independent'],
     demoReel: 'https://vimeo.com/marcusbell-directoreel',
-    
+
     // Networking stats
     connections: 142,
     followers: 1847,
@@ -485,7 +484,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
     }
   }
 
-  const handleViewProjectDetails = (project) => {
+  const handleViewProjectDetails = project => {
     console.log('Viewing project details for:', project.title)
     setSelectedProject(project)
     setShowProjectDetail(true)
@@ -561,7 +560,12 @@ const CreativePortal = ({ onLogout, onBack }) => {
               <p className="text-blue-200">{profileData.careerStage || 'Independent Filmmaker'}</p>
               <div className="flex items-center space-x-4 mt-2">
                 <p className="text-sm text-gray-300 flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -578,7 +582,9 @@ const CreativePortal = ({ onLogout, onBack }) => {
                   {profileData.location}
                 </p>
                 <p className="text-sm text-gray-300">{profileData.yearsExperience || '8+ years'}</p>
-                <p className="text-sm text-gray-300">{profileData.education || 'Film School Graduate'}</p>
+                <p className="text-sm text-gray-300">
+                  {profileData.education || 'Film School Graduate'}
+                </p>
               </div>
             </div>
             <div className="text-right">
@@ -586,10 +592,18 @@ const CreativePortal = ({ onLogout, onBack }) => {
                 <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
                   Connect
                 </Button>
-                <Button size="sm" variant="outline" className="border-white text-white hover:bg-white/10">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-white text-white hover:bg-white/10"
+                >
                   Message
                 </Button>
-                <Button size="sm" variant="outline" className="border-white text-white hover:bg-white/10">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-white text-white hover:bg-white/10"
+                >
                   Follow
                 </Button>
               </div>
@@ -622,20 +636,25 @@ const CreativePortal = ({ onLogout, onBack }) => {
             <div>
               <h4 className="font-medium text-white mb-2">Primary Roles</h4>
               <div className="flex flex-wrap gap-2">
-                {(profileData.primaryRoles || [profileData.primaryRole, profileData.secondaryRole]).filter(Boolean).map((role, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 bg-purple-600 text-purple-100 text-sm rounded-full"
-                  >
-                    {role}
-                  </span>
-                ))}
+                {(profileData.primaryRoles || [profileData.primaryRole, profileData.secondaryRole])
+                  .filter(Boolean)
+                  .map((role, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-purple-600 text-purple-100 text-sm rounded-full"
+                    >
+                      {role}
+                    </span>
+                  ))}
               </div>
             </div>
             <div>
               <h4 className="font-medium text-white mb-2">Genre Specializations</h4>
               <div className="flex flex-wrap gap-2">
-                {(profileData.genreSpecializations || profileData.genres || ['Drama', 'Documentary']).map((genre, index) => (
+                {(
+                  profileData.genreSpecializations ||
+                  profileData.genres || ['Drama', 'Documentary']
+                ).map((genre, index) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-blue-600 text-blue-100 text-sm rounded-full"
@@ -648,7 +667,10 @@ const CreativePortal = ({ onLogout, onBack }) => {
             <div>
               <h4 className="font-medium text-white mb-2">Technical Skills</h4>
               <div className="flex flex-wrap gap-2">
-                {(profileData.technicalSkills || profileData.specialSkills || ['Digital Cinematography', 'Post-Production']).map((skill, index) => (
+                {(
+                  profileData.technicalSkills ||
+                  profileData.specialSkills || ['Digital Cinematography', 'Post-Production']
+                ).map((skill, index) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-green-600 text-green-100 text-sm rounded-full"
@@ -661,14 +683,16 @@ const CreativePortal = ({ onLogout, onBack }) => {
             <div>
               <h4 className="font-medium text-white mb-2">Budget Experience</h4>
               <div className="flex flex-wrap gap-2">
-                {(profileData.budgetExperience || ['Micro ($0-50K)', 'Low ($50K-1M)']).map((range, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 bg-orange-600 text-orange-100 text-sm rounded-full"
-                  >
-                    {range}
-                  </span>
-                ))}
+                {(profileData.budgetExperience || ['Micro ($0-50K)', 'Low ($50K-1M)']).map(
+                  (range, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-orange-600 text-orange-100 text-sm rounded-full"
+                    >
+                      {range}
+                    </span>
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -929,8 +953,8 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
   const renderActiveProjectsTab = () => (
     <div className="space-y-6">
-      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
-        <h3 className="text-lg font-semibold text-white mb-6">Current Projects</h3>
+      <Card className="portal-card">
+        <h3 className="portal-heading-section">Current Projects</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
@@ -970,13 +994,18 @@ const CreativePortal = ({ onLogout, onBack }) => {
               status: 'On Schedule',
             },
           ].map((project, index) => (
-            <div key={index} className="bg-white/5 rounded-lg p-4 space-y-3">
+            <div key={index} className="portal-card-small space-y-3">
               <div className="flex justify-between items-start">
-                <h4 className="font-semibold text-white">{project.title}</h4>
-                <span className={`text-xs px-2 py-1 rounded ${
-                  project.status === 'On Track' || project.status === 'On Schedule' ? 'bg-green-600 text-white' :
-                  project.status === 'Funding Required' ? 'bg-yellow-600 text-white' : 'bg-blue-600 text-white'
-                }`}>
+                <h4 className="portal-text-medium font-semibold text-white">{project.title}</h4>
+                <span
+                  className={`portal-badge ${
+                    project.status === 'On Track' || project.status === 'On Schedule'
+                      ? 'portal-badge-success'
+                      : project.status === 'Funding Required'
+                        ? 'portal-badge-warning'
+                        : 'portal-badge-info'
+                  }`}
+                >
                   {project.status}
                 </span>
               </div>
@@ -995,16 +1024,23 @@ const CreativePortal = ({ onLogout, onBack }) => {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-300">Status:</span>
-                  <span className={
-                    project.fundingStatus === 'Fully Funded' ? 'text-green-400' :
-                    project.fundingStatus === 'Partially Funded' ? 'text-yellow-400' : 'text-red-400'
-                  }>{project.fundingStatus}</span>
+                  <span
+                    className={
+                      project.fundingStatus === 'Fully Funded'
+                        ? 'text-green-400'
+                        : project.fundingStatus === 'Partially Funded'
+                          ? 'text-yellow-400'
+                          : 'text-red-400'
+                    }
+                  >
+                    {project.fundingStatus}
+                  </span>
                 </div>
               </div>
               <p className="text-sm text-gray-300">{project.timeline}</p>
-              <Button 
-                size="sm" 
-                className="bg-purple-600 hover:bg-purple-700 w-full"
+              <Button
+                size="sm"
+                className="portal-btn-primary w-full"
                 onClick={() => handleViewProjectDetails(project)}
               >
                 View Details
@@ -1018,8 +1054,8 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
   const renderProgressTrackerTab = () => (
     <div className="space-y-6">
-      <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
-        <h3 className="text-lg font-semibold text-white mb-6">Project Timeline Overview</h3>
+      <Card className="portal-card">
+        <h3 className="portal-heading-section">Project Timeline Overview</h3>
         <div className="space-y-6">
           {[
             { project: 'Urban Legends 2', phase: 'Pre-Production', progress: 75, daysLeft: 45 },
@@ -1035,11 +1071,8 @@ const CreativePortal = ({ onLogout, onBack }) => {
                 <span className="text-sm text-purple-200">{item.phase}</span>
                 <span className="text-sm text-blue-300">{item.progress}% complete</span>
               </div>
-              <div className="w-full bg-white/10 rounded-full h-2">
-                <div
-                  className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"
-                  style={{ width: `${item.progress}%` }}
-                />
+              <div className="portal-progress-bar">
+                <div className="portal-progress-fill" style={{ width: `${item.progress}%` }} />
               </div>
             </div>
           ))}
@@ -1051,7 +1084,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
   const renderFundFinderTab = () => (
     <div className="space-y-6">
       <SmartMatching userType="filmmaker" userProfile={profileData} />
-      
+
       <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
         <h3 className="text-lg font-semibold text-white mb-6">Grant & Competition Opportunities</h3>
         <div className="space-y-4">
@@ -1078,10 +1111,15 @@ const CreativePortal = ({ onLogout, onBack }) => {
               match: '78% match',
             },
           ].map((grant, index) => (
-            <div key={index} className="flex justify-between items-center p-4 bg-white/5 rounded-lg">
+            <div
+              key={index}
+              className="flex justify-between items-center p-4 bg-white/5 rounded-lg"
+            >
               <div>
                 <h4 className="font-semibold text-white">{grant.title}</h4>
-                <p className="text-sm text-gray-300">{grant.type} • Deadline: {grant.deadline}</p>
+                <p className="text-sm text-gray-300">
+                  {grant.type} • Deadline: {grant.deadline}
+                </p>
               </div>
               <div className="text-right">
                 <p className="font-semibold text-green-400">{grant.amount}</p>
@@ -1098,14 +1136,24 @@ const CreativePortal = ({ onLogout, onBack }) => {
     <div className="space-y-6">
       <Card className="p-6 bg-white/10 backdrop-blur-lg border border-white/20">
         <h3 className="text-lg font-semibold text-white mb-6">Portfolio Showcase</h3>
-        
+
         <div className="mb-8">
           <h4 className="text-lg font-medium text-white mb-4">Director's Reel</h4>
           <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4">
             <div className="w-full h-full flex items-center justify-center bg-gray-800">
               <div className="text-center">
-                <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h6m-3-3v6" />
+                <svg
+                  className="w-16 h-16 text-gray-400 mx-auto mb-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h6m-3-3v6"
+                  />
                 </svg>
                 <p className="text-gray-400">Director's Reel</p>
               </div>
@@ -1119,13 +1167,25 @@ const CreativePortal = ({ onLogout, onBack }) => {
             {profileData.portfolio?.map((project, index) => (
               <div key={index} className="bg-white/5 rounded-lg overflow-hidden">
                 <div className="aspect-video bg-gray-700 flex items-center justify-center">
-                  <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  <svg
+                    className="w-12 h-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
                   </svg>
                 </div>
                 <div className="p-4">
                   <h5 className="font-semibold text-white">{project.title}</h5>
-                  <p className="text-sm text-purple-200">{project.type} • {project.year}</p>
+                  <p className="text-sm text-purple-200">
+                    {project.type} • {project.year}
+                  </p>
                   <p className="text-sm text-blue-200">Role: {project.role}</p>
                   <p className="text-sm text-gray-300 mt-2">{project.description}</p>
                 </div>
@@ -1138,8 +1198,8 @@ const CreativePortal = ({ onLogout, onBack }) => {
   )
 
   const renderCommunityTab = () => {
-    console.log('🎬 CommunityTab: Rendering community tab');
-    
+    console.log('🎬 CommunityTab: Rendering community tab')
+
     try {
       return (
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
@@ -1155,25 +1215,34 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
             {/* Error Boundary for CommunityForum */}
             <CommunityErrorWrapper>
-              <CommunityForum 
-                userType="talent" 
-                onShowPublicProfile={handleShowPublicProfile} 
-              />
+              <CommunityForum userType="talent" onShowPublicProfile={handleShowPublicProfile} />
             </CommunityErrorWrapper>
           </div>
         </div>
       )
     } catch (error) {
-      console.error('🎬 CommunityTab: Render error', error);
+      console.error('🎬 CommunityTab: Render error', error)
       return (
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6">
           <div className="text-center py-8">
             <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-8 h-8 text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Community Temporarily Unavailable</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">
+              Community Temporarily Unavailable
+            </h3>
             <p className="text-gray-300 mb-4">We're working to restore the community features.</p>
             <Button
               onClick={() => window.location.reload()}
@@ -1189,27 +1258,37 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
   // Error Boundary Component for Community
   const CommunityErrorWrapper = ({ children }) => {
-    const [hasError, setHasError] = useState(false);
-    const [error, setError] = useState(null);
+    const [hasError, setHasError] = useState(false)
+    const [error, setError] = useState(null)
 
     const handleError = (error, errorInfo) => {
-      console.error('🎬 CommunityErrorWrapper: Caught error', error, errorInfo);
-      setHasError(true);
-      setError(error);
-    };
+      console.error('🎬 CommunityErrorWrapper: Caught error', error, errorInfo)
+      setHasError(true)
+      setError(error)
+    }
 
     // Reset error state when component remounts
     const resetError = () => {
-      setHasError(false);
-      setError(null);
-    };
+      setHasError(false)
+      setError(null)
+    }
 
     if (hasError) {
       return (
         <div className="text-center py-8">
           <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            <svg
+              className="w-8 h-8 text-yellow-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">Community Loading Error</h3>
@@ -1240,14 +1319,14 @@ const CreativePortal = ({ onLogout, onBack }) => {
             </details>
           )}
         </div>
-      );
+      )
     }
 
     try {
-      return children;
+      return children
     } catch (error) {
-      handleError(error);
-      return null;
+      handleError(error)
+      return null
     }
   }
 
@@ -1278,7 +1357,9 @@ const CreativePortal = ({ onLogout, onBack }) => {
                   <h1 className="text-lg md:text-2xl lg:text-3xl font-bold">
                     IndieGate.<span className="text-blue-600">io</span>
                   </h1>
-                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">Filmmaker Portal</p>
+                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">
+                    Filmmaker Portal
+                  </p>
                 </div>
               </div>
             </div>
@@ -1306,12 +1387,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
   // Main render logic - handle different views
   if (showProjectDetail && selectedProject) {
-    return (
-      <FilmProjectDetailPage 
-        onBack={handleBackToProjects}
-        project={selectedProject}
-      />
-    )
+    return <FilmProjectDetailPage onBack={handleBackToProjects} project={selectedProject} />
   }
 
   if (showPublicProfile && currentPublicProfileId) {
@@ -1335,16 +1411,14 @@ const CreativePortal = ({ onLogout, onBack }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="portal-container">
       <IndieGateHeader />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Welcome Section - Mobile Optimized */}
         <div className="mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4">
-            Welcome to the Filmmaker Portal
-          </h2>
-          <p className="text-base md:text-lg lg:text-xl text-purple-200 mb-6 md:mb-8">
+          <h2 className="portal-heading-main portal-fade-in">Welcome to the Filmmaker Portal</h2>
+          <p className="portal-text-large text-purple-200 mb-6 md:mb-8 text-center">
             Manage your projects, connect with investors, and bring your creative vision to life.
           </p>
         </div>
@@ -1355,60 +1429,48 @@ const CreativePortal = ({ onLogout, onBack }) => {
           <div className="flex space-x-2 md:space-x-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
             <button
               onClick={() => setActiveTab('👤 Profile')}
-              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
-                activeTab === '👤 Profile'
-                  ? 'bg-white text-purple-900 shadow-lg'
-                  : 'text-white hover:bg-white/10 bg-white/5'
+              className={`portal-nav-tab whitespace-nowrap flex-shrink-0 ${
+                activeTab === '👤 Profile' ? 'active' : ''
               }`}
             >
               👤 Profile
             </button>
             <button
               onClick={() => setActiveTab('🎬 Active Projects')}
-              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
-                activeTab === '🎬 Active Projects'
-                  ? 'bg-white text-purple-900 shadow-lg'
-                  : 'text-white hover:bg-white/10 bg-white/5'
+              className={`portal-nav-tab whitespace-nowrap flex-shrink-0 ${
+                activeTab === '🎬 Active Projects' ? 'active' : ''
               }`}
             >
               🎬 Active Projects
             </button>
             <button
               onClick={() => setActiveTab('📈 Progress Tracker')}
-              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
-                activeTab === '📈 Progress Tracker'
-                  ? 'bg-white text-purple-900 shadow-lg'
-                  : 'text-white hover:bg-white/10 bg-white/5'
+              className={`portal-nav-tab whitespace-nowrap flex-shrink-0 ${
+                activeTab === '📈 Progress Tracker' ? 'active' : ''
               }`}
             >
               📈 Progress Tracker
             </button>
             <button
               onClick={() => setActiveTab('💬 Community')}
-              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
-                activeTab === '💬 Community'
-                  ? 'bg-white text-purple-900 shadow-lg'
-                  : 'text-white hover:bg-white/10 bg-white/5'
+              className={`portal-nav-tab whitespace-nowrap flex-shrink-0 ${
+                activeTab === '💬 Community' ? 'active' : ''
               }`}
             >
               💬 Community
             </button>
             <button
               onClick={() => setActiveTab('💰 FundFinder')}
-              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
-                activeTab === '💰 FundFinder'
-                  ? 'bg-white text-purple-900 shadow-lg'
-                  : 'text-white hover:bg-white/10 bg-white/5'
+              className={`portal-nav-tab whitespace-nowrap flex-shrink-0 ${
+                activeTab === '💰 FundFinder' ? 'active' : ''
               }`}
             >
               💰 FundFinder
             </button>
             <button
               onClick={() => setActiveTab('📁 Portfolio')}
-              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
-                activeTab === '📁 Portfolio'
-                  ? 'bg-white text-purple-900 shadow-lg'
-                  : 'text-white hover:bg-white/10 bg-white/5'
+              className={`portal-nav-tab whitespace-nowrap flex-shrink-0 ${
+                activeTab === '📁 Portfolio' ? 'active' : ''
               }`}
             >
               📁 Portfolio
