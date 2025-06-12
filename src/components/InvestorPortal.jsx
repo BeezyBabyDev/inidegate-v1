@@ -869,6 +869,15 @@ const InvestorPortal = ({ onLogout, onBack }) => {
                 <span className="hidden sm:inline">Back to Home</span>
                 <span className="sm:hidden">← Home</span>
               </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onLogout}
+                className="text-xs md:text-sm text-red-600 border-red-300 hover:bg-red-50 font-medium px-2 md:px-4 py-1 md:py-2"
+              >
+                <span className="hidden sm:inline">Logout</span>
+                <span className="sm:hidden">🚪</span>
+              </Button>
               <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-xs md:text-sm font-bold">JB</span>
               </div>
