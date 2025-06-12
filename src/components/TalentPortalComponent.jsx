@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import Button from './Button'
 import TalentProfile from './TalentProfile'
@@ -197,11 +197,22 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
   
-  const [activeTab, setActiveTab] = useState('🎯 Dashboard')
+  // Inject clean button styles
+  React.useEffect(() => {
+    const styleElement = document.createElement('style')
+    styleElement.textContent = mobileStyles
+    document.head.appendChild(styleElement)
+    
+    return () => {
+      document.head.removeChild(styleElement)
+    }
+  }, [])
+  
+  const [activeTab, setActiveTab] = useState('👤 Profile')
   const [currentView, setCurrentView] = useState('dashboard')
   const [selectedProfile, setSelectedProfile] = useState(null)
 
-  const tabs = ['🎯 Dashboard', '👤 Profile', '🎬 Auditions', '🌐 Network', '📊 Analytics']
+  const tabs = ['👤 Profile', '🎯 Dashboard', '🎬 Auditions', '🌐 Network', '📊 Analytics']
 
   const handleViewProfile = (profile) => {
     setSelectedProfile(profile)
@@ -634,26 +645,25 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
             {/* Mobile: Horizontal Scroll Tabs */}
             <div className="flex space-x-2 md:space-x-4 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
               {tabs.map((tab, index) => (
-                <Button
+                <button
                   key={index}
-                  variant={activeTab === tab ? "outline" : "ghost"}
                   onClick={() => setActiveTab(tab)}
-                  className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                  className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 border-0 outline-none focus:outline-none focus:ring-0 ${
                     activeTab === tab
                       ? 'bg-white text-pink-900 shadow-lg'
-                      : 'bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20'
+                      : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
                   }`}
                 >
                   {tab}
-                </Button>
+                </button>
               ))}
             </div>
           </div>
 
           {/* Tab Content with Mobile Optimization */}
           <div className="mb-6 md:mb-8">
-            {activeTab === '🎯 Dashboard' && renderDashboardTab()}
             {activeTab === '👤 Profile' && renderProfileTab()}
+            {activeTab === '🎯 Dashboard' && renderDashboardTab()}
             {activeTab === '🎬 Auditions' && renderAuditionsTab()}
             {activeTab === '🌐 Network' && renderNetworkTab()}
             {activeTab === '📊 Analytics' && renderAnalyticsTab()}
@@ -664,7 +674,7 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
   )
 }
 
-// Add mobile-specific styles
+// Add mobile-specific styles and clean button styling
 const mobileStyles = `
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -672,6 +682,23 @@ const mobileStyles = `
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+  
+  /* Clean button styling - remove all default browser outlines */
+  button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  button:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  button:active {
+    outline: none !important;
+    box-shadow: none !important;
   }
   
   @media (max-width: 768px) {
