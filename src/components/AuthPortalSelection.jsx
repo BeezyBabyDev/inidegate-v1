@@ -1,78 +1,82 @@
 import React, { useState } from 'react'
-import { useScrollToTop } from '../hooks/useScrollToTop';
-import { PORTAL_TYPES, PORTAL_CONFIGS } from '../config/auth.js';
-import AccountRegistration from './AccountRegistration';
-import AccountLogin from './AccountLogin';
-import { authService } from '../config/auth.js';
+import { useScrollToTop } from '../hooks/useScrollToTop'
+import { PORTAL_CONFIGS } from '../config/auth.js'
+import AccountRegistration from './AccountRegistration'
+import AccountLogin from './AccountLogin'
+import { authService } from '../config/auth.js'
 
-const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcome, onAuthSuccess }) => {
+const AuthPortalSelection = ({
+  selectedPortal: preSelectedPortal,
+  onBackToWelcome,
+  onAuthSuccess,
+}) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
-  
-  const [currentView, setCurrentView] = useState(preSelectedPortal ? 'login' : 'selection'); // 'selection', 'register', 'login'
-  const [selectedPortal, setSelectedPortal] = useState(preSelectedPortal || null);
-  const [authMessage, setAuthMessage] = useState('');
+
+  const [currentView, setCurrentView] = useState(preSelectedPortal ? 'login' : 'selection') // 'selection', 'register', 'login'
+  const [selectedPortal, setSelectedPortal] = useState(preSelectedPortal || null)
+  const [authMessage, setAuthMessage] = useState('')
 
   const handleSelectPortal = (portal, action) => {
-    setSelectedPortal(portal);
-    setCurrentView(action); // 'register' or 'login'
-    setAuthMessage('');
-  };
+    setSelectedPortal(portal)
+    setCurrentView(action) // 'register' or 'login'
+    setAuthMessage('')
+  }
 
-  const handleRegister = async (userData) => {
+  const handleRegister = async userData => {
     try {
-      const result = await authService.register(userData);
+      const result = await authService.register(userData)
       if (result.success) {
-        setAuthMessage('Account created successfully! Welcome to IndieGate.');
+        setAuthMessage('Account created successfully! Welcome to IndieGate.')
         // Call success handler after a brief delay to show success message
         setTimeout(() => {
-          onAuthSuccess(result.user);
-        }, 1500);
+          onAuthSuccess(result.user)
+        }, 1500)
       }
-      return result;
+      return result
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: error.message }
     }
-  };
+  }
 
   const handleLogin = async (email, password) => {
     try {
-      const result = await authService.login(email, password);
+      const result = await authService.login(email, password)
       if (result.success) {
-        setAuthMessage('Login successful! Welcome back.');
+        setAuthMessage('Login successful! Welcome back.')
         // Call success handler after a brief delay to show success message
         setTimeout(() => {
-          onAuthSuccess(result.user);
-        }, 1500);
+          onAuthSuccess(result.user)
+        }, 1500)
       }
-      return result;
+      return result
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: error.message }
     }
-  };
+  }
 
-  const handleForgotPassword = async (email) => {
+  const handleForgotPassword = async email => {
     try {
-      const result = await authService.resetPassword(email);
+      const result = await authService.resetPassword(email)
       if (result.success) {
-        setAuthMessage('Password reset instructions have been sent to your email.');
+        setAuthMessage('Password reset instructions have been sent to your email.')
       } else {
-        setAuthMessage('Error sending password reset. Please try again.');
+        setAuthMessage('Error sending password reset. Please try again.')
       }
     } catch (error) {
-      setAuthMessage('Error sending password reset. Please try again.');
+      setAuthMessage('Error sending password reset. Please try again.')
     }
-  };
+  }
 
   const handleBack = () => {
     if (currentView === 'selection') {
-      onBackToWelcome();
+      onBackToWelcome()
     } else {
-      setCurrentView('selection');
-      setSelectedPortal(null);
-      setAuthMessage('');
+      setCurrentView('selection')
+      setSelectedPortal(null)
+      setAuthMessage('')
     }
-  };
+  }
 
   // Show registration form
   if (currentView === 'register' && selectedPortal) {
@@ -83,7 +87,7 @@ const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcom
         onBack={handleBack}
         onSwitchToLogin={() => setCurrentView('login')}
       />
-    );
+    )
   }
 
   // Show login form
@@ -96,7 +100,7 @@ const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcom
         onSwitchToRegister={() => setCurrentView('register')}
         onForgotPassword={handleForgotPassword}
       />
-    );
+    )
   }
 
   // Portal selection view
@@ -108,12 +112,8 @@ const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcom
           <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
             <span className="text-3xl">🎬</span>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
-            Welcome to IndieGate
-          </h1>
-          <p className="text-indigo-200 text-lg">
-            Choose your portal to get started
-          </p>
+          <h1 className="text-3xl font-bold text-white mb-2">Welcome to IndieGate</h1>
+          <p className="text-indigo-200 text-lg">Choose your portal to get started</p>
           {authMessage && (
             <div className="mt-4 p-3 bg-green-500/20 border border-green-400/30 rounded-lg">
               <p className="text-green-200 text-sm">{authMessage}</p>
@@ -126,17 +126,15 @@ const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcom
           {Object.entries(PORTAL_CONFIGS).map(([portalType, config]) => (
             <div key={portalType} className="space-y-4">
               {/* Portal Info Card */}
-              <div className={`bg-gradient-to-r ${config.color} p-6 rounded-xl border border-white/20 shadow-lg`}>
+              <div
+                className={`bg-gradient-to-r ${config.color} p-6 rounded-xl border border-white/20 shadow-lg`}
+              >
                 <div className="text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                     <span className="text-2xl">{config.icon}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {config.name}
-                  </h3>
-                  <p className="text-white/90 text-sm">
-                    {config.description}
-                  </p>
+                  <h3 className="text-xl font-bold text-white mb-2">{config.name}</h3>
+                  <p className="text-white/90 text-sm">{config.description}</p>
                 </div>
               </div>
 
@@ -158,8 +156,6 @@ const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcom
             </div>
           ))}
         </div>
-
-
 
         {/* Statistics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/20">
@@ -192,7 +188,7 @@ const AuthPortalSelection = ({ selectedPortal: preSelectedPortal, onBackToWelcom
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AuthPortalSelection; 
+export default AuthPortalSelection

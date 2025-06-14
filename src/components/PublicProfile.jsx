@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import Card from './Card'
 import Button from './Button'
+import MessagingInterface from './MessagingInterface'
 
 const PublicProfile = ({ userId, onBack, onOpenMessaging }) => {
   const [connectionStatus, setConnectionStatus] = useState('none') // none, pending, connected
   const [isFollowing, setIsFollowing] = useState(false)
   const [showInvestmentCriteria, setShowInvestmentCriteria] = useState(false)
+  const [messagingOpen, setMessagingOpen] = useState(false)
+  const [currentUserId] = useState('user-1') // TODO: Replace with real auth
 
   // Sample public profile data - this would come from an API based on userId
   const publicProfiles = {
@@ -361,25 +364,33 @@ const PublicProfile = ({ userId, onBack, onOpenMessaging }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Back Navigation */}
-        <div className="mb-6">
-          <Button
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 px-4 py-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <button
             onClick={handleBackToForum}
-            variant="outline"
-            className="flex items-center space-x-2 text-gray-600 hover:text-gray-800"
+            className="text-white hover:text-blue-200 transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            <span>Back to Community</span>
-          </Button>
+            ← Back
+          </button>
+          <div className="flex space-x-4">
+            <Button
+              onClick={handleFollow}
+              className={`${
+                isFollowing
+                  ? 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+            >
+              {isFollowing ? 'Following' : 'Follow'}
+            </Button>
+            <Button
+              onClick={() => setMessagingOpen(true)}
+              className="bg-green-600 text-white hover:bg-green-700"
+            >
+              Message
+            </Button>
+          </div>
         </div>
 
         {/* Public Profile Header with Networking */}
@@ -1015,6 +1026,22 @@ const PublicProfile = ({ userId, onBack, onOpenMessaging }) => {
             </div>
           </div>
         </Card>
+
+        {/* Messaging Modal */}
+        {messagingOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+            <div className="relative w-full max-w-3xl mx-auto p-4">
+              <button
+                className="absolute top-2 right-2 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-700 z-10"
+                onClick={() => setMessagingOpen(false)}
+                aria-label="Close messaging"
+              >
+                ✕
+              </button>
+              <MessagingInterface currentUserId={currentUserId} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -214,11 +214,6 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
 
   const tabs = ['👤 Profile', '🎯 Dashboard', '🎬 Auditions', '🌐 Network', '📊 Analytics']
 
-  const handleViewProfile = profile => {
-    setSelectedProfile(profile)
-    setCurrentView('profile')
-  }
-
   const handleBackToDashboard = () => {
     setSelectedProfile(null)
     setCurrentView('dashboard')

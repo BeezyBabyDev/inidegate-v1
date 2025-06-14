@@ -15,21 +15,14 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
     bio = 'Seasoned entertainment executive with 12+ years experience in film financing and production. Passionate about supporting diverse voices in independent cinema and building sustainable creative partnerships.',
     email = 'jourdain@indiegate.io',
     phone = '+1 (555) 987-6543',
-    
+
     // Investment Profile
-    investmentFocus = ['Independent Films', 'Documentaries', 'Diverse Voices', 'Genre Films'],
-    budgetRange = '$500K - $5M',
     investmentStage = ['Development', 'Pre-Production', 'Production'],
     portfolioSize = '25+ Films',
-    
+
     // Professional Background
     experience = '12+ years',
-    previousRoles = [
-      'Senior VP Development - Summit Entertainment',
-      'Head of Acquisitions - A24 Films',
-      'Investment Partner - Creative Capital Group'
-    ],
-    
+
     // Investment Portfolio Highlights
     notableInvestments = [
       {
@@ -38,7 +31,7 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
         role: 'Executive Producer',
         budget: '$2.5M',
         status: 'Released',
-        performance: 'Profit +40%'
+        performance: 'Profit +40%',
       },
       {
         title: 'The Last Poetry Club',
@@ -46,7 +39,7 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
         role: 'Lead Investor',
         budget: '$850K',
         status: 'Festival Circuit',
-        performance: 'Sundance Selection'
+        performance: 'Sundance Selection',
       },
       {
         title: 'Urban Legends',
@@ -54,33 +47,33 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
         role: 'Executive Producer',
         budget: '$1.8M',
         status: 'Streaming',
-        performance: 'Netflix Acquisition'
-      }
+        performance: 'Netflix Acquisition',
+      },
     ],
-    
+
     // Investment Criteria
     investmentCriteria = {
       genres: ['Drama', 'Thriller', 'Documentary', 'Horror', 'Comedy'],
       budgetPreference: '$500K - $5M',
       regionFocus: 'Global',
       diversityCommitment: 'Women & Minority Filmmakers',
-      returnExpectation: '15-25% IRR'
+      returnExpectation: '15-25% IRR',
     },
-    
+
     // Current Availability
     availability = {
       status: 'Actively Investing',
       lookingFor: 'Feature Films & Limited Series',
       nextReview: 'March 2024',
-      fundingAvailable: '$8.5M'
+      fundingAvailable: '$8.5M',
     },
-    
+
     // Social & Professional Links
     social = {
       linkedin: 'linkedin.com/in/jourdainbell',
       website: 'bellfamilycapital.com',
       imdb: 'imdb.com/name/nm123456',
-      company: 'bellfamilycapital.com'
+      company: 'bellfamilycapital.com',
     },
   } = initialProfileData || {}
 
@@ -285,7 +278,9 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
                   <p className="font-semibold text-gray-900">{investment.budget}</p>
                   <p
                     className={`text-sm font-medium ${
-                      investment.performance === 'Sundance Selection' ? 'text-blue-600' : 'text-green-600'
+                      investment.performance === 'Sundance Selection'
+                        ? 'text-blue-600'
+                        : 'text-green-600'
                     }`}
                   >
                     {investment.performance}
@@ -355,53 +350,53 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
       </Card>
     </div>
   )
-   
-   return (
-     <div className="max-w-4xl mx-auto">
-       <IndieGateLogo />
-       
-       {/* Tab Navigation */}
-       <div className="border-b border-gray-200 mb-6">
-         <nav className="-mb-px flex space-x-8">
-           <button
-             onClick={() => setActiveTab('overview')}
-             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-               activeTab === 'overview'
-                 ? 'border-purple-500 text-purple-600'
-                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-             }`}
-           >
-             Overview
-           </button>
-           <button
-             onClick={() => setActiveTab('portfolio')}
-             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-               activeTab === 'portfolio'
-                 ? 'border-purple-500 text-purple-600'
-                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-             }`}
-           >
-             Portfolio
-           </button>
-           <button
-             onClick={() => setActiveTab('criteria')}
-             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-               activeTab === 'criteria'
-                 ? 'border-purple-500 text-purple-600'
-                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-             }`}
-           >
-             Investment Criteria
-           </button>
-         </nav>
-       </div>
 
-       {/* Tab Content */}
-       {activeTab === 'overview' && renderOverview()}
-       {activeTab === 'portfolio' && renderPortfolio()}
-       {activeTab === 'criteria' && renderCriteria()}
-     </div>
-   )
+  return (
+    <div className="max-w-4xl mx-auto">
+      <IndieGateLogo />
+
+      {/* Tab Navigation */}
+      <div className="border-b border-gray-200 mb-6">
+        <nav className="-mb-px flex space-x-8">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'overview'
+                ? 'border-purple-500 text-purple-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('portfolio')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'portfolio'
+                ? 'border-purple-500 text-purple-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Portfolio
+          </button>
+          <button
+            onClick={() => setActiveTab('criteria')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'criteria'
+                ? 'border-purple-500 text-purple-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Investment Criteria
+          </button>
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'overview' && renderOverview()}
+      {activeTab === 'portfolio' && renderPortfolio()}
+      {activeTab === 'criteria' && renderCriteria()}
+    </div>
+  )
 }
 
 export default InvestorProfile

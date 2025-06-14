@@ -3,7 +3,7 @@ import Button from './Button'
 import Card from './Card'
 import MessagingSystem from './MessagingSystem'
 
-const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
+const SmartMatching = ({ userType = 'talent' }) => {
   const [matches, setMatches] = useState([])
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0)
   const [filters, setFilters] = useState({
@@ -11,17 +11,19 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
     budget: 'all',
     genre: 'all',
     experience: 'all',
-    availability: 'all'
+    availability: 'all',
   })
   const [viewMode, setViewMode] = useState('cards') // 'cards' or 'list'
   const [likedMatches, setLikedMatches] = useState([])
   const [savedMatches, setSavedMatches] = useState([])
   const [minMatchThreshold, setMinMatchThreshold] = useState(71) // Minimum match percentage
   const [activeChat, setActiveChat] = useState(null) // New state for messaging
-  const [currentUser] = useState({ // Mock current user data
+  const [currentUser] = useState({
+    // Mock current user data
     id: 'user_123',
     name: userType === 'talent' ? 'Sarah Chen' : 'Michael Investor',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face'
+    avatar:
+      'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face',
   })
 
   // Sample matching data - will be replaced with real AI matching
@@ -34,19 +36,21 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           title: 'Indie Drama Feature',
           company: 'Sunset Pictures',
           producer: 'Michael Chen',
-          avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face',
+          avatar:
+            'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face',
           location: 'Los Angeles, CA',
           budget: '$800K - $1.2M',
           genre: ['Drama', 'Thriller'],
           status: 'Pre-Production',
           startDate: '2024-04-15',
-          description: 'Seeking lead actress for psychological drama about identity and memory. Character-driven story requiring emotional range and method acting skills.',
+          description:
+            'Seeking lead actress for psychological drama about identity and memory. Character-driven story requiring emotional range and method acting skills.',
           requirements: {
             role: 'Lead Actress',
             ageRange: '25-35',
             skills: ['Method Acting', 'Emotional Range', 'Stage Combat'],
             experience: 'Advanced',
-            union: 'SAG-AFTRA preferred'
+            union: 'SAG-AFTRA preferred',
           },
           matchScore: 94,
           matchReasons: [
@@ -54,11 +58,11 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             'Location compatibility: Los Angeles',
             'Experience level alignment',
             'SAG-AFTRA membership',
-            'Available during production window'
+            'Available during production window',
           ],
           urgency: 'high',
           applications: 23,
-          verified: true
+          verified: true,
         },
         {
           id: 2,
@@ -66,29 +70,31 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           title: 'Historical Documentary',
           company: 'Truth Films',
           producer: 'Sarah Williams',
-          avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face',
+          avatar:
+            'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face',
           location: 'New York, NY',
           budget: '$400K - $600K',
           genre: ['Documentary'],
           status: 'Development',
           startDate: '2024-06-01',
-          description: 'Voice-over narrator needed for 6-part historical documentary series about immigration in America.',
+          description:
+            'Voice-over narrator needed for 6-part historical documentary series about immigration in America.',
           requirements: {
             role: 'Voice Over Artist',
             skills: ['Voice Acting', 'Narration', 'Clear Diction'],
             experience: 'Intermediate',
-            remote: true
+            remote: true,
           },
           matchScore: 78,
           matchReasons: [
             'Voice acting skills match',
             'Remote work capability',
             'Documentary experience preferred',
-            'Flexible schedule alignment'
+            'Flexible schedule alignment',
           ],
           urgency: 'medium',
           applications: 8,
-          verified: true
+          verified: true,
         },
         {
           id: 3,
@@ -96,30 +102,32 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           title: 'Sci-Fi Short Film',
           company: 'Future Lens Studios',
           producer: 'Alex Rodriguez',
-          avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+          avatar:
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
           location: 'Atlanta, GA',
           budget: '$50K - $100K',
           genre: ['Sci-Fi', 'Action'],
           status: 'Pre-Production',
           startDate: '2024-03-20',
-          description: 'Supporting role in futuristic action short. Requires physical performance and green screen experience.',
+          description:
+            'Supporting role in futuristic action short. Requires physical performance and green screen experience.',
           requirements: {
             role: 'Supporting Actor',
             skills: ['Green Screen', 'Physical Performance', 'Improvisation'],
             experience: 'Intermediate',
-            travel: true
+            travel: true,
           },
           matchScore: 85,
           matchReasons: [
             'Green screen experience',
             'Travel willingness',
             'Improvisation skills',
-            'Action/stunt background'
+            'Action/stunt background',
           ],
           urgency: 'high',
           applications: 15,
-          verified: false
-        }
+          verified: false,
+        },
       ]
     } else {
       // Investor view - showing talent matches
@@ -129,7 +137,8 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           type: 'talent',
           name: 'Emma Rodriguez',
           role: 'Director',
-          avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face',
+          avatar:
+            'https://images.unsplash.com/photo-1494790108755-2616b612b1a8?w=200&h=200&fit=crop&crop=face',
           location: 'Los Angeles, CA',
           experience: '8+ years',
           specialties: ['Independent Drama', 'Character-driven Stories'],
@@ -137,13 +146,14 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           seekingFunding: '$1.2M - $2.5M',
           genre: ['Drama', 'Thriller', 'Documentary'],
           achievements: ['Sundance Alumni', 'SXSW Winner'],
-          description: 'Award-winning director seeking funding for next feature film. Strong track record with festival successes and critical acclaim.',
+          description:
+            'Award-winning director seeking funding for next feature film. Strong track record with festival successes and critical acclaim.',
           projectDetails: {
             title: 'Untitled Drama Project',
             stage: 'Development',
             budget: '$1.8M',
             timeline: '6 months pre-production, 4 weeks principal photography',
-            distribution: 'Festival circuit + streaming'
+            distribution: 'Festival circuit + streaming',
           },
           matchScore: 92,
           matchReasons: [
@@ -151,17 +161,18 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             'Genre preference match: Drama',
             'Strong festival track record',
             'Los Angeles location',
-            'Proven ROI potential'
+            'Proven ROI potential',
           ],
           verified: true,
-          urgency: 'medium'
+          urgency: 'medium',
         },
         {
           id: 2,
           type: 'talent',
           name: 'Marcus Thompson',
           role: 'Producer/Director',
-          avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+          avatar:
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
           location: 'Atlanta, GA',
           experience: '12+ years',
           specialties: ['Horror', 'Thriller', 'Genre Films'],
@@ -169,13 +180,14 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           seekingFunding: '$800K - $1.5M',
           genre: ['Horror', 'Thriller'],
           achievements: ['Film Independent Finalist', 'Completed 4 features'],
-          description: 'Experienced producer with distribution connections. Proven ability to deliver projects on time and under budget.',
+          description:
+            'Experienced producer with distribution connections. Proven ability to deliver projects on time and under budget.',
           projectDetails: {
             title: 'The Watchers',
             stage: 'Pre-Production',
             budget: '$1.2M',
             timeline: '8 weeks shooting, 6 months post',
-            distribution: 'Theatrical + VOD guaranteed'
+            distribution: 'Theatrical + VOD guaranteed',
           },
           matchScore: 87,
           matchReasons: [
@@ -183,11 +195,11 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             'Budget efficiency track record',
             'Distribution connections',
             'Multiple completed features',
-            'Strong commercial potential'
+            'Strong commercial potential',
           ],
           verified: true,
-          urgency: 'high'
-        }
+          urgency: 'high',
+        },
       ]
     }
   }
@@ -201,7 +213,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
 
   const currentMatch = matches[currentMatchIndex]
 
-  const handleLike = (matchId) => {
+  const handleLike = matchId => {
     setLikedMatches([...likedMatches, matchId])
     nextMatch()
   }
@@ -210,12 +222,12 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
     nextMatch()
   }
 
-  const handleSave = (matchId) => {
+  const handleSave = matchId => {
     setSavedMatches([...savedMatches, matchId])
     // Don't move to next match when saving
   }
 
-  const handleMessage = (match) => {
+  const handleMessage = match => {
     // Prepare match data for messaging
     const chatMatch = {
       id: match.id,
@@ -223,7 +235,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
       avatar: match.avatar,
       compatibility: match.matchScore,
       role: match.role || match.company,
-      location: match.location
+      location: match.location,
     }
     setActiveChat(chatMatch)
   }
@@ -253,22 +265,24 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
                 className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
               />
               <div>
-                <h3 className="font-semibold text-lg text-gray-900">
-                  {match.name || match.title}
-                </h3>
-                <p className="text-gray-600">
-                  {match.role || match.company}
-                </p>
+                <h3 className="font-semibold text-lg text-gray-900">{match.name || match.title}</h3>
+                <p className="text-gray-600">{match.role || match.company}</p>
               </div>
             </div>
-            
+
             {/* Match Score */}
             <div className="text-center">
-              <div className={`text-2xl font-bold ${
-                match.matchScore >= 90 ? 'text-green-600' :
-                match.matchScore >= 80 ? 'text-blue-600' :
-                match.matchScore >= 70 ? 'text-yellow-600' : 'text-gray-600'
-              }`}>
+              <div
+                className={`text-2xl font-bold ${
+                  match.matchScore >= 90
+                    ? 'text-green-600'
+                    : match.matchScore >= 80
+                      ? 'text-blue-600'
+                      : match.matchScore >= 70
+                        ? 'text-yellow-600'
+                        : 'text-gray-600'
+                }`}
+              >
                 {match.matchScore}%
               </div>
               <div className="text-xs text-gray-500">Match</div>
@@ -283,15 +297,17 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             {match.verified && (
               <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
                 <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Verified
               </span>
             )}
             {match.urgency === 'high' && (
-              <span className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
-                Urgent
-              </span>
+              <span className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Urgent</span>
             )}
             {match.budget && (
               <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
@@ -301,9 +317,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           </div>
 
           {/* Description */}
-          <p className="text-gray-700 text-sm mb-4 leading-relaxed">
-            {match.description}
-          </p>
+          <p className="text-gray-700 text-sm mb-4 leading-relaxed">{match.description}</p>
 
           {/* Match Reasons */}
           <div className="mb-4">
@@ -311,8 +325,16 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             <ul className="space-y-1">
               {match.matchReasons.slice(0, 3).map((reason, index) => (
                 <li key={index} className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  <svg
+                    className="w-4 h-4 text-green-500 mr-2 flex-shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   {reason}
                 </li>
@@ -329,7 +351,9 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
               </div>
               <div>
                 <span className="text-gray-500">Start:</span>
-                <span className="ml-1 font-medium text-gray-900">{new Date(match.startDate).toLocaleDateString()}</span>
+                <span className="ml-1 font-medium text-gray-900">
+                  {new Date(match.startDate).toLocaleDateString()}
+                </span>
               </div>
             </div>
           )}
@@ -338,7 +362,9 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             <div className="bg-gray-50 rounded-lg p-3 mb-4">
               <h5 className="font-medium text-sm text-gray-900 mb-2">Current Project</h5>
               <p className="text-sm text-gray-700 mb-1">{match.projectDetails.title}</p>
-              <p className="text-xs text-gray-500">{match.projectDetails.stage} • {match.projectDetails.budget}</p>
+              <p className="text-xs text-gray-500">
+                {match.projectDetails.stage} • {match.projectDetails.budget}
+              </p>
             </div>
           )}
         </div>
@@ -351,34 +377,54 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
               className="w-12 h-12 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full flex items-center justify-center transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
-            
+
             <button
               onClick={() => handleSave(match.id)}
               className="w-12 h-12 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full flex items-center justify-center transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                />
               </svg>
             </button>
-            
+
             <button
               onClick={() => handleMessage(match)}
               className="w-12 h-12 bg-purple-100 hover:bg-purple-200 text-purple-600 rounded-full flex items-center justify-center transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
               </svg>
             </button>
-            
+
             <button
               onClick={() => handleLike(match.id)}
               className="w-12 h-12 bg-green-100 hover:bg-green-200 text-green-600 rounded-full flex items-center justify-center transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
               </svg>
             </button>
           </div>
@@ -398,19 +444,21 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             min="50"
             max="95"
             value={minMatchThreshold}
-            onChange={(e) => setMinMatchThreshold(parseInt(e.target.value))}
+            onChange={e => setMinMatchThreshold(parseInt(e.target.value))}
             className="w-20 accent-purple-600"
           />
-          <span className="text-sm font-bold text-purple-700 min-w-[45px]">{minMatchThreshold}%</span>
+          <span className="text-sm font-bold text-purple-700 min-w-[45px]">
+            {minMatchThreshold}%
+          </span>
         </div>
 
         <div className="h-6 w-px bg-gray-300"></div>
 
         <div className="flex items-center space-x-2">
           <label className="text-sm font-medium text-gray-700">Location:</label>
-          <select 
-            value={filters.location} 
-            onChange={(e) => setFilters({...filters, location: e.target.value})}
+          <select
+            value={filters.location}
+            onChange={e => setFilters({ ...filters, location: e.target.value })}
             className="text-sm border border-gray-300 rounded-md px-2 py-1 text-gray-700"
           >
             <option value="all">All Locations</option>
@@ -424,9 +472,9 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
         {userType === 'talent' && (
           <div className="flex items-center space-x-2">
             <label className="text-sm font-medium text-gray-700">Budget:</label>
-            <select 
-              value={filters.budget} 
-              onChange={(e) => setFilters({...filters, budget: e.target.value})}
+            <select
+              value={filters.budget}
+              onChange={e => setFilters({ ...filters, budget: e.target.value })}
               className="text-sm border border-gray-300 rounded-md px-2 py-1 text-gray-700"
             >
               <option value="all">All Budgets</option>
@@ -440,9 +488,9 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
 
         <div className="flex items-center space-x-2">
           <label className="text-sm font-medium text-gray-700">Genre:</label>
-          <select 
-            value={filters.genre} 
-            onChange={(e) => setFilters({...filters, genre: e.target.value})}
+          <select
+            value={filters.genre}
+            onChange={e => setFilters({ ...filters, genre: e.target.value })}
             className="text-sm border border-gray-300 rounded-md px-2 py-1 text-gray-700"
           >
             <option value="all">All Genres</option>
@@ -460,7 +508,12 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             className={`p-2 rounded-md ${viewMode === 'cards' ? 'bg-purple-100 text-purple-600' : 'text-gray-400'}`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+              />
             </svg>
           </button>
           <button
@@ -468,7 +521,12 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
             className={`p-2 rounded-md ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-400'}`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 10h16M4 14h16M4 18h16"
+              />
             </svg>
           </button>
         </div>
@@ -481,9 +539,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            🤖 Smart Matching
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">🤖 Smart Matching</h1>
           <p className="text-gray-600">
             AI-powered matches based on your profile, skills, and preferences
           </p>
@@ -506,7 +562,12 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           </Card>
           <Card className="p-4 text-center bg-white shadow-lg">
             <div className="text-2xl font-bold text-yellow-600">
-              {matches.length > 0 ? Math.round(matches.reduce((acc, match) => acc + match.matchScore, 0) / matches.length) : 0}%
+              {matches.length > 0
+                ? Math.round(
+                    matches.reduce((acc, match) => acc + match.matchScore, 0) / matches.length
+                  )
+                : 0}
+              %
             </div>
             <div className="text-sm text-gray-600">Avg Match</div>
           </Card>
@@ -520,7 +581,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
           <div className="space-y-6">
             {/* Navigation */}
             <div className="flex items-center justify-between">
-              <Button 
+              <Button
                 onClick={previousMatch}
                 disabled={currentMatchIndex === 0}
                 variant="outline"
@@ -531,7 +592,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
               <span className="text-sm text-gray-600">
                 {currentMatchIndex + 1} of {matches.length} quality matches
               </span>
-              <Button 
+              <Button
                 onClick={nextMatch}
                 disabled={currentMatchIndex === matches.length - 1}
                 variant="outline"
@@ -547,7 +608,7 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
         ) : (
           /* List View */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {matches.map((match) => (
+            {matches.map(match => (
               <MatchCard key={match.id} match={match} isInteractive={false} />
             ))}
           </div>
@@ -557,12 +618,27 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
         {matches.length === 0 && (
           <Card className="p-12 text-center bg-white shadow-lg">
             <div className="text-gray-400 mb-4">
-              <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <svg
+                className="w-16 h-16 mx-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No matches meet your criteria</h3>
-            <p className="text-gray-600 mb-4">Try lowering your minimum match threshold to {minMatchThreshold - 10}% or adjusting your filters.</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              No matches meet your criteria
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Try lowering your minimum match threshold to {minMatchThreshold - 10}% or adjusting
+              your filters.
+            </p>
             <div className="flex justify-center space-x-3">
               <Button onClick={() => setMinMatchThreshold(Math.max(50, minMatchThreshold - 10))}>
                 Lower Threshold to {Math.max(50, minMatchThreshold - 10)}%
@@ -584,4 +660,4 @@ const SmartMatching = ({ userType = 'talent', userProfile = {} }) => {
   )
 }
 
-export default SmartMatching 
+export default SmartMatching

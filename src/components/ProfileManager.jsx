@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { PORTAL_CONFIGS } from '../config/auth.js';
-import { authService } from '../config/auth.js';
+import React, { useState, useEffect } from 'react'
+import { PORTAL_CONFIGS } from '../config/auth.js'
+import { authService } from '../config/auth.js'
 
 const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,13 +21,12 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
     reel: '',
     industry: '',
     products: '',
-    budget: ''
-  });
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [updateMessage, setUpdateMessage] = useState('');
+    budget: '',
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [updateMessage, setUpdateMessage] = useState('')
 
-  const portalConfig = PORTAL_CONFIGS[user.portal];
+  const portalConfig = PORTAL_CONFIGS[user.portal]
 
   useEffect(() => {
     if (user) {
@@ -48,54 +47,45 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
         reel: user.reel || '',
         industry: user.industry || '',
         products: user.products || '',
-        budget: user.budget || ''
-      });
+        budget: user.budget || '',
+      })
     }
-  }, [user]);
+  }, [user])
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = e => {
+    const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: value
-    }));
-
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-  };
+      [name]: value,
+    }))
+  }
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors = {}
 
     // Required fields validation
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required'
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required'
+    if (!formData.email.trim()) newErrors.email = 'Email is required'
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (formData.email && !emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email address'
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    return Object.keys(newErrors).length === 0
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  const handleSubmit = async e => {
+    e.preventDefault()
+
     if (!validateForm()) {
-      return;
+      return
     }
 
-    setIsLoading(true);
-    
+    setIsLoading(true)
+
     try {
       const updateData = {
         FirstName: formData.firstName,
@@ -114,30 +104,28 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
         Reel: formData.reel,
         Industry: formData.industry,
         Products: formData.products,
-        Budget: formData.budget
-      };
+        Budget: formData.budget,
+      }
 
-      const result = await authService.updateProfile(user.id, updateData);
-      
+      const result = await authService.updateProfile(user.id, updateData)
+
       if (result.success) {
-        setUpdateMessage('Profile updated successfully!');
-        setIsEditing(false);
-        onProfileUpdate(result.user);
-        
+        setUpdateMessage('Profile updated successfully!')
+        setIsEditing(false)
+        onProfileUpdate(result.user)
+
         // Clear message after 3 seconds
-        setTimeout(() => setUpdateMessage(''), 3000);
-      } else {
-        setErrors({ submit: result.error });
+        setTimeout(() => setUpdateMessage(''), 3000)
       }
     } catch (error) {
-      setErrors({ submit: 'Profile update failed. Please try again.' });
+      console.error('Profile update failed. Please try again.', error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const renderPortalSpecificFields = () => {
-    if (!isEditing) return null;
+    if (!isEditing) return null
 
     switch (user.portal) {
       case 'investor':
@@ -175,7 +163,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
               />
             </div>
           </>
-        );
+        )
 
       case 'filmmaker':
         return (
@@ -224,7 +212,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
               />
             </div>
           </>
-        );
+        )
 
       case 'talent':
         return (
@@ -273,15 +261,13 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
               />
             </div>
           </>
-        );
+        )
 
       case 'brand':
         return (
           <>
             <div>
-              <label className="block text-sm font-medium text-indigo-200 mb-1">
-                Industry
-              </label>
+              <label className="block text-sm font-medium text-indigo-200 mb-1">Industry</label>
               <select
                 name="industry"
                 value={formData.industry}
@@ -330,27 +316,25 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
               </select>
             </div>
           </>
-        );
+        )
 
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 flex items-center justify-center p-4">
       <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className={`w-12 h-12 bg-gradient-to-r ${portalConfig.color} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+          <div
+            className={`w-12 h-12 bg-gradient-to-r ${portalConfig.color} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-xl`}
+          >
             <span className="text-2xl">{portalConfig.icon}</span>
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">
-            My Profile
-          </h2>
-          <p className="text-indigo-200 text-sm">
-            {portalConfig.name}
-          </p>
+          <h2 className="text-2xl font-bold text-white mb-2">My Profile</h2>
+          <p className="text-indigo-200 text-sm">{portalConfig.name}</p>
         </div>
 
         {/* Success Message */}
@@ -365,75 +349,54 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
           {/* Basic Information */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-indigo-200 mb-1">
-                First Name
-              </label>
+              <label className="block text-sm font-medium text-indigo-200 mb-1">First Name</label>
               {isEditing ? (
                 <input
                   type="text"
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2 bg-white/10 border rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                    errors.firstName ? 'border-red-400' : 'border-white/20'
-                  }`}
+                  className={`w-full px-4 py-2 bg-white/10 border rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                 />
               ) : (
                 <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-white">
                   {formData.firstName}
                 </div>
               )}
-              {errors.firstName && (
-                <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>
-              )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-indigo-200 mb-1">
-                Last Name
-              </label>
+              <label className="block text-sm font-medium text-indigo-200 mb-1">Last Name</label>
               {isEditing ? (
                 <input
                   type="text"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2 bg-white/10 border rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                    errors.lastName ? 'border-red-400' : 'border-white/20'
-                  }`}
+                  className={`w-full px-4 py-2 bg-white/10 border rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                 />
               ) : (
                 <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-white">
                   {formData.lastName}
                 </div>
               )}
-              {errors.lastName && (
-                <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>
-              )}
             </div>
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-indigo-200 mb-1">
-              Email Address
-            </label>
+            <label className="block text-sm font-medium text-indigo-200 mb-1">Email Address</label>
             {isEditing ? (
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-2 bg-white/10 border rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                  errors.email ? 'border-red-400' : 'border-white/20'
-                }`}
+                className={`w-full px-4 py-2 bg-white/10 border rounded-lg text-sm text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
               />
             ) : (
               <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-white">
                 {formData.email}
               </div>
-            )}
-            {errors.email && (
-              <p className="text-red-400 text-xs mt-1">{errors.email}</p>
             )}
           </div>
 
@@ -460,9 +423,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
 
           {/* Phone */}
           <div>
-            <label className="block text-sm font-medium text-indigo-200 mb-1">
-              Phone Number
-            </label>
+            <label className="block text-sm font-medium text-indigo-200 mb-1">Phone Number</label>
             {isEditing ? (
               <input
                 type="tel"
@@ -484,9 +445,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
 
           {/* Bio */}
           <div>
-            <label className="block text-sm font-medium text-indigo-200 mb-1">
-              Bio
-            </label>
+            <label className="block text-sm font-medium text-indigo-200 mb-1">Bio</label>
             {isEditing ? (
               <textarea
                 name="bio"
@@ -512,11 +471,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
           </div>
 
           {/* Submit Error */}
-          {errors.submit && (
-            <div className="text-red-400 text-center text-sm">
-              {errors.submit}
-            </div>
-          )}
+          {errors.submit && <div className="text-red-400 text-center text-sm">{errors.submit}</div>}
 
           {/* Action Buttons */}
           <div className="flex gap-3">
@@ -534,8 +489,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
                 <button
                   type="button"
                   onClick={() => {
-                    setIsEditing(false);
-                    setErrors({});
+                    setIsEditing(false)
                     // Reset form data to original user data
                     setFormData({
                       firstName: user.firstName || '',
@@ -544,7 +498,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
                       company: user.company || '',
                       phone: user.phone || '',
                       bio: user.bio || '',
-                    });
+                    })
                   }}
                   className="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-6 rounded-lg border border-white/20 transition-all duration-200 text-sm"
                 >
@@ -574,7 +528,7 @@ const ProfileManager = ({ user, onProfileUpdate, onBack }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileManager; 
+export default ProfileManager

@@ -13,6 +13,8 @@ import DemoLandingPage from './components/DemoLandingPage'
 import AuthPortalSelection from './components/AuthPortalSelection'
 import ProfileManager from './components/ProfileManager'
 import FilmProjectDetailDemo from './components/FilmProjectDetailDemo'
+import DiscoverProfiles from './components/DiscoverProfiles'
+import NetworkDashboard from './components/NetworkDashboard'
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome')
@@ -344,10 +346,26 @@ function App() {
   // Portal selection page - after code entry
   if (currentView === 'portal-selection') {
     return (
-      <PortalSelectionPage
-        onSelectPortal={handleSelectPortal}
-        onBackToWelcome={handleBackToWelcome}
-      />
+      <>
+        <PortalSelectionPage
+          onSelectPortal={handleSelectPortal}
+          onBackToWelcome={handleBackToWelcome}
+        />
+        <div className="flex justify-center mt-6 space-x-4">
+          <button
+            className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700 transition-all"
+            onClick={() => setCurrentView('discover-profiles')}
+          >
+            Discover Profiles
+          </button>
+          <button
+            className="bg-green-600 text-white px-6 py-2 rounded font-semibold hover:bg-green-700 transition-all"
+            onClick={() => setCurrentView('network-dashboard')}
+          >
+            View Network
+          </button>
+        </div>
+      </>
     )
   }
 
@@ -373,21 +391,57 @@ function App() {
     // Map 'talent' to CreativePortal for backward compatibility
     if (currentView === 'talent') {
       return (
-        <TalentPortalComponent
+        <>
+          <TalentPortalComponent
+            onLogout={handleLogout}
+            onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+            user={currentUser}
+            isAuthenticated={isAuthenticated}
+          />
+          <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
+            <button
+              className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+              onClick={() => setCurrentView('discover-profiles')}
+              aria-label="Discover Profiles"
+            >
+              Discover Profiles
+            </button>
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
+              onClick={() => setCurrentView('network-dashboard')}
+              aria-label="View Network"
+            >
+              View Network
+            </button>
+          </div>
+        </>
+      )
+    }
+    return (
+      <>
+        <CreativePortal
           onLogout={handleLogout}
           onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
           user={currentUser}
           isAuthenticated={isAuthenticated}
         />
-      )
-    }
-    return (
-      <CreativePortal
-        onLogout={handleLogout}
-        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-        user={currentUser}
-        isAuthenticated={isAuthenticated}
-      />
+        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+            onClick={() => setCurrentView('discover-profiles')}
+            aria-label="Discover Profiles"
+          >
+            Discover Profiles
+          </button>
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
+            onClick={() => setCurrentView('network-dashboard')}
+            aria-label="View Network"
+          >
+            View Network
+          </button>
+        </div>
+      </>
     )
   }
 
@@ -409,12 +463,30 @@ function App() {
     }
 
     return (
-      <InvestorPortal
-        onLogout={handleLogout}
-        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-        user={currentUser}
-        isAuthenticated={isAuthenticated}
-      />
+      <>
+        <InvestorPortal
+          onLogout={handleLogout}
+          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+          user={currentUser}
+          isAuthenticated={isAuthenticated}
+        />
+        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+            onClick={() => setCurrentView('discover-profiles')}
+            aria-label="Discover Profiles"
+          >
+            Discover Profiles
+          </button>
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
+            onClick={() => setCurrentView('network-dashboard')}
+            aria-label="View Network"
+          >
+            View Network
+          </button>
+        </div>
+      </>
     )
   }
 
@@ -436,12 +508,30 @@ function App() {
     }
 
     return (
-      <CreativePortal
-        onLogout={handleLogout}
-        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-        user={currentUser}
-        isAuthenticated={isAuthenticated}
-      />
+      <>
+        <CreativePortal
+          onLogout={handleLogout}
+          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+          user={currentUser}
+          isAuthenticated={isAuthenticated}
+        />
+        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+            onClick={() => setCurrentView('discover-profiles')}
+            aria-label="Discover Profiles"
+          >
+            Discover Profiles
+          </button>
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
+            onClick={() => setCurrentView('network-dashboard')}
+            aria-label="View Network"
+          >
+            View Network
+          </button>
+        </div>
+      </>
     )
   }
 
@@ -463,12 +553,30 @@ function App() {
     }
 
     return (
-      <TalentPortalComponent
-        onLogout={handleLogout}
-        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-        user={currentUser}
-        isAuthenticated={isAuthenticated}
-      />
+      <>
+        <TalentPortalComponent
+          onLogout={handleLogout}
+          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+          user={currentUser}
+          isAuthenticated={isAuthenticated}
+        />
+        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+            onClick={() => setCurrentView('discover-profiles')}
+            aria-label="Discover Profiles"
+          >
+            Discover Profiles
+          </button>
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
+            onClick={() => setCurrentView('network-dashboard')}
+            aria-label="View Network"
+          >
+            View Network
+          </button>
+        </div>
+      </>
     )
   }
 
@@ -490,12 +598,30 @@ function App() {
     }
 
     return (
-      <BrandsPortal
-        onLogout={handleLogout}
-        onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-        user={currentUser}
-        isAuthenticated={isAuthenticated}
-      />
+      <>
+        <BrandsPortal
+          onLogout={handleLogout}
+          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
+          user={currentUser}
+          isAuthenticated={isAuthenticated}
+        />
+        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+            onClick={() => setCurrentView('discover-profiles')}
+            aria-label="Discover Profiles"
+          >
+            Discover Profiles
+          </button>
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
+            onClick={() => setCurrentView('network-dashboard')}
+            aria-label="View Network"
+          >
+            View Network
+          </button>
+        </div>
+      </>
     )
   }
 
@@ -507,6 +633,52 @@ function App() {
   // Multi-Portal System
   if (currentView === 'multi-portal') {
     return <MultiPortalSystem />
+  }
+
+  // Render DiscoverProfiles page
+  if (currentView === 'discover-profiles') {
+    return (
+      <>
+        <DiscoverProfiles />
+        <div className="flex justify-center mt-6 space-x-4">
+          <button
+            className="bg-gray-700 text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition-all"
+            onClick={() => setCurrentView('portal-selection')}
+          >
+            Back to Portal Selection
+          </button>
+          <button
+            className="bg-green-600 text-white px-6 py-2 rounded font-semibold hover:bg-green-700 transition-all"
+            onClick={() => setCurrentView('network-dashboard')}
+          >
+            View Network
+          </button>
+        </div>
+      </>
+    )
+  }
+
+  // Render NetworkDashboard page
+  if (currentView === 'network-dashboard') {
+    return (
+      <>
+        <NetworkDashboard currentUserId={currentUser?.id || 'user-1'} />
+        <div className="flex justify-center mt-6 space-x-4">
+          <button
+            className="bg-gray-700 text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition-all"
+            onClick={() => setCurrentView('portal-selection')}
+          >
+            Back to Portal Selection
+          </button>
+          <button
+            className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700 transition-all"
+            onClick={() => setCurrentView('discover-profiles')}
+          >
+            Discover Profiles
+          </button>
+        </div>
+      </>
+    )
   }
 
   // Default fallback

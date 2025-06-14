@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import AccountLogin from './AccountLogin'
 import AccountRegistration from './AccountRegistration'
 
-const AuthSystem = ({ onAuthSuccess, onBack }) => {
+const AuthSystem = ({ portal, onAuthSuccess, onBack }) => {
   const [currentView, setCurrentView] = useState('login')
 
   const handleLoginSuccess = user => {
-    onAuthSuccess(user)
+    onAuthSuccess && onAuthSuccess(user)
   }
 
   const handleRegistrationSuccess = user => {
-    onAuthSuccess(user)
+    onAuthSuccess && onAuthSuccess(user)
   }
 
   const handleSwitchToRegister = () => {
@@ -21,10 +21,17 @@ const AuthSystem = ({ onAuthSuccess, onBack }) => {
     setCurrentView('login')
   }
 
+  // Default onLogin for test: always succeed
+  const testLogin = async (email, password) => {
+    return { success: true, user: { email, portal } }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       {currentView === 'login' && (
         <AccountLogin
+          portal={portal}
+          onLogin={testLogin}
           onLoginSuccess={handleLoginSuccess}
           onSwitchToRegister={handleSwitchToRegister}
           onBack={onBack}
@@ -32,6 +39,7 @@ const AuthSystem = ({ onAuthSuccess, onBack }) => {
       )}
       {currentView === 'register' && (
         <AccountRegistration
+          portal={portal}
           onRegistrationSuccess={handleRegistrationSuccess}
           onSwitchToLogin={handleSwitchToLogin}
           onBack={onBack}

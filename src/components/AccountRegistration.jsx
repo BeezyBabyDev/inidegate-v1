@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { PORTAL_TYPES, PORTAL_CONFIGS } from '../config/auth.js';
+import React, { useState } from 'react'
+import { PORTAL_CONFIGS } from '../config/auth.js'
 
 const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
@@ -22,86 +22,88 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
     reel: '',
     industry: '',
     products: '',
-    budget: ''
-  });
+    budget: '',
+  })
 
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
-  const portalConfig = PORTAL_CONFIGS[portal];
+  const portalConfig = PORTAL_CONFIGS[portal]
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = e => {
+    const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: value
-    }));
+      [name]: value,
+    }))
 
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
-        [name]: ''
-      }));
+        [name]: '',
+      }))
     }
-  };
+  }
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors = {}
 
     // Required fields validation
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.password) newErrors.password = 'Password is required';
-    if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required'
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required'
+    if (!formData.email.trim()) newErrors.email = 'Email is required'
+    if (!formData.password) newErrors.password = 'Password is required'
+    if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password'
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (formData.email && !emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email address'
     }
 
     // Password validation
     if (formData.password && formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'Password must be at least 6 characters'
     }
 
     // Password confirmation
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = 'Passwords do not match'
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  const handleSubmit = async e => {
+    e.preventDefault()
+
     if (!validateForm()) {
-      return;
+      return
     }
 
-    setIsLoading(true);
-    
+    setIsLoading(true)
+
     try {
-      const result = await onRegister(formData);
+      const result = await onRegister(formData)
       if (!result.success) {
-        setErrors({ submit: result.error });
+        setErrors({ submit: result.error })
       } else if (result.demoMode) {
         // Show demo mode success message
-        setErrors({ 
-          success: result.message || 'Account created successfully in demo mode. Data will be stored locally for this session.' 
-        });
+        setErrors({
+          success:
+            result.message ||
+            'Account created successfully in demo mode. Data will be stored locally for this session.',
+        })
       }
     } catch (error) {
-      setErrors({ submit: 'Registration failed. Please try again.' });
+      setErrors({ submit: 'Registration failed. Please try again.' })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const renderPortalSpecificFields = () => {
     switch (portal) {
@@ -142,7 +144,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
               </div>
             </div>
           </>
-        );
+        )
 
       case PORTAL_TYPES.FILMMAKER:
         return (
@@ -193,7 +195,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
               </div>
             </div>
           </>
-        );
+        )
 
       case PORTAL_TYPES.TALENT:
         return (
@@ -244,16 +246,14 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
               </div>
             </div>
           </>
-        );
+        )
 
       case PORTAL_TYPES.BRAND:
         return (
           <>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-indigo-200 mb-2">
-                  Industry
-                </label>
+                <label className="block text-sm font-medium text-indigo-200 mb-2">Industry</label>
                 <select
                   name="industry"
                   value={formData.industry}
@@ -303,27 +303,25 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
               </div>
             </div>
           </>
-        );
+        )
 
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 flex items-center justify-center p-4">
       <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className={`w-12 h-12 bg-gradient-to-r ${portalConfig.color} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+          <div
+            className={`w-12 h-12 bg-gradient-to-r ${portalConfig.color} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-xl`}
+          >
             <span className="text-2xl">{portalConfig.icon}</span>
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">
-            Join {portalConfig.name}
-          </h2>
-          <p className="text-indigo-200 text-sm">
-            {portalConfig.description}
-          </p>
+          <h2 className="text-2xl font-bold text-white mb-2">Join {portalConfig.name}</h2>
+          <p className="text-indigo-200 text-sm">{portalConfig.description}</p>
         </div>
 
         {/* Registration Form */}
@@ -331,9 +329,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
           {/* Basic Information */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-indigo-200 mb-1">
-                First Name *
-              </label>
+              <label className="block text-sm font-medium text-indigo-200 mb-1">First Name *</label>
               <input
                 type="text"
                 name="firstName"
@@ -344,14 +340,10 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
                 }`}
                 placeholder="First name"
               />
-              {errors.firstName && (
-                <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>
-              )}
+              {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-indigo-200 mb-1">
-                Last Name *
-              </label>
+              <label className="block text-sm font-medium text-indigo-200 mb-1">Last Name *</label>
               <input
                 type="text"
                 name="lastName"
@@ -362,9 +354,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
                 }`}
                 placeholder="Last name"
               />
-              {errors.lastName && (
-                <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>
-              )}
+              {errors.lastName && <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>}
             </div>
           </div>
 
@@ -383,16 +373,12 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
               }`}
               placeholder="your@email.com"
             />
-            {errors.email && (
-              <p className="text-red-400 text-xs mt-1">{errors.email}</p>
-            )}
+            {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-indigo-200 mb-1">
-              Password *
-            </label>
+            <label className="block text-sm font-medium text-indigo-200 mb-1">Password *</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -412,9 +398,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
                 {showPassword ? '👁️' : '👁️‍🗨️'}
               </button>
             </div>
-            {errors.password && (
-              <p className="text-red-400 text-xs mt-1">{errors.password}</p>
-            )}
+            {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
           </div>
 
           {/* Confirm Password */}
@@ -457,9 +441,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
 
           {/* Bio */}
           <div>
-            <label className="block text-sm font-medium text-indigo-200 mb-1">
-              Bio
-            </label>
+            <label className="block text-sm font-medium text-indigo-200 mb-1">Bio</label>
             <textarea
               name="bio"
               value={formData.bio}
@@ -520,7 +502,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AccountRegistration; 
+export default AccountRegistration

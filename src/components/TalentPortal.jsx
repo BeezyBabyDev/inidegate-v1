@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import Navbar from './Navbar'
 import Card from './Card'
 import Button from './Button'
 import TalentProfile from './TalentProfile'
@@ -7,10 +6,9 @@ import TalentProfileEditor from './TalentProfileEditor'
 import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 
-const CreativePortal = ({ onLogout, onBack }) => {
+const CreativePortal = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState('🎬 Opportunities')
   const [profileView, setProfileView] = useState('showcase') // 'showcase' or 'editor'
-  const [selectedTalent, setSelectedTalent] = useState(null)
 
   // Scroll to top when portal loads
   useEffect(() => {
@@ -454,15 +452,33 @@ const CreativePortal = ({ onLogout, onBack }) => {
                 </defs>
                 <rect x="50" y="50" width="100" height="100" rx="15" fill="#2563eb" />
                 <rect x="25" y="75" width="80" height="60" rx="8" fill="#60a5fb" />
-                <rect x="55" y="55" width="90" height="90" rx="12" fill="none" stroke="#60a5fb" strokeWidth="2" clipPath="url(#projectorLens)" />
-                <rect x="30" y="80" width="70" height="50" rx="6" fill="none" stroke="#2563eb" strokeWidth="2" clipPath="url(#screen)" />
+                <rect
+                  x="55"
+                  y="55"
+                  width="90"
+                  height="90"
+                  rx="12"
+                  fill="none"
+                  stroke="#60a5fb"
+                  strokeWidth="2"
+                  clipPath="url(#projectorLens)"
+                />
+                <rect
+                  x="30"
+                  y="80"
+                  width="70"
+                  height="50"
+                  rx="6"
+                  fill="none"
+                  stroke="#2563eb"
+                  strokeWidth="2"
+                  clipPath="url(#screen)"
+                />
               </svg>
-              
+
               {/* IndieGate.io Text */}
               <div className="flex items-baseline space-x-1">
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                  IndieGate
-                </h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">IndieGate</h1>
                 <span className="text-lg sm:text-xl font-bold text-blue-600">.io</span>
               </div>
             </div>
@@ -470,20 +486,10 @@ const CreativePortal = ({ onLogout, onBack }) => {
 
           {/* Navigation Actions */}
           <div className="flex items-center space-x-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onBack}
-              className="hidden sm:inline-flex"
-            >
+            <Button variant="outline" size="sm" onClick={onBack} className="hidden sm:inline-flex">
               Back to Home
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onBack}
-              className="sm:hidden"
-            >
+            <Button variant="outline" size="sm" onClick={onBack} className="sm:hidden">
               ←
             </Button>
             <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
@@ -498,7 +504,7 @@ const CreativePortal = ({ onLogout, onBack }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       <IndieGateHeader />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center mb-8 space-x-1">
