@@ -29,16 +29,16 @@ const WelcomePage = ({ onEnterCode, onShowAccountSystem, onGoToPortal }) => {
       React.createElement(
         'div',
         { className: 'mb-8' },
-        React.createElement(
-          'h1',
-          { className: 'text-3xl md:text-4xl font-bold text-white mb-4' },
-          'Welcome to IndieGate.io'
-        ),
-        React.createElement(
-          'p',
-          { className: 'text-lg text-indigo-200 font-medium italic' },
-          'Have a vision. Build a bridge. Keep it human.'
-        )
+        // React.createElement(
+        //   'h1',
+        //   { className: 'text-3xl md:text-4xl font-bold text-white mb-4' },
+        //   'Welcome to IndieGate.io'
+        // ),
+        // React.createElement(
+        //   'p',
+        //   { className: 'text-lg text-indigo-200 font-medium italic' },
+        //   'Have a vision. Build a bridge. Keep it human.'
+        // )
       ),
 
       // Ready to Get Started section

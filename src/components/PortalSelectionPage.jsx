@@ -48,11 +48,15 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
       {/* Header */}
       <header className="px-6 py-6">
         <div className="max-w-7xl mx-auto flex flex-col items-center justify-center">
-          <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-2xl font-bold leading-tight mb-0 text-white flex items-end">
-              <span>IndieGate.</span>
-              <span className="text-blue-400 ml-1">io</span>
-            </h1>
+          {/* Hero Content */}
+          <div className="mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Choose Your <span className="text-blue-400">Portal</span>
+            </h2>
+            <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+              Access your dedicated network and connect with the right opportunities for your film
+              industry goals.
+            </p>
           </div>
         </div>
         <div className="absolute right-8 top-8">

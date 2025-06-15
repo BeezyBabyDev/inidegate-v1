@@ -477,10 +477,6 @@ const CreativePortal = ({ onBack }) => {
               </svg>
 
               {/* IndieGate.io Text */}
-              <div className="flex items-baseline space-x-1">
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">IndieGate</h1>
-                <span className="text-lg sm:text-xl font-bold text-blue-600">.io</span>
-              </div>
             </div>
           </div>
 

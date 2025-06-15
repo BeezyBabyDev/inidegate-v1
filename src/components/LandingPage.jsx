@@ -42,18 +42,6 @@ const LandingPage = ({ onSelectPortal }) => {
       {/* Header */}
       <header className="px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="text-white">
-            <div className="flex items-center space-x-2">
-              <div>
-                <h1 className="text-3xl font-bold">
-                  IndieGate.<span className="text-blue-400">io</span>
-                </h1>
-                <p className="text-base text-blue-200 mt-1">
-                  AI-Driven Platform for Indie Filmmakers & Investors
-                </p>
-              </div>
-            </div>
-          </div>
           <div className="space-x-4">
             <Button
               variant="outline"

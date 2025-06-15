@@ -134,7 +134,6 @@ const FilmProjectDetailPage = ({ onBack, project }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2 md:space-x-4">
-              <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-white">IndieGate.io</h1>
               <span className="text-xs md:text-sm text-purple-300 hidden sm:inline">Filmmaker Portal</span>
             </div>
             <button

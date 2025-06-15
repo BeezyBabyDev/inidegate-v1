@@ -947,8 +947,6 @@ const CreativePortal = ({ onLogout, onBack }) => {
   return (
     <div className="portal-container">
       <PortalHeader
-        title="IndieGate.io"
-        subtitle="Filmmaker Network"
         onLogout={onLogout}
         onBack={handleBackToHome}
       />

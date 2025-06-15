@@ -1,5 +1,4 @@
 import React from 'react'
-import IndieGateLogo from './IndieGateLogo'
 
 interface PortalHeaderProps {
   title?: string
@@ -18,7 +17,6 @@ const PortalHeader: React.FC<PortalHeaderProps> = ({
     <div className="max-w-7xl mx-auto flex items-center justify-between">
       <div className="flex flex-col justify-center">
         <div className="flex items-center gap-3">
-          <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16" />
           <h1 className="text-2xl md:text-3xl font-bold leading-tight text-white flex items-end">
             <span>IndieGate.</span>
             <span className="text-blue-400 ml-1">io</span>

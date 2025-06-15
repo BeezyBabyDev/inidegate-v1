@@ -109,15 +109,6 @@ const AuthPortalSelection = ({
       <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex flex-col items-center justify-center gap-2 mb-2">
-            <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-bold text-white flex items-end">
-                <span>IndieGate.</span>
-                <span className="text-blue-400 ml-1">io</span>
-              </h1>
-            </div>
-            <p className="text-lg text-blue-200 font-medium">Select Your Portal</p>
-          </div>
           {authMessage && (
             <div className="mt-4 p-3 bg-green-500/20 border border-green-400/30 rounded-lg">
               <p className="text-green-200 text-sm">{authMessage}</p>
