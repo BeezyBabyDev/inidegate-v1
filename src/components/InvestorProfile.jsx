@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Card from './Card'
 import Button from './Button'
+import IndieGateLogo from './IndieGateLogo'
 
 const InvestorProfile = ({ profileData: initialProfileData }) => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -76,14 +77,6 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
       company: 'bellfamilycapital.com',
     },
   } = initialProfileData || {}
-
-  const IndieGateLogo = () => (
-    <div className="flex justify-center mb-8">
-      <div className="flex items-center">
-        <div className="text-2xl font-bold text-purple-600">IndieGate.io</div>
-      </div>
-    </div>
-  )
 
   const renderOverview = () => (
     <div className="space-y-6">
@@ -353,7 +346,7 @@ const InvestorProfile = ({ profileData: initialProfileData }) => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <IndieGateLogo />
+      <IndieGateLogo className="h-10" />
 
       {/* Tab Navigation */}
       <div className="border-b border-gray-200 mb-6">

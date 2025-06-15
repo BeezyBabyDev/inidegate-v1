@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Button from './Button'
 import Card from './Card'
+import IndieGateLogo from './IndieGateLogo'
 
 const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -122,199 +123,6 @@ const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
   }
 
   const talentData = { ...defaultTalent, ...talent }
-
-  const IndieGateLogo = () => (
-    <div className="flex justify-center mb-8">
-      <div className="flex items-center">
-        <svg className="h-12 w-auto" viewBox="0 0 375 375" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <clipPath id="logoClipTalent">
-              <path d="M 120.957031 164 L 124 164 L 124 246 L 120.957031 246 Z M 120.957031 164 " />
-            </clipPath>
-            <clipPath id="logoClipTalent2">
-              <path d="M 217 164 L 219.121094 164 L 219.121094 246 L 217 246 Z M 217 164 " />
-            </clipPath>
-            <clipPath id="logoClipTalent3">
-              <path d="M 129 251 L 211 251 L 211 254.039062 L 129 254.039062 Z M 129 251 " />
-            </clipPath>
-            <clipPath id="logoClipTalent4">
-              <path d="M 129 155.878906 L 211 155.878906 L 211 159 L 129 159 Z M 129 155.878906 " />
-            </clipPath>
-            <clipPath id="logoClipTalent5">
-              <path d="M 120.957031 245 L 130 245 L 130 254.039062 L 120.957031 254.039062 Z M 120.957031 245 " />
-            </clipPath>
-            <clipPath id="logoClipTalent6">
-              <path d="M 210 245 L 219.121094 245 L 219.121094 254.039062 L 210 254.039062 Z M 210 245 " />
-            </clipPath>
-            <clipPath id="logoClipTalent7">
-              <path d="M 120.957031 155.878906 L 130 155.878906 L 130 165 L 120.957031 165 Z M 120.957031 155.878906 " />
-            </clipPath>
-            <clipPath id="logoClipTalent8">
-              <path d="M 210 155.878906 L 219.121094 155.878906 L 219.121094 165 L 210 165 Z M 210 155.878906 " />
-            </clipPath>
-            <clipPath id="logoClipTalent9">
-              <path d="M 120.269531 155.191406 L 220.019531 155.191406 L 220.019531 254.941406 L 120.269531 254.941406 Z M 120.269531 155.191406 " />
-            </clipPath>
-            <clipPath id="logoClipTalent10">
-              <path d="M 155.878906 129 L 159 129 L 159 211 L 155.878906 211 Z M 155.878906 129 " />
-            </clipPath>
-            <clipPath id="logoClipTalent11">
-              <path d="M 251 129 L 254.039062 129 L 254.039062 211 L 251 211 Z M 251 129 " />
-            </clipPath>
-            <clipPath id="logoClipTalent12">
-              <path d="M 164 217 L 246 217 L 246 219.121094 L 164 219.121094 Z M 164 217 " />
-            </clipPath>
-            <clipPath id="logoClipTalent13">
-              <path d="M 164 120.957031 L 246 120.957031 L 246 124 L 164 124 Z M 164 120.957031 " />
-            </clipPath>
-            <clipPath id="logoClipTalent14">
-              <path d="M 155.878906 210 L 165 210 L 165 219.121094 L 155.878906 219.121094 Z M 155.878906 210 " />
-            </clipPath>
-            <clipPath id="logoClipTalent15">
-              <path d="M 245 210 L 254.039062 210 L 254.039062 219.121094 L 245 219.121094 Z M 245 210 " />
-            </clipPath>
-            <clipPath id="logoClipTalent16">
-              <path d="M 155.878906 120.957031 L 165 120.957031 L 165 130 L 155.878906 130 Z M 155.878906 120.957031 " />
-            </clipPath>
-            <clipPath id="logoClipTalent17">
-              <path d="M 245 120.957031 L 254.039062 120.957031 L 254.039062 130 L 245 130 Z M 245 120.957031 " />
-            </clipPath>
-            <clipPath id="logoClipTalent18">
-              <path d="M 155.191406 120.269531 L 254.941406 120.269531 L 254.941406 220.019531 L 155.191406 220.019531 Z M 155.191406 120.269531 " />
-            </clipPath>
-          </defs>
-          <g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 123.25 245.800781 L 120.269531 245.800781 L 120.269531 164.332031 L 123.25 164.332031 Z M 123.25 245.800781 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent2)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 220.019531 245.800781 L 217.039062 245.800781 L 217.039062 164.332031 L 220.019531 164.332031 Z M 220.019531 245.800781 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent3)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 210.878906 254.941406 L 129.410156 254.941406 L 129.410156 251.960938 L 210.878906 251.960938 Z M 210.878906 254.941406 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent4)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 210.878906 158.171875 L 129.410156 158.171875 L 129.410156 155.191406 L 210.878906 155.191406 Z M 210.878906 158.171875 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent5)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 123.25 251.960938 L 123.25 245.800781 L 120.269531 245.800781 L 120.269531 254.941406 L 129.410156 254.941406 L 129.410156 251.960938 Z M 123.25 251.960938 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent6)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 217.039062 251.960938 L 210.878906 251.960938 L 210.878906 254.941406 L 220.019531 254.941406 L 220.019531 245.800781 L 217.039062 245.800781 Z M 217.039062 251.960938 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent7)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 123.25 158.171875 L 129.410156 158.171875 L 129.410156 155.191406 L 120.269531 155.191406 L 120.269531 164.332031 L 123.25 164.332031 Z M 123.25 158.171875 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent8)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#000000', fillOpacity: 1 }}
-                d="M 217.039062 158.171875 L 217.039062 164.332031 L 220.019531 164.332031 L 220.019531 155.191406 L 210.878906 155.191406 L 210.878906 158.171875 Z M 217.039062 158.171875 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent9)">
-              <path
-                style={{
-                  fill: 'none',
-                  strokeWidth: 30,
-                  strokeLinecap: 'butt',
-                  strokeLinejoin: 'miter',
-                  stroke: '#2563eb',
-                  strokeOpacity: 1,
-                  strokeMiterlimit: 4,
-                }}
-                d="M 0.000475139 -0.00143315 L 0.000475139 133.279818 L 133.281727 133.279818 L 133.281727 -0.00143315 L 0.000475139 -0.00143315 "
-                transform="matrix(-0.748417,0,0,-0.748417,220.019887,254.940334)"
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent10)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 158.171875 210.882812 L 155.191406 210.882812 L 155.191406 129.410156 L 158.171875 129.410156 Z M 158.171875 210.882812 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent11)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 254.941406 210.882812 L 251.960938 210.882812 L 251.960938 129.410156 L 254.941406 129.410156 Z M 254.941406 210.882812 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent12)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 245.800781 220.019531 L 164.332031 220.019531 L 164.332031 217.039062 L 245.800781 217.039062 Z M 245.800781 220.019531 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent13)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 245.800781 123.253906 L 164.332031 123.253906 L 164.332031 120.269531 L 245.800781 120.269531 Z M 245.800781 123.253906 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent14)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 158.171875 217.039062 L 158.171875 210.882812 L 155.191406 210.882812 L 155.191406 220.019531 L 164.332031 220.019531 L 164.332031 217.039062 Z M 158.171875 217.039062 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent15)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 251.960938 217.039062 L 245.800781 217.039062 L 245.800781 220.019531 L 254.941406 220.019531 L 254.941406 210.882812 L 251.960938 210.882812 Z M 251.960938 217.039062 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent16)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 158.171875 123.253906 L 164.332031 123.253906 L 164.332031 120.269531 L 155.191406 120.269531 L 155.191406 129.410156 L 158.171875 129.410156 Z M 158.171875 123.253906 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent17)">
-              <path
-                style={{ stroke: 'none', fillRule: 'nonzero', fill: '#ffffff', fillOpacity: 1 }}
-                d="M 251.960938 123.253906 L 251.960938 129.410156 L 254.941406 129.410156 L 254.941406 120.269531 L 245.800781 120.269531 L 245.800781 123.253906 Z M 251.960938 123.253906 "
-              />
-            </g>
-            <g clipRule="nonzero" clipPath="url(#logoClipTalent18)">
-              <path
-                style={{
-                  fill: 'none',
-                  strokeWidth: 80,
-                  strokeLinecap: 'butt',
-                  strokeLinejoin: 'miter',
-                  stroke: '#60a5fb',
-                  strokeOpacity: 1,
-                  strokeMiterlimit: 4,
-                }}
-                d="M -0.00146561 0.000449885 L -0.00146561 133.281701 L 133.279786 133.281701 L 133.279786 0.000449885 L -0.00146561 0.000449885 "
-                transform="matrix(-0.748417,0,0,-0.748417,254.940309,220.019868)"
-              />
-            </g>
-          </g>
-        </svg>
-      </div>
-    </div>
-  )
 
   const ProfileHeader = () => (
     <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-8 mb-6">
@@ -1290,7 +1098,7 @@ const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
       {/* Profile Container */}
       <div className="max-w-4xl mx-auto pb-8">
         <div className="mb-6 overflow-hidden">
-          <IndieGateLogo />
+          <IndieGateLogo className="h-10" />
           <ProfileHeader />
 
           {/* Creative Statistics Section */}
