@@ -487,48 +487,12 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
 
   return (
     <div className="portal-container">
-      {/* Enhanced Mobile Header */}
-      <header className="portal-header">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20 md:h-24">
-            {/* Logo + Text Combo - Mobile Optimized */}
-            <div className="text-white">
-              <div className="flex items-center space-x-2 md:space-x-3">
-                <PortalHeader />
-                <div>
-                  <h1 className="text-lg md:text-2xl lg:text-3xl font-bold">
-                    IndieGate.<span className="text-blue-400">io</span>
-                  </h1>
-                  <p className="text-xs md:text-sm lg:text-base text-pink-200 mt-1">
-                    Talent Network
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation Actions - Mobile Optimized */}
-            <div className="flex items-center space-x-2 md:space-x-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleBackToHome}
-                className="portal-btn-secondary text-xs md:text-sm px-2 md:px-4 py-1 md:py-2"
-              >
-                <span className="hidden sm:inline">Back to Home</span>
-                <span className="sm:hidden">← Home</span>
-              </Button>
-              <Button
-                onClick={onLogout}
-                className="portal-btn-primary text-xs md:text-sm px-2 md:px-4 py-1 md:py-2"
-              >
-                <span className="hidden sm:inline">Logout</span>
-                <span className="sm:hidden">Exit</span>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <PortalHeader
+        title="IndieGate.io"
+        subtitle="Talent Network"
+        onLogout={onLogout}
+        onBack={handleBackToHome}
+      />
       <main className="px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-7xl mx-auto">
           {/* Welcome Section - Mobile Optimized */}
