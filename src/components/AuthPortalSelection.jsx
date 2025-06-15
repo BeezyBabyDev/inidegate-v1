@@ -4,6 +4,7 @@ import { PORTAL_CONFIGS } from '../config/auth.js'
 import AccountRegistration from './AccountRegistration'
 import AccountLogin from './AccountLogin'
 import { authService } from '../config/auth.js'
+import IndieGateLogo from './IndieGateLogo'
 
 const AuthPortalSelection = ({
   selectedPortal: preSelectedPortal,
@@ -109,11 +110,16 @@ const AuthPortalSelection = ({
       <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
-            <span className="text-3xl">🎬</span>
+          <div className="flex flex-col items-center justify-center gap-2 mb-2">
+            <div className="flex items-center gap-3">
+              <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16" />
+              <h1 className="text-3xl font-bold text-white flex items-end">
+                <span>IndieGate.</span>
+                <span className="text-blue-400 ml-1">io</span>
+              </h1>
+            </div>
+            <p className="text-lg text-blue-200 font-medium">Select Your Portal</p>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome to IndieGate</h1>
-          <p className="text-indigo-200 text-lg">Choose your portal to get started</p>
           {authMessage && (
             <div className="mt-4 p-3 bg-green-500/20 border border-green-400/30 rounded-lg">
               <p className="text-green-200 text-sm">{authMessage}</p>

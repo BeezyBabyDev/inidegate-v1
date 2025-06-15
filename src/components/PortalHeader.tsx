@@ -16,10 +16,13 @@ const PortalHeader: React.FC<PortalHeaderProps> = ({
 }) => (
   <header className="bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 bg-opacity-80 backdrop-blur-lg px-6 py-4 shadow-lg">
     <div className="max-w-7xl mx-auto flex items-center justify-between">
-      <div className="flex items-center space-x-3">
-        <IndieGateLogo className="w-10 h-10 md:w-14 md:h-14" />
-        <div className="text-white">
-          <h1 className="text-2xl md:text-3xl font-bold leading-tight">{title}</h1>
+      <div className="flex items-center gap-3 md:gap-4">
+        <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16" />
+        <div className="flex flex-col justify-center">
+          <h1 className="text-2xl md:text-3xl font-bold leading-tight flex items-end">
+            <span>IndieGate.</span>
+            <span className="text-blue-400 ml-1">io</span>
+          </h1>
           {subtitle && (
             <p className="text-base md:text-lg text-blue-200 leading-tight mt-1">{subtitle}</p>
           )}
