@@ -197,7 +197,7 @@ const BrandsPortal = ({ onLogout, onBack }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
 
-  const [activeTab, setActiveTab] = useState('overview')
+  const [activeTab, setActiveTab] = useState('dashboard')
 
   const tabs = [
     '🎯 Dashboard',
