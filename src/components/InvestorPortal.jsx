@@ -8,7 +8,7 @@ import PublicProfile from './PublicProfile'
 import MessagingInterface from './MessagingInterface'
 import FilmProjectDetail from './FilmProjectDetail'
 import { useScrollToTop, scrollToTop } from '../hooks/useScrollToTop'
-import PortalHeader from './PortalHeader'
+import InvestorHeader from './InvestorHeader'
 
 const InvestorPortal = ({ onLogout, onBack }) => {
   // Automatically scroll to top when component mounts
@@ -637,11 +637,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
 
   return (
     <div className="portal-container">
-      <PortalHeader
-        onLogout={onLogout}
-        onBack={handleBackToHome}
-        subtitle="Investor Network"
-      />
+      <InvestorHeader onBack={onBack} onLogout={onLogout} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Welcome Section - Mobile Optimized */}
