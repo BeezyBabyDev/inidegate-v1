@@ -13,7 +13,7 @@ const PortalHeader: React.FC<PortalHeaderProps> = ({
   onLogout,
   onBack,
 }) => (
-  <header className="bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 bg-opacity-80 backdrop-blur-lg px-6 py-4 shadow-lg">
+  <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 bg-opacity-80 backdrop-blur-lg px-6 py-4 shadow-lg">
     <div className="max-w-7xl mx-auto flex items-center justify-between">
       <div className="flex flex-col justify-center">
         <h1 className="text-2xl md:text-3xl font-bold leading-tight text-white flex items-end">
