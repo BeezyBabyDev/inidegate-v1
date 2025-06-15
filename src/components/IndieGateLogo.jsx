@@ -9,9 +9,9 @@ const IndieGateLogo = ({ className = 'w-12 h-12' }) => (
     viewBox="0 0 48 48"
     fill="none"
   >
-    <rect width="48" height="48" rx="12" fill="#3B82F6" fillOpacity="0.2" />
-    <rect x="10" y="10" width="28" height="28" rx="6" fill="#3B82F6" />
-    <rect x="18" y="18" width="12" height="12" rx="3" fill="#60A5FA" />
+    <rect x="10" y="18" width="18" height="18" stroke="#2563eb" strokeWidth="3" fill="none" />
+    <rect x="20" y="8" width="18" height="18" stroke="#60a5fa" strokeWidth="3" fill="none" />
+    <rect x="26" y="14" width="6" height="6" stroke="#2563eb" strokeWidth="2" fill="none" />
   </svg>
 )
 
