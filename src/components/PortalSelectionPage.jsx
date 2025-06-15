@@ -45,31 +45,6 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
-      {/* Header */}
-      <header className="px-6 py-6">
-        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center">
-          {/* Hero Content */}
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Choose Your <span className="text-blue-400">Portal</span>
-            </h2>
-            <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              Access your dedicated network and connect with the right opportunities for your film
-              industry goals.
-            </p>
-          </div>
-        </div>
-        <div className="absolute right-8 top-8">
-          <Button
-            variant="outline"
-            className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20"
-            onClick={onBackToWelcome}
-          >
-            ← Back to Welcome
-          </Button>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <main className="px-6 py-16">
         <div className="max-w-7xl mx-auto text-center text-white">
