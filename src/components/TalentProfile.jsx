@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Button from './Button'
 import Card from './Card'
-import IndieGateLogo from './IndieGateLogo'
 
 const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -1098,7 +1097,6 @@ const TalentProfile = ({ talent = {}, onEdit, onBack }) => {
       {/* Profile Container */}
       <div className="max-w-4xl mx-auto pb-8">
         <div className="mb-6 overflow-hidden">
-          <IndieGateLogo className="h-10" />
           <ProfileHeader />
 
           {/* Creative Statistics Section */}

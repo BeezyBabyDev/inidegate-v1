@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from './Button'
 import { useScrollToTop } from '../hooks/useScrollToTop'
-import IndieGateLogo from './IndieGateLogo'
 
 const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
   // Automatically scroll to top when component mounts
@@ -50,7 +49,6 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
       <header className="px-6 py-6">
         <div className="max-w-7xl mx-auto flex flex-col items-center justify-center">
           <div className="flex items-center gap-3 mb-1">
-            <IndieGateLogo className="h-10" />
             <h1 className="text-2xl font-bold leading-tight mb-0 text-white flex items-end">
               <span>IndieGate.</span>
               <span className="text-blue-400 ml-1">io</span>

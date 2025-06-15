@@ -4,7 +4,6 @@ import { PORTAL_CONFIGS } from '../config/auth.js'
 import AccountRegistration from './AccountRegistration'
 import AccountLogin from './AccountLogin'
 import { authService } from '../config/auth.js'
-import IndieGateLogo from './IndieGateLogo'
 
 const AuthPortalSelection = ({
   selectedPortal: preSelectedPortal,
@@ -112,7 +111,6 @@ const AuthPortalSelection = ({
         <div className="text-center mb-8">
           <div className="flex flex-col items-center justify-center gap-2 mb-2">
             <div className="flex items-center gap-3">
-              <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16" />
               <h1 className="text-3xl font-bold text-white flex items-end">
                 <span>IndieGate.</span>
                 <span className="text-blue-400 ml-1">io</span>

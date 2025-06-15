@@ -1,5 +1,4 @@
 import Button from './Button'
-import IndieGateLogo from './IndieGateLogo'
 
 // IndieGate.io Logo Component - Official Design
 // Authentic projector lens & screen symbolizing independent filmmaking and breaking Hollywood gatekeeping
@@ -45,7 +44,6 @@ const LandingPage = ({ onSelectPortal }) => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="text-white">
             <div className="flex items-center space-x-2">
-              <IndieGateLogo className="h-10" />
               <div>
                 <h1 className="text-3xl font-bold">
                   IndieGate.<span className="text-blue-400">io</span>
