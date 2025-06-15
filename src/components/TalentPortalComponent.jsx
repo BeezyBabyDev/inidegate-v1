@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import Button from './Button'
 import TalentProfile from './TalentProfile'
+import PortalHeader from './PortalHeader'
 
 // IndieGate.io Logo Component
 const IndieGateLogo = ({ className = 'w-48 h-48' }) => (

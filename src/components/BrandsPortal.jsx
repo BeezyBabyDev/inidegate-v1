@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import Button from './Button'
+import PortalHeader from './PortalHeader'
 
 // IndieGate.io Logo Component
 const IndieGateLogo = ({ className = 'w-48 h-48' }) => (
@@ -635,25 +636,12 @@ const BrandsPortal = ({ onLogout, onBack }) => {
   return (
     <div className="portal-container">
       {/* Header */}
-      <header className="portal-header px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <IndieGateLogo className="w-48 h-48" />
-            <div className="text-white">
-              <h1 className="text-3xl font-bold">IndieGate.io</h1>
-              <p className="text-xl text-orange-200">Brands Network</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" onClick={onBack} className="portal-btn-secondary">
-              ← Back to Portal Selection
-            </Button>
-            <Button onClick={onLogout} className="portal-btn-primary">
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
+      <PortalHeader
+        title="IndieGate.io"
+        subtitle="Brands Network"
+        onLogout={onLogout}
+        onBack={onBack}
+      />
 
       {/* Main Content */}
       <main className="px-6 py-8">

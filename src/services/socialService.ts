@@ -81,13 +81,10 @@ export class SocialService {
     return true
   }
 
-  static async markAllActivitiesAsRead(userId: string): Promise<boolean> {
+  static async markAllActivitiesAsRead(): Promise<boolean> {
     await delay(100)
     mockActivities.forEach(activity => {
-      if (
-        (activity.actor.id === userId || (activity.target && activity.target.id === userId)) &&
-        !activity.read
-      ) {
+      if (!activity.read) {
         activity.read = true
       }
     })

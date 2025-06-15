@@ -1,6 +1,5 @@
 import { Conversation, Message } from '../types/social'
 import { mockConversations, mockMessages, mockUsers } from '../utils/mockData'
-import { User } from '../types/user'
 
 export interface PaginatedResponse<T> {
   data: T[]
@@ -59,7 +58,8 @@ export class MessageService {
       conversationId,
       senderId,
       content,
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
+      status: 'sent',
       readBy: [senderId],
       messageType: 'text',
     }
@@ -112,21 +112,29 @@ export class MessageService {
     // Mock implementation - in real app, this would fetch from API
     return mockConversations
       .filter(conv => conv.participants.includes(userId))
-      .map(conv => ({
-        id: conv.id,
-        userId: conv.participants.find(p => p !== userId) || '',
-        name:
-          mockUsers.find(u => u.id === conv.participants.find(p => p !== userId))?.profile
-            .displayName || 'Unknown User',
-        avatar:
-          mockUsers.find(u => u.id === conv.participants.find(p => p !== userId))?.profile.avatar ||
-          '',
-        lastMessage: conv.lastMessage?.content || 'No messages yet',
-        timestamp:
-          typeof conv.lastMessage?.timestamp === 'string'
-            ? conv.lastMessage.timestamp
-            : conv.lastMessage?.timestamp?.toISOString?.() || new Date().toISOString(),
-      }))
+      .map(conv => {
+        let timestamp: string
+        const ts = conv.lastMessage?.timestamp
+        if (typeof ts === 'string') {
+          timestamp = ts
+        } else if (ts && Object.prototype.toString.call(ts) === '[object Date]') {
+          timestamp = (ts as Date).toISOString()
+        } else {
+          timestamp = new Date().toISOString()
+        }
+        return {
+          id: conv.id,
+          userId: conv.participants.find(p => p !== userId) || '',
+          name:
+            mockUsers.find(u => u.id === conv.participants.find(p => p !== userId))?.profile
+              .displayName || 'Unknown User',
+          avatar:
+            mockUsers.find(u => u.id === conv.participants.find(p => p !== userId))?.profile
+              .avatar || '',
+          lastMessage: conv.lastMessage?.content || 'No messages yet',
+          timestamp,
+        }
+      })
       .slice(0, 5) // Return only 5 most recent conversations
   }
 }

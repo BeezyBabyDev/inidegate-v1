@@ -8,6 +8,7 @@ import PublicProfile from './PublicProfile'
 import MessagingInterface from './MessagingInterface'
 import FilmProjectDetail from './FilmProjectDetail'
 import { useScrollToTop, scrollToTop } from '../hooks/useScrollToTop'
+import PortalHeader from './PortalHeader'
 
 // IndieGate.io Logo Component - Official Design (Exact same as landing page)
 const IndieGateLogo = ({ className = 'w-16 h-16' }) => (
@@ -824,73 +825,14 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     )
   }
 
-  // Enhanced IndieGate.io Header Component - Mobile Optimized
-  const IndieGateHeader = () => {
-    const handleLogoClick = () => {
-      console.log('Logo clicked, calling handleBackToHome') // Debug log
-      handleBackToHome()
-    }
-
-    const handleButtonClick = () => {
-      console.log('Back to Home button clicked, calling handleBackToHome') // Debug log
-      handleBackToHome()
-    }
-
-    return (
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20 md:h-24 lg:h-32">
-            {/* Logo + Text Combo - Responsive sizing */}
-            <div className="text-gray-900">
-              <div
-                className="flex items-center space-x-2 md:space-x-3 cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={handleLogoClick}
-              >
-                <IndieGateLogo className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
-                <div>
-                  <h1 className="text-lg md:text-2xl lg:text-3xl font-bold">
-                    IndieGate.<span className="text-blue-600">io</span>
-                  </h1>
-                  <p className="text-xs md:text-sm lg:text-base text-gray-500 mt-1">
-                    Investor Portal
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation Actions - Mobile Optimized */}
-            <div className="flex items-center space-x-2 md:space-x-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleButtonClick}
-                className="text-xs md:text-sm text-gray-700 border-gray-300 hover:bg-gray-50 font-medium px-2 md:px-4 py-1 md:py-2"
-              >
-                <span className="hidden sm:inline">Back to Home</span>
-                <span className="sm:hidden">← Home</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onLogout}
-                className="text-xs md:text-sm text-red-600 border-red-300 hover:bg-red-50 font-medium px-2 md:px-4 py-1 md:py-2"
-              >
-                <span className="hidden sm:inline">Logout</span>
-                <span className="sm:hidden">🚪</span>
-              </Button>
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs md:text-sm font-bold">JB</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-    )
-  }
-
   return (
     <div className="portal-container">
-      <IndieGateHeader />
+      <PortalHeader
+        title="IndieGate.io"
+        subtitle="Investor Network"
+        onLogout={onLogout}
+        onBack={handleBackToHome}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Welcome Section - Mobile Optimized */}
