@@ -116,12 +116,6 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   Industry Network Access
                 </li>
               </ul>
-              <Button
-                onClick={() => onSelectPortal('investor')}
-                className="w-full bg-green-500 hover:bg-green-600 text-white py-3"
-              >
-                Enter Investor Portal
-              </Button>
             </div>
 
             {/* Filmmakers Portal */}
@@ -179,12 +173,6 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   Connect with opportunities
                 </li>
               </ul>
-              <button
-                onClick={() => onSelectPortal('filmmakers')}
-                className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
-              >
-                Enter Filmmakers Portal
-              </button>
             </div>
 
             {/* Talent Portal */}
@@ -242,12 +230,6 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   AI-Powered Role Matching
                 </li>
               </ul>
-              <button
-                onClick={() => onSelectPortal('talent')}
-                className="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-pink-600 hover:to-rose-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-pink-500/25"
-              >
-                Enter Talent Portal
-              </button>
             </div>
 
             {/* Brands Portal */}
@@ -305,12 +287,6 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   AI-Powered Brand Matching
                 </li>
               </ul>
-              <button
-                onClick={() => onSelectPortal('brands')}
-                className="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-orange-600 hover:to-amber-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-orange-500/25"
-              >
-                Enter Brands Portal
-              </button>
             </div>
           </div>
 
