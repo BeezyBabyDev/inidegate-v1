@@ -237,24 +237,24 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
       {/* Header */}
       <header className="px-6 py-6">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Cohesive Brand Lockup - Logo + Text as unified element */}
-          <div className="flex items-center space-x-2">
+        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center">
+          <div className="flex items-center gap-3 mb-1">
             <IndieGateLogo className="w-16 h-16" />
-            <div className="flex flex-col justify-center leading-tight">
-              <h1 className="text-2xl font-bold leading-tight mb-0">IndieGate.io</h1>
-              <p className="text-lg text-blue-200 leading-tight mt-0">Select Your Portal</p>
-            </div>
+            <h1 className="text-2xl font-bold leading-tight mb-0 text-white flex items-end">
+              <span>IndieGate.</span>
+              <span className="text-blue-400 ml-1">io</span>
+            </h1>
           </div>
-          <div className="flex space-x-4">
-            <Button
-              variant="outline"
-              className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20"
-              onClick={onBackToWelcome}
-            >
-              ← Back to Welcome
-            </Button>
-          </div>
+          <p className="text-lg text-blue-200 leading-tight mt-0">Select Your Portal</p>
+        </div>
+        <div className="absolute right-8 top-8">
+          <Button
+            variant="outline"
+            className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20"
+            onClick={onBackToWelcome}
+          >
+            ← Back to Welcome
+          </Button>
         </div>
       </header>
 
