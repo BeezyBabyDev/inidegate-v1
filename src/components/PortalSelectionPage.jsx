@@ -245,7 +245,6 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
               <span className="text-blue-400 ml-1">io</span>
             </h1>
           </div>
-          <p className="text-lg text-blue-200 leading-tight mt-0">Select Your Portal</p>
         </div>
         <div className="absolute right-8 top-8">
           <Button
