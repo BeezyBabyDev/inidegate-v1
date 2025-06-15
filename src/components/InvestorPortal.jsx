@@ -640,6 +640,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
       <PortalHeader
         onLogout={onLogout}
         onBack={handleBackToHome}
+        subtitle="Investor Network"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
