@@ -116,6 +116,12 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   Industry Network Access
                 </li>
               </ul>
+              <Button
+                onClick={() => onSelectPortal('investor')}
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 mt-2"
+              >
+                Enter Investor Portal
+              </Button>
             </div>
 
             {/* Filmmakers Portal */}
@@ -173,6 +179,12 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   Connect with opportunities
                 </li>
               </ul>
+              <Button
+                onClick={() => onSelectPortal('filmmaker')}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 mt-2"
+              >
+                Enter Filmmaker Portal
+              </Button>
             </div>
 
             {/* Talent Portal */}
@@ -230,6 +242,12 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   AI-Powered Role Matching
                 </li>
               </ul>
+              <Button
+                onClick={() => onSelectPortal('talent')}
+                className="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 mt-2"
+              >
+                Enter Talent Portal
+              </Button>
             </div>
 
             {/* Brands Portal */}
@@ -287,6 +305,12 @@ const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
                   AI-Powered Brand Matching
                 </li>
               </ul>
+              <Button
+                onClick={() => onSelectPortal('brand')}
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 mt-2"
+              >
+                Enter Brands Portal
+              </Button>
             </div>
           </div>
 
