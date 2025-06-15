@@ -351,20 +351,6 @@ function App() {
           onSelectPortal={handleSelectPortal}
           onBackToWelcome={handleBackToWelcome}
         />
-        <div className="flex justify-center mt-6 space-x-4">
-          <button
-            className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700 transition-all"
-            onClick={() => setCurrentView('discover-profiles')}
-          >
-            Discover Profiles
-          </button>
-          <button
-            className="bg-green-600 text-white px-6 py-2 rounded font-semibold hover:bg-green-700 transition-all"
-            onClick={() => setCurrentView('network-dashboard')}
-          >
-            View Network
-          </button>
-        </div>
       </>
     )
   }
