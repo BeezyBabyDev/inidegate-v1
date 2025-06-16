@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { MessageService } from '../services/messageService'
-import { Conversation, Message, MessageStatus } from '../types/social'
-import { User } from '../types/user'
+import { Conversation, Message } from '../types/social'
 
 interface MessagingInterfaceProps {
   currentUserId: string
@@ -20,7 +19,6 @@ const MessagingInterface: React.FC<MessagingInterfaceProps> = ({
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [isTyping, setIsTyping] = useState<Record<string, boolean>>({})
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -213,7 +211,6 @@ const MessagingInterface: React.FC<MessagingInterfaceProps> = ({
               onSend={msg => setMessages(m => [...m, msg])}
               onTyping={() => setIsTyping(prev => ({ ...prev, [selectedConvId]: true }))}
               fileInputRef={fileInputRef}
-              onFileSelect={handleFileSelect}
             />
           </>
         ) : (
@@ -263,8 +260,7 @@ interface MessageComposerProps {
   currentUserId: string
   onSend: (msg: Message) => void
   onTyping: () => void
-  fileInputRef: React.RefObject<HTMLInputElement>
-  onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void
+  fileInputRef: React.RefObject<HTMLInputElement | null>
 }
 
 const MessageComposer: React.FC<MessageComposerProps> = ({
@@ -273,7 +269,6 @@ const MessageComposer: React.FC<MessageComposerProps> = ({
   onSend,
   onTyping,
   fileInputRef,
-  onFileSelect,
 }) => {
   const [value, setValue] = useState('')
   const [loading, setLoading] = useState(false)

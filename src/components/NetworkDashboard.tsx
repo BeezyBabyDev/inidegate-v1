@@ -5,7 +5,6 @@ import { MessageService } from '../services/messageService'
 import ProfileCard from './ProfileCard'
 import MessagingInterface from './MessagingInterface'
 import ActivityFeed from './ActivityFeed'
-import { Message } from '../types/social'
 
 interface NetworkDashboardProps {
   currentUserId: string
@@ -135,6 +134,7 @@ const NetworkDashboard: React.FC<NetworkDashboardProps> = ({ currentUserId }) =>
                 onUnfollow={() => handleUnfollow(user.id)}
                 onMessage={() => handleMessage(user.id)}
                 isFollowing={true}
+                canMessage={true}
               />
             ))}
           </div>
@@ -161,6 +161,7 @@ const NetworkDashboard: React.FC<NetworkDashboardProps> = ({ currentUserId }) =>
                 onUnfollow={() => handleUnfollow(user.id)}
                 onMessage={() => handleMessage(user.id)}
                 isFollowing={following.some(f => f.id === user.id)}
+                canMessage={true}
               />
             ))}
           </div>

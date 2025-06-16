@@ -119,6 +119,10 @@ const InvestorPortal = ({ onLogout, onBack }) => {
     setMessagingContact(null)
   }
 
+  const handleViewNetwork = () => {
+    setActiveTab('My Network')
+  }
+
   const renderProfileTab = () => {
     console.log('Profile tab is being rendered', profileData)
 
@@ -637,7 +641,7 @@ const InvestorPortal = ({ onLogout, onBack }) => {
 
   return (
     <div className="portal-container">
-      <InvestorHeader onBack={onBack} onLogout={onLogout} />
+      <InvestorHeader onBack={onBack} onLogout={onLogout} onViewNetwork={handleViewNetwork} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Welcome Section - Mobile Optimized */}

@@ -392,13 +392,6 @@ function App() {
             >
               Discover Profiles
             </button>
-            <button
-              className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
-              onClick={() => setCurrentView('network-dashboard')}
-              aria-label="View Network"
-            >
-              View Network
-            </button>
           </div>
         </>
       )
@@ -418,13 +411,6 @@ function App() {
             aria-label="Discover Profiles"
           >
             Discover Profiles
-          </button>
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
-            onClick={() => setCurrentView('network-dashboard')}
-            aria-label="View Network"
-          >
-            View Network
           </button>
         </div>
       </>
@@ -464,13 +450,6 @@ function App() {
           >
             Discover Profiles
           </button>
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
-            onClick={() => setCurrentView('network-dashboard')}
-            aria-label="View Network"
-          >
-            View Network
-          </button>
         </div>
       </>
     )
@@ -508,13 +487,6 @@ function App() {
             aria-label="Discover Profiles"
           >
             Discover Profiles
-          </button>
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
-            onClick={() => setCurrentView('network-dashboard')}
-            aria-label="View Network"
-          >
-            View Network
           </button>
         </div>
       </>
@@ -554,13 +526,6 @@ function App() {
           >
             Discover Profiles
           </button>
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
-            onClick={() => setCurrentView('network-dashboard')}
-            aria-label="View Network"
-          >
-            View Network
-          </button>
         </div>
       </>
     )
@@ -599,13 +564,6 @@ function App() {
           >
             Discover Profiles
           </button>
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition-all"
-            onClick={() => setCurrentView('network-dashboard')}
-            aria-label="View Network"
-          >
-            View Network
-          </button>
         </div>
       </>
     )
@@ -632,12 +590,6 @@ function App() {
             onClick={() => setCurrentView('portal-selection')}
           >
             Back to Portal Selection
-          </button>
-          <button
-            className="bg-green-600 text-white px-6 py-2 rounded font-semibold hover:bg-green-700 transition-all"
-            onClick={() => setCurrentView('network-dashboard')}
-          >
-            View Network
           </button>
         </div>
       </>
