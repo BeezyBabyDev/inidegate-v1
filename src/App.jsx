@@ -15,6 +15,7 @@ import ProfileManager from './components/ProfileManager'
 import FilmProjectDetailDemo from './components/FilmProjectDetailDemo'
 import DiscoverProfiles from './components/DiscoverProfiles'
 import NetworkDashboard from './components/NetworkDashboard'
+import MessagingPage from './components/MessagingPage'
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome')
@@ -441,6 +442,7 @@ function App() {
           onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
           user={currentUser}
           isAuthenticated={isAuthenticated}
+          onShowMessages={() => setCurrentView('messages')}
         />
         <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
           <button
@@ -617,6 +619,11 @@ function App() {
         </div>
       </>
     )
+  }
+
+  // Render MessagingPage
+  if (currentView === 'messages') {
+    return <MessagingPage />
   }
 
   // Default fallback

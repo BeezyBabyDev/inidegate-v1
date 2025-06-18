@@ -1,0 +1,113 @@
+import { useEffect, useState } from 'react'
+
+const API_BASE = 'http://localhost:5000/messages'
+
+export default function MessagingPage() {
+  const [conversations, setConversations] = useState([])
+  const [selectedConversation, setSelectedConversation] = useState(null)
+  const [messages, setMessages] = useState([])
+  const [diagnostics, setDiagnostics] = useState({
+    api: false,
+    conversations: false,
+    messages: false,
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  // Fetch conversations on mount
+  useEffect(() => {
+    setLoading(true)
+    fetch(`${API_BASE}/conversations/user-1`)
+      .then(res => res.json())
+      .then(data => {
+        setConversations(data.conversations || [])
+        setDiagnostics(d => ({ ...d, api: true, conversations: true }))
+        setLoading(false)
+      })
+      .catch(() => {
+        setDiagnostics(d => ({ ...d, api: false, conversations: false }))
+        setLoading(false)
+      })
+  }, [])
+
+  // Fetch messages for selected conversation
+  useEffect(() => {
+    if (!selectedConversation) return
+    setLoading(true)
+    fetch(`${API_BASE}/${selectedConversation._id}`)
+      .then(res => res.json())
+      .then(data => {
+        setMessages(data.messages || [])
+        setDiagnostics(d => ({ ...d, messages: true }))
+        setLoading(false)
+      })
+      .catch(() => {
+        setDiagnostics(d => ({ ...d, messages: false }))
+        setLoading(false)
+      })
+  }, [selectedConversation])
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-6">
+      <div
+        className="w-full max-w-4xl rounded-2xl shadow-2xl p-8 backdrop-blur-xl bg-white/20 border border-white/30 relative"
+        style={{ boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)' }}
+      >
+        <h2 className="text-3xl font-bold text-white mb-6">Messaging System Diagnostics</h2>
+        <div className="mb-6 flex space-x-4">
+          <div
+            className={`px-4 py-2 rounded-lg font-semibold ${diagnostics.api ? 'bg-green-500/80 text-white' : 'bg-red-500/80 text-white'}`}
+          >
+            API {diagnostics.api ? 'Online' : 'Offline'}
+          </div>
+          <div
+            className={`px-4 py-2 rounded-lg font-semibold ${diagnostics.conversations ? 'bg-green-500/80 text-white' : 'bg-red-500/80 text-white'}`}
+          >
+            Conversations {diagnostics.conversations ? 'OK' : 'Error'}
+          </div>
+          <div
+            className={`px-4 py-2 rounded-lg font-semibold ${diagnostics.messages ? 'bg-green-500/80 text-white' : 'bg-red-500/80 text-white'}`}
+          >
+            Messages {diagnostics.messages ? 'OK' : 'Error'}
+          </div>
+        </div>
+        <div className="flex gap-8">
+          {/* Conversation List */}
+          <div className="w-1/3 bg-white/30 rounded-xl p-4 backdrop-blur-md border border-white/20 shadow-lg">
+            <h3 className="text-lg font-bold text-blue-900 mb-4">Conversations</h3>
+            {loading && <div className="text-blue-700">Loading...</div>}
+            {conversations.map(conv => (
+              <div
+                key={conv._id}
+                className={`p-3 rounded-lg mb-2 cursor-pointer transition-all ${selectedConversation && selectedConversation._id === conv._id ? 'bg-blue-500/30 text-white' : 'hover:bg-blue-200/40 text-blue-900'}`}
+                onClick={() => setSelectedConversation(conv)}
+              >
+                <div className="font-semibold">{conv.participants?.join(' & ')}</div>
+                <div className="text-xs text-blue-200">{conv.lastMessage?.content}</div>
+              </div>
+            ))}
+          </div>
+          {/* Message Thread */}
+          <div className="flex-1 bg-white/30 rounded-xl p-4 backdrop-blur-md border border-white/20 shadow-lg min-h-[300px]">
+            <h3 className="text-lg font-bold text-blue-900 mb-4">Messages</h3>
+            {loading && <div className="text-blue-700">Loading...</div>}
+            {messages.length === 0 && (
+              <div className="text-blue-200">Select a conversation to view messages.</div>
+            )}
+            <div className="space-y-4">
+              {messages.map(msg => (
+                <div key={msg._id} className="p-3 rounded-lg bg-white/60 shadow text-blue-900">
+                  <div className="font-semibold">{msg.sender}</div>
+                  <div>{msg.content}</div>
+                  <div className="text-xs text-blue-500 mt-1">
+                    {msg.status} • {new Date(msg.createdAt).toLocaleString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
