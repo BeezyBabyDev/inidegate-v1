@@ -623,7 +623,7 @@ function App() {
 
   // Render MessagingPage
   if (currentView === 'messages') {
-    return <MessagingPage />
+    return <MessagingPage onBack={() => setCurrentView('investor')} user={currentUser} />
   }
 
   // Default fallback
