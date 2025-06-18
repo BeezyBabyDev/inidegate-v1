@@ -45,9 +45,9 @@ const InvestorHeader = ({ onBack, onLogout, onViewNetwork }) => {
               onClick={() => setProjectsOpen(v => !v)}
               className="flex items-center space-x-2 text-white hover:text-blue-300 focus:outline-none"
             >
-              {/* Projects Icon */}
+              {/* Projects Icon - now a lightbulb */}
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a2 2 0 012-2h2a2 2 0 012 2v2m-6 4h6a2 2 0 002-2v-5a2 2 0 00-2-2H7a2 2 0 00-2 2v5a2 2 0 002 2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2a7 7 0 017 7c0 2.386-1.053 4.09-2.293 5.293C15.053 15.09 15 16 15 17v1a3 3 0 01-6 0v-1c0-1-.053-1.91-1.707-2.707C6.053 13.09 5 11.386 5 9a7 7 0 017-7zm0 17v2m-4 0h8" />
               </svg>
               <span className="hidden md:inline">Projects</span>
               <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
@@ -72,9 +72,9 @@ const InvestorHeader = ({ onBack, onLogout, onViewNetwork }) => {
 
           {/* Messaging Icon */}
           <button className="flex items-center space-x-2 text-white hover:text-blue-300 focus:outline-none">
-            {/* Message Icon */}
+            {/* Message Icon - clean chat bubble */}
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8l-4.28 1.07A1 1 0 013 19.13V17.4a9.77 9.77 0 01-2-5.4C1 7.582 5.03 4 10 4s9 3.582 9 8z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
             </svg>
             <span className="hidden md:inline">Messages</span>
           </button>
