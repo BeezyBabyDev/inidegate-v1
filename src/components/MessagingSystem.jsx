@@ -1,106 +1,71 @@
 import { useState, useEffect, useRef } from 'react'
 import Card from './Card'
 import Button from './Button'
+import { MessageService } from '../services/messageService'
 
 const MessagingSystem = ({ match, currentUser, onClose }) => {
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [conversationId, setConversationId] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const messagesEndRef = useRef(null)
 
-  // Mock messages for demonstration
+  // Helper to map backend message to frontend format
+  const mapMessageFromBackend = msg => ({
+    id: msg._id || msg.id,
+    conversationId: msg.conversation?._id || msg.conversationId || msg.conversation,
+    senderId: msg.sender?._id || msg.senderId || msg.sender,
+    content: msg.content,
+    timestamp: msg.createdAt || msg.timestamp,
+    status: msg.status,
+    read: msg.status === 'read',
+  })
+
+  // On mount, create or fetch conversation and load messages
   useEffect(() => {
-    const mockMessages = [
-      {
-        id: 1,
-        senderId: match.id,
-        senderName: match.name,
-        content: "Hi! I saw your project and I'm really interested. The concept looks amazing! 🎬",
-        timestamp: new Date(Date.now() - 3600000), // 1 hour ago
-        read: true,
-      },
-      {
-        id: 2,
-        senderId: currentUser.id,
-        senderName: currentUser.name,
-        content:
-          "Thank you! I'd love to discuss the investment opportunity. When would be a good time to chat?",
-        timestamp: new Date(Date.now() - 3000000), // 50 mins ago
-        read: true,
-      },
-      {
-        id: 3,
-        senderId: match.id,
-        senderName: match.name,
-        content:
-          "I'm available this week. Could we schedule a call to go over the details? Also, I have some questions about the distribution strategy.",
-        timestamp: new Date(Date.now() - 2400000), // 40 mins ago
-        read: true,
-      },
-    ]
-    setMessages(mockMessages)
-  }, [match.id, currentUser.id])
+    setLoading(true)
+    setError(null)
+    MessageService.createConversation([currentUser.id, match.id])
+      .then(conv => {
+        setConversationId(conv.id || conv._id)
+        return MessageService.getMessages(conv.id || conv._id)
+      })
+      .then(res => setMessages(res.data.map(mapMessageFromBackend)))
+      .catch(e => setError(e.message || 'Failed to load messages'))
+      .finally(() => setLoading(false))
+  }, [currentUser.id, match.id])
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    scrollToBottom()
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const handleSendMessage = e => {
+  const handleSendMessage = async e => {
     e.preventDefault()
-    if (!newMessage.trim()) return
-
-    const message = {
-      id: messages.length + 1,
-      senderId: currentUser.id,
-      senderName: currentUser.name,
-      content: newMessage.trim(),
-      timestamp: new Date(),
-      read: false,
+    if (!newMessage.trim() || !conversationId) return
+    setLoading(true)
+    setError(null)
+    try {
+      const msg = await MessageService.sendMessage(
+        conversationId,
+        currentUser.id,
+        newMessage.trim()
+      )
+      setMessages(prev => [...prev, mapMessageFromBackend(msg)])
+      setNewMessage('')
+    } catch (e) {
+      setError(e.message || 'Failed to send message')
+    } finally {
+      setLoading(false)
     }
-
-    setMessages(prev => [...prev, message])
-    setNewMessage('')
-
-    // Simulate typing indicator for response
-    setIsTyping(true)
-    setTimeout(() => {
-      setIsTyping(false)
-      // Simulate auto-reply
-      if (Math.random() > 0.3) {
-        const autoReply = {
-          id: messages.length + 2,
-          senderId: match.id,
-          senderName: match.name,
-          content: getAutoReply(newMessage),
-          timestamp: new Date(Date.now() + 2000),
-          read: false,
-        }
-        setMessages(prev => [...prev, autoReply])
-      }
-    }, 2000)
-  }
-
-  const getAutoReply = message => {
-    const replies = [
-      'That sounds great! Let me review and get back to you soon 👍',
-      "Perfect! I'm excited to move forward with this project 🚀",
-      'Thank you for the details. When can we schedule a meeting?',
-      "I agree! This has huge potential. Let's discuss next steps 💯",
-      "Absolutely! I'll have my team take a look and circle back 📈",
-    ]
-    return replies[Math.floor(Math.random() * replies.length)]
   }
 
   const formatTime = timestamp => {
     const now = new Date()
     const messageTime = new Date(timestamp)
     const diffInHours = (now - messageTime) / (1000 * 60 * 60)
-
     if (diffInHours < 1) {
       const diffInMins = Math.floor((now - messageTime) / (1000 * 60))
       return diffInMins < 1 ? 'Just now' : `${diffInMins}m ago`
@@ -129,7 +94,6 @@ const MessagingSystem = ({ match, currentUser, onClose }) => {
 
   const EmojiPicker = ({ onEmojiSelect }) => {
     const emojis = ['😊', '👍', '❤️', '🎬', '🚀', '💯', '🔥', '👏', '💡', '⭐']
-
     return (
       <div className="flex flex-wrap gap-2 p-2 bg-gray-50 rounded-lg mb-2">
         {emojis.map(emoji => (
@@ -187,6 +151,8 @@ const MessagingSystem = ({ match, currentUser, onClose }) => {
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+          {loading && <div className="text-blue-700">Loading...</div>}
+          {error && <div className="text-red-500">{error}</div>}
           {messages.map(message => (
             <MessageBubble
               key={message.id}
@@ -194,26 +160,6 @@ const MessagingSystem = ({ match, currentUser, onClose }) => {
               isOwn={message.senderId === currentUser.id}
             />
           ))}
-
-          {isTyping && (
-            <div className="flex justify-start mb-4">
-              <div className="bg-white border border-gray-200 rounded-lg px-4 py-2">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                  <div
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                    style={{ animationDelay: '0.1s' }}
-                  />
-                  <div
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                    style={{ animationDelay: '0.2s' }}
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mt-1">{match.name} is typing...</p>
-              </div>
-            </div>
-          )}
-
           <div ref={messagesEndRef} />
         </div>
 
@@ -228,9 +174,10 @@ const MessagingSystem = ({ match, currentUser, onClose }) => {
               onChange={e => setNewMessage(e.target.value)}
               placeholder="Type your message..."
               className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={loading}
             />
-            <Button type="submit" disabled={!newMessage.trim()}>
-              Send 📤
+            <Button type="submit" disabled={!newMessage.trim() || loading}>
+              {loading ? 'Sending...' : 'Send 📤'}
             </Button>
           </form>
 

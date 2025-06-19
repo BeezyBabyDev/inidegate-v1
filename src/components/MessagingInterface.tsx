@@ -34,24 +34,83 @@ const MessagingInterface: React.FC<MessagingInterfaceProps> = ({
     {} as Record<string, Conversation[]>
   )
 
+  // Mapping functions for backend data to frontend types
+  function mapMessageFromBackend(msg: Record<string, unknown>, currentUserId: string): Message {
+    return {
+      id: (msg._id as string) || (msg.id as string),
+      conversationId:
+        ((msg.conversation && typeof msg.conversation === 'object' && 'id' in msg.conversation
+          ? (msg.conversation as Record<string, unknown>).id
+          : msg.conversation) as string) || (msg.conversationId as string),
+      senderId:
+        ((msg.sender && typeof msg.sender === 'object' && 'id' in msg.sender
+          ? (msg.sender as Record<string, unknown>).id
+          : msg.sender) as string) || (msg.senderId as string),
+      content: msg.content as string,
+      timestamp: (msg.createdAt as string) || (msg.timestamp as string),
+      status: msg.status as Message['status'],
+      reactions: (msg.reactions as Message['reactions']) || {},
+      attachments: (msg.attachments as Message['attachments']) || [],
+      readBy: (msg.readBy as string[]) || (msg.status === 'read' ? [currentUserId] : []),
+      messageType: (msg.messageType as Message['messageType']) || 'text',
+      edited: msg.edited as boolean,
+      editedAt: msg.editedAt as Date,
+    }
+  }
+
+  function mapConversationFromBackend(
+    conv: Record<string, unknown>,
+    currentUserId: string
+  ): Conversation {
+    let unreadCount: Record<string, number> = (conv.unreadCount as Record<string, number>) || {}
+    if (!unreadCount[currentUserId]) {
+      unreadCount[currentUserId] = 0
+    }
+    return {
+      id: (conv._id as string) || (conv.id as string),
+      participants: ((conv.participants as unknown[]) || []).map((p: unknown) =>
+        typeof p === 'object' && p !== null && 'id' in p
+          ? ((p as Record<string, unknown>).id as string)
+          : (p as string)
+      ),
+      lastMessage: conv.lastMessage
+        ? mapMessageFromBackend(conv.lastMessage as Record<string, unknown>, currentUserId)
+        : undefined,
+      unreadCount,
+      createdAt: conv.createdAt as Date,
+      updatedAt: conv.updatedAt as Date,
+      title: conv.title as string,
+    }
+  }
+
   // Fetch conversations
   useEffect(() => {
     setLoadingConvs(true)
     MessageService.getConversations(currentUserId)
-      .then(setConversations)
+      .then((data: unknown[]) =>
+        setConversations(
+          data.map(c => mapConversationFromBackend(c as Record<string, unknown>, currentUserId))
+        )
+      )
       .catch(e => setError(e.message || 'Failed to load conversations'))
       .finally(() => setLoadingConvs(false))
   }, [currentUserId])
 
-  // Fetch messages for selected conversation
+  // Fetch messages for selected conversation & mark as read
   useEffect(() => {
     if (!selectedConvId) return
     setLoadingMsgs(true)
     MessageService.getMessages(selectedConvId)
-      .then(res => setMessages(res.data))
+      .then((res: { data: unknown[] }) =>
+        setMessages(
+          res.data.map(m => mapMessageFromBackend(m as Record<string, unknown>, currentUserId))
+        )
+      )
       .catch(e => setError(e.message || 'Failed to load messages'))
       .finally(() => setLoadingMsgs(false))
-  }, [selectedConvId])
+    // Mark as read
+    MessageService.markAsRead(selectedConvId, currentUserId).catch(() => {})
+  }, [selectedConvId, currentUserId])
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {

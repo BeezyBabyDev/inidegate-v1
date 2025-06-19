@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import InvestorHeader from './InvestorHeader'
-
-const API_BASE = 'http://localhost:5000/messages'
+import { MessageService } from '../services/messageService'
 
 export default function MessagingPage({ onBack, user }) {
   const [conversations, setConversations] = useState([])
@@ -15,13 +14,23 @@ export default function MessagingPage({ onBack, user }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  // Helper to map backend message to frontend format
+  const mapMessageFromBackend = msg => ({
+    id: msg._id || msg.id,
+    conversationId: msg.conversation?._id || msg.conversationId || msg.conversation,
+    senderId: msg.sender?._id || msg.senderId || msg.sender,
+    content: msg.content,
+    timestamp: msg.createdAt || msg.timestamp,
+    status: msg.status,
+    read: msg.status === 'read',
+  })
+
   // Fetch conversations on mount
   useEffect(() => {
     setLoading(true)
-    fetch(`${API_BASE}/conversations/user-1`)
-      .then(res => res.json())
+    MessageService.getConversations(user.id)
       .then(data => {
-        setConversations(data.conversations || [])
+        setConversations(data)
         setDiagnostics(d => ({ ...d, api: true, conversations: true }))
         setLoading(false)
       })
@@ -29,16 +38,15 @@ export default function MessagingPage({ onBack, user }) {
         setDiagnostics(d => ({ ...d, api: false, conversations: false }))
         setLoading(false)
       })
-  }, [])
+  }, [user.id])
 
   // Fetch messages for selected conversation
   useEffect(() => {
     if (!selectedConversation) return
     setLoading(true)
-    fetch(`${API_BASE}/${selectedConversation._id}`)
-      .then(res => res.json())
-      .then(data => {
-        setMessages(data.messages || [])
+    MessageService.getMessages(selectedConversation.id || selectedConversation._id)
+      .then(res => {
+        setMessages(res.data.map(mapMessageFromBackend))
         setDiagnostics(d => ({ ...d, messages: true }))
         setLoading(false)
       })
@@ -97,11 +105,11 @@ export default function MessagingPage({ onBack, user }) {
               {loading && <div className="text-blue-700">Loading...</div>}
               {conversations.map(conv => (
                 <div
-                  key={conv._id}
-                  className={`p-3 rounded-lg mb-2 cursor-pointer transition-all ${selectedConversation && selectedConversation._id === conv._id ? 'bg-blue-500/30 text-white' : 'hover:bg-blue-200/40 text-blue-900'}`}
+                  key={conv.id || conv._id}
+                  className={`p-3 rounded-lg mb-2 cursor-pointer transition-all ${selectedConversation && (selectedConversation.id || selectedConversation._id) === (conv.id || conv._id) ? 'bg-blue-500/30 text-white' : 'hover:bg-blue-200/40 text-blue-900'}`}
                   onClick={() => setSelectedConversation(conv)}
                 >
-                  <div className="font-semibold">{conv.participants?.join(' & ')}</div>
+                  <div className="font-semibold">{(conv.participants || []).join(' & ')}</div>
                   <div className="text-xs text-blue-200">{conv.lastMessage?.content}</div>
                 </div>
               ))}
@@ -115,11 +123,11 @@ export default function MessagingPage({ onBack, user }) {
               )}
               <div className="space-y-4">
                 {messages.map(msg => (
-                  <div key={msg._id} className="p-3 rounded-lg bg-white/60 shadow text-blue-900">
-                    <div className="font-semibold">{msg.sender}</div>
+                  <div key={msg.id} className="p-3 rounded-lg bg-white/60 shadow text-blue-900">
+                    <div className="font-semibold">{msg.senderId}</div>
                     <div>{msg.content}</div>
                     <div className="text-xs text-blue-500 mt-1">
-                      {msg.status} • {new Date(msg.createdAt).toLocaleString()}
+                      {msg.status} • {new Date(msg.timestamp).toLocaleString()}
                     </div>
                   </div>
                 ))}
