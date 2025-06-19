@@ -20,6 +20,7 @@ const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
   const [currentPublicProfileId, setCurrentPublicProfileId] = useState(null)
   const [messagingContact, setMessagingContact] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
+  const [showMessagesPage, setShowMessagesPage] = useState(false)
 
   // Sample investor profile data
   const [profileData, setProfileData] = useState({
@@ -121,6 +122,10 @@ const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
 
   const handleViewNetwork = () => {
     setActiveTab('My Network')
+  }
+
+  const handleShowMessages = () => {
+    setShowMessagesPage(true)
   }
 
   const renderProfileTab = () => {
@@ -645,8 +650,24 @@ const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
         onBack={onBack}
         onLogout={onLogout}
         onViewNetwork={handleViewNetwork}
-        onMessagesClick={onShowMessages}
+        onMessagesClick={handleShowMessages}
       />
+
+      {/* Show MessagingInterface as overlay/modal when showMessagesPage is true */}
+      {showMessagesPage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="relative w-full max-w-4xl mx-auto p-4">
+            <button
+              className="absolute top-2 right-2 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-700 z-10"
+              onClick={() => setShowMessagesPage(false)}
+              aria-label="Close messages"
+            >
+              ✕
+            </button>
+            <MessagingInterface currentUserId={profileData.email} />
+          </div>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Welcome Section - Mobile Optimized */}
@@ -753,15 +774,6 @@ const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
           {activeTab === '📈 Analytics' && renderAnalyticsTab()}
         </div>
       </div>
-
-      {/* Messaging Interface - Available from main portal */}
-      {messagingContact && (
-        <MessagingInterface
-          contactUserId={messagingContact.userId}
-          contactName={messagingContact.name}
-          onClose={handleCloseMessaging}
-        />
-      )}
     </div>
   )
 }
