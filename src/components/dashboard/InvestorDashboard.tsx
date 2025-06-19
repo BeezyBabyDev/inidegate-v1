@@ -20,11 +20,6 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ investor }) => {
         Welcome to the Investor Network
       </h1>
 
-      <p className="text-xl text-purple-200 text-center mb-12">
-        Discover groundbreaking indie film projects, analyze market opportunities, and build your
-        entertainment portfolio with confidence.
-      </p>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="bg-purple-900/20 backdrop-blur-sm border border-white/10 rounded-[32px] p-8">
