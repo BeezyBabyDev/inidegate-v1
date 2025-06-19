@@ -9,12 +9,13 @@ import MessagingInterface from './MessagingInterface'
 import FilmProjectDetail from './FilmProjectDetail'
 import { useScrollToTop, scrollToTop } from '../hooks/useScrollToTop'
 import InvestorHeader from './InvestorHeader'
+import InvestorDashboard from './dashboard/InvestorDashboard'
 
 const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
 
-  const [activeTab, setActiveTab] = useState('👤 Profile')
+  const [activeTab, setActiveTab] = useState('🏠 Dashboard')
   const [profileView, setProfileView] = useState('showcase')
   const [showPublicProfile, setShowPublicProfile] = useState(false)
   const [currentPublicProfileId, setCurrentPublicProfileId] = useState(null)
@@ -127,6 +128,8 @@ const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
   const handleShowMessages = () => {
     setShowMessagesPage(true)
   }
+
+  const renderDashboardTab = () => <InvestorDashboard investor={profileData} />
 
   const renderProfileTab = () => {
     console.log('Profile tab is being rendered', profileData)
@@ -685,6 +688,19 @@ const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
           <div className="flex space-x-2 md:space-x-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
             <button
               onClick={() => {
+                setActiveTab('🏠 Dashboard')
+                scrollToTop()
+              }}
+              className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 ${
+                activeTab === '🏠 Dashboard'
+                  ? 'bg-white text-green-900 shadow-lg'
+                  : 'text-white hover:bg-white/10 bg-white/5'
+              }`}
+            >
+              🏠 Dashboard
+            </button>
+            <button
+              onClick={() => {
                 setActiveTab('👤 Profile')
                 scrollToTop()
               }}
@@ -766,6 +782,7 @@ const InvestorPortal = ({ onLogout, onBack, onShowMessages }) => {
 
         {/* Tab Content */}
         <div className="mb-8">
+          {activeTab === '🏠 Dashboard' && renderDashboardTab()}
           {activeTab === '👤 Profile' && renderProfileTab()}
           {activeTab === '📊 Portfolio' && renderPortfolioTab()}
           {activeTab === '💰 Deal Flow' && renderDealFlowTab()}
