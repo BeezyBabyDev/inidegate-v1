@@ -15,47 +15,32 @@ interface DashboardProps {
 
 const InvestorDashboard: React.FC<DashboardProps> = ({ investor }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 px-8 py-4">
-      <p className="text-xl text-purple-200 mb-8 text-center">
-        Discover groundbreaking indie film projects, analyze market opportunities, and build your
-        entertainment portfolio with confidence.
-      </p>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 px-8 py-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header Section */}
+        <div className="bg-purple-900/20 backdrop-blur-sm border border-white/10 rounded-[32px] p-6 text-center">
+          <h1 className="text-4xl font-bold text-white">Welcome to the Investor Network</h1>
+        </div>
 
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">
-            Welcome, {investor?.name || 'Investor'}!
+        {/* Subtitle */}
+        <p className="text-xl text-purple-200 text-center px-4">
+          Discover groundbreaking indie film projects, analyze market opportunities, and build your
+          entertainment portfolio with confidence.
+        </p>
+
+        {/* Main Content Container */}
+        <div className="bg-purple-900/20 backdrop-blur-sm border border-white/10 rounded-[32px] p-8 mt-8">
+          <div className="flex items-center justify-center mb-12">
+            <img src="/chart-increasing.png" alt="Analytics Icon" className="w-16 h-16 mb-4" />
+          </div>
+
+          <h2 className="text-3xl font-bold text-white text-center mb-4">
+            Analytics Dashboard Coming Soon
           </h2>
-          <p className="text-lg text-purple-200">Here's your personalized dashboard overview.</p>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-purple-900/30 backdrop-blur-sm border border-white/10 rounded-[40px] p-8">
-            <h3 className="text-xl font-semibold text-white mb-3">Deal Flow Feed</h3>
-            <p className="text-purple-200 mb-6">
-              Active investment opportunities will appear here.
-            </p>
-            <DealFlowFeed />
-          </div>
-
-          <div className="bg-purple-900/30 backdrop-blur-sm border border-white/10 rounded-[40px] p-8">
-            <h3 className="text-xl font-semibold text-white mb-3">Portfolio Overview</h3>
-            <p className="text-purple-200 mb-6">Your portfolio summary will appear here.</p>
-            <PortfolioOverview />
-          </div>
-
-          <div className="bg-purple-900/30 backdrop-blur-sm border border-white/10 rounded-[40px] p-8">
-            <h3 className="text-xl font-semibold text-white mb-3">Quick Insights & Actions</h3>
-            <p className="text-purple-200 mb-6">Key stats and quick actions will appear here.</p>
-            <QuickInsights />
-          </div>
-        </div>
-
-        <div className="bg-purple-900/30 backdrop-blur-sm border border-white/10 rounded-[40px] p-8">
-          <h3 className="text-2xl font-semibold text-white mb-6 text-center">
-            Market Insights & Trending Projects
-          </h3>
-          <MarketTrends />
+          <p className="text-xl text-purple-200 text-center">
+            Advanced portfolio analytics and market insights will be available soon!
+          </p>
         </div>
       </div>
     </div>
