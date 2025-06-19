@@ -61,7 +61,7 @@ export default function MessagingPage({ onBack, user }) {
       <InvestorHeader onBack={onBack} user={user} />
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div
-          className="w-full max-w-4xl rounded-2xl shadow-2xl p-8 backdrop-blur-xl bg-white/20 border border-white/30 relative"
+          className="w-full max-w-4xl rounded-2xl shadow-2xl p-8 backdrop-blur-xl bg-white/20 border border-white/30 relative min-h-[60vh] bg-blue-900/80"
           style={{ boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)' }}
         >
           <div className="flex justify-between items-center mb-6">

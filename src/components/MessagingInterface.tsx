@@ -154,7 +154,7 @@ const MessagingInterface: React.FC<MessagingInterfaceProps> = ({
     : conversations
 
   return (
-    <div className="flex flex-col md:flex-row h-[80vh] bg-white/10 rounded-xl shadow-lg overflow-hidden">
+    <div className="flex flex-col md:flex-row min-h-[80vh] bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 rounded-xl shadow-lg overflow-hidden">
       {/* Conversation List */}
       <aside className="w-full md:w-1/3 bg-blue-900/80 border-r border-white/10 overflow-y-auto">
         <div className="sticky top-0 bg-blue-900/90 p-4 border-b border-white/10">
