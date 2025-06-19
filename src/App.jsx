@@ -33,17 +33,9 @@ function App() {
     if (user && authService.isAuthenticated()) {
       setIsAuthenticated(true)
       setCurrentUser(user)
-      setCurrentView(user.portal) // Go directly to user's portal
+      // Don't automatically redirect to portal - still require Aurora access
       setHasValidCode(true)
-      setHasAuroraAccess(true)
       return
-    }
-
-    // Check for stored Aurora access
-    const auroraAccess = localStorage.getItem('aurora_access')
-    if (auroraAccess === 'granted') {
-      setHasAuroraAccess(true)
-      setCurrentView('welcome')
     }
 
     const urlParams = new URLSearchParams(window.location.search)
@@ -53,7 +45,7 @@ function App() {
     const multiPortal = urlParams.get('multi-portal')
 
     // Only process these if Aurora access is granted
-    if (auroraAccess === 'granted') {
+    if (hasAuroraAccess) {
       // Check for multi-portal system access
       if (multiPortal === 'true') {
         setCurrentView('multi-portal')
@@ -87,11 +79,10 @@ function App() {
         }
       }
     }
-  }, [])
+  }, [hasAuroraAccess])
 
   const handleAuroraAccess = () => {
     setHasAuroraAccess(true)
-    localStorage.setItem('aurora_access', 'granted')
     setCurrentView('welcome')
   }
 
@@ -196,29 +187,12 @@ function App() {
   }
 
   const handleLogout = () => {
-    console.log('handleLogout called - navigating back to welcome page')
-
-    try {
-      // Logout from authentication system
-      authService.logout()
-      setIsAuthenticated(false)
-      setCurrentUser(null)
-      setShowAccountSystem(false)
-      setSelectedPortal(null)
-
-      // Clear any URL parameters and go to root
-      const url = window.location.origin + window.location.pathname.replace(/\/+$/, '') || '/'
-      window.history.pushState({}, '', url)
-      setCurrentView('welcome')
-      setHasValidCode(false)
-
-      // Scroll to top for clean landing
-      window.scrollTo(0, 0)
-    } catch (error) {
-      console.error('Navigation error in handleLogout:', error)
-      // Fallback to direct navigation
-      window.location.href = '/'
-    }
+    authService.logout()
+    setIsAuthenticated(false)
+    setCurrentUser(null)
+    setHasAuroraAccess(false) // Reset Aurora access on logout
+    setCurrentView('aurora-gate') // Return to Aurora gate
+    window.location.reload() // Ensure clean state
   }
 
   const handleAuthSuccess = user => {
@@ -319,7 +293,7 @@ function App() {
   }
 
   // Show Project Aurora Gate
-  if (currentView === 'aurora-gate') {
+  if (currentView === 'aurora-gate' || !hasAuroraAccess) {
     return <ProjectAuroraGate onAccessGranted={handleAuroraAccess} />
   }
 

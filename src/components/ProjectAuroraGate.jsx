@@ -16,6 +16,7 @@ const ProjectAuroraGate = ({ onAccessGranted }) => {
     // Simulate verification delay
     setTimeout(() => {
       if (accessCode.toUpperCase() === AURORA_ACCESS_CODE) {
+        // Session-based access only - no localStorage persistence
         onAccessGranted()
       } else {
         setError('Invalid Project Aurora access code')
@@ -116,6 +117,7 @@ const ProjectAuroraGate = ({ onAccessGranted }) => {
           {/* Security Notice */}
           <div className="mt-8 text-center">
             <p className="text-purple-300 text-xs">🔒 Secure Gateway • Authorized Personnel Only</p>
+            <p className="text-purple-300/70 text-xs mt-2">Access resets after each session</p>
           </div>
         </div>
       </div>
