@@ -16,14 +16,16 @@ import FilmProjectDetailDemo from './components/FilmProjectDetailDemo'
 import DiscoverProfiles from './components/DiscoverProfiles'
 import NetworkDashboard from './components/NetworkDashboard'
 import MessagingPage from './components/MessagingPage'
+import ProjectAuroraGate from './components/ProjectAuroraGate'
 
 function App() {
-  const [currentView, setCurrentView] = useState('welcome')
+  const [currentView, setCurrentView] = useState('aurora-gate')
   const [hasValidCode, setHasValidCode] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
   const [showAccountSystem, setShowAccountSystem] = useState(false)
   const [selectedPortal, setSelectedPortal] = useState(null)
+  const [hasAuroraAccess, setHasAuroraAccess] = useState(false)
 
   useEffect(() => {
     // Check for existing authentication
@@ -33,7 +35,15 @@ function App() {
       setCurrentUser(user)
       setCurrentView(user.portal) // Go directly to user's portal
       setHasValidCode(true)
+      setHasAuroraAccess(true)
       return
+    }
+
+    // Check for stored Aurora access
+    const auroraAccess = localStorage.getItem('aurora_access')
+    if (auroraAccess === 'granted') {
+      setHasAuroraAccess(true)
+      setCurrentView('welcome')
     }
 
     const urlParams = new URLSearchParams(window.location.search)
@@ -42,45 +52,48 @@ function App() {
     const profile = urlParams.get('profile')
     const multiPortal = urlParams.get('multi-portal')
 
-    // Check for multi-portal system access
-    if (multiPortal === 'true') {
-      setCurrentView('multi-portal')
-      setHasValidCode(true)
-      return
-    }
-
-    // Check for demo landing page access
-    if (multiPortal === 'demo') {
-      setCurrentView('demo-landing')
-      setHasValidCode(true)
-      return
-    }
-
-    // Check for direct profile access (persona access codes)
-    if (portal && profile && hasCode) {
-      setHasValidCode(true)
-      setCurrentView(portal)
-
-      // Store profile for pre-loading
-      sessionStorage.setItem('selectedProfile', profile)
-      sessionStorage.setItem('directAccess', 'true')
-      return
-    }
-
-    // If there's a portal parameter and code, show portal selection or specific portal
-    if (hasCode) {
-      setHasValidCode(true)
-      if (portal && !profile) {
-        setCurrentView(portal)
-      } else {
-        setCurrentView('portal-selection')
+    // Only process these if Aurora access is granted
+    if (auroraAccess === 'granted') {
+      // Check for multi-portal system access
+      if (multiPortal === 'true') {
+        setCurrentView('multi-portal')
+        setHasValidCode(true)
+        return
       }
-    } else if (portal) {
-      // Legacy URL support - redirect to portal selection
-      setCurrentView('portal-selection')
-      setHasValidCode(true)
+
+      // Check for demo landing page access
+      if (multiPortal === 'demo') {
+        setCurrentView('demo-landing')
+        setHasValidCode(true)
+        return
+      }
+
+      // Check for direct profile access
+      if (portal && profile && hasCode) {
+        setHasValidCode(true)
+        setCurrentView(portal)
+        sessionStorage.setItem('selectedProfile', profile)
+        sessionStorage.setItem('directAccess', 'true')
+        return
+      }
+
+      // If there's a portal parameter and code, show portal selection or specific portal
+      if (hasCode) {
+        setHasValidCode(true)
+        if (portal && !profile) {
+          setCurrentView(portal)
+        } else {
+          setCurrentView('portal-selection')
+        }
+      }
     }
   }, [])
+
+  const handleAuroraAccess = () => {
+    setHasAuroraAccess(true)
+    localStorage.setItem('aurora_access', 'granted')
+    setCurrentView('welcome')
+  }
 
   const handleEnterCode = code => {
     // Enhanced code validation with individual persona access codes
@@ -305,6 +318,11 @@ function App() {
     window.scrollTo(0, 0) // Scroll to top on navigation
   }
 
+  // Show Project Aurora Gate
+  if (currentView === 'aurora-gate') {
+    return <ProjectAuroraGate onAccessGranted={handleAuroraAccess} />
+  }
+
   // Show account system
   if (showAccountSystem) {
     return (
@@ -332,7 +350,7 @@ function App() {
     return <FilmProjectDetailDemo />
   }
 
-  // Welcome page - entry point
+  // Welcome page - entry point after Aurora gate
   if (currentView === 'welcome') {
     return (
       <WelcomePage
