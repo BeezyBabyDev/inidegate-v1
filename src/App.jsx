@@ -442,7 +442,6 @@ function App() {
           onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
           user={currentUser}
           isAuthenticated={isAuthenticated}
-          onShowMessages={() => setCurrentView('messages')}
         />
         <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
           <button
