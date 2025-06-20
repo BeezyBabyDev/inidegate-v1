@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import DealFlowFeed from './DealFlowFeed'
 import MarketTrends from './MarketTrends'
 import PortfolioOverview from './PortfolioOverview'
@@ -23,9 +23,10 @@ import {
   BarChart,
   Star,
   Info,
+  X,
 } from 'lucide-react'
 
-// Interfaces
+// Interfaces (These should ideally be in separate type definition files)
 interface InvestorProfile {
   id: string
   name: string
@@ -60,6 +61,7 @@ interface TeamMember {
   avatar: string
 }
 
+// Mock Data (Should be imported from data files)
 const EDUCATIONAL_RESOURCES: EducationalResource[] = [
   {
     id: 'legal-101',
@@ -93,24 +95,53 @@ const EDUCATIONAL_RESOURCES: EducationalResource[] = [
     contentUrl: '#',
     prerequisites: ['tax-201'],
   },
+  {
+    id: 'legal-202',
+    title: 'Understanding Distribution Deals',
+    category: 'Legal',
+    format: 'Article',
+    difficulty: 'Intermediate',
+    duration: 35,
+    summary: 'Navigate the complexities of distribution agreements and revenue waterfalls.',
+    contentUrl: '#',
+    prerequisites: ['legal-101'],
+  },
 ]
 
+const LEARNING_PATHS: LearningPath[] = [
+  {
+    id: 'lp-1',
+    title: 'Film Finance Foundations',
+    description: 'Master the fundamentals of film investment from legal to industry analysis.',
+    resources: ['legal-101', 'tax-201', 'industry-301'],
+    difficulty: 'Intermediate',
+  },
+]
+
+const TEAM_MEMBERS: TeamMember[] = [
+  { id: 'tm-1', name: 'Alice', avatar: 'https://i.pravatar.cc/150?u=alice' },
+  { id: 'tm-2', name: 'Bob', avatar: 'https://i.pravatar.cc/150?u=bob' },
+]
+
+// Main Component
 interface DashboardProps {
   onSelectDeal: (deal: Deal) => void
 }
 
 const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
-  const [resources, setResources] = useState<EducationalResource[]>(EDUCATIONAL_RESOURCES)
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
+  // State Management
+  const [resources] = useState<EducationalResource[]>(EDUCATIONAL_RESOURCES)
+  const [completedResources, setCompletedResources] = useState<Set<string>>(new Set(['legal-101']))
+  const [bookmarks, setBookmarks] = useState<Set<string>>(new Set())
   const [searchTerm, setSearchTerm] = useState('')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
+  const [activeTab, setActiveTab] = useState('resources')
 
-  const handleSelectDeal = (dealId: string) => {
-    const selected = dealFlow.find(d => d.id === dealId)
-    if (selected) {
-      onSelectDeal(selected)
-    }
-  }
+  // Derived State
+  const progressPercentage = useMemo(
+    () => (completedResources.size / resources.length) * 100,
+    [completedResources, resources]
+  )
 
   const filteredResources = useMemo(() => {
     return resources.filter(resource => {
@@ -124,6 +155,117 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     })
   }, [resources, searchTerm, activeFilters])
 
+  // Handlers
+  const handleSelectDeal = (dealId: string) => {
+    const selected = dealFlow.find(d => d.id === dealId)
+    if (selected) {
+      onSelectDeal(selected)
+    }
+  }
+
+  const toggleFilter = (filter: string) => {
+    setActiveFilters(prev =>
+      prev.includes(filter) ? prev.filter(f => f !== filter) : [...prev, filter]
+    )
+  }
+
+  const toggleBookmark = (resourceId: string) => {
+    setBookmarks(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(resourceId)) {
+        newSet.delete(resourceId)
+      } else {
+        newSet.add(resourceId)
+      }
+      return newSet
+    })
+  }
+
+  const toggleComplete = (resourceId: string) => {
+    setCompletedResources(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(resourceId)) {
+        newSet.delete(resourceId)
+      } else {
+        newSet.add(resourceId)
+      }
+      return newSet
+    })
+  }
+
+  const isPrereqMet = (prerequisites?: string[]) => {
+    if (!prerequisites || prerequisites.length === 0) return true
+    return prerequisites.every(prereqId => completedResources.has(prereqId))
+  }
+
+  // Render Functions
+  const renderResourceCard = (resource: EducationalResource) => {
+    const isCompleted = completedResources.has(resource.id)
+    const isBookmarked = bookmarks.has(resource.id)
+    const canView = isPrereqMet(resource.prerequisites)
+
+    return (
+      <div
+        key={resource.id}
+        className={`bg-white/5 p-6 rounded-2xl border border-white/10 transition-all duration-300 flex flex-col group ${!canView ? 'opacity-60' : 'hover:bg-white/10'}`}
+      >
+        <div className="flex justify-between items-start">
+          <h4 className="text-lg font-bold text-white mb-2 pr-4">{resource.title}</h4>
+          <button
+            onClick={() => toggleBookmark(resource.id)}
+            className="text-purple-300 hover:text-white"
+          >
+            <Bookmark size={20} fill={isBookmarked ? 'currentColor' : 'none'} />
+          </button>
+        </div>
+        <p className="text-sm text-purple-300 mb-4 flex-grow">{resource.summary}</p>
+        <div className="mt-auto space-y-4">
+          <div className="flex justify-between items-center text-xs">
+            <span
+              className={`font-semibold px-2 py-1 rounded-full ${
+                resource.difficulty === 'Beginner'
+                  ? 'bg-green-500/20 text-green-300'
+                  : resource.difficulty === 'Intermediate'
+                    ? 'bg-yellow-500/20 text-yellow-300'
+                    : 'bg-red-500/20 text-red-300'
+              }`}
+            >
+              {resource.difficulty}
+            </span>
+            <div className="flex items-center gap-2 text-purple-200">
+              <Clock size={14} />
+              <span>{resource.duration} min</span>
+            </div>
+          </div>
+          <button
+            onClick={() => canView && toggleComplete(resource.id)}
+            disabled={!canView}
+            className={`w-full font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+              canView
+                ? 'bg-purple-600/50 hover:bg-purple-500/50 text-white'
+                : 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
+            }`}
+          >
+            {isCompleted ? (
+              <>
+                <CheckCircle size={16} /> Mark as Incomplete
+              </>
+            ) : (
+              'Mark as Complete'
+            )}
+          </button>
+          {!canView && (
+            <div className="text-xs text-yellow-300/80 flex items-center gap-2 mt-2 p-2 bg-yellow-500/10 rounded-lg">
+              <Info size={16} />
+              <span>Requires completion of prerequisite courses.</span>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Main Return
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Top Dashboard Grid */}
@@ -149,10 +291,24 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
       {/* Educational Center Section */}
       <div className="mt-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8">
-        <div className="flex flex-col md:flex-row justify-between md:items-center mb-8">
+        <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
           <h3 className="text-2xl font-semibold text-white mb-4 md:mb-0">
             Level Up Your Film Investment Knowledge
           </h3>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <p className="text-sm font-medium text-purple-200">Your Learning Progress</p>
+            <p className="text-sm font-bold text-white">{Math.round(progressPercentage)}%</p>
+          </div>
+          <div className="w-full bg-white/10 rounded-full h-2.5">
+            <div
+              className="bg-gradient-to-r from-purple-500 to-blue-500 h-2.5 rounded-full"
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
+          </div>
         </div>
 
         {/* Search and Filters */}
@@ -174,34 +330,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
         {/* Resources Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredResources.map(resource => (
-            <div
-              key={resource.id}
-              className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 flex flex-col"
-            >
-              <h4 className="text-lg font-bold text-white mb-2">{resource.title}</h4>
-              <p className="text-sm text-purple-300 mb-4">{resource.summary}</p>
-              <div className="mt-auto space-y-3">
-                <div className="flex justify-between items-center text-xs">
-                  <span
-                    className={`font-semibold px-2 py-1 rounded-full ${
-                      resource.difficulty === 'Beginner'
-                        ? 'bg-green-500/20 text-green-300'
-                        : resource.difficulty === 'Intermediate'
-                          ? 'bg-yellow-500/20 text-yellow-300'
-                          : 'bg-red-500/20 text-red-300'
-                    }`}
-                  >
-                    {resource.difficulty}
-                  </span>
-                  <span className="text-purple-200">{resource.format}</span>
-                </div>
-                <button className="w-full bg-purple-600/50 hover:bg-purple-500/50 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-                  View Details
-                </button>
-              </div>
-            </div>
-          ))}
+          {filteredResources.map(renderResourceCard)}
         </div>
       </div>
     </div>
