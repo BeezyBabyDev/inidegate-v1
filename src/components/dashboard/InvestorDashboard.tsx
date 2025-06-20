@@ -265,6 +265,56 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     )
   }
 
+  const renderFilterPill = (filter: string, category: string) => {
+    const isActive = activeFilters.includes(filter)
+    return (
+      <button
+        onClick={() => toggleFilter(filter)}
+        className={`px-3 py-1.5 text-xs font-semibold rounded-full border transition-all ${
+          isActive
+            ? 'bg-purple-400/20 border-purple-400 text-white'
+            : 'bg-white/5 border-white/10 text-purple-200 hover:bg-white/10'
+        }`}
+      >
+        {filter}
+      </button>
+    )
+  }
+
+  const renderResources = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {filteredResources.map(renderResourceCard)}
+    </div>
+  )
+
+  const renderLearningPaths = () => (
+    <div className="space-y-6">
+      {LEARNING_PATHS.map(path => (
+        <div key={path.id} className="bg-white/5 p-6 rounded-2xl border border-white/10">
+          <h4 className="text-lg font-bold text-white mb-2">{path.title}</h4>
+          <p className="text-sm text-purple-300 mb-4">{path.description}</p>
+        </div>
+      ))}
+    </div>
+  )
+
+  const renderTeamActivity = () => (
+    <div className="space-y-4">
+      {TEAM_MEMBERS.map(member => (
+        <div
+          key={member.id}
+          className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10"
+        >
+          <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" />
+          <div>
+            <p className="text-white font-semibold">{member.name}</p>
+            <p className="text-sm text-purple-300">Completed 'Film Investment Legal Basics'</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+
   // Main Return
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -311,27 +361,57 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
           </div>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8">
-          <div className="relative">
-            <Search
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-300"
-              size={20}
-            />
-            <input
-              type="text"
-              placeholder="Search resources..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-          </div>
+        {/* Tabs for Educational Center */}
+        <div className="flex space-x-2 border-b border-white/10 mb-6">
+          <button
+            onClick={() => setActiveTab('resources')}
+            className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'resources' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}
+          >
+            All Resources
+          </button>
+          <button
+            onClick={() => setActiveTab('paths')}
+            className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'paths' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}
+          >
+            Learning Paths
+          </button>
+          <button
+            onClick={() => setActiveTab('team')}
+            className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'team' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}
+          >
+            Team Activity
+          </button>
         </div>
 
-        {/* Resources Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredResources.map(renderResourceCard)}
-        </div>
+        {activeTab === 'resources' && (
+          <>
+            {/* Search and Filters */}
+            <div className="flex flex-col md:flex-row gap-4 mb-8">
+              <div className="relative flex-grow">
+                <Search
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-300"
+                  size={20}
+                />
+                <input
+                  type="text"
+                  placeholder="Search resources..."
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              <div className="flex-shrink-0 flex items-center gap-2">
+                {renderFilterPill('Beginner', 'difficulty')}
+                {renderFilterPill('Intermediate', 'difficulty')}
+                {renderFilterPill('Advanced', 'difficulty')}
+              </div>
+            </div>
+            {renderResources()}
+          </>
+        )}
+
+        {activeTab === 'paths' && renderLearningPaths()}
+        {activeTab === 'team' && renderTeamActivity()}
       </div>
     </div>
   )
