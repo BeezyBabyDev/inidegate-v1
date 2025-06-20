@@ -1,47 +1,25 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo } from 'react'
 import DealFlowFeed from './DealFlowFeed'
 import MarketTrends from './MarketTrends'
 import PortfolioOverview from './PortfolioOverview'
 import { dealFlow } from '../../data/dealFlowData'
 import { Deal } from '../../types/deals'
 import {
-  BookOpen,
-  TrendingUp,
-  Filter,
-  Download,
   CheckCircle,
   Clock,
-  ChevronDown,
-  ChevronUp,
   Search,
   Bookmark,
-  Users,
-  Share2,
-  FileText,
-  File,
-  Presentation,
-  BarChart,
-  Star,
   Info,
-  X,
 } from 'lucide-react'
 
-// Interfaces (These should ideally be in separate type definition files)
-interface InvestorProfile {
-  id: string
-  name: string
-  team?: string
-  role?: string
-  investmentGoals?: string[]
-}
-
+// INTERFACES (Should be in /types)
 interface EducationalResource {
   id: string
   title: string
   category: 'Legal' | 'Tax' | 'Industry'
   format: 'Article' | 'Video' | 'Case Study' | 'Webinar'
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
-  duration: number // in minutes
+  duration: number
   summary: string
   contentUrl: string
   prerequisites?: string[]
@@ -59,9 +37,10 @@ interface TeamMember {
   id: string
   name: string
   avatar: string
+  lastActivity: string
 }
 
-// Mock Data (Should be imported from data files)
+// MOCK DATA (Should be in /data)
 const EDUCATIONAL_RESOURCES: EducationalResource[] = [
   {
     id: 'legal-101',
@@ -95,17 +74,6 @@ const EDUCATIONAL_RESOURCES: EducationalResource[] = [
     contentUrl: '#',
     prerequisites: ['tax-201'],
   },
-  {
-    id: 'legal-202',
-    title: 'Understanding Distribution Deals',
-    category: 'Legal',
-    format: 'Article',
-    difficulty: 'Intermediate',
-    duration: 35,
-    summary: 'Navigate the complexities of distribution agreements and revenue waterfalls.',
-    contentUrl: '#',
-    prerequisites: ['legal-101'],
-  },
 ]
 
 const LEARNING_PATHS: LearningPath[] = [
@@ -119,17 +87,17 @@ const LEARNING_PATHS: LearningPath[] = [
 ]
 
 const TEAM_MEMBERS: TeamMember[] = [
-  { id: 'tm-1', name: 'Alice', avatar: 'https://i.pravatar.cc/150?u=alice' },
-  { id: 'tm-2', name: 'Bob', avatar: 'https://i.pravatar.cc/150?u=bob' },
+  { id: 'tm-1', name: 'Alice', avatar: 'https://i.pravatar.cc/150?u=alice', lastActivity: "Completed 'Maximizing Film Tax Incentives'" },
+  { id: 'tm-2', name: 'Bob', avatar: 'https://i.pravatar.cc/150?u=bob', lastActivity: "Bookmarked 'Case Study: The \"Indie Hit\" Model'" },
 ]
 
-// Main Component
+
+// MAIN COMPONENT
 interface DashboardProps {
   onSelectDeal: (deal: Deal) => void
 }
 
 const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
-  // State Management
   const [resources] = useState<EducationalResource[]>(EDUCATIONAL_RESOURCES)
   const [completedResources, setCompletedResources] = useState<Set<string>>(new Set(['legal-101']))
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set())
@@ -137,7 +105,6 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [activeTab, setActiveTab] = useState('resources')
 
-  // Derived State
   const progressPercentage = useMemo(
     () => (completedResources.size / resources.length) * 100,
     [completedResources, resources]
@@ -148,35 +115,34 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
       const searchMatch = resource.title.toLowerCase().includes(searchTerm.toLowerCase())
       const filterMatch =
         activeFilters.length === 0 ||
-        activeFilters.includes(resource.category) ||
-        activeFilters.includes(resource.format) ||
         activeFilters.includes(resource.difficulty)
       return searchMatch && filterMatch
     })
   }, [resources, searchTerm, activeFilters])
 
-  // Handlers
   const handleSelectDeal = (dealId: string) => {
     const selected = dealFlow.find(d => d.id === dealId)
-    if (selected) {
-      onSelectDeal(selected)
-    }
+    if (selected) onSelectDeal(selected)
   }
 
   const toggleFilter = (filter: string) => {
-    setActiveFilters(prev =>
-      prev.includes(filter) ? prev.filter(f => f !== filter) : [...prev, filter]
-    )
-  }
+    setActiveFilters(prev => {
+      const newFilters = new Set(prev);
+      if (newFilters.has(filter)) {
+        newFilters.delete(filter);
+      } else {
+        // This logic allows only one filter at a time from a category, can be adjusted
+        newFilters.clear(); // Example: Clears other filters
+        newFilters.add(filter);
+      }
+      return Array.from(newFilters);
+    });
+  };
 
   const toggleBookmark = (resourceId: string) => {
     setBookmarks(prev => {
       const newSet = new Set(prev)
-      if (newSet.has(resourceId)) {
-        newSet.delete(resourceId)
-      } else {
-        newSet.add(resourceId)
-      }
+      newSet.has(resourceId) ? newSet.delete(resourceId) : newSet.add(resourceId)
       return newSet
     })
   }
@@ -188,6 +154,9 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
         newSet.delete(resourceId)
       } else {
         newSet.add(resourceId)
+        // Auto-complete prerequisites if any for a better user experience
+        const resource = resources.find(r => r.id === resourceId)
+        resource?.prerequisites?.forEach(prereqId => newSet.add(prereqId))
       }
       return newSet
     })
@@ -198,7 +167,6 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     return prerequisites.every(prereqId => completedResources.has(prereqId))
   }
 
-  // Render Functions
   const renderResourceCard = (resource: EducationalResource) => {
     const isCompleted = completedResources.has(resource.id)
     const isBookmarked = bookmarks.has(resource.id)
@@ -207,27 +175,24 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     return (
       <div
         key={resource.id}
-        className={`bg-white/5 p-6 rounded-2xl border border-white/10 transition-all duration-300 flex flex-col group ${!canView ? 'opacity-60' : 'hover:bg-white/10'}`}
+        className={`bg-white/5 p-6 rounded-2xl border border-white/10 transition-all duration-300 flex flex-col group ${!canView && 'opacity-50'}`}
       >
-        <div className="flex justify-between items-start">
-          <h4 className="text-lg font-bold text-white mb-2 pr-4">{resource.title}</h4>
-          <button
-            onClick={() => toggleBookmark(resource.id)}
-            className="text-purple-300 hover:text-white"
-          >
+        <div className="flex justify-between items-start mb-2">
+          <h4 className="text-lg font-bold text-white pr-4">{resource.title}</h4>
+          <button onClick={() => toggleBookmark(resource.id)} className="text-purple-300 hover:text-white flex-shrink-0">
             <Bookmark size={20} fill={isBookmarked ? 'currentColor' : 'none'} />
           </button>
         </div>
         <p className="text-sm text-purple-300 mb-4 flex-grow">{resource.summary}</p>
         <div className="mt-auto space-y-4">
-          <div className="flex justify-between items-center text-xs">
+          <div className="flex items-center text-xs space-x-4">
             <span
               className={`font-semibold px-2 py-1 rounded-full ${
                 resource.difficulty === 'Beginner'
                   ? 'bg-green-500/20 text-green-300'
                   : resource.difficulty === 'Intermediate'
-                    ? 'bg-yellow-500/20 text-yellow-300'
-                    : 'bg-red-500/20 text-red-300'
+                  ? 'bg-yellow-500/20 text-yellow-300'
+                  : 'bg-red-500/20 text-red-300'
               }`}
             >
               {resource.difficulty}
@@ -237,25 +202,26 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
               <span>{resource.duration} min</span>
             </div>
           </div>
-          <button
-            onClick={() => canView && toggleComplete(resource.id)}
-            disabled={!canView}
-            className={`w-full font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 ${
-              canView
-                ? 'bg-purple-600/50 hover:bg-purple-500/50 text-white'
-                : 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            {isCompleted ? (
-              <>
-                <CheckCircle size={16} /> Mark as Incomplete
-              </>
-            ) : (
-              'Mark as Complete'
-            )}
-          </button>
+          {isCompleted ? (
+            <button
+              onClick={() => toggleComplete(resource.id)}
+              className="w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 bg-green-500/20 text-green-300 hover:bg-green-500/30"
+            >
+              <CheckCircle size={16} /> Mark as Incomplete
+            </button>
+          ) : (
+            <button
+              onClick={() => canView && toggleComplete(resource.id)}
+              disabled={!canView}
+              className={`w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+                canView ? 'bg-purple-600/50 hover:bg-purple-500/50 text-white' : 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              Mark as Complete
+            </button>
+          )}
           {!canView && (
-            <div className="text-xs text-yellow-300/80 flex items-center gap-2 mt-2 p-2 bg-yellow-500/10 rounded-lg">
+            <div className="text-xs text-yellow-300/80 flex items-center gap-2 mt-2">
               <Info size={16} />
               <span>Requires completion of prerequisite courses.</span>
             </div>
@@ -264,8 +230,8 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
       </div>
     )
   }
-
-  const renderFilterPill = (filter: string, category: string) => {
+  
+  const FilterPill = ({ filter }: { filter: string }) => {
     const isActive = activeFilters.includes(filter)
     return (
       <button
@@ -281,41 +247,6 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     )
   }
 
-  const renderResources = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {filteredResources.map(renderResourceCard)}
-    </div>
-  )
-
-  const renderLearningPaths = () => (
-    <div className="space-y-6">
-      {LEARNING_PATHS.map(path => (
-        <div key={path.id} className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h4 className="text-lg font-bold text-white mb-2">{path.title}</h4>
-          <p className="text-sm text-purple-300 mb-4">{path.description}</p>
-        </div>
-      ))}
-    </div>
-  )
-
-  const renderTeamActivity = () => (
-    <div className="space-y-4">
-      {TEAM_MEMBERS.map(member => (
-        <div
-          key={member.id}
-          className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10"
-        >
-          <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" />
-          <div>
-            <p className="text-white font-semibold">{member.name}</p>
-            <p className="text-sm text-purple-300">Completed 'Film Investment Legal Basics'</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-
-  // Main Return
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Top Dashboard Grid */}
@@ -346,52 +277,28 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
             Level Up Your Film Investment Knowledge
           </h3>
         </div>
-
-        {/* Progress Bar */}
+        
         <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-sm font-medium text-purple-200">Your Learning Progress</p>
-            <p className="text-sm font-bold text-white">{Math.round(progressPercentage)}%</p>
-          </div>
-          <div className="w-full bg-white/10 rounded-full h-2.5">
-            <div
-              className="bg-gradient-to-r from-purple-500 to-blue-500 h-2.5 rounded-full"
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
-          </div>
+            <div className="flex justify-between items-center mb-2">
+                <p className="text-sm font-medium text-purple-200">Your Learning Progress</p>
+                <p className="text-sm font-bold text-white">{Math.round(progressPercentage)}%</p>
+            </div>
+            <div className="w-full bg-white/10 rounded-full h-2.5">
+                <div className="bg-gradient-to-r from-purple-500 to-blue-500 h-2.5 rounded-full" style={{ width: `${progressPercentage}%` }}></div>
+            </div>
         </div>
 
-        {/* Tabs for Educational Center */}
         <div className="flex space-x-2 border-b border-white/10 mb-6">
-          <button
-            onClick={() => setActiveTab('resources')}
-            className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'resources' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}
-          >
-            All Resources
-          </button>
-          <button
-            onClick={() => setActiveTab('paths')}
-            className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'paths' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}
-          >
-            Learning Paths
-          </button>
-          <button
-            onClick={() => setActiveTab('team')}
-            className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'team' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}
-          >
-            Team Activity
-          </button>
+            <button onClick={() => setActiveTab('resources')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'resources' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>All Resources</button>
+            <button onClick={() => setActiveTab('paths')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'paths' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Learning Paths</button>
+            <button onClick={() => setActiveTab('team')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'team' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Team Activity</button>
         </div>
 
         {activeTab === 'resources' && (
           <>
-            {/* Search and Filters */}
             <div className="flex flex-col md:flex-row gap-4 mb-8">
               <div className="relative flex-grow">
-                <Search
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-300"
-                  size={20}
-                />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-300" size={20} />
                 <input
                   type="text"
                   placeholder="Search resources..."
@@ -401,20 +308,45 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
                 />
               </div>
               <div className="flex-shrink-0 flex items-center gap-2">
-                {renderFilterPill('Beginner', 'difficulty')}
-                {renderFilterPill('Intermediate', 'difficulty')}
-                {renderFilterPill('Advanced', 'difficulty')}
+                <FilterPill filter="Beginner" />
+                <FilterPill filter="Intermediate" />
+                <FilterPill filter="Advanced" />
               </div>
             </div>
-            {renderResources()}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredResources.map(renderResourceCard)}
+            </div>
           </>
         )}
 
-        {activeTab === 'paths' && renderLearningPaths()}
-        {activeTab === 'team' && renderTeamActivity()}
+        {activeTab === 'paths' && (
+          <div className="space-y-6">
+            {LEARNING_PATHS.map(path => (
+               <div key={path.id} className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                  <h4 className="text-lg font-bold text-white mb-2">{path.title}</h4>
+                  <p className="text-sm text-purple-300 mb-4">{path.description}</p>
+               </div>
+            ))}
+          </div>
+        )}
+        
+        {activeTab === 'team' && (
+           <div className="space-y-4">
+              {TEAM_MEMBERS.map(member => (
+                 <div key={member.id} className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10">
+                    <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" />
+                    <div>
+                       <p className="text-white font-semibold">{member.name}</p>
+                       <p className="text-sm text-purple-300">{member.lastActivity}</p>
+                    </div>
+                 </div>
+              ))}
+           </div>
+        )}
       </div>
     </div>
   )
 }
 
 export default InvestorDashboard
+
