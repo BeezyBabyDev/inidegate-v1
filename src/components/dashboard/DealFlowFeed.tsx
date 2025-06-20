@@ -1,124 +1,82 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { dealFlow } from '../../data/dealFlowData'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Deal } from '../../types/deals'
 
-interface DealCardProps {
-  deal: Deal
-  onSelectDeal: (id: string) => void
-}
-
-const DealCard: React.FC<DealCardProps> = ({ deal, onSelectDeal }) => {
-  const formatCurrency = (value: number): string =>
-    new Intl.NumberFormat('en-US', {
+const DealCard: React.FC<{ deal: Deal }> = ({ deal }) => {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value)
-
-  const getStatusChipClass = (status: Deal['status']): string => {
-    switch (status) {
-      case 'Hot Deal':
-        return 'bg-red-500/80 border-red-400'
-      case 'Featured':
-        return 'bg-blue-500/80 border-blue-400'
-      case 'Limited Time':
-        return 'bg-yellow-500/80 border-yellow-400'
-      default:
-        return 'bg-green-500/80 border-green-400'
-    }
   }
 
-  return (
-    <div
-      className="flex-shrink-0 w-full cursor-pointer group"
-      onClick={() => onSelectDeal(deal.id)}
-    >
-      <div className="bg-white/5 p-6 rounded-[24px] h-full flex flex-col transition-all duration-300 group-hover:bg-white/10 group-hover:scale-[1.02]">
-        <div className="flex justify-between items-start mb-4">
-          <h4 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">
-            {deal.title}
-          </h4>
-          {deal.status && (
-            <span
-              className={`text-xs font-semibold text-white px-3 py-1 rounded-full border ${getStatusChipClass(
-                deal.status
-              )}`}
-            >
-              {deal.status}
-            </span>
-          )}
-        </div>
-        <p className="text-sm text-purple-200 mb-4">
-          {deal.genre} • {deal.stage}
-        </p>
-        <p className="text-sm text-purple-300 mb-6">Director: {deal.director}</p>
+  const TAG_STYLES = {
+    hot: 'bg-red-500/80 text-white',
+    featured: 'bg-blue-500/80 text-white',
+    limited: 'bg-yellow-500/80 text-black',
+    pilot: 'bg-green-500/80 text-white'
+  }
 
-        <div className="space-y-3 text-sm mt-auto">
-          <div className="flex justify-between items-center">
-            <span className="text-purple-300">Budget:</span>
-            <span className="text-white font-semibold">{formatCurrency(deal.budget)}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-purple-300">Seeking:</span>
-            <span className="text-green-400 font-bold">{formatCurrency(deal.seeking)}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-purple-300">Equity:</span>
-            <span className="text-white font-semibold">{deal.equity}%</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-purple-300">Est. ROI:</span>
-            <span className="text-green-400 font-bold">{deal.roi}%</span>
-          </div>
-        </div>
+  const tagStyle = deal.tag ? TAG_STYLES[deal.tag.style] || '' : ''
+
+  return (
+    <div className="bg-white/5 rounded-2xl p-4 h-full flex flex-col text-sm">
+      <div className="flex justify-between items-center mb-1">
+        <h4 className="font-bold text-white text-base">{deal.title}</h4>
+        {deal.tag && <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${tagStyle}`}>{deal.tag.text}</span>}
+      </div>
+      <p className="text-purple-300 text-xs mb-1">{deal.genre} • {deal.stage}</p>
+      <p className="text-purple-300 text-xs mb-3">Director: {deal.director}</p>
+      
+      <div className="space-y-2 text-xs mt-auto">
+        <div className="flex justify-between items-center"><span className="text-purple-300">Budget:</span> <span className="font-semibold text-white">{formatCurrency(deal.budget)}</span></div>
+        <div className="flex justify-between items-center"><span className="text-purple-300">Seeking:</span> <span className="font-bold text-green-400">{formatCurrency(deal.seeking)}</span></div>
+        <div className="flex justify-between items-center"><span className="text-purple-300">Equity:</span> <span className="font-semibold text-white">{deal.equity}%</span></div>
+        <div className="flex justify-between items-center"><span className="text-purple-300">Est. ROI:</span> <span className="font-semibold text-white">{deal.estROI}%</span></div>
       </div>
     </div>
   )
 }
 
 interface DealFlowFeedProps {
-  onSelectDeal: (id: string) => void
+  onSelectDeal: (deal: Deal) => void
 }
 
 const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current
-      const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth
-      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' })
-    }
+  const handlePrev = () => {
+    setCurrentIndex(prev => (prev - 2 + dealFlow.length) % dealFlow.length)
   }
 
+  const handleNext = () => {
+    setCurrentIndex(prev => (prev + 2) % dealFlow.length)
+  }
+
+  const visibleDeals = [
+    dealFlow[currentIndex],
+    dealFlow[(currentIndex + 1) % dealFlow.length]
+  ]
+
   return (
-    <div className="relative">
-      <div
-        ref={scrollRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide space-x-4"
-      >
-        {dealFlow.map((deal: Deal) => (
-          <div key={deal.id} className="snap-start w-full flex-shrink-0">
-            <DealCard deal={deal} onSelectDeal={onSelectDeal} />
+    <div className="flex items-center justify-center h-full">
+      <button onClick={handlePrev} className="p-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0">
+        <ChevronLeft size={20} className="text-white" />
+      </button>
+      
+      <div className="mx-4 w-full h-full flex flex-col gap-y-3">
+        {visibleDeals.map(deal => (
+          <div key={deal.id} className="h-1/2" onClick={() => onSelectDeal(deal)}>
+            <DealCard deal={deal} />
           </div>
         ))}
       </div>
-      <div className="absolute top-1/2 -translate-y-1/2 flex justify-between w-full pointer-events-none">
-        <button
-          onClick={() => scroll('left')}
-          className="pointer-events-auto bg-white/10 hover:bg-white/20 text-white rounded-full p-2 ml-[-20px] transition-all"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <button
-          onClick={() => scroll('right')}
-          className="pointer-events-auto bg-white/10 hover:bg-white/20 text-white rounded-full p-2 mr-[-20px] transition-all"
-        >
-          <ChevronRight size={20} />
-        </button>
-      </div>
+
+      <button onClick={handleNext} className="p-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0">
+        <ChevronRight size={20} className="text-white" />
+      </button>
     </div>
   )
 }

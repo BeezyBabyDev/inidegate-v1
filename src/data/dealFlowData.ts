@@ -2,7 +2,7 @@ import { Deal } from '../types/deals'
 
 export const dealFlow: Deal[] = [
   {
-    id: 'midnight-brooklyn',
+    id: 'deal-1',
     title: 'Midnight in Brooklyn',
     genre: 'Drama',
     stage: 'Pre-Production',
@@ -10,11 +10,14 @@ export const dealFlow: Deal[] = [
     budget: 2800000,
     seeking: 1200000,
     equity: 15,
-    roi: 280,
-    status: 'Hot Deal',
+    estROI: 280,
+    tag: {
+      text: 'Hot Deal',
+      style: 'hot',
+    }
   },
   {
-    id: 'digital-nomad',
+    id: 'deal-2',
     title: 'Digital Nomad',
     genre: 'Thriller',
     stage: 'Development',
@@ -22,31 +25,40 @@ export const dealFlow: Deal[] = [
     budget: 1500000,
     seeking: 750000,
     equity: 12,
-    roi: 320,
-    status: 'Featured',
+    estROI: 320,
+    tag: {
+      text: 'Featured',
+      style: 'featured',
+    },
   },
   {
-    id: 'last-record-store',
+    id: 'deal-3',
     title: 'The Last Record Store',
     genre: 'Documentary',
     stage: 'Production',
     director: 'Alex Kim',
     budget: 500000,
-    seeking: 300000,
+    seeking: 250000,
     equity: 20,
-    roi: 180,
-    status: 'Limited Time',
+    estROI: 180,
+    tag: {
+      text: 'Limited',
+      style: 'limited',
+    },
   },
   {
-    id: 'cyber-symphony',
-    title: 'Cyber Symphony',
-    genre: 'Sci-Fi',
-    stage: 'Post-Production',
-    director: 'Jian Li',
-    budget: 5500000,
-    seeking: 1500000,
-    equity: 10,
-    roi: 450,
-    status: 'New',
-  },
-]
+    id: 'deal-4',
+    title: 'Beneath them, The Lambs',
+    genre: 'Thriller',
+    stage: 'Pilot',
+    director: 'Jane Doe',
+    budget: 750000,
+    seeking: 300000,
+    equity: 25,
+    estROI: 220,
+    tag: {
+      text: 'Pilot',
+      style: 'pilot',
+    },
+  }
+];
