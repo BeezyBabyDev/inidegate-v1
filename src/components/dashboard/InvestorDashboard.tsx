@@ -343,7 +343,14 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
       {/* Top Dashboard Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8 flex flex-col"><h3 className="text-xl font-semibold text-white mb-3">Deal Flow Feed</h3><p className="text-purple-200 mb-6 flex-shrink-0">Swipe to explore active investment opportunities.</p><div className="flex-grow flex flex-col justify-center"><DealFlowFeed onSelectDeal={handleSelectDeal} /></div></div>
-        <div className="lg:col-span-2 space-y-6"><div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8"><PortfolioOverview /></div><div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8"><MarketTrends /></div></div>
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8">
+            <h3 className="text-xl font-semibold text-white mb-3">Investment Portfolio</h3>
+            <p className="text-purple-200 mb-6">A summary of your recent investment activity.</p>
+            <PortfolioOverview />
+          </div>
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8"><MarketTrends /></div>
+        </div>
       </div>
 
       {/* Educational Center Section */}
