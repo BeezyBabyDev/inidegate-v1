@@ -10,6 +10,10 @@ import {
   Search,
   Bookmark,
   Info,
+  X,
+  BookOpen,
+  Users,
+  Award,
 } from 'lucide-react'
 
 // INTERFACES (Should be in /types)
@@ -21,6 +25,7 @@ interface EducationalResource {
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
   duration: number
   summary: string
+  content: string
   prerequisites?: string[]
 }
 
@@ -29,14 +34,19 @@ interface LearningPath {
   title: string
   description: string
   resources: string[]
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
+}
+
+interface TeamMemberActivity {
+  date: string
+  action: string
+  resourceId: string
 }
 
 interface TeamMember {
   id: string
   name: string
   avatar: string
-  lastActivity: string
+  activityLog: TeamMemberActivity[]
 }
 
 // MOCK DATA (Should be in /data)
@@ -49,6 +59,7 @@ const EDUCATIONAL_RESOURCES: EducationalResource[] = [
     difficulty: 'Beginner',
     duration: 25,
     summary: 'An overview of the essential legal documents and structures in film financing.',
+    content: 'Detailed content on legal basics: PPMs, operating agreements, and subscription agreements...'
   },
   {
     id: 'tax-201',
@@ -58,6 +69,7 @@ const EDUCATIONAL_RESOURCES: EducationalResource[] = [
     difficulty: 'Intermediate',
     duration: 60,
     summary: 'A deep dive into state and federal tax credits for film production.',
+    content: 'Comprehensive guide to Section 181, state-specific tax credits, and how to apply them.',
     prerequisites: ['legal-101'],
   },
   {
@@ -68,6 +80,7 @@ const EDUCATIONAL_RESOURCES: EducationalResource[] = [
     difficulty: 'Advanced',
     duration: 45,
     summary: 'Analyzing the financial success of a low-budget, high-return independent film.',
+    content: 'A step-by-step breakdown of the budget, marketing, and distribution strategy of a successful indie film.',
     prerequisites: ['tax-201'],
   },
 ]
@@ -76,17 +89,43 @@ const LEARNING_PATHS: LearningPath[] = [
   {
     id: 'lp-1',
     title: 'Film Finance Foundations',
-    description: 'Master the fundamentals of film investment from legal to industry analysis.',
-    resources: ['legal-101', 'tax-201', 'industry-301'],
-    difficulty: 'Intermediate',
+    description: 'Master the fundamentals of film investment, from legal to industry analysis.',
+    resources: ['legal-101', 'tax-201']
   },
+  {
+    id: 'lp-2',
+    title: 'Advanced Tax Strategies',
+    description: 'Explore sophisticated tax incentives and investment structures.',
+    resources: ['tax-201', 'industry-301']
+  }
 ]
 
 const TEAM_MEMBERS: TeamMember[] = [
-  { id: 'tm-1', name: 'Alice', avatar: 'https://i.pravatar.cc/150?u=alice', lastActivity: "Completed 'Maximizing Film Tax Incentives'" },
-  { id: 'tm-2', name: 'Bob', avatar: 'https://i.pravatar.cc/150?u=bob', lastActivity: "Bookmarked 'Case Study: The \"Indie Hit\" Model'" },
+  {
+    id: 'tm-1',
+    name: 'Alice',
+    avatar: 'https://i.pravatar.cc/150?u=alice',
+    activityLog: [
+      { date: '2024-07-21', action: 'Completed', resourceId: 'tax-201' },
+      { date: '2024-07-20', action: 'Bookmarked', resourceId: 'industry-301' },
+      { date: '2024-07-19', action: 'Completed', resourceId: 'legal-101' },
+    ]
+  },
+  {
+    id: 'tm-2',
+    name: 'Bob',
+    avatar: 'https://i.pravatar.cc/150?u=bob',
+    activityLog: [
+      { date: '2024-07-22', action: 'Bookmarked', resourceId: 'industry-301' },
+      { date: '2024-07-18', action: 'Started', resourceId: 'legal-101' },
+    ]
+  },
 ]
 
+type ModalContent = {
+  type: 'resource' | 'path' | 'member'
+  data: any
+} | null
 
 // MAIN COMPONENT
 interface DashboardProps {
@@ -99,6 +138,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [activeTab, setActiveTab] = useState('resources')
+  const [modalContent, setModalContent] = useState<ModalContent>(null)
 
   const progressPercentage = useMemo(
     () => (completedResources.size / EDUCATIONAL_RESOURCES.length) * 100,
@@ -129,7 +169,8 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     })
   }
 
-  const toggleBookmark = (resourceId: string) => {
+  const toggleBookmark = (e: React.MouseEvent, resourceId: string) => {
+    e.stopPropagation()
     setBookmarks(prev => {
       const newSet = new Set(prev)
       newSet.has(resourceId) ? newSet.delete(resourceId) : newSet.add(resourceId)
@@ -137,7 +178,8 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     })
   }
 
-  const toggleComplete = (resourceId: string) => {
+  const toggleComplete = (e: React.MouseEvent, resourceId: string) => {
+    e.stopPropagation()
     setCompletedResources(prev => {
       const newSet = new Set(prev)
       if (newSet.has(resourceId)) {
@@ -158,7 +200,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
   const FilterPill = ({ filter }: { filter: string }) => (
     <button
-      onClick={() => toggleFilter(filter)}
+      onClick={(e) => toggleFilter(filter)}
       className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all border ${
         activeFilters.includes(filter)
           ? 'bg-white/10 border-purple-400 text-white'
@@ -177,11 +219,12 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     return (
       <div
         key={resource.id}
-        className={`bg-white/5 p-6 rounded-2xl border border-transparent transition-all duration-300 flex flex-col group ${!canView && 'opacity-50'}`}
+        onClick={() => setModalContent({ type: 'resource', data: resource })}
+        className={`bg-white/5 p-6 rounded-2xl border border-transparent hover:border-purple-500 cursor-pointer transition-all duration-300 flex flex-col group ${!canView && 'opacity-50 !cursor-not-allowed'}`}
       >
         <div className="flex justify-between items-start mb-2">
           <h4 className="text-lg font-bold text-white pr-4">{resource.title}</h4>
-          <button onClick={() => toggleBookmark(resource.id)} className="text-purple-300 hover:text-white flex-shrink-0">
+          <button onClick={(e) => toggleBookmark(e, resource.id)} className="text-purple-300 hover:text-white flex-shrink-0 z-10">
             <Bookmark size={20} fill={isBookmarked ? 'currentColor' : 'none'} />
           </button>
         </div>
@@ -206,16 +249,16 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
           </div>
           {isCompleted ? (
             <button
-              onClick={() => toggleComplete(resource.id)}
-              className="w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 bg-green-500/20 text-green-300 hover:bg-green-500/30"
+              onClick={(e) => toggleComplete(e, resource.id)}
+              className="w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 bg-green-500/20 text-green-300 hover:bg-green-500/30 z-10"
             >
               <CheckCircle size={16} /> Mark as Incomplete
             </button>
           ) : (
             <button
-              onClick={() => canView && toggleComplete(resource.id)}
+              onClick={(e) => canView && toggleComplete(e, resource.id)}
               disabled={!canView}
-              className={`w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+              className={`w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 z-10 ${
                 canView ? 'bg-purple-600/50 hover:bg-purple-500/50 text-white' : 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
               }`}
             >
@@ -228,8 +271,75 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     )
   }
 
+  const renderModal = () => {
+    if (!modalContent) return null
+
+    const getResourceTitle = (id: string) => EDUCATIONAL_RESOURCES.find(r => r.id === id)?.title || 'Unknown Resource'
+
+    return (
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4" onClick={() => setModalContent(null)}>
+        <div className="bg-gradient-to-br from-gray-900 to-purple-900/20 border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 shadow-2xl shadow-purple-500/20" onClick={e => e.stopPropagation()}>
+          <button onClick={() => setModalContent(null)} className="absolute top-4 right-4 text-purple-300 hover:text-white transition-colors">
+            <X size={24} />
+          </button>
+          
+          {modalContent.type === 'resource' && (
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <BookOpen className="text-purple-400" size={24}/>
+                <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
+              </div>
+              <p className="text-purple-200">{modalContent.data.content}</p>
+            </div>
+          )}
+
+          {modalContent.type === 'path' && (
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <Award className="text-purple-400" size={24}/>
+                <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
+              </div>
+              <p className="text-purple-200 mb-6">{modalContent.data.description}</p>
+              <ul className="space-y-3">
+                {modalContent.data.resources.map((id: string) => (
+                  <li key={id} className="bg-white/5 p-4 rounded-lg flex items-center gap-3 text-white border border-transparent hover:border-purple-500 transition-colors">
+                    <CheckCircle size={16} className={completedResources.has(id) ? 'text-green-400' : 'text-gray-600'}/>
+                    {getResourceTitle(id)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {modalContent.type === 'member' && (
+            <div>
+              <div className="flex items-center gap-4 mb-6">
+                <img src={modalContent.data.avatar} alt={modalContent.data.name} className="w-16 h-16 rounded-full border-2 border-purple-400" />
+                <div>
+                  <h3 className="text-2xl font-bold text-white">{modalContent.data.name}'s Activity</h3>
+                  <p className="text-purple-300">Recent logs</p>
+                </div>
+              </div>
+              <ul className="space-y-3">
+                {modalContent.data.activityLog.map((activity: TeamMemberActivity, index: number) => (
+                  <li key={index} className="bg-white/5 p-4 rounded-lg flex justify-between items-center text-white">
+                    <div>
+                      <span className="font-semibold">{activity.action}:</span> {getResourceTitle(activity.resourceId)}
+                    </div>
+                    <span className="text-sm text-purple-300">{activity.date}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {renderModal()}
       {/* Top Dashboard Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8 flex flex-col"><h3 className="text-xl font-semibold text-white mb-3">Deal Flow Feed</h3><p className="text-purple-200 mb-6 flex-shrink-0">Swipe to explore active investment opportunities.</p><div className="flex-grow flex flex-col justify-center"><DealFlowFeed onSelectDeal={handleSelectDeal} /></div></div>
@@ -271,9 +381,9 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
           </>
         )}
 
-        {activeTab === 'paths' && <div className="space-y-6">{LEARNING_PATHS.map(path => (<div key={path.id} className="bg-white/5 p-6 rounded-2xl border border-white/10"><h4 className="text-lg font-bold text-white mb-2">{path.title}</h4><p className="text-sm text-purple-300 mb-4">{path.description}</p></div>))}</div>}
+        {activeTab === 'paths' && <div className="space-y-6">{LEARNING_PATHS.map(path => (<div key={path.id} onClick={() => setModalContent({ type: 'path', data: path })} className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"><h4 className="text-lg font-bold text-white mb-2">{path.title}</h4><p className="text-sm text-purple-300 mb-4">{path.description}</p></div>))}</div>}
         
-        {activeTab === 'team' && <div className="space-y-4">{TEAM_MEMBERS.map(member => (<div key={member.id} className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10"><img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" /><div className="text-white font-semibold">{member.name}<p className="text-sm text-purple-300 font-normal">{member.lastActivity}</p></div></div>))}</div>}
+        {activeTab === 'team' && <div className="space-y-4">{TEAM_MEMBERS.map(member => (<div key={member.id} onClick={() => setModalContent({ type: 'member', data: member })} className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"><img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" /><div className="text-white font-semibold">{member.name}<p className="text-sm text-purple-300 font-normal">{member.activityLog[0].action}: {EDUCATIONAL_RESOURCES.find(r => r.id === member.activityLog[0].resourceId)?.title}</p></div></div>))}</div>}
       </div>
     </div>
   )
