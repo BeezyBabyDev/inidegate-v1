@@ -135,23 +135,43 @@ interface DashboardProps {
   onSelectDeal: (deal: Deal) => void
 }
 
-const LEGAL_BASICS_CONTENT = {
-    read: {
-      ppm: "A Private Placement Memorandum (PPM) is a key legal document presented to prospective investors. It discloses all essential information about the investment opportunity, the company, the management team, and the potential risks involved. Think of it as the business plan and legal disclosure rolled into one.",
-      operatingAgreement: "The Operating Agreement outlines the governance and ownership structure of the Limited Liability Company (LLC) formed for the film. It details profit distribution (the 'waterfall'), voting rights, management roles, and procedures for handling disputes or the sale of the company.",
-      subscriptionAgreement: "This is the investor's formal application to join the investment. By signing it, the investor agrees to the terms laid out in the PPM and Operating Agreement and confirms they meet the necessary qualifications (e.g., as an accredited investor)."
+const beginnerCourseContent = [
+    {
+      category: "Core Investment Basics",
+      items: [
+        { title: "Equity vs. Debt Investment", description: "Understanding ownership stakes versus loans." },
+        { title: "Budget Categories", description: "Above-the-line vs. below-the-line costs." },
+        { title: "Revenue Streams", description: "Theatrical, streaming, international sales, merchandising." },
+        { title: "Risk Assessment", description: "Why film investing is high-risk, high-reward." }
+      ]
     },
-    watch: {
-      ppm: "https://www.youtube.com/embed/example_ppm",
-      operatingAgreement: "https://www.youtube.com/embed/example_oa",
-      subscriptionAgreement: "https://www.youtube.com/embed/example_sa"
+    {
+      category: "Essential Legal Documents",
+      items: [
+        { title: "PPM (Private Placement Memorandum)", description: "The investment offering document." },
+        { title: "Operating Agreement", description: "How the investment entity operates." },
+        { title: "Subscription Agreement", description: "Formal application to invest." },
+        { title: "Chain of Title", description: "Proof of legal ownership of film rights." }
+      ]
     },
-    listen: {
-      ppm: "Podcast snippet explaining the critical components of a PPM for film investors.",
-      operatingAgreement: "Audio walkthrough of a typical film LLC's operating agreement, highlighting key clauses.",
-      subscriptionAgreement: "Expert discussion on what to look for before signing a subscription agreement."
+    {
+      category: "Basic Financial Terms",
+      items: [
+        { title: "Recoupment", description: "Getting your investment back first." },
+        { title: "Multiple", description: "How many times you multiply your investment (2x, 3x, etc.)." },
+        { title: "Minimum Guarantee (MG)", description: "Upfront distributor payments." },
+        { title: "Contingency", description: "Reserve funds for unexpected costs (typically 10% of budget)." }
+      ]
+    },
+    {
+      category: "Prerequisites to Advance",
+      items: [
+        { title: "Understand basic investment risk/reward concepts", description: "" },
+        { title: "Know the difference between equity and debt financing", description: "" },
+        { title: "Familiar with essential legal documents (PPM, Operating Agreement)", description: "" }
+      ]
     }
-  };
+  ];
 
 const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   const [completedResources, setCompletedResources] = useState<Set<string>>(new Set(['legal-101']))
@@ -300,127 +320,92 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
     const getResourceTitle = (id: string) => EDUCATIONAL_RESOURCES.find(r => r.id === id)?.title || 'Unknown Resource'
 
     const renderLegalBasicsModal = () => {
-        const content = LEGAL_BASICS_CONTENT[learningFormat][legalTopic];
-        
-        const FormatButton = ({ type, icon: Icon, label }: { type: 'read' | 'watch' | 'listen', icon: React.ElementType, label: string }) => (
-          <button
-            onClick={() => setLearningFormat(type)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-semibold ${learningFormat === type ? 'bg-purple-500/30 text-white' : 'bg-white/5 text-purple-200 hover:bg-white/10'}`}
-          >
-            <Icon size={16} />
-            {label}
-          </button>
-        );
-      
-        const TopicButton = ({ topic, label }: { topic: 'ppm' | 'operatingAgreement' | 'subscriptionAgreement', label: string }) => (
-            <button 
-                onClick={() => setLegalTopic(topic)}
-                className={`px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${legalTopic === topic ? 'bg-white/10 text-white' : 'bg-transparent text-purple-300 hover:bg-white/5'}`}
-            >
-                {label}
-            </button>
-        );
-
         return (
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <BookOpen className="text-purple-400" size={24}/>
-              <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
-            </div>
-            
-            <div className="flex gap-2 mb-4">
-                <FormatButton type="read" icon={FileText} label="Read" />
-                <FormatButton type="watch" icon={Youtube} label="Watch" />
-                <FormatButton type="listen" icon={Mic} label="Listen" />
-            </div>
-
-            <div className="bg-black/20 p-4 rounded-lg min-h-[150px]">
-                {learningFormat === 'read' && (
-                    <>
-                        <div className="flex gap-2 mb-3">
-                            <TopicButton topic="ppm" label="PPM" />
-                            <TopicButton topic="operatingAgreement" label="Operating Agreement" />
-                            <TopicButton topic="subscriptionAgreement" label="Subscription Agreement" />
-                        </div>
-                        <p className="text-purple-200 text-sm">{content}</p>
-                    </>
-                )}
-                 {learningFormat === 'watch' && (
-                    <div className="aspect-video">
-                        <iframe
-                            className="w-full h-full rounded-lg"
-                            src={content}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
-                    </div>
-                )}
-                {learningFormat === 'listen' && (
-                    <div className="text-purple-200 text-sm p-4 bg-white/5 rounded-lg">
-                        <p>{content}</p>
-                    </div>
-                )}
-            </div>
-          </div>
-        );
-      };
-
-    return (
-      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4" onClick={() => setModalContent(null)}>
-        <div className="bg-gradient-to-br from-gray-900 to-purple-900/20 border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 shadow-2xl shadow-purple-500/20" onClick={e => e.stopPropagation()}>
-          <button onClick={() => setModalContent(null)} className="absolute top-4 right-4 text-purple-300 hover:text-white transition-colors">
-            <X size={24} />
-          </button>
-          
-          {modalContent.type === 'resource' && modalContent.data.id === 'legal-101' ? (
-            renderLegalBasicsModal()
-          ) : modalContent.type === 'resource' ? (
-            <div>
-              <div className="flex items-center gap-3 mb-4">
+            <div className="flex flex-col h-full">
+              <div className="flex items-center gap-3 mb-2 flex-shrink-0">
                 <BookOpen className="text-purple-400" size={24}/>
                 <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
               </div>
-              <p className="text-purple-200">{modalContent.data.content}</p>
-            </div>
-          ) : modalContent.type === 'path' ? (
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <Award className="text-purple-400" size={24}/>
-                <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
+              <div className="text-purple-300 text-sm mb-4 flex-shrink-0">
+                <p>BEGINNER LEVEL (25-30 minutes)</p>
+                <p>Foundation concepts for new film investors</p>
               </div>
-              <p className="text-purple-200 mb-6">{modalContent.data.description}</p>
-              <ul className="space-y-3">
-                {modalContent.data.resources.map((id: string) => (
-                  <li key={id} className="bg-white/5 p-4 rounded-lg flex items-center gap-3 text-white border border-transparent hover:border-purple-500 transition-colors">
-                    <CheckCircle size={16} className={completedResources.has(id) ? 'text-green-400' : 'text-gray-600'}/>
-                    {getResourceTitle(id)}
-                  </li>
+              
+              <div className="overflow-y-auto pr-2 flex-grow space-y-6">
+                {beginnerCourseContent.map((section, index) => (
+                  <div key={index}>
+                    <h4 className="font-bold text-purple-200 text-lg mb-3">{section.category}</h4>
+                    <ul className="space-y-3">
+                      {section.items.map((item, itemIndex) => (
+                        <li key={itemIndex} className="text-sm">
+                          <p className="font-semibold text-white">{item.title}</p>
+                          {item.description && <p className="text-purple-300">{item.description}</p>}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
-          ) : modalContent.type === 'member' ? (
-            <div>
-                <div className="flex items-center gap-4 mb-6">
-                    <img src={modalContent.data.avatar} alt={modalContent.data.name} className="w-16 h-16 rounded-full border-2 border-purple-400" />
-                    <div>
-                        <h3 className="text-2xl font-bold text-white">{modalContent.data.name}'s Activity</h3>
-                        <p className="text-purple-300">Recent logs</p>
-                    </div>
+        );
+    };
+
+    return (
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4" onClick={() => setModalContent(null)}>
+        <div className="bg-gradient-to-br from-gray-900 to-purple-900/20 border border-white/10 rounded-2xl w-full max-w-2xl h-[80vh] flex flex-col p-8 shadow-2xl shadow-purple-500/20" onClick={e => e.stopPropagation()}>
+          <button onClick={() => setModalContent(null)} className="absolute top-4 right-4 text-purple-300 hover:text-white transition-colors z-10">
+            <X size={24} />
+          </button>
+          
+          <div className="flex-grow overflow-hidden relative">
+            {modalContent.type === 'resource' && modalContent.data.id === 'legal-101' ? (
+              renderLegalBasicsModal()
+            ) : modalContent.type === 'resource' ? (
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <BookOpen className="text-purple-400" size={24}/>
+                  <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
                 </div>
-              <ul className="space-y-3">
-                {modalContent.data.activityLog.map((activity: TeamMemberActivity, index: number) => (
-                  <li key={index} className="bg-white/5 p-4 rounded-lg flex justify-between items-center text-white">
-                    <div>
-                        <span className="font-semibold">{activity.action}:</span> {getResourceTitle(activity.resourceId)}
-                    </div>
-                    <span className="text-sm text-purple-300">{activity.date}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null }
+                <p className="text-purple-200">{modalContent.data.content}</p>
+              </div>
+            ) : modalContent.type === 'path' ? (
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <Award className="text-purple-400" size={24}/>
+                  <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
+                </div>
+                <p className="text-purple-200 mb-6">{modalContent.data.description}</p>
+                <ul className="space-y-3">
+                  {modalContent.data.resources.map((id: string) => (
+                    <li key={id} className="bg-white/5 p-4 rounded-lg flex items-center gap-3 text-white border border-transparent hover:border-purple-500 transition-colors">
+                      <CheckCircle size={16} className={completedResources.has(id) ? 'text-green-400' : 'text-gray-600'}/>
+                      {getResourceTitle(id)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : modalContent.type === 'member' ? (
+              <div>
+                  <div className="flex items-center gap-4 mb-6">
+                      <img src={modalContent.data.avatar} alt={modalContent.data.name} className="w-16 h-16 rounded-full border-2 border-purple-400" />
+                      <div>
+                          <h3 className="text-2xl font-bold text-white">{modalContent.data.name}'s Activity</h3>
+                          <p className="text-purple-300">Recent logs</p>
+                      </div>
+                  </div>
+                <ul className="space-y-3">
+                  {modalContent.data.activityLog.map((activity: TeamMemberActivity, index: number) => (
+                    <li key={index} className="bg-white/5 p-4 rounded-lg flex justify-between items-center text-white">
+                      <div>
+                          <span className="font-semibold">{activity.action}:</span> {getResourceTitle(activity.resourceId)}
+                      </div>
+                      <span className="text-sm text-purple-300">{activity.date}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null }
+          </div>
         </div>
       </div>
     )
