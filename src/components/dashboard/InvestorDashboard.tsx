@@ -12,7 +12,6 @@ import {
   Info,
   X,
   BookOpen,
-  Users,
   Award,
   Youtube,
   Mic,
@@ -134,7 +133,7 @@ const TEAM_MEMBERS: TeamMember[] = [
 
 type ModalContent = {
   type: 'resource' | 'path' | 'member'
-  data: any
+  data: EducationalResource | LearningPath | TeamMember
 } | null
 
 // MAIN COMPONENT
@@ -276,33 +275,15 @@ const advancedCourseContent = [
 ];
 
 const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
-  const [completedResources, setCompletedResources] = useState<Set<string>>(new Set(['legal-101']))
-  const [bookmarks, setBookmarks] = useState<Set<string>>(new Set())
+  const [activeTab, setActiveTab] = useState('All Resources')
+  const [completed, setCompleted] = useState<string[]>(['legal-101'])
+  const [bookmarked, setBookmarked] = useState<string[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
-  const [activeTab, setActiveTab] = useState('resources')
   const [modalContent, setModalContent] = useState<ModalContent>(null)
-  const [learningFormat, setLearningFormat] = useState<'read' | 'watch' | 'listen'>('read')
-  const [legalTopic, setLegalTopic] = useState<'ppm' | 'operatingAgreement' | 'subscriptionAgreement'>('ppm')
-
-  const progressPercentage = useMemo(
-    () => (completedResources.size / EDUCATIONAL_RESOURCES.length) * 100,
-    [completedResources]
-  )
-
-  const filteredResources = useMemo(() => {
-    return EDUCATIONAL_RESOURCES.filter(resource => {
-      const searchMatch = resource.title.toLowerCase().includes(searchTerm.toLowerCase())
-      const filterMatch =
-        activeFilters.length === 0 ||
-        activeFilters.includes(resource.difficulty)
-      return searchMatch && filterMatch
-    })
-  }, [searchTerm, activeFilters])
 
   const handleSelectDeal = (deal: Deal) => {
-    const selected = dealFlow.find(d => d.id === deal.id)
-    if (selected) onSelectDeal(selected)
+    onSelectDeal(deal)
   }
 
   const toggleFilter = (filter: string) => {
@@ -316,40 +297,36 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
   const toggleBookmark = (e: React.MouseEvent, resourceId: string) => {
     e.stopPropagation()
-    setBookmarks(prev => {
+    setBookmarked(prev => {
       const newSet = new Set(prev)
       newSet.has(resourceId) ? newSet.delete(resourceId) : newSet.add(resourceId)
-      return newSet
+      return Array.from(newSet)
     })
   }
 
   const toggleComplete = (e: React.MouseEvent, resourceId: string) => {
     e.stopPropagation()
-    setCompletedResources(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(resourceId)) {
-        newSet.delete(resourceId)
-      } else {
-        newSet.add(resourceId)
-        const resource = EDUCATIONAL_RESOURCES.find(r => r.id === resourceId)
-        resource?.prerequisites?.forEach(prereqId => newSet.add(prereqId))
-      }
-      return newSet
-    })
+    if (!isPrereqMet(EDUCATIONAL_RESOURCES.find(r => r.id === resourceId)?.prerequisites)) {
+      alert('You must complete the prerequisites first!')
+      return
+    }
+    setCompleted(prev =>
+      prev.includes(resourceId) ? prev.filter(id => id !== resourceId) : [...prev, resourceId]
+    )
   }
 
   const isPrereqMet = (prerequisites?: string[]) => {
     if (!prerequisites) return true
-    return prerequisites.every(prereqId => completedResources.has(prereqId))
+    return prerequisites.every(prereqId => completed.includes(prereqId))
   }
 
   const FilterPill = ({ filter }: { filter: string }) => (
     <button
-      onClick={(e) => toggleFilter(filter)}
-      className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all border ${
+      onClick={() => toggleFilter(filter)}
+      className={`px-3 py-1 text-sm font-semibold rounded-full transition-all duration-200 ${
         activeFilters.includes(filter)
-          ? 'bg-white/10 border-purple-400 text-white'
-          : 'bg-white/5 border-transparent text-purple-200 hover:border-white/20'
+          ? 'bg-purple-600 text-white'
+          : 'bg-purple-500/20 text-purple-300 hover:bg-purple-500/40'
       }`}
     >
       {filter}
@@ -357,8 +334,8 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   )
 
   const renderResourceCard = (resource: EducationalResource) => {
-    const isCompleted = completedResources.has(resource.id)
-    const isBookmarked = bookmarks.has(resource.id)
+    const isCompleted = completed.includes(resource.id)
+    const isBookmarked = bookmarked.includes(resource.id)
     const canView = isPrereqMet(resource.prerequisites)
 
     return (
@@ -417,123 +394,113 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   }
 
   const renderModal = () => {
-    if (!modalContent) return null;
+    if (!modalContent) return null
 
     const getResourceTitle = (id: string) => EDUCATIONAL_RESOURCES.find(r => r.id === id)?.title || 'Unknown Resource';
 
     const LearningStyleButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
-        <button className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg transition-colors text-sm font-semibold bg-white/5 text-purple-200 hover:bg-white/10">
-            <Icon size={16} />
-            {label}
-        </button>
+      <button className="flex-1 text-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
+        <Icon className="mx-auto mb-2" size={24} />
+        {label}
+      </button>
     );
-
+    
     const renderCourseModal = (courseContent: typeof beginnerCourseContent, level: string, time: string, subtitle: string) => {
         return (
-            <div className="flex flex-col h-full">
-              <div className="flex items-center gap-3 mb-2 flex-shrink-0">
-                <BookOpen className="text-purple-400" size={24}/>
-                <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
-              </div>
-              <div className="text-purple-300 text-sm mb-4 flex-shrink-0">
-                <p>{level} ({time})</p>
-                <p>{subtitle}</p>
-              </div>
-              
-              <div className="overflow-y-auto pr-2 flex-grow space-y-4">
-                {courseContent.map((section, index) => (
-                  <div key={index} className="bg-black/20 p-4 rounded-lg">
-                    <h4 className="font-bold text-purple-200 text-lg mb-4">{section.category}</h4>
-                    <ul className="space-y-4 mb-4">
-                      {section.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="text-sm">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <p className="font-semibold text-white">{item.title}</p>
-                                    {item.description && <p className="text-purple-300">{item.description}</p>}
-                                </div>
-                                {section.category === "Prerequisites to Advance" && (
-                                     <button className="flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors text-xs font-semibold bg-purple-600/50 text-white hover:bg-purple-500/50 flex-shrink-0">
-                                        Enter Quiz <ChevronRight size={14} />
-                                     </button>
-                                )}
-                            </div>
-                        </li>
-                      ))}
-                    </ul>
-                    {section.category !== "Prerequisites to Advance" && (
-                        <div className="border-t border-white/10 pt-4 mt-4 grid grid-cols-3 gap-2">
-                           <LearningStyleButton icon={FileText} label="Read" />
-                           <LearningStyleButton icon={Youtube} label="Watch" />
-                           <LearningStyleButton icon={Mic} label="Listen" />
+            <div className="text-white">
+                 <h3 className="text-2xl font-bold mb-1">{level}</h3>
+                 <p className="text-purple-300 mb-4">{time} • {subtitle}</p>
+
+                <div className="flex gap-4 mb-6">
+                    <LearningStyleButton icon={Youtube} label="Watch" />
+                    <LearningStyleButton icon={Mic} label="Listen" />
+                    <LearningStyleButton icon={FileText} label="Read" />
+                </div>
+                
+                <div className="space-y-4 max-h-[40vh] overflow-y-auto pr-2">
+                    {courseContent.map(section => (
+                        <div key={section.category}>
+                            <h4 className="font-semibold text-lg mb-2 text-purple-300">{section.category}</h4>
+                            <ul className="space-y-2">
+                                {section.items.map(item => (
+                                    <li key={item.title} className="bg-white/5 p-3 rounded-lg">
+                                        <p className="font-semibold">{item.title}</p>
+                                        {item.description && <p className="text-sm text-purple-200">{item.description}</p>}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                    ))}
+                </div>
             </div>
-        );
+        )
+    }
+
+    const renderContent = () => {
+      switch (modalContent.type) {
+        case 'resource':
+          const resource = modalContent.data as EducationalResource;
+          if (resource.id === 'legal-101') return renderCourseModal(beginnerCourseContent, resource.title, `${resource.duration} min`, resource.difficulty);
+          if (resource.id === 'tax-201') return renderCourseModal(intermediateCourseContent, resource.title, `${resource.duration} min`, resource.difficulty);
+          if (resource.id === 'industry-301') return renderCourseModal(advancedCourseContent, resource.title, `${resource.duration} min`, resource.difficulty);
+          return (
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-2">{resource.title}</h3>
+              <p className="text-purple-300">{resource.content}</p>
+            </div>
+          );
+        case 'path':
+          const path = modalContent.data as LearningPath;
+          return (
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-2">{path.title}</h3>
+              <p className="text-purple-300 mb-4">{path.description}</p>
+              <ul className="space-y-2">
+                {path.resources.map((id: string) => (
+                  <li key={id} className="bg-white/5 p-4 rounded-lg flex items-center gap-3 text-white border border-transparent hover:border-purple-500 transition-colors">
+                    <CheckCircle size={16} className={completed.includes(id) ? 'text-green-400' : 'text-gray-600'}/>
+                    {getResourceTitle(id)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        case 'member':
+          const member = modalContent.data as TeamMember;
+          return (
+            <div>
+              <div className="flex items-center mb-4">
+                <img src={member.avatar} alt={member.name} className="w-16 h-16 rounded-full mr-4" />
+                <div>
+                  <h3 className="text-2xl font-bold text-white">{member.name}</h3>
+                  <p className="text-purple-300">Recent Activity</p>
+                </div>
+              </div>
+              <ul className="space-y-2">
+                {member.activityLog.map((log, index) => (
+                  <li key={index} className="bg-white/5 p-3 rounded-lg text-sm">
+                    <span className={`font-semibold ${log.action === 'Completed' ? 'text-green-400' : 'text-yellow-400'}`}>{log.action}</span>
+                    <span className="text-white mx-2_">&ldquo;{getResourceTitle(log.resourceId)}&rdquo;</span>
+                    <span className="text-purple-300 text-xs float-right">{log.date}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        default:
+          return null;
+      }
     };
 
     return (
-      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4" onClick={() => setModalContent(null)}>
+      <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center" onClick={() => setModalContent(null)}>
         <div className="bg-gradient-to-br from-gray-900 to-purple-900/20 border border-white/10 rounded-2xl w-full max-w-2xl h-[80vh] flex flex-col p-8 shadow-2xl shadow-purple-500/20" onClick={e => e.stopPropagation()}>
           <button onClick={() => setModalContent(null)} className="absolute top-4 right-4 text-purple-300 hover:text-white transition-colors z-10">
             <X size={24} />
           </button>
           
           <div className="flex-grow overflow-hidden relative">
-            {modalContent.type === 'resource' && modalContent.data.id === 'legal-101' ? (
-              renderCourseModal(beginnerCourseContent, "BEGINNER LEVEL", "25-30 minutes", "Foundation concepts for new film investors")
-            ) : modalContent.type === 'resource' && modalContent.data.id === 'tax-201' ? (
-              renderCourseModal(intermediateCourseContent, "INTERMEDIATE LEVEL", "45-60 minutes", "Tax strategies and deal structures for active investors")
-            ) : modalContent.type === 'resource' && modalContent.data.id === 'industry-301' ? (
-              renderCourseModal(advancedCourseContent, "ADVANCED LEVEL", "60-90 minutes", "Sophisticated strategies and case study analysis")
-            ) : modalContent.type === 'resource' ? (
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <BookOpen className="text-purple-400" size={24}/>
-                  <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
-                </div>
-                <p className="text-purple-200">{modalContent.data.content}</p>
-              </div>
-            ) : modalContent.type === 'path' ? (
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <Award className="text-purple-400" size={24}/>
-                  <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
-                </div>
-                <p className="text-purple-200 mb-6">{modalContent.data.description}</p>
-                <ul className="space-y-3">
-                  {modalContent.data.resources.map((id: string) => (
-                    <li key={id} className="bg-white/5 p-4 rounded-lg flex items-center gap-3 text-white border border-transparent hover:border-purple-500 transition-colors">
-                      <CheckCircle size={16} className={completedResources.has(id) ? 'text-green-400' : 'text-gray-600'}/>
-                      {getResourceTitle(id)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : modalContent.type === 'member' ? (
-              <div>
-                  <div className="flex items-center gap-4 mb-6">
-                      <img src={modalContent.data.avatar} alt={modalContent.data.name} className="w-16 h-16 rounded-full border-2 border-purple-400" />
-                      <div>
-                          <h3 className="text-2xl font-bold text-white">{modalContent.data.name}'s Activity</h3>
-                          <p className="text-purple-300">Recent logs</p>
-                      </div>
-                  </div>
-                <ul className="space-y-3">
-                  {modalContent.data.activityLog.map((activity: TeamMemberActivity, index: number) => (
-                    <li key={index} className="bg-white/5 p-4 rounded-lg flex justify-between items-center text-white">
-                      <div>
-                          <span className="font-semibold">{activity.action}:</span> {getResourceTitle(activity.resourceId)}
-                      </div>
-                      <span className="text-sm text-purple-300">{activity.date}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null }
+            {renderContent()}
           </div>
         </div>
       </div>
@@ -542,12 +509,9 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-red-500 text-white p-4 rounded-lg text-center font-bold text-xl mb-4">
-        DIAGNOSTIC CHECK: If you see this banner, the file is current. Please clear your cache.
-      </div>
       {renderModal()}
       {/* Top Dashboard Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8 flex flex-col"><h3 className="text-xl font-semibold text-white mb-3">Deal Flow Feed</h3><p className="text-purple-200 mb-6 flex-shrink-0">Swipe to explore active investment opportunities.</p><div className="flex-grow flex flex-col justify-center"><DealFlowFeed onSelectDeal={handleSelectDeal} /></div></div>
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8">
@@ -557,63 +521,69 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
           </div>
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8"><MarketTrends /></div>
         </div>
-      </div>
-
-      {/* Educational Center Section */}
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8">
-        <h3 className="text-2xl font-semibold text-white mb-2">Level Up Your Film Investment Knowledge</h3>
-        
-        <div className="flex justify-between items-center mb-6">
-            <p className="text-sm font-medium text-purple-200">Your Learning Progress</p>
-            <div className="w-full max-w-xs bg-white/10 rounded-full h-2.5 mx-4"><div className="bg-gradient-to-r from-purple-500 to-blue-500 h-2.5 rounded-full" style={{ width: `${progressPercentage}%` }}></div></div>
-            <p className="text-sm font-bold text-white">{Math.round(progressPercentage)}%</p>
-        </div>
-
-        <div className="flex space-x-2 border-b border-white/10 mb-6">
-            <button onClick={() => setActiveTab('resources')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'resources' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>All Resources</button>
-            <button onClick={() => setActiveTab('Learning Paths')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'Learning Paths' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Learning Paths</button>
-            <button onClick={() => setActiveTab('team')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'team' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Team Activity</button>
-        </div>
-
-        {activeTab === 'resources' && (
-          <>
-            <div className="flex flex-col md:flex-row gap-4 mb-8 items-center">
-              <div className="relative flex-grow w-full md:w-auto">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-300" size={20} />
-                <input type="text" placeholder="Search resources..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-12 pr-4 text-white placeholder:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"/>
-              </div>
-              <div className="flex-shrink-0 flex items-center gap-2">
-                <FilterPill filter="Beginner" />
-                <FilterPill filter="Intermediate" />
-                <FilterPill filter="Advanced" />
-              </div>
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[32px] p-8">
+            <h3 className="text-2xl font-semibold text-white mb-2">Level Up Your Film Investment Knowledge</h3>
+            
+            <div className="flex justify-between items-center mb-6">
+                <p className="text-sm font-medium text-purple-200">Your Learning Progress</p>
+                <div className="w-full max-w-xs bg-white/10 rounded-full h-2.5 mx-4"><div className="bg-gradient-to-r from-purple-500 to-blue-500 h-2.5 rounded-full" style={{ width: `${(completed.length / EDUCATIONAL_RESOURCES.length) * 100}%` }}></div></div>
+                <p className="text-sm font-bold text-white">{Math.round((completed.length / EDUCATIONAL_RESOURCES.length) * 100)}%</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredResources.map(renderResourceCard)}
-            </div>
-          </>
-        )}
 
-        {activeTab === 'Learning Paths' && (
-          <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2">
-            {LEARNING_PATHS.map(path => (
-              <div
-                key={path.id}
-                onClick={() => setModalContent({ type: 'path', data: path })}
-                className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"
-              >
-                <h4 className="text-lg font-bold text-white mb-2">{path.title}</h4>
-                <p className="text-sm text-purple-300 mb-4">{path.description}</p>
-                <div className="flex items-center text-xs text-purple-300">
-                  <BookOpen size={14} className="mr-2" />
-                  <span>{path.resources.length} Resources</span>
+            <div className="flex space-x-2 border-b border-white/10 mb-6">
+                <button onClick={() => setActiveTab('All Resources')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'All Resources' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>All Resources</button>
+                <button onClick={() => setActiveTab('Learning Paths')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'Learning Paths' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Learning Paths</button>
+                <button onClick={() => setActiveTab('team')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'team' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Team Activity</button>
+            </div>
+
+            {activeTab === 'All Resources' && (
+              <>
+                <div className="flex flex-col md:flex-row gap-4 mb-8 items-center">
+                  <div className="relative flex-grow w-full md:w-auto">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-300" size={20} />
+                    <input type="text" placeholder="Search resources..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-12 pr-4 text-white placeholder:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"/>
+                  </div>
+                  <div className="flex-shrink-0 flex items-center gap-2">
+                    <FilterPill filter="Beginner" />
+                    <FilterPill filter="Intermediate" />
+                    <FilterPill filter="Advanced" />
+                  </div>
                 </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {EDUCATIONAL_RESOURCES.filter(resource => {
+                      const searchMatch = resource.title.toLowerCase().includes(searchTerm.toLowerCase())
+                      const filterMatch =
+                        activeFilters.length === 0 ||
+                        activeFilters.includes(resource.difficulty)
+                      return searchMatch && filterMatch
+                    }).map(renderResourceCard)}
+                </div>
+              </>
+            )}
+
+            {activeTab === 'Learning Paths' && (
+              <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2">
+                {LEARNING_PATHS.map(path => (
+                  <div
+                    key={path.id}
+                    onClick={() => setModalContent({ type: 'path', data: path })}
+                    className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"
+                  >
+                    <h4 className="text-lg font-bold text-white mb-2">{path.title}</h4>
+                    <p className="text-sm text-purple-300 mb-4">{path.description}</p>
+                    <div className="flex items-center text-xs text-purple-300">
+                      <BookOpen size={14} className="mr-2" />
+                      <span>{path.resources.length} Resources</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+            
+            {activeTab === 'team' && <div className="space-y-4">{TEAM_MEMBERS.map(member => (<div key={member.id} onClick={() => setModalContent({ type: 'member', data: member })} className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"><img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" /><div className="text-white font-semibold">{member.name}<p className="text-sm text-purple-300 font-normal">{member.activityLog[0].action}: {EDUCATIONAL_RESOURCES.find(r => r.id === member.activityLog[0].resourceId)?.title}</p></div></div>))}</div>}
           </div>
-        )}
-        
-        {activeTab === 'team' && <div className="space-y-4">{TEAM_MEMBERS.map(member => (<div key={member.id} onClick={() => setModalContent({ type: 'member', data: member })} className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"><img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" /><div className="text-white font-semibold">{member.name}<p className="text-sm text-purple-300 font-normal">{member.activityLog[0].action}: {EDUCATIONAL_RESOURCES.find(r => r.id === member.activityLog[0].resourceId)?.title}</p></div></div>))}</div>}
+        </div>
       </div>
     </div>
   )
