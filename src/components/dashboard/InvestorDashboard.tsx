@@ -212,6 +212,63 @@ const intermediateCourseContent = [
     }
 ];
 
+const advancedCourseContent = [
+    {
+        category: "Complex Financial Instruments",
+        items: [
+            { title: "Slate Financing", description: "Multi-film portfolio strategies" },
+            { title: "Completion Bond Mechanics", description: "Insurance structures and claims processes" },
+            { title: "Foreign Co-Production Treaties", description: "International financing advantages" },
+            { title: "Structured Products", description: "Creating custom investment vehicles" }
+        ]
+    },
+    {
+        category: "Risk Management and Due Diligence",
+        items: [
+            { title: "Market Analysis", description: "Genre performance, talent bankability, territory values" },
+            { title: "Production Risk Assessment", description: "Evaluating teams, schedules, and contingencies" },
+            { title: "Legal Risk Mitigation", description: "E&O insurance, rights clearances, union agreements" },
+            { title: "Portfolio Construction", description: "Balancing risk across multiple projects" }
+        ]
+    },
+    {
+        category: "Case Study Applications",
+        items: [
+            { title: "\"Indie Hit\" Model Analysis", description: "Low-budget, high-return success factors" },
+            { title: "Studio Partnership Deals", description: "Co-financing with major distributors" },
+            { title: "International Co-Production", description: "Multi-territory financing structures" },
+            { title: "Franchise Development", description: "Building long-term IP value" }
+        ]
+    },
+    {
+        category: "Advanced Market Strategies",
+        items: [
+            { title: "Ancillary Revenue Optimization", description: "Merchandising, licensing, sequels" },
+            { title: "Platform Strategy", description: "Theatrical vs. streaming vs. hybrid releases" },
+            { title: "Awards Campaign ROI", description: "Marketing spend vs. prestige value" },
+            { title: "Exit Strategy Planning", description: "When and how to sell positions" }
+        ]
+    },
+    {
+        category: "Performance Metrics and Analysis",
+        items: [
+            { title: "IRR Calculations", description: "Time-weighted return analysis" },
+            { title: "Comparable Analysis", description: "Benchmarking against similar films" },
+            { title: "Sensitivity Analysis", description: "Stress-testing financial projections" },
+            { title: "Portfolio Performance Tracking", description: "Long-term investment management" }
+        ]
+    },
+    {
+        category: "Prerequisites to Advance",
+        items: [
+            { title: "Completed intermediate level", description: "" },
+            { title: "Active involvement in at least one film investment", description: "" },
+            { title: "Understanding of complex financial instruments", description: "" },
+            { title: "Familiarity with international film markets", description: "" }
+        ]
+    }
+];
+
 const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   const [completedResources, setCompletedResources] = useState<Set<string>>(new Set(['legal-101']))
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set())
@@ -424,6 +481,8 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
               renderCourseModal(beginnerCourseContent, "BEGINNER LEVEL", "25-30 minutes", "Foundation concepts for new film investors")
             ) : modalContent.type === 'resource' && modalContent.data.id === 'tax-201' ? (
               renderCourseModal(intermediateCourseContent, "INTERMEDIATE LEVEL", "45-60 minutes", "Tax strategies and deal structures for active investors")
+            ) : modalContent.type === 'resource' && modalContent.data.id === 'industry-301' ? (
+              renderCourseModal(advancedCourseContent, "ADVANCED LEVEL", "60-90 minutes", "Sophisticated strategies and case study analysis")
             ) : modalContent.type === 'resource' ? (
               <div>
                 <div className="flex items-center gap-3 mb-4">
