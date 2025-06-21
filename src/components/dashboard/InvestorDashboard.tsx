@@ -174,6 +174,44 @@ const beginnerCourseContent = [
     }
   ];
 
+const intermediateCourseContent = [
+    {
+        category: "Tax Incentives and Credits",
+        items: [
+            { title: "Section 181 Deduction", description: "Federal tax benefits for films under $15M" },
+            { title: "State Tax Credits", description: "Location-specific incentives and how to monetize them" },
+            { title: "Sale-Leaseback Structures", description: "Equipment financing for immediate tax benefits" },
+            { title: "Tax Credit Monetization", description: "Selling credits vs. using them directly" }
+        ]
+    },
+    {
+        category: "Advanced Deal Structures",
+        items: [
+            { title: "Waterfall Mechanics", description: "Detailed revenue distribution order" },
+            { title: "Gap Financing", description: "Bridging funding gaps with unsold territories" },
+            { title: "Mezzanine Financing", description: "Hybrid debt-equity instruments" },
+            { title: "Cross-Collateralization", description: "Pooling multiple films for risk management" }
+        ]
+    },
+    {
+        category: "Distribution and Sales",
+        items: [
+            { title: "Pre-sales Strategy", description: "Selling territorial rights before completion" },
+            { title: "Negative Pickup Deals", description: "Distributor commitments to purchase completed films" },
+            { title: "Revenue Corridors", description: "Analyzing different income streams and timing" },
+            { title: "Collection Account Management (CAMA)", description: "Third-party revenue handling" }
+        ]
+    },
+    {
+        category: "Prerequisites to Advance",
+        items: [
+            { title: "Completed beginner level concepts", description: "" },
+            { title: "Basic understanding of tax implications in investing", description: "" },
+            { title: "Familiarity with film distribution basics", description: "" }
+        ]
+    }
+];
+
 const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   const [completedResources, setCompletedResources] = useState<Set<string>>(new Set(['legal-101']))
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set())
@@ -316,9 +354,9 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   }
 
   const renderModal = () => {
-    if (!modalContent) return null
+    if (!modalContent) return null;
 
-    const getResourceTitle = (id: string) => EDUCATIONAL_RESOURCES.find(r => r.id === id)?.title || 'Unknown Resource'
+    const getResourceTitle = (id: string) => EDUCATIONAL_RESOURCES.find(r => r.id === id)?.title || 'Unknown Resource';
 
     const LearningStyleButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
         <button className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg transition-colors text-sm font-semibold bg-white/5 text-purple-200 hover:bg-white/10">
@@ -327,7 +365,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
         </button>
     );
 
-    const renderLegalBasicsModal = () => {
+    const renderCourseModal = (courseContent: typeof beginnerCourseContent, level: string, time: string, subtitle: string) => {
         return (
             <div className="flex flex-col h-full">
               <div className="flex items-center gap-3 mb-2 flex-shrink-0">
@@ -335,12 +373,12 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
                 <h3 className="text-2xl font-bold text-white">{modalContent.data.title}</h3>
               </div>
               <div className="text-purple-300 text-sm mb-4 flex-shrink-0">
-                <p>BEGINNER LEVEL (25-30 minutes)</p>
-                <p>Foundation concepts for new film investors</p>
+                <p>{level} ({time})</p>
+                <p>{subtitle}</p>
               </div>
               
               <div className="overflow-y-auto pr-2 flex-grow space-y-4">
-                {beginnerCourseContent.map((section, index) => (
+                {courseContent.map((section, index) => (
                   <div key={index} className="bg-black/20 p-4 rounded-lg">
                     <h4 className="font-bold text-purple-200 text-lg mb-4">{section.category}</h4>
                     <ul className="space-y-4 mb-4">
@@ -383,7 +421,9 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
           
           <div className="flex-grow overflow-hidden relative">
             {modalContent.type === 'resource' && modalContent.data.id === 'legal-101' ? (
-              renderLegalBasicsModal()
+              renderCourseModal(beginnerCourseContent, "BEGINNER LEVEL", "25-30 minutes", "Foundation concepts for new film investors")
+            ) : modalContent.type === 'resource' && modalContent.data.id === 'tax-201' ? (
+              renderCourseModal(intermediateCourseContent, "INTERMEDIATE LEVEL", "45-60 minutes", "Tax strategies and deal structures for active investors")
             ) : modalContent.type === 'resource' ? (
               <div>
                 <div className="flex items-center gap-3 mb-4">
