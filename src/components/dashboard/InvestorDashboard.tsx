@@ -17,6 +17,7 @@ import {
   Youtube,
   Mic,
   FileText,
+  ChevronRight,
 } from 'lucide-react'
 
 // INTERFACES (Should be in /types)
@@ -319,6 +320,13 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
     const getResourceTitle = (id: string) => EDUCATIONAL_RESOURCES.find(r => r.id === id)?.title || 'Unknown Resource'
 
+    const LearningStyleButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
+        <button className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg transition-colors text-sm font-semibold bg-white/5 text-purple-200 hover:bg-white/10">
+            <Icon size={16} />
+            {label}
+        </button>
+    );
+
     const renderLegalBasicsModal = () => {
         return (
             <div className="flex flex-col h-full">
@@ -331,18 +339,34 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
                 <p>Foundation concepts for new film investors</p>
               </div>
               
-              <div className="overflow-y-auto pr-2 flex-grow space-y-6">
+              <div className="overflow-y-auto pr-2 flex-grow space-y-4">
                 {beginnerCourseContent.map((section, index) => (
-                  <div key={index}>
-                    <h4 className="font-bold text-purple-200 text-lg mb-3">{section.category}</h4>
-                    <ul className="space-y-3">
+                  <div key={index} className="bg-black/20 p-4 rounded-lg">
+                    <h4 className="font-bold text-purple-200 text-lg mb-4">{section.category}</h4>
+                    <ul className="space-y-4 mb-4">
                       {section.items.map((item, itemIndex) => (
                         <li key={itemIndex} className="text-sm">
-                          <p className="font-semibold text-white">{item.title}</p>
-                          {item.description && <p className="text-purple-300">{item.description}</p>}
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <p className="font-semibold text-white">{item.title}</p>
+                                    {item.description && <p className="text-purple-300">{item.description}</p>}
+                                </div>
+                                {section.category === "Prerequisites to Advance" && (
+                                     <button className="flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors text-xs font-semibold bg-purple-600/50 text-white hover:bg-purple-500/50 flex-shrink-0">
+                                        Enter Quiz <ChevronRight size={14} />
+                                     </button>
+                                )}
+                            </div>
                         </li>
                       ))}
                     </ul>
+                    {section.category !== "Prerequisites to Advance" && (
+                        <div className="border-t border-white/10 pt-4 mt-4 grid grid-cols-3 gap-2">
+                           <LearningStyleButton icon={FileText} label="Read" />
+                           <LearningStyleButton icon={Youtube} label="Watch" />
+                           <LearningStyleButton icon={Mic} label="Listen" />
+                        </div>
+                    )}
                   </div>
                 ))}
               </div>
