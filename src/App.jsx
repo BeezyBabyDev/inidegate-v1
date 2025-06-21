@@ -300,11 +300,17 @@ function App() {
   // Show account system
   if (showAccountSystem) {
     return (
-      <AuthPortalSelection
-        selectedPortal={selectedPortal}
-        onBackToWelcome={handleBackToWelcome}
-        onAuthSuccess={handleAuthSuccess}
-      />
+      <Router>
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center">
+            <AuthPortalSelection
+              onAuthSuccess={handleAuthSuccess}
+              onBack={() => setShowAccountSystem(false)}
+              selectedPortal={selectedPortal}
+            />
+          </div>
+        </>
+      </Router>
     )
   }
 

@@ -101,6 +101,12 @@ const LEARNING_PATHS: LearningPath[] = [
     title: 'Advanced Tax Strategies',
     description: 'Explore sophisticated tax incentives and investment structures.',
     resources: ['tax-201', 'industry-301']
+  },
+  {
+    id: 'lp-3',
+    title: 'Case Studies: From Pitch to Profit',
+    description: 'Analyze real-world examples of successful (and unsuccessful) film projects.',
+    resources: ['industry-301']
   }
 ]
 
@@ -565,7 +571,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
         <div className="flex space-x-2 border-b border-white/10 mb-6">
             <button onClick={() => setActiveTab('resources')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'resources' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>All Resources</button>
-            <button onClick={() => setActiveTab('paths')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'paths' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Learning Paths</button>
+            <button onClick={() => setActiveTab('Learning Paths')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'Learning Paths' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Learning Paths</button>
             <button onClick={() => setActiveTab('team')} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === 'team' ? 'text-white border-b-2 border-purple-500' : 'text-purple-300 hover:text-white'}`}>Team Activity</button>
         </div>
 
@@ -588,7 +594,22 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
           </>
         )}
 
-        {activeTab === 'paths' && <div className="space-y-6">{LEARNING_PATHS.map(path => (<div key={path.id} onClick={() => setModalContent({ type: 'path', data: path })} className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"><h4 className="text-lg font-bold text-white mb-2">{path.title}</h4><p className="text-sm text-purple-300 mb-4">{path.description}</p></div>))}</div>}
+        {activeTab === 'Learning Paths' && <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2">
+          {LEARNING_PATHS.map(path => (
+            <div
+              key={path.id}
+              onClick={() => setModalContent({ type: 'path', data: path })}
+              className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"
+            >
+              <h4 className="text-lg font-bold text-white mb-2">{path.title}</h4>
+              <p className="text-sm text-purple-300 mb-4">{path.description}</p>
+              <div className="flex items-center text-xs text-purple-300">
+                <BookOpen size={14} className="mr-2" />
+                <span>{path.resources.length} Resources</span>
+              </div>
+            </div>
+          ))}
+        </div>}
         
         {activeTab === 'team' && <div className="space-y-4">{TEAM_MEMBERS.map(member => (<div key={member.id} onClick={() => setModalContent({ type: 'member', data: member })} className="flex items-center bg-white/5 p-4 rounded-xl border border-white/10 hover:border-purple-500 cursor-pointer transition-all"><img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-4" /><div className="text-white font-semibold">{member.name}<p className="text-sm text-purple-300 font-normal">{member.activityLog[0].action}: {EDUCATIONAL_RESOURCES.find(r => r.id === member.activityLog[0].resourceId)?.title}</p></div></div>))}</div>}
       </div>
