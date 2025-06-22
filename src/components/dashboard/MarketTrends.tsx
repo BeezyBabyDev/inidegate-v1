@@ -1,4 +1,3 @@
-import React from 'react';
 import { TrendingUp, ArrowRight, Film, Award, BarChart2 } from 'lucide-react';
 
 const MarketTrends = () => {
@@ -141,4 +140,3 @@ const MarketTrends = () => {
 };
 
 export default MarketTrends;
-
