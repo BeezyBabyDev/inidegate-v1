@@ -304,6 +304,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   const toggleComplete = (e: React.MouseEvent, resourceId: string) => {
     e.stopPropagation()
     if (!isPrereqMet(EDUCATIONAL_RESOURCES.find(r => r.id === resourceId)?.prerequisites)) {
+      alert('You must complete the prerequisites first!')
       return
     }
     setCompleted(prev =>
@@ -374,11 +375,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
             </button>
           ) : (
             <button
-              onClick={(e) => {
-                if (canView) {
-                  toggleComplete(e, resource.id)
-                }
-              }}
+              onClick={(e) => toggleComplete(e, resource.id)}
               disabled={!canView}
               className={`w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 z-10 ${
                 canView ? 'bg-purple-600/50 hover:bg-purple-500/50 text-white' : 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
