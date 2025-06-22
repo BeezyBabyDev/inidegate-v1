@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import DealFlowFeed from './DealFlowFeed'
 import MarketTrends from './MarketTrends'
 import PortfolioOverview from './PortfolioOverview'
-import { dealFlow } from '../../data/dealFlowData'
 import { Deal } from '../../types/deals'
 import {
   CheckCircle,
@@ -12,11 +11,9 @@ import {
   Info,
   X,
   BookOpen,
-  Award,
   Youtube,
   Mic,
   FileText,
-  ChevronRight,
 } from 'lucide-react'
 
 // INTERFACES (Should be in /types)
@@ -438,7 +435,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
 
     const renderContent = () => {
       switch (modalContent.type) {
-        case 'resource':
+        case 'resource': {
           const resource = modalContent.data as EducationalResource;
           if (resource.id === 'legal-101') return renderCourseModal(beginnerCourseContent, resource.title, `${resource.duration} min`, resource.difficulty);
           if (resource.id === 'tax-201') return renderCourseModal(intermediateCourseContent, resource.title, `${resource.duration} min`, resource.difficulty);
@@ -449,7 +446,8 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
               <p className="text-purple-300">{resource.content}</p>
             </div>
           );
-        case 'path':
+        }
+        case 'path': {
           const path = modalContent.data as LearningPath;
           return (
             <div>
@@ -465,7 +463,8 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
               </ul>
             </div>
           );
-        case 'member':
+        }
+        case 'member': {
           const member = modalContent.data as TeamMember;
           return (
             <div>
@@ -487,6 +486,7 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
               </ul>
             </div>
           );
+        }
         default:
           return null;
       }
