@@ -38,7 +38,7 @@ export class MessageService {
     return data.conversation
   }
 
-  static async getConversation(conversationId: string): Promise<Conversation> {
+  static async getConversation(_conversationId: string): Promise<Conversation> {
     // Not implemented in backend, fallback to getConversations and filter
     throw new Error('Not implemented')
   }
@@ -60,7 +60,7 @@ export class MessageService {
     return data.message
   }
 
-  static async getMessages(conversationId: string, page = 1): Promise<{ data: Message[] }> {
+  static async getMessages(conversationId: string, _page = 1): Promise<{ data: Message[] }> {
     const res = await fetch(`${API_BASE}/${conversationId}`)
     if (!res.ok) throw new Error('Failed to fetch messages')
     const data = await res.json()
@@ -78,12 +78,12 @@ export class MessageService {
   }
 
   // Permissions and recent messages are not implemented in backend
-  static async canUserMessage(senderId: string, recipientId: string): Promise<boolean> {
+  static async canUserMessage(_senderId: string, _recipientId: string): Promise<boolean> {
     // Not implemented
     return true
   }
 
-  static async getRecentMessages(userId: string): Promise<RecentMessage[]> {
+  static async getRecentMessages(_userId: string): Promise<RecentMessage[]> {
     // Not implemented
     return []
   }
