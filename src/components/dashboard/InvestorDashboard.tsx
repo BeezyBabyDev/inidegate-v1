@@ -304,7 +304,6 @@ const InvestorDashboard: React.FC<DashboardProps> = ({ onSelectDeal }) => {
   const toggleComplete = (e: React.MouseEvent, resourceId: string) => {
     e.stopPropagation()
     if (!isPrereqMet(EDUCATIONAL_RESOURCES.find(r => r.id === resourceId)?.prerequisites)) {
-      alert('You must complete the prerequisites first!')
       return
     }
     setCompleted(prev =>
