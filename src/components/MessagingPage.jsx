@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import InvestorHeader from './InvestorHeader'
+import TopBar from './TopBar'
 import { MessageService } from '../services/messageService'
 
 export default function MessagingPage({ onBack, user }) {
@@ -12,7 +12,6 @@ export default function MessagingPage({ onBack, user }) {
     messages: false,
   })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
   // Helper to map backend message to frontend format
   const mapMessageFromBackend = msg => ({
@@ -58,7 +57,7 @@ export default function MessagingPage({ onBack, user }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
-      <InvestorHeader onBack={onBack} user={user} />
+      <TopBar onBack={onBack} user={user} />
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div
           className="w-full max-w-4xl rounded-2xl shadow-2xl p-8 backdrop-blur-xl bg-white/20 border border-white/30 relative min-h-[60vh] bg-blue-900/80"

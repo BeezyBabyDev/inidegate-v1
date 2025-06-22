@@ -110,7 +110,7 @@ const InvestorPortal = ({ onLogout }) => {
         />
       </div>
       <div className={`flex-1 flex flex-col h-screen transition-all duration-300 ${isSidebarCollapsed ? 'pl-20' : 'pl-64'}`}>
-        <TopBar activePill={activeTab} onPillClick={handleTabClick} />
+        <TopBar />
         <main className="flex-1 overflow-y-auto p-8">
           {renderContent()}
         </main>
