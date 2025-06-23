@@ -14,6 +14,8 @@ export interface Resource {
   isCompleted: boolean
   isBookmarked: boolean
   prerequisites: string[] // array of resource ids
+  contentPoints: string[] // detailed points for the course
+  relatedResources: string[] // array of resource ids
 }
 
 export interface TeamActivity {
@@ -49,17 +51,30 @@ export const allResources: Resource[] = [
     isCompleted: true,
     isBookmarked: false,
     prerequisites: [],
+    contentPoints: [
+      'Contract structures and investor protections',
+      'Due diligence processes for film projects',
+      'Key legal documentation (e.g., PPM, Subscription Agreement)',
+    ],
+    relatedResources: ['res-2'],
   },
   {
     id: 'res-2',
     title: 'Maximizing Film Tax Incentives',
     description: 'A deep dive into state and federal tax credits for film production.',
     type: 'Intermediate',
-    format: 'Read',
+    format: 'Watch',
     duration: 60,
     isCompleted: false,
     isBookmarked: false,
-    prerequisites: [],
+    prerequisites: ['res-1'],
+    contentPoints: [
+      'Understanding the Section 181 Deduction for films under $15M',
+      'Navigating state-specific tax credit programs and monetization',
+      'Using Sale-Leaseback structures for immediate tax benefits',
+      'Advanced deal structuring with tax incentives',
+    ],
+    relatedResources: ['res-1', 'res-3'],
   },
   {
     id: 'res-3',
@@ -71,6 +86,13 @@ export const allResources: Resource[] = [
     isCompleted: false,
     isBookmarked: true,
     prerequisites: ['res-1', 'res-2'],
+    contentPoints: [
+      'Financial breakdown of a successful indie film',
+      'Marketing and distribution strategies that maximize ROI',
+      'Risk assessment in low-budget filmmaking',
+      'Identifying key success factors for breakout hits',
+    ],
+    relatedResources: ['res-2'],
   },
 ]
 

@@ -123,15 +123,53 @@ export const portfolioData: Project[] = [
   },
 ]
 
-export const recentInvestments: Investment[] = portfolioData.map(p => ({
-  id: p.id.toString(),
-  projectName: p.title,
-  status: p.production.timeline as 'Completed' | 'Post-Production' | 'Distribution',
-  commitment: p.financials.initialInvestment,
-  fees: 0, // Placeholder
-  expenses: 0, // Placeholder
-  contributions: p.financials.initialInvestment, // Placeholder
-}))
+export const recentInvestments: Investment[] = [
+  {
+    id: 'inv-1',
+    projectName: 'The Silent Hour',
+    status: 'Completed',
+    commitment: 750000,
+    fees: 0,
+    expenses: 0,
+    contributions: 750000,
+    detailedROI: { grossRevenue: 2250000, netProfit: 1500000, percentage: 200 },
+    cashFlow: [
+      { month: 'Jan', inflow: 0, outflow: 100000 },
+      { month: 'Feb', inflow: 50000, outflow: 50000 },
+    ],
+    transactionHistory: [
+      { id: 't1', date: '2023-01-15', type: 'Contribution', amount: 750000 },
+      { id: 't2', date: '2024-01-20', type: 'Distribution', amount: 1000000 },
+    ],
+  },
+  {
+    id: 'inv-2',
+    projectName: 'City of Dreams',
+    status: 'Post-Production',
+    commitment: 1200000,
+    fees: 0,
+    expenses: 0,
+    contributions: 1200000,
+    detailedROI: { grossRevenue: 0, netProfit: 0, percentage: 0 },
+    cashFlow: [
+      { month: 'Jan', inflow: 0, outflow: 200000 },
+      { month: 'Feb', inflow: 0, outflow: 250000 },
+    ],
+    transactionHistory: [{ id: 't3', date: '2023-06-10', type: 'Contribution', amount: 1200000 }],
+  },
+  {
+    id: 'inv-3',
+    projectName: 'Broken Chains',
+    status: 'In Production',
+    commitment: 2000000,
+    fees: 0,
+    expenses: 0,
+    contributions: 2000000,
+    detailedROI: { grossRevenue: 0, netProfit: 0, percentage: 0 },
+    cashFlow: [{ month: 'Jan', inflow: 0, outflow: 500000 }],
+    transactionHistory: [{ id: 't4', date: '2023-11-01', type: 'Contribution', amount: 2000000 }],
+  },
+]
 
 export const portfolioStats: {
   totalInvested: number
@@ -139,8 +177,8 @@ export const portfolioStats: {
   filmsFinanced: number
   averageROI: number
 } = {
-  totalInvested: portfolioData.reduce((acc, p) => acc + p.financials.initialInvestment, 0),
-  totalCommitments: portfolioData.reduce((acc, p) => acc + p.financials.initialInvestment, 0),
-  filmsFinanced: portfolioData.length,
-  averageROI: 315, // Placeholder
+  totalInvested: 4000000,
+  totalCommitments: 4000000,
+  filmsFinanced: 3,
+  averageROI: 315,
 }

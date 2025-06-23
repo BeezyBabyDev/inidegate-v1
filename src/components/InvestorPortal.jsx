@@ -6,6 +6,9 @@ import InvestorProfile from './InvestorProfile'
 import CommunityForum from './CommunityForum'
 import SmartMatching from './SmartMatching'
 import PortfolioPage from './PortfolioPage' // Import the new page
+import DealFlowPage from './DealFlowPage' // Import the Deal Flow page
+import AnalyticsPage from './AnalyticsPage' // Import the Analytics page
+import MessagesPage from './MessagesPage' // Import the Messages page
 import { useScrollToTop } from '../hooks/useScrollToTop'
 
 const InvestorPortal = ({ onLogout }) => {
@@ -27,15 +30,15 @@ const InvestorPortal = ({ onLogout }) => {
       case 'Portfolio':
         return <PortfolioPage /> // Render the new page here
       case 'Deal Flow':
-        return <div>Deal Flow Content</div>
+        return <DealFlowPage />
       case 'Community':
         return <CommunityForum />
       case 'Smart Matching':
         return <SmartMatching />
       case 'Analytics':
-        return <div>Analytics Content</div>
+        return <AnalyticsPage />
       case 'Messages':
-        return <div>Messages Content</div>
+        return <MessagesPage />
       default:
         return <InvestorDashboard onSelectDeal={() => {}} />
     }

@@ -1,6 +1,15 @@
 import { useState } from 'react'
 import Card from './Card'
-import Button from './Button'
+import CommunityStats from './CommunityStats'
+import {
+  Users,
+  MessageSquare,
+  ThumbsUp,
+  MessageCircle,
+  MoreHorizontal,
+  Paperclip,
+  Smile,
+} from 'lucide-react'
 
 const CommunityForum = ({ userType = 'talent', onShowPublicProfile }) => {
   const [activeTab, setActiveTab] = useState('network')
@@ -224,13 +233,13 @@ const CommunityForum = ({ userType = 'talent', onShowPublicProfile }) => {
   const themeClasses = getThemeClasses()
 
   // Helper function to get userId from author name
-  const getUserIdFromName = (authorName) => {
+  const getUserIdFromName = authorName => {
     // Convert name to userId format (lowercase, replace spaces with hyphens)
     return authorName.toLowerCase().replace(/\s+/g, '-')
   }
 
   // Helper function to handle profile click
-  const handleProfileClick = (authorName) => {
+  const handleProfileClick = authorName => {
     if (onShowPublicProfile) {
       const userId = getUserIdFromName(authorName)
       onShowPublicProfile(userId)
@@ -238,242 +247,162 @@ const CommunityForum = ({ userType = 'talent', onShowPublicProfile }) => {
   }
 
   const renderPost = post => (
-    <Card key={post.id} className="p-6 mb-4 hover:shadow-lg transition-shadow">
-      <div className="flex items-start space-x-4">
-        <img 
-          src={post.avatar} 
-          alt={post.author} 
-          className={`w-12 h-12 rounded-full object-cover ${
-            onShowPublicProfile ? 'cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all' : ''
-          }`}
+    <div key={post.id} className="bg-slate-800/60 rounded-lg p-5 mb-4 border border-slate-700/80">
+      <div className="flex items-start">
+        <img
+          src={post.avatar}
+          alt={post.author}
+          className="w-11 h-11 rounded-full mr-4 cursor-pointer hover:ring-2 hover:ring-purple-400 transition-all"
           onClick={() => handleProfileClick(post.author)}
         />
-        <div className="flex-1">
-          <div className="flex items-center space-x-2 mb-2">
-            <h4 
-              className={`font-semibold text-gray-900 ${
-                onShowPublicProfile ? 'cursor-pointer hover:text-blue-600 transition-colors' : ''
-              }`}
-              onClick={() => handleProfileClick(post.author)}
-            >
-              {post.author}
-            </h4>
-            <span
-              className={`px-2 py-1 text-xs rounded-full ${
-                post.userType === 'investor'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-purple-100 text-purple-800'
-              }`}
-            >
-              {post.role}
-            </span>
-            {post.userType && (
-              <span
-                className={`px-2 py-1 text-xs rounded-full ${
-                  post.userType === 'investor'
-                    ? 'bg-green-50 text-green-600'
-                    : 'bg-purple-50 text-purple-600'
-                }`}
+        <div className="flex-grow">
+          <div className="flex justify-between items-center">
+            <div>
+              <p
+                className="font-semibold text-white cursor-pointer"
+                onClick={() => handleProfileClick(post.author)}
               >
-                {post.userType === 'investor' ? 'Investor Network' : 'Talent Network'}
-              </span>
-            )}
-            <span className="text-sm text-gray-500">{post.timestamp}</span>
-          </div>
-
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">{post.title}</h3>
-          <p className="text-gray-700 mb-3">{post.content}</p>
-
-          <div className="flex flex-wrap gap-2 mb-3">
-            {post.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex items-center space-x-6 text-sm text-gray-500">
-            <button className={`flex items-center space-x-1 ${themeClasses.hoverTextPrimary}`}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
-              <span>{post.likes}</span>
+                {post.author}
+              </p>
+              <p className="text-sm text-slate-400">
+                {post.role} · <span className="text-xs">{post.timestamp}</span>
+              </p>
+            </div>
+            <button className="text-slate-400 hover:text-white">
+              <MoreHorizontal size={20} />
             </button>
-            <button className={`flex items-center space-x-1 ${themeClasses.hoverTextPrimary}`}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.002 8.002 0 01-7.93-6.93c-.04-.295-.04-.6 0-.895A8.002 8.002 0 0113 4c4.418 0 8 3.582 8 8z"
-                />
-              </svg>
-              <span>{post.replies} replies</span>
+          </div>
+          <h3 className="font-bold text-lg my-2 text-white">{post.title}</h3>
+          <p className="text-slate-300 text-sm mb-3">{post.content}</p>
+          <div className="flex items-center text-slate-400 text-sm">
+            <button className="flex items-center gap-1.5 hover:text-purple-400">
+              <ThumbsUp size={16} /> {post.likes}
             </button>
-            <button className={`flex items-center space-x-1 ${themeClasses.hoverTextPrimary}`}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
-                />
-              </svg>
-              <span>Share</span>
+            <span className="mx-3">·</span>
+            <button className="flex items-center gap-1.5 hover:text-purple-400">
+              <MessageCircle size={16} /> {post.replies}
             </button>
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   )
 
   const renderCreatePost = () => (
-    <Card className="p-6 mb-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Create New Post</h3>
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-          <select
-            value={selectedCategory}
-            onChange={e => setSelectedCategory(e.target.value)}
-            className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ${themeClasses.focusRing}`}
-          >
-            {categories[activeTab === 'cross-network' ? 'crossNetwork' : userType].map(category => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+    <div className="bg-slate-800/60 p-4 rounded-lg mb-6 border border-slate-700/80">
+      <h3 className="font-bold text-lg text-white mb-3">Create New Post</h3>
+      <textarea
+        className="w-full bg-slate-900/80 p-3 rounded-lg border border-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+        rows="3"
+        placeholder="Share your thoughts, ask questions, or start a discussion..."
+        value={newPostContent}
+        onChange={e => setNewPostContent(e.target.value)}
+      ></textarea>
+      <div className="flex justify-between items-center mt-3">
+        <div className="flex gap-2 text-slate-400">
+          <button className="hover:text-purple-400">
+            <Paperclip size={18} />
+          </button>
+          <button className="hover:text-purple-400">
+            <Smile size={18} />
+          </button>
         </div>
-        <div>
-          <textarea
-            value={newPostContent}
-            onChange={e => setNewPostContent(e.target.value)}
-            placeholder="Share your thoughts, ask questions, or start a discussion..."
-            rows={4}
-            className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ${themeClasses.focusRing}`}
-          />
-        </div>
-        <div className="flex justify-end">
-          <Button
-            onClick={handleCreatePost}
-            className={`${themeClasses.bgPrimary} ${themeClasses.bgPrimaryHover} text-white`}
-          >
-            Post to Community
-          </Button>
-        </div>
+        <button
+          onClick={handleCreatePost}
+          className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-5 rounded-lg transition-colors"
+        >
+          Post to Community
+        </button>
       </div>
-    </Card>
+    </div>
+  )
+
+  const renderTabs = () => (
+    <div className="mb-6">
+      <div className="flex space-x-1 bg-slate-800/60 p-1 rounded-lg max-w-sm">
+        <button
+          onClick={() => setActiveTab('network')}
+          className={`w-full py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
+            activeTab === 'network'
+              ? 'bg-purple-600 text-white'
+              : 'text-slate-300 hover:bg-slate-700/50'
+          }`}
+        >
+          {userType === 'talent' ? 'Talent Network' : 'Investor Network'}
+        </button>
+        <button
+          onClick={() => setActiveTab('cross-network')}
+          className={`w-full py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
+            activeTab === 'cross-network'
+              ? 'bg-purple-600 text-white'
+              : 'text-slate-300 hover:bg-slate-700/50'
+          } ${!crossNetworkEnabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!crossNetworkEnabled}
+        >
+          Cross-Network Forum
+        </button>
+      </div>
+    </div>
+  )
+
+  const renderCategoryFilters = () => (
+    <div className="flex flex-wrap gap-2 mb-6">
+      {categories[activeTab === 'cross-network' ? 'crossNetwork' : userType].map(category => (
+        <button
+          key={category.id}
+          className="px-3 py-1.5 text-xs font-semibold bg-slate-700/80 text-slate-300 rounded-full hover:bg-purple-600 hover:text-white transition-colors"
+        >
+          {category.name}
+        </button>
+      ))}
+    </div>
+  )
+
+  const renderPosts = () => (
+    <div>
+      {(activeTab === 'network' ? networkPosts[userType] : crossNetworkPosts).map(renderPost)}
+    </div>
   )
 
   return (
-    <div className="space-y-6">
-      {/* Forum Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Community Forum</h2>
-          <p className="text-gray-600">Connect, share knowledge, and grow together</p>
-        </div>
+    <div>
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold">Community</h1>
+        <p className="text-slate-400 mt-2">Connect, share knowledge, and grow together</p>
+      </header>
 
-        {/* Cross-Network Toggle */}
-        <div className="flex items-center space-x-3">
-          <span className="text-sm font-medium text-gray-700">Cross-Network Forum</span>
-          <button
-            onClick={() => setCrossNetworkEnabled(!crossNetworkEnabled)}
-            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 ${themeClasses.focusRing} focus:ring-offset-2 ${
-              crossNetworkEnabled ? themeClasses.bgPrimary : 'bg-gray-200'
-            }`}
-          >
-            <span
-              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                crossNetworkEnabled ? 'translate-x-5' : 'translate-x-0'
-              }`}
-            />
-          </button>
-        </div>
-      </div>
+      <CommunityStats />
 
-      {/* Forum Tabs */}
-      <div className="border-b border-gray-200">
-        <nav className="-mb-px flex space-x-8">
-          <button
-            onClick={() => setActiveTab('network')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'network'
-                ? `${themeClasses.borderPrimary} ${themeClasses.textPrimary}`
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            {userType === 'investor' ? 'Investor Network' : 'Talent Network'}
-          </button>
-          {crossNetworkEnabled && (
-            <button
-              onClick={() => setActiveTab('cross-network')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'cross-network'
-                  ? `${themeClasses.borderPrimary} ${themeClasses.textPrimary}`
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Cross-Network Forum
-            </button>
-          )}
-        </nav>
-      </div>
-
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-3">
-        {categories[activeTab === 'cross-network' ? 'crossNetwork' : userType].map(category => (
-          <button
-            key={category.id}
-            className={`px-3 py-1 text-sm rounded-full ${category.color} hover:opacity-80`}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Create Post */}
-      {renderCreatePost()}
-
-      {/* Forum Posts */}
-      <div>
-        {activeTab === 'network' && networkPosts[userType].map(renderPost)}
-        {activeTab === 'cross-network' && crossNetworkEnabled && crossNetworkPosts.map(renderPost)}
-
-        {activeTab === 'cross-network' && !crossNetworkEnabled && (
-          <Card className="p-8 text-center">
-            <svg
-              className="w-16 h-16 text-gray-400 mx-auto mb-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
+      <div className="flex justify-between items-center mb-4">
+        {renderTabs()}
+        <div className="flex items-center">
+          <span className="mr-3 text-sm text-slate-300">Cross-Network Forum</span>
+          <label htmlFor="cross-network-toggle" className="flex items-center cursor-pointer">
+            <div className="relative">
+              <input
+                id="cross-network-toggle"
+                type="checkbox"
+                className="sr-only"
+                checked={crossNetworkEnabled}
+                onChange={() => setCrossNetworkEnabled(!crossNetworkEnabled)}
               />
-            </svg>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Cross-Network Forum Disabled
-            </h3>
-            <p className="text-gray-600">
-              Enable the cross-network forum to connect with the other network and see collaborative
-              discussions.
-            </p>
-          </Card>
-        )}
+              <div className="block bg-slate-700 w-12 h-6 rounded-full"></div>
+              <div className="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform"></div>
+            </div>
+          </label>
+        </div>
       </div>
+
+      {renderCategoryFilters()}
+      {renderCreatePost()}
+      {renderPosts()}
+
+      <style>{`
+        input:checked ~ .dot {
+          transform: translateX(150%);
+          background-color: #8B5CF6; /* purple-500 */
+        }
+      `}</style>
     </div>
   )
 }
