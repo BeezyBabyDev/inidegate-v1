@@ -1,6 +1,7 @@
 import React from 'react'
 import { portfolioStats, recentInvestments } from '../../data/portfolioData'
 import { Investment } from '../../types/portfolio'
+import { CheckCircle } from 'lucide-react'
 
 const formatCurrency = (value: number): string => {
   if (value >= 1_000_000) {
@@ -40,6 +41,20 @@ const PortfolioOverview: React.FC = () => {
   const totalFees = recentInvestments.reduce((acc, inv) => acc + inv.fees, 0)
   const totalExpenses = recentInvestments.reduce((acc, inv) => acc + inv.expenses, 0)
   const netContributions = recentInvestments.reduce((acc, inv) => acc + inv.contributions, 0)
+
+  const investorCriteria = [
+    'Accredited Investor Status',
+    'Minimum Investment: $100K',
+    'Long-term Capital Commitment',
+    'Active Portfolio Engagement',
+  ]
+
+  const investmentCriteria = [
+    'Genre Focus: Thriller, Sci-Fi, Drama',
+    'Budget Range: $500K - $5M',
+    'Strong Director/Cast Attachment',
+    'Clear Path to Distribution',
+  ]
 
   return (
     <div className="bg-white/5 rounded-2xl p-6 h-full flex flex-col">
@@ -111,6 +126,32 @@ const PortfolioOverview: React.FC = () => {
         <div>
           <p className="text-xs text-purple-200/80">Net Contributions</p>
           <p className="font-bold text-base">{formatCurrency(netContributions)}</p>
+        </div>
+      </div>
+
+      {/* Criteria Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 flex-grow">
+        <div>
+          <h5 className="text-md font-semibold mb-3">Investor Criteria</h5>
+          <ul className="space-y-2 text-sm text-gray-300">
+            {investorCriteria.map((item, index) => (
+              <li key={index} className="flex items-center">
+                <CheckCircle size={16} className="text-green-400 mr-2 flex-shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h5 className="text-md font-semibold mb-3">Investment Criteria</h5>
+          <ul className="space-y-2 text-sm text-gray-300">
+            {investmentCriteria.map((item, index) => (
+              <li key={index} className="flex items-center">
+                <CheckCircle size={16} className="text-green-400 mr-2 flex-shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
