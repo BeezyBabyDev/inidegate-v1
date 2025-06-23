@@ -1,4 +1,4 @@
-import { TrendingUp, ArrowRight, Film, Award, BarChart2 } from 'lucide-react';
+import { ArrowRight, Film, Award, BarChart2 } from 'lucide-react'
 
 const MarketTrends = () => {
   const globalStat = {
@@ -6,7 +6,7 @@ const MarketTrends = () => {
     value: '$417.99B',
     trend: '+6.2%',
     by: 'by 2029',
-  };
+  }
 
   const stats = [
     {
@@ -33,7 +33,7 @@ const MarketTrends = () => {
       trend: 'lower than studio',
       color: 'blue',
     },
-  ];
+  ]
 
   const festivalHighlights = [
     {
@@ -41,7 +41,7 @@ const MarketTrends = () => {
       description: 'Acquired by MUBI for a TV series deal, showcasing new distribution paths.',
     },
     {
-      title: 'Tribeca Films\' Spree',
+      title: "Tribeca Films' Spree",
       description: 'Acquired 15 titles in under a year from major festivals.',
     },
     {
@@ -52,15 +52,10 @@ const MarketTrends = () => {
       title: 'Broad Distribution Strategy',
       description: 'Aiming for 25 titles/year from Sundance, Cannes, TIFF, and Berlin.',
     },
-  ];
+  ]
 
   return (
-    <div className="flex flex-col h-full">
-      <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
-        <TrendingUp className="mr-3 text-purple-400" />
-        Market Insights & Trends
-      </h3>
-
+    <div className="bg-white/5 rounded-2xl p-6 h-full flex flex-col">
       <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-4">
         <p className="text-sm text-purple-200 mb-1">{globalStat.label}</p>
         <div className="flex justify-between items-end">
@@ -74,7 +69,10 @@ const MarketTrends = () => {
 
       <div className="grid grid-cols-2 gap-4 mb-6">
         {stats.map((stat, index) => (
-          <div key={index} className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-between">
+          <div
+            key={index}
+            className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-between"
+          >
             <div>
               <p className="text-sm text-purple-200 mb-1">{stat.label}</p>
               <p className="text-2xl font-bold text-white">{stat.value}</p>
@@ -85,8 +83,8 @@ const MarketTrends = () => {
                   stat.color === 'green'
                     ? 'text-green-400'
                     : stat.color === 'blue'
-                    ? 'text-blue-400'
-                    : 'text-purple-400'
+                      ? 'text-blue-400'
+                      : 'text-purple-400'
                 }`}
               >
                 {stat.trend}
@@ -97,18 +95,20 @@ const MarketTrends = () => {
       </div>
 
       <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6">
-        <h4 className="font-semibold text-white mb-3 flex items-center"><BarChart2 size={16} className="mr-2 text-green-400"/> ROI Advantage</h4>
+        <h4 className="font-semibold text-white mb-3 flex items-center">
+          <BarChart2 size={16} className="mr-2 text-green-400" /> ROI Advantage
+        </h4>
         <div className="flex items-end gap-4">
-            <div className="flex-1 text-center">
-                <p className="text-2xl font-bold text-white">280%</p>
-                <div className="h-12 bg-gradient-to-t from-green-500/50 to-green-500 rounded-t-sm"></div>
-                <p className="text-xs text-purple-200 mt-1 font-semibold">INDEPENDENT</p>
-            </div>
-            <div className="flex-1 text-center">
-                <p className="text-2xl font-bold text-gray-400">120%</p>
-                <div className="h-5 bg-gradient-to-t from-gray-500/50 to-gray-500 rounded-t-sm"></div>
-                <p className="text-xs text-gray-400 mt-1">STUDIO</p>
-            </div>
+          <div className="flex-1 text-center">
+            <p className="text-2xl font-bold text-white">280%</p>
+            <div className="h-12 bg-gradient-to-t from-green-500/50 to-green-500 rounded-t-sm"></div>
+            <p className="text-xs text-purple-200 mt-1 font-semibold">INDEPENDENT</p>
+          </div>
+          <div className="flex-1 text-center">
+            <p className="text-2xl font-bold text-gray-400">120%</p>
+            <div className="h-5 bg-gradient-to-t from-gray-500/50 to-gray-500 rounded-t-sm"></div>
+            <p className="text-xs text-gray-400 mt-1">STUDIO</p>
+          </div>
         </div>
       </div>
 
@@ -130,13 +130,16 @@ const MarketTrends = () => {
                 </h5>
                 <p className="text-sm text-purple-200 mt-1 pl-6">{highlight.description}</p>
               </div>
-              <ArrowRight className="text-purple-300 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" size={16} />
+              <ArrowRight
+                className="text-purple-300 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2"
+                size={16}
+              />
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MarketTrends;
+export default MarketTrends

@@ -1,391 +1,256 @@
 import { useState } from 'react'
-import Card from './Card'
-import Button from './Button'
+import {
+  Briefcase,
+  MapPin,
+  Calendar,
+  CheckCircle,
+  Star,
+  Mail,
+  Phone,
+  Link as LinkIcon,
+  Linkedin,
+  DollarSign,
+  BarChart2,
+  PieChart,
+  Target,
+} from 'lucide-react'
 
-const InvestorProfile = ({ profileData: initialProfileData }) => {
-  const [activeTab, setActiveTab] = useState('overview')
+const InvestorProfile = () => {
+  const [viewMode, setViewMode] = useState('manager') // 'manager' or 'public'
 
-  // Default profile data with Jourdain Bell profile
-  const {
-    name = 'Jourdain Bell',
-    title = 'Executive Producer & Film Investor',
-    company = 'Bell Family Capital',
-    location = 'Beverly Hills, CA',
-    avatar = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
-    bio = 'Seasoned entertainment executive with 12+ years experience in film financing and production. Passionate about supporting diverse voices in independent cinema and building sustainable creative partnerships.',
-    email = 'jourdain@indiegate.io',
-    phone = '+1 (555) 987-6543',
-
-    // Investment Profile
-    investmentStage = ['Development', 'Pre-Production', 'Production'],
-    portfolioSize = '25+ Films',
-
-    // Professional Background
-    experience = '12+ years',
-
-    // Investment Portfolio Highlights
-    notableInvestments = [
-      {
-        title: 'Midnight in Brooklyn',
-        year: 2023,
-        role: 'Executive Producer',
-        budget: '$2.5M',
-        status: 'Released',
-        performance: 'Profit +40%',
-      },
-      {
-        title: 'The Last Poetry Club',
-        year: 2022,
-        role: 'Lead Investor',
-        budget: '$850K',
-        status: 'Festival Circuit',
-        performance: 'Sundance Selection',
-      },
-      {
-        title: 'Urban Legends',
-        year: 2023,
-        role: 'Executive Producer',
-        budget: '$1.8M',
-        status: 'Streaming',
-        performance: 'Netflix Acquisition',
-      },
-    ],
-
-    // Investment Criteria
-    investmentCriteria = {
-      genres: ['Drama', 'Thriller', 'Documentary', 'Horror', 'Comedy'],
-      budgetPreference: '$500K - $5M',
-      regionFocus: 'Global',
-      diversityCommitment: 'Women & Minority Filmmakers',
-      returnExpectation: '15-25% IRR',
+  const profileData = {
+    name: 'Jourdain Bell',
+    title: 'Executive Producer',
+    company: 'Bell Entertainment Ventures',
+    location: 'Los Angeles, CA',
+    memberSince: 'January 2023',
+    investmentRange: '$250K - $3M',
+    avatar: 'https://i.pravatar.cc/150?u=jourdainbell',
+    bio: 'Jourdain Bell is a seasoned Executive Producer with a keen eye for compelling narratives and a proven track record of bringing successful independent films to market. With over a decade of experience in film finance and production, Jourdain has been instrumental in the success of numerous projects, championing diverse voices and innovative storytelling. At Bell Entertainment Ventures, the focus is on identifying and nurturing talent to create impactful and commercially viable cinema.',
+    metrics: {
+      totalInvested: '$12.8M',
+      projectsFinanced: '24',
+      averageROI: '315%',
+      investorRating: 'A+',
     },
-
-    // Current Availability
-    availability = {
-      status: 'Actively Investing',
-      lookingFor: 'Feature Films & Limited Series',
-      nextReview: 'March 2024',
-      fundingAvailable: '$8.5M',
+    preferences: {
+      genres: ['Drama', 'Thriller', 'Documentary', 'Comedy'],
+      stages: ['Development', 'Pre-Production', 'Production'],
+      budget: '$100K - $3M',
+      geo: 'Global Projects',
+      roi: '15-25% IRR',
     },
-
-    // Social & Professional Links
-    social = {
+    contact: {
+      email: 'jourdain@indiegate.io',
+      phone: '(310) 555-0123',
+      website: 'bellentertainment.com',
       linkedin: 'linkedin.com/in/jourdainbell',
-      website: 'bellfamilycapital.com',
-      imdb: 'imdb.com/name/nm123456',
-      company: 'bellfamilycapital.com',
     },
-  } = initialProfileData || {}
+    status: {
+      current: 'Actively Investing',
+      capital: '$2.5M',
+      cycle: 'Q1 2024',
+    },
+  }
 
-  const renderOverview = () => (
-    <div className="space-y-6">
-      {/* Profile Header */}
-      <Card className="p-6">
-        <div className="flex items-start space-x-6">
-          <div className="relative">
-            <img
-              src={avatar}
-              alt={name}
-              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
-            />
-            <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center space-x-3">
-              <h1 className="text-2xl font-bold text-gray-900">{name}</h1>
-              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <p className="text-lg text-purple-600 font-medium">{title}</p>
-            <p className="text-gray-600">{company}</p>
-            <p className="text-sm text-gray-500 flex items-center mt-1">
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              {location}
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-600">Investment Range</p>
-            <p className="text-xl font-bold text-green-600">{budgetRange}</p>
-          </div>
-        </div>
-        <p className="mt-4 text-gray-700 leading-relaxed">{bio}</p>
-      </Card>
+  const isManagerView = viewMode === 'manager'
 
-      {/* Investment Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-purple-600">{portfolioSize}</div>
-          <div className="text-sm text-gray-600">Total Invested</div>
-        </Card>
-        <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-blue-600">{experience}</div>
-          <div className="text-sm text-gray-600">Experience</div>
-        </Card>
-        <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-green-600">{availability.fundingAvailable}</div>
-          <div className="text-sm text-gray-600">Funding Available</div>
-        </Card>
-        <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-orange-600">A+</div>
-          <div className="text-sm text-gray-600">Credit Rating</div>
-        </Card>
+  const ToggleSwitch = () => (
+    <div className="flex items-center p-1 bg-gray-700 rounded-full">
+      <button
+        onClick={() => setViewMode('manager')}
+        className={`px-4 py-1 text-sm font-medium rounded-full transition-colors ${isManagerView ? 'bg-purple-600 text-white' : 'text-gray-300'}`}
+      >
+        Manager View
+      </button>
+      <button
+        onClick={() => setViewMode('public')}
+        className={`px-4 py-1 text-sm font-medium rounded-full transition-colors ${!isManagerView ? 'bg-purple-600 text-white' : 'text-gray-300'}`}
+      >
+        Public View
+      </button>
+    </div>
+  )
+
+  const Section = ({ title, children, isPrivate = false }) => {
+    if (!isManagerView && isPrivate) return null
+    return (
+      <div
+        className={`bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 ${isPrivate && 'relative overflow-hidden'}`}
+      >
+        {isPrivate && (
+          <div className="absolute top-2 right-2 text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">
+            Private
+          </div>
+        )}
+        <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
+        {children}
       </div>
+    )
+  }
 
-      {/* Investment Preferences */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Investment Preferences</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="font-medium text-gray-900 mb-2">Preferred Genres</h4>
-            <div className="flex flex-wrap gap-2">
-              {investmentCriteria.genres.map((genre, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full"
-                >
-                  {genre}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h4 className="font-medium text-gray-900 mb-2">Investment Stages</h4>
-            <div className="flex flex-wrap gap-2">
-              {investmentStage.map((stage, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
-                >
-                  {stage}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Card>
-
-      {/* Contact Information */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <div className="space-y-2">
-              {email && (
-                <a
-                  href={`mailto:${email}`}
-                  className="flex items-center gap-3 text-gray-700 hover:text-green-600 transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="text-sm">{email}</span>
-                </a>
-              )}
-              {phone && (
-                <a
-                  href={`tel:${phone}`}
-                  className="flex items-center gap-3 text-gray-700 hover:text-green-600 transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
-                  <span className="text-sm">{phone}</span>
-                </a>
-              )}
-            </div>
-          </div>
-          <div>
-            <div className="grid grid-cols-2 gap-3">
-              {social.linkedin && (
-                <a
-                  href={`https://${social.linkedin}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 p-2 text-sm text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg>
-                  LinkedIn
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </Card>
+  const InfoItem = ({ icon: Icon, label, value }) => (
+    <div className="flex items-center text-gray-300">
+      <Icon size={16} className="text-purple-400 mr-3" />
+      <span className="text-sm">{label}:</span>
+      <span className="text-sm font-semibold text-white ml-2">{value}</span>
     </div>
   )
 
-  const renderPortfolio = () => (
-    <div className="space-y-6">
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">Investment Portfolio</h3>
-        <div className="space-y-4">
-          {notableInvestments.map((investment, index) => (
-            <div key={index} className="border border-gray-200 rounded-lg p-4">
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h4 className="font-semibold text-gray-900">{investment.title}</h4>
-                  <p className="text-sm text-gray-600">{investment.year}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900">{investment.budget}</p>
-                  <p
-                    className={`text-sm font-medium ${
-                      investment.performance === 'Sundance Selection'
-                        ? 'text-blue-600'
-                        : 'text-green-600'
-                    }`}
-                  >
-                    {investment.performance}
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center">
-                <span
-                  className={`px-2 py-1 text-xs font-medium rounded-full ${
-                    investment.status === 'Released'
-                      ? 'bg-green-100 text-green-800'
-                      : investment.status === 'Festival Circuit'
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-yellow-100 text-yellow-800'
-                  }`}
-                >
-                  {investment.status}
-                </span>
-                <Button size="sm" variant="outline">
-                  View Details
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
+  const MetricCard = ({ icon: Icon, label, value, colorClass = 'text-green-400' }) => (
+    <div className="bg-slate-800/50 rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-slate-700/50">
+      <Icon size={24} className="text-purple-400 mb-2" />
+      <p className={`text-3xl font-bold ${colorClass}`}>{value}</p>
+      <p className="text-sm text-gray-400 mt-1">{label}</p>
     </div>
   )
 
-  const renderCriteria = () => (
-    <div className="space-y-6">
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">Investment Criteria</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="font-medium text-gray-900 mb-3">Budget Range</h4>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Preferred:</span>
-                <span className="font-medium">{investmentCriteria.budgetPreference}</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h4 className="font-medium text-gray-900 mb-3">Region Focus</h4>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-                {investmentCriteria.regionFocus}
-              </span>
-            </div>
-          </div>
-          <div>
-            <h4 className="font-medium text-gray-900 mb-3">Diversity Commitment</h4>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
-                {investmentCriteria.diversityCommitment}
-              </span>
-            </div>
-          </div>
-          <div>
-            <h4 className="font-medium text-gray-900 mb-3">Return Expectation</h4>
-            <div className="space-y-2 text-sm text-gray-600">
-              <div>{investmentCriteria.returnExpectation}</div>
-            </div>
-          </div>
-        </div>
-      </Card>
-    </div>
+  const Tag = ({ children }) => (
+    <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full">
+      {children}
+    </span>
   )
 
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Tab Navigation */}
-      <div className="border-b border-gray-200 mb-6">
-        <nav className="-mb-px flex space-x-8">
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'overview'
-                ? 'border-purple-500 text-purple-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            Overview
+    <>
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">My Investor Profile</h1>
+        <div className="flex items-center gap-4">
+          <ToggleSwitch />
+          <button className="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg text-sm transition-colors">
+            Edit Profile
           </button>
-          <button
-            onClick={() => setActiveTab('portfolio')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'portfolio'
-                ? 'border-purple-500 text-purple-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            Portfolio
-          </button>
-          <button
-            onClick={() => setActiveTab('criteria')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'criteria'
-                ? 'border-purple-500 text-purple-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            Investment Criteria
-          </button>
-        </nav>
+        </div>
       </div>
 
-      {/* Tab Content */}
-      {activeTab === 'overview' && renderOverview()}
-      {activeTab === 'portfolio' && renderPortfolio()}
-      {activeTab === 'criteria' && renderCriteria()}
-    </div>
+      {/* Profile Header Card */}
+      <div className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700/50 mb-8">
+        <div className="flex items-start">
+          <div className="relative mr-8">
+            <img
+              src={profileData.avatar}
+              alt={profileData.name}
+              className="w-32 h-32 rounded-full ring-4 ring-purple-500/50"
+            />
+            <CheckCircle
+              size={24}
+              className="absolute bottom-1 right-1 bg-slate-800 text-green-400 rounded-full"
+            />
+          </div>
+          <div className="flex-grow">
+            <div className="flex items-baseline gap-3">
+              <h2 className="text-4xl font-extrabold text-white">{profileData.name}</h2>
+              <span className="text-lg font-medium text-purple-400">{profileData.title}</span>
+            </div>
+            <p className="text-xl text-gray-300 mt-1">{profileData.company}</p>
+            <div className="flex items-center gap-6 mt-4 text-gray-400 text-sm">
+              <span className="flex items-center">
+                <MapPin size={14} className="mr-2" /> {profileData.location}
+              </span>
+              <span className="flex items-center">
+                <Calendar size={14} className="mr-2" /> Member since {profileData.memberSince}
+              </span>
+            </div>
+            <p className="mt-4 text-gray-300 max-w-3xl">{profileData.bio}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-gray-400">Investment Range</p>
+            <p className="text-2xl font-bold text-green-400 mt-1">{profileData.investmentRange}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column */}
+        <div className="lg:col-span-2 space-y-8">
+          <Section title="Key Metrics">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <MetricCard
+                icon={DollarSign}
+                label="Total Invested"
+                value={profileData.metrics.totalInvested}
+              />
+              <MetricCard
+                icon={Briefcase}
+                label="Projects Financed"
+                value={profileData.metrics.projectsFinanced}
+                colorClass="text-blue-400"
+              />
+              <MetricCard
+                icon={BarChart2}
+                label="Average ROI"
+                value={profileData.metrics.averageROI}
+              />
+              <MetricCard
+                icon={Star}
+                label="Investor Rating"
+                value={profileData.metrics.investorRating}
+                colorClass="text-yellow-400"
+              />
+            </div>
+          </Section>
+          <Section title="Smart Matching Preferences">
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <h4 className="w-40 text-sm text-gray-400 font-medium">Preferred Genres</h4>
+                <div className="flex flex-wrap gap-2">
+                  {profileData.preferences.genres.map(g => (
+                    <Tag key={g}>{g}</Tag>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center">
+                <h4 className="w-40 text-sm text-gray-400 font-medium">Investment Stages</h4>
+                <div className="flex flex-wrap gap-2">
+                  {profileData.preferences.stages.map(s => (
+                    <Tag key={s}>{s}</Tag>
+                  ))}
+                </div>
+              </div>
+              <InfoItem
+                icon={PieChart}
+                label="Budget Range"
+                value={profileData.preferences.budget}
+              />
+              <InfoItem
+                icon={MapPin}
+                label="Geographic Focus"
+                value={profileData.preferences.geo}
+              />
+              <InfoItem icon={Target} label="Target ROI" value={profileData.preferences.roi} />
+            </div>
+          </Section>
+        </div>
+        {/* Right Column (Sidebar) */}
+        <div className="space-y-8">
+          <Section title="Contact Information" isPrivate={true}>
+            <div className="space-y-3">
+              <InfoItem icon={Mail} label="Email" value={profileData.contact.email} />
+              <InfoItem icon={Phone} label="Phone" value={profileData.contact.phone} />
+              <InfoItem icon={LinkIcon} label="Website" value={profileData.contact.website} />
+              <InfoItem icon={Linkedin} label="LinkedIn" value={profileData.contact.linkedin} />
+            </div>
+          </Section>
+          <Section title="Current Investment Status" isPrivate={true}>
+            <div className="space-y-3">
+              <InfoItem icon={DollarSign} label="Status" value={profileData.status.current} />
+              <InfoItem
+                icon={Briefcase}
+                label="Available Capital"
+                value={profileData.status.capital}
+              />
+              <InfoItem
+                icon={Calendar}
+                label="Next Review Cycle"
+                value={profileData.status.cycle}
+              />
+            </div>
+          </Section>
+        </div>
+      </div>
+    </>
   )
 }
 

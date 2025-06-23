@@ -1,5 +1,5 @@
 import { MessageService } from './messageService'
-import { mockUsers, mockConversations, mockMessages } from '../utils/mockData'
+import { mockUsers } from '../utils/mockData'
 
 describe('MessageService', () => {
   const userId = mockUsers[0].id
@@ -23,9 +23,9 @@ describe('MessageService', () => {
   })
 
   it('should get messages for a conversation', async () => {
-    const { data, total } = await MessageService.getMessages(conversationId)
+    const { data } = await MessageService.getMessages(conversationId)
     expect(Array.isArray(data)).toBe(true)
-    expect(total).toBeGreaterThan(0)
+    expect(data.length).toBeGreaterThan(0)
     expect(data[0]).toHaveProperty('conversationId', conversationId)
   })
 

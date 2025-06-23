@@ -1,5 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { PORTAL_CONFIGS } from '../config/auth.js'
+
+const PORTAL_TYPES = {
+  FILMMAKER: 'filmmaker',
+  INVESTOR: 'investor',
+  TALENT: 'talent',
+  BRANDS: 'brands',
+}
 
 const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
@@ -98,7 +105,7 @@ const AccountRegistration = ({ portal, onRegister, onBack, onSwitchToLogin }) =>
             'Account created successfully in demo mode. Data will be stored locally for this session.',
         })
       }
-    } catch (error) {
+    } catch {
       setErrors({ submit: 'Registration failed. Please try again.' })
     } finally {
       setIsLoading(false)

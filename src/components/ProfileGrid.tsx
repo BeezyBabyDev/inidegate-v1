@@ -4,6 +4,7 @@ import ProfileCard from './ProfileCard'
 
 interface ProfileGridProps {
   users: User[]
+  currentUserId: string
   isFollowing: Record<string, boolean>
   canMessage: Record<string, boolean>
   loadingFollow?: Record<string, boolean>
@@ -14,6 +15,7 @@ interface ProfileGridProps {
 
 export const ProfileGrid: React.FC<ProfileGridProps> = ({
   users,
+  currentUserId,
   isFollowing,
   canMessage,
   loadingFollow = {},
@@ -27,6 +29,7 @@ export const ProfileGrid: React.FC<ProfileGridProps> = ({
         <ProfileCard
           key={user.id}
           user={user}
+          currentUserId={currentUserId}
           isFollowing={!!isFollowing[user.id]}
           canMessage={!!canMessage[user.id]}
           loadingFollow={!!loadingFollow[user.id]}

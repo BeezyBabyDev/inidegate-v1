@@ -1,36 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { authService } from '../config/auth.js';
+import { useState, useEffect } from 'react'
+import { authService } from '../config/auth.js'
 
 const AuthDebugPanel = ({ onClose }) => {
-  const [connectionStatus, setConnectionStatus] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [setupInstructions, setSetupInstructions] = useState(null);
+  const [connectionStatus, setConnectionStatus] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [setupInstructions, setSetupInstructions] = useState(null)
 
   useEffect(() => {
-    testConnection();
-  }, []);
+    testConnection()
+  }, [])
 
   const testConnection = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const result = await authService.testDatabaseConnection();
-      setConnectionStatus(result);
+      const result = await authService.testDatabaseConnection()
+      setConnectionStatus(result)
       if (!result.success) {
-        setSetupInstructions(authService.getDatabaseSetupInstructions());
+        setSetupInstructions(authService.getDatabaseSetupInstructions())
       }
     } catch (error) {
       setConnectionStatus({
         success: false,
         error: 'Failed to test connection',
-        details: error.message
-      });
+        details: error.message,
+      })
     }
-    setIsLoading(false);
-  };
+    setIsLoading(false)
+  }
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-  };
+  const handleCopy = text => {
+    navigator.clipboard.writeText(text)
+    alert('Copied to clipboard!')
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -38,48 +39,45 @@ const AuthDebugPanel = ({ onClose }) => {
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">
-              Authentication Setup & Debug
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-xl"
-            >
+            <h2 className="text-2xl font-bold text-gray-800">Authentication Setup & Debug</h2>
+            <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-xl">
               ✕
             </button>
           </div>
 
           {/* Connection Status */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Database Connection Status
-            </h3>
-            
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Database Connection Status</h3>
+
             {isLoading ? (
               <div className="flex items-center text-blue-600">
                 <div className="animate-spin w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full mr-2"></div>
                 Testing connection...
               </div>
             ) : (
-              <div className={`p-4 rounded-lg ${
-                connectionStatus?.success 
-                  ? 'bg-green-100 border border-green-200' 
-                  : 'bg-red-100 border border-red-200'
-              }`}>
-                <div className={`font-medium ${
-                  connectionStatus?.success ? 'text-green-800' : 'text-red-800'
-                }`}>
+              <div
+                className={`p-4 rounded-lg ${
+                  connectionStatus?.success
+                    ? 'bg-green-100 border border-green-200'
+                    : 'bg-red-100 border border-red-200'
+                }`}
+              >
+                <div
+                  className={`font-medium ${
+                    connectionStatus?.success ? 'text-green-800' : 'text-red-800'
+                  }`}
+                >
                   {connectionStatus?.success ? '✅ Connected' : '❌ Connection Failed'}
                 </div>
-                <div className={`text-sm mt-1 ${
-                  connectionStatus?.success ? 'text-green-700' : 'text-red-700'
-                }`}>
+                <div
+                  className={`text-sm mt-1 ${
+                    connectionStatus?.success ? 'text-green-700' : 'text-red-700'
+                  }`}
+                >
                   {connectionStatus?.message || connectionStatus?.error}
                 </div>
                 {connectionStatus?.instructions && (
-                  <div className="text-sm text-red-600 mt-2">
-                    {connectionStatus.instructions}
-                  </div>
+                  <div className="text-sm text-red-600 mt-2">{connectionStatus.instructions}</div>
                 )}
               </div>
             )}
@@ -94,15 +92,25 @@ const AuthDebugPanel = ({ onClose }) => {
 
           {/* Demo Credentials */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Demo User Credentials
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Demo User Credentials</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {[
-                { email: 'investor@demo.com', portal: 'Investor', color: 'bg-green-100 border-green-200' },
-                { email: 'filmmaker@demo.com', portal: 'Filmmaker', color: 'bg-purple-100 border-purple-200' },
+                {
+                  email: 'investor@demo.com',
+                  portal: 'Investor',
+                  color: 'bg-green-100 border-green-200',
+                },
+                {
+                  email: 'filmmaker@demo.com',
+                  portal: 'Filmmaker',
+                  color: 'bg-purple-100 border-purple-200',
+                },
                 { email: 'talent@demo.com', portal: 'Talent', color: 'bg-red-100 border-red-200' },
-                { email: 'brand@demo.com', portal: 'Brand', color: 'bg-orange-100 border-orange-200' }
+                {
+                  email: 'brand@demo.com',
+                  portal: 'Brand',
+                  color: 'bg-orange-100 border-orange-200',
+                },
               ].map(({ email, portal, color }) => (
                 <div key={email} className={`p-3 rounded-lg border ${color}`}>
                   <div className="font-medium text-gray-800">{portal} Portal</div>
@@ -113,7 +121,7 @@ const AuthDebugPanel = ({ onClose }) => {
                     Password: <code className="bg-white px-1 rounded">demo123</code>
                   </div>
                   <button
-                    onClick={() => copyToClipboard(`${email}\ndemo123`)}
+                    onClick={() => handleCopy(`${email}\ndemo123`)}
                     className="text-xs text-blue-600 hover:text-blue-800 mt-1"
                   >
                     Copy credentials
@@ -143,19 +151,19 @@ const AuthDebugPanel = ({ onClose }) => {
 
           {/* Demo Mode Controls */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Demo Mode Controls
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Demo Mode Controls</h3>
             <div className="bg-gray-50 p-4 rounded-lg">
               <div className="text-sm text-gray-700 mb-3">
-                <div>Demo Mode: {authService.shouldUseDemoMode() ? '✅ Enabled' : '❌ Disabled'}</div>
+                <div>
+                  Demo Mode: {authService.shouldUseDemoMode() ? '✅ Enabled' : '❌ Disabled'}
+                </div>
                 <div>Stored Demo Users: {authService.getStoredDemoUsers().length}</div>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => {
-                    authService.enableDemoMode();
-                    testConnection();
+                    authService.enableDemoMode()
+                    testConnection()
                   }}
                   className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700"
                 >
@@ -163,8 +171,8 @@ const AuthDebugPanel = ({ onClose }) => {
                 </button>
                 <button
                   onClick={() => {
-                    authService.disableDemoMode();
-                    testConnection();
+                    authService.disableDemoMode()
+                    testConnection()
                   }}
                   className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
                 >
@@ -172,8 +180,8 @@ const AuthDebugPanel = ({ onClose }) => {
                 </button>
                 <button
                   onClick={() => {
-                    localStorage.removeItem('indiegate_demo_users');
-                    testConnection();
+                    localStorage.removeItem('indiegate_demo_users')
+                    testConnection()
                   }}
                   className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
                 >
@@ -200,16 +208,14 @@ const AuthDebugPanel = ({ onClose }) => {
 
           {/* Test Registration */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Test Registration System
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Test Registration System</h3>
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-sm text-gray-600 mb-3">
                 Test the registration system with a demo account to verify fallback functionality.
               </p>
               <button
                 onClick={async () => {
-                  const testEmail = `test-${Date.now()}@demo.local`;
+                  const testEmail = `test-${Date.now()}@demo.local`
                   try {
                     const result = await authService.register({
                       email: testEmail,
@@ -217,18 +223,20 @@ const AuthDebugPanel = ({ onClose }) => {
                       firstName: 'Test',
                       lastName: 'User',
                       portal: 'investor',
-                      company: 'Test Company'
-                    });
-                    
+                      company: 'Test Company',
+                    })
+
                     if (result.success) {
-                      alert(`✅ Test registration successful!\nEmail: ${testEmail}\nDemo Mode: ${result.demoMode ? 'Yes' : 'No'}\n${result.message || ''}`);
+                      alert(
+                        `✅ Test registration successful!\nEmail: ${testEmail}\nDemo Mode: ${result.demoMode ? 'Yes' : 'No'}\n${result.message || ''}`
+                      )
                     } else {
-                      alert(`❌ Test registration failed: ${result.error}`);
+                      alert(`❌ Test registration failed: ${result.error}`)
                     }
                   } catch (error) {
-                    alert(`❌ Test registration error: ${error.message}`);
+                    alert(`❌ Test registration error: ${error.message}`)
                   }
-                  testConnection();
+                  testConnection()
                 }}
                 className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
               >
@@ -247,8 +255,8 @@ const AuthDebugPanel = ({ onClose }) => {
             </button>
             <button
               onClick={() => {
-                authService.logout();
-                window.location.reload();
+                authService.logout()
+                window.location.reload()
               }}
               className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
@@ -258,7 +266,7 @@ const AuthDebugPanel = ({ onClose }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AuthDebugPanel; 
+export default AuthDebugPanel

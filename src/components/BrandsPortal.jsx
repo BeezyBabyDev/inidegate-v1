@@ -1,21 +1,19 @@
 import { useState } from 'react'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import Button from './Button'
-import PortalHeader from './PortalHeader'
+import Sidebar from './Sidebar'
+import TopBar from './TopBar'
 
-const BrandsPortal = ({ onLogout, onBack }) => {
+const BrandsPortal = ({ onLogout }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
 
-  const [activeTab, setActiveTab] = useState('🎯 Dashboard')
+  const [activeTab, setActiveTab] = useState('Overview')
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
-  const tabs = [
-    '🎯 Dashboard',
-    '🏢 Brand Profile',
-    '🤝 Partnerships',
-    '📊 Analytics',
-    '🎬 Projects',
-  ]
+  const handleTabClick = tab => {
+    setActiveTab(tab)
+  }
 
   const renderDashboardTab = () => (
     <div className="space-y-6">
@@ -443,52 +441,39 @@ const BrandsPortal = ({ onLogout, onBack }) => {
     </div>
   )
 
+  const renderContent = () => {
+    switch (activeTab) {
+      case '🎯 Dashboard':
+        return renderDashboardTab()
+      case '🏢 Brand Profile':
+        return renderBrandProfileTab()
+      case '🤝 Partnerships':
+        return renderPartnershipsTab()
+      case '📊 Analytics':
+        return renderAnalyticsTab()
+      case '🎬 Projects':
+        return renderProjectsTab()
+      default:
+        return renderDashboardTab()
+    }
+  }
+
   return (
-    <div className="portal-container">
-      {/* Header */}
-      <PortalHeader
-        title="IndieGate.io"
-        subtitle="Brands Network"
+    <div className="flex bg-gray-900 text-white min-h-screen">
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        activeTab={activeTab}
+        onTabClick={handleTabClick}
         onLogout={onLogout}
-        onBack={onBack}
+        portalType="brands"
       />
-
-      {/* Main Content */}
-      <main className="px-6 py-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Welcome Section */}
-          <div className="mb-8">
-            <h2 className="portal-heading-main portal-fade-in">Welcome to the Brands Network</h2>
-            <p className="portal-text-large text-orange-200 mb-8 text-center">
-              Discover authentic product placement opportunities and equity partnerships in
-              groundbreaking indie films.
-            </p>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex space-x-4 mb-8">
-            {tabs.map((tab, index) => (
-              <Button
-                key={index}
-                variant={activeTab === tab ? 'outline' : 'ghost'}
-                onClick={() => {
-                  setActiveTab(tab)
-                }}
-                className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20"
-              >
-                {tab}
-              </Button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          {activeTab === '🎯 Dashboard' && renderDashboardTab()}
-          {activeTab === '🏢 Brand Profile' && renderBrandProfileTab()}
-          {activeTab === '🤝 Partnerships' && renderPartnershipsTab()}
-          {activeTab === '📊 Analytics' && renderAnalyticsTab()}
-          {activeTab === '🎬 Projects' && renderProjectsTab()}
-        </div>
-      </main>
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}
+      >
+        <TopBar />
+        <main className="flex-1 overflow-y-auto p-8">{renderContent()}</main>
+      </div>
     </div>
   )
 }

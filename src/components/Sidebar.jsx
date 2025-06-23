@@ -1,5 +1,16 @@
-import React from 'react';
-import { LogOut, User, Briefcase, DollarSign, Users, MessageSquare, Search, Settings, BarChart2, Home, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  LogOut,
+  User,
+  Briefcase,
+  DollarSign,
+  Users,
+  MessageSquare,
+  Search,
+  BarChart2,
+  Home,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react'
 
 const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => {
   const navItems = [
@@ -11,14 +22,16 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => 
     { icon: Search, label: 'Smart Matching' },
     { icon: BarChart2, label: 'Analytics' },
     { icon: MessageSquare, label: 'Messages' },
-  ];
+  ]
 
   return (
-    <div className={`transition-all duration-300 ease-in-out bg-gray-900/50 backdrop-blur-lg text-white flex flex-col h-screen p-4 border-r border-white/10 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <div
+      className={`transition-all duration-300 ease-in-out bg-gray-900/50 backdrop-blur-lg text-white flex flex-col h-screen p-4 border-r border-white/10 ${isCollapsed ? 'w-20' : 'w-64'}`}
+    >
       <div className="flex items-center justify-between mb-8">
         {!isCollapsed && <h1 className="text-xl font-bold text-white">IndieGate.io</h1>}
         <button onClick={onToggle} className="p-2 rounded-full hover:bg-white/10">
-            {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
       </div>
 
@@ -28,9 +41,9 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => 
             <li key={label} className="mb-2">
               <a
                 href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onTabClick(label);
+                onClick={e => {
+                  e.preventDefault()
+                  onTabClick(label)
                 }}
                 className={`flex items-center p-3 rounded-lg transition-colors ${
                   activeTab === label
@@ -56,7 +69,7 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => 
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar; 
+export default Sidebar

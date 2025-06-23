@@ -94,7 +94,7 @@ const MessagingInterface: React.FC<MessagingInterfaceProps> = ({
       )
       .catch(e => setError(e.message || 'Failed to load conversations'))
       .finally(() => setLoadingConvs(false))
-  }, [currentUserId])
+  }, [currentUserId, mapConversationFromBackend])
 
   // Fetch messages for selected conversation & mark as read
   useEffect(() => {
@@ -110,7 +110,7 @@ const MessagingInterface: React.FC<MessagingInterfaceProps> = ({
       .finally(() => setLoadingMsgs(false))
     // Mark as read
     MessageService.markAsRead(selectedConvId, currentUserId).catch(() => {})
-  }, [selectedConvId, currentUserId])
+  }, [selectedConvId, currentUserId, mapMessageFromBackend])
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {

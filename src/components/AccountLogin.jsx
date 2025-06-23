@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { PORTAL_CONFIGS } from '../config/auth.js'
 import AuthDebugPanel from './AuthDebugPanel.jsx'
 

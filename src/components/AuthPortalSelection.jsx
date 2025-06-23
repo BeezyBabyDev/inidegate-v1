@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import { PORTAL_CONFIGS } from '../config/auth.js'
 import AccountRegistration from './AccountRegistration'
@@ -63,7 +63,7 @@ const AuthPortalSelection = ({
       } else {
         setAuthMessage('Error sending password reset. Please try again.')
       }
-    } catch (error) {
+    } catch {
       setAuthMessage('Error sending password reset. Please try again.')
     }
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { User } from '../types/user'
 import { SocialService } from '../services/socialService'
 import { MessageService } from '../services/messageService'
@@ -28,11 +28,7 @@ const NetworkDashboard: React.FC<NetworkDashboardProps> = ({ currentUserId }) =>
   const [messagingOpen, setMessagingOpen] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
 
-  useEffect(() => {
-    loadNetworkData()
-  }, [currentUserId])
-
-  const loadNetworkData = async () => {
+  const loadNetworkData = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
@@ -53,7 +49,11 @@ const NetworkDashboard: React.FC<NetworkDashboardProps> = ({ currentUserId }) =>
     } finally {
       setLoading(false)
     }
-  }
+  }, [currentUserId])
+
+  useEffect(() => {
+    loadNetworkData()
+  }, [loadNetworkData])
 
   const handleFollow = async (userId: string) => {
     try {

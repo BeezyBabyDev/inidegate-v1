@@ -204,7 +204,7 @@ export class MatchingAlgorithm {
     return 0.4
   }
 
-  matchAvailability(talentAvailability, projectStartDate) {
+  matchAvailability(talentAvailability, _projectStartDate) {
     if (talentAvailability?.toLowerCase().includes('available')) return 1.0
     if (talentAvailability?.toLowerCase().includes('flexible')) return 0.8
     return 0.5

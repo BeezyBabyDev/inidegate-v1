@@ -7,9 +7,19 @@ import tseslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 
 export default [
-  { ignores: ['dist', '.vite'] },
+  {
+    ignores: [
+      'dist',
+      '.vite',
+      'babel.config.cjs',
+      'jest.config.cjs',
+      'postcss.config.js',
+      'tailwind.config.js',
+    ],
+  },
   {
     files: ['**/*.{js,jsx}'],
+    ignores: ['server/**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -36,6 +46,18 @@ export default [
       'no-unused-vars': 'warn',
       'no-undef': 'warn',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    },
+  },
+  {
+    files: ['server/**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.node,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      'no-unused-vars': 'warn',
+      'no-undef': 'warn',
     },
   },
   {
@@ -79,6 +101,7 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
+        ...globals.jest,
         vi: 'readonly',
         describe: 'readonly',
         it: 'readonly',

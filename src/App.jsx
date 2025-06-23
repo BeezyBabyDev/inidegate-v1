@@ -11,19 +11,18 @@ import PortalSelectionPage from './components/PortalSelectionPage'
 import MultiPortalSystem from './components/MultiPortalSystem'
 import DemoLandingPage from './components/DemoLandingPage'
 import AuthPortalSelection from './components/AuthPortalSelection'
-import ProfileManager from './components/ProfileManager'
 import FilmProjectDetailDemo from './components/FilmProjectDetailDemo'
 import DiscoverProfiles from './components/DiscoverProfiles'
 import NetworkDashboard from './components/NetworkDashboard'
 import MessagingPage from './components/MessagingPage'
 import ProjectAuroraGate from './components/ProjectAuroraGate'
+import { DashboardProvider } from './context/DashboardContext.tsx'
 
 function App() {
   const [currentView, setCurrentView] = useState('aurora-gate')
   const [hasValidCode, setHasValidCode] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
-  const [showAccountSystem, setShowAccountSystem] = useState(false)
   const [selectedPortal, setSelectedPortal] = useState(null)
   const [hasAuroraAccess, setHasAuroraAccess] = useState(false)
 
@@ -178,12 +177,10 @@ function App() {
   const handleBackToWelcome = () => {
     setCurrentView('welcome')
     setHasValidCode(false)
-    setShowAccountSystem(false) // Reset account system state
-    setSelectedPortal(null) // Reset selected portal
-    // Clear URL parameters
-    const url = window.location.origin + window.location.pathname
-    window.history.pushState({}, '', url)
-    window.scrollTo(0, 0)
+    setCurrentUser(null)
+    setHasAuroraAccess(false) // Reset Aurora access on logout
+    setCurrentView('aurora-gate') // Return to Aurora gate
+    window.location.reload() // Ensure clean state
   }
 
   const handleLogout = () => {
@@ -193,37 +190,6 @@ function App() {
     setHasAuroraAccess(false) // Reset Aurora access on logout
     setCurrentView('aurora-gate') // Return to Aurora gate
     window.location.reload() // Ensure clean state
-  }
-
-  const handleAuthSuccess = user => {
-    setIsAuthenticated(true)
-    setCurrentUser(user)
-    setShowAccountSystem(false)
-    setCurrentView(user.portal)
-    setHasValidCode(true)
-
-    // Update URL
-    const url =
-      window.location.origin +
-      window.location.pathname +
-      `?portal=${user.portal}&authenticated=true`
-    window.history.pushState({}, '', url)
-    window.scrollTo(0, 0) // Scroll to top on navigation
-  }
-
-  const handleShowAccountSystem = () => {
-    setShowAccountSystem(true)
-    window.scrollTo(0, 0) // Scroll to top on navigation
-  }
-
-  const handleGoToPortal = portal => {
-    setCurrentView(portal)
-    setHasValidCode(true)
-    window.scrollTo(0, 0) // Scroll to top on navigation
-  }
-
-  const handleProfileUpdate = updatedUser => {
-    setCurrentUser(updatedUser)
   }
 
   const handleShowFilmDemo = () => {
@@ -279,352 +245,87 @@ function App() {
     } else {
       // User not authenticated, show authentication system for selected portal
       setSelectedPortal(portal)
-      setShowAccountSystem(true)
+      setCurrentView('auth-portal-selection')
       window.scrollTo(0, 0)
     }
   }
 
-  const handleBackToPortalSelection = () => {
-    setCurrentView('portal-selection')
-    // Update URL to remove portal parameter but keep code
-    const url = window.location.origin + window.location.pathname + '?code=DEMO2025'
-    window.history.pushState({}, '', url)
-    window.scrollTo(0, 0) // Scroll to top on navigation
-  }
+  const renderContent = () => {
+    // Render based on authentication and view state
+    if (currentView === 'aurora-gate') {
+      return <ProjectAuroraGate onAccessGranted={handleAuroraAccess} />
+    }
 
-  // Show Project Aurora Gate
-  if (currentView === 'aurora-gate' || !hasAuroraAccess) {
-    return <ProjectAuroraGate onAccessGranted={handleAuroraAccess} />
-  }
-
-  // Show account system
-  if (showAccountSystem) {
-    return (
-      <Router>
-        <>
-          <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center">
-            <AuthPortalSelection
-              onAuthSuccess={handleAuthSuccess}
-              onBack={() => setShowAccountSystem(false)}
-              selectedPortal={selectedPortal}
-            />
-          </div>
-        </>
-      </Router>
-    )
-  }
-
-  // Show profile manager if requested
-  if (currentView === 'profile' && isAuthenticated && currentUser) {
-    return (
-      <ProfileManager
-        user={currentUser}
-        onProfileUpdate={handleProfileUpdate}
-        onBack={() => setCurrentView(currentUser.portal)}
-      />
-    )
-  }
-
-  // Show film project detail demo
-  if (currentView === 'film-detail-demo') {
-    return <FilmProjectDetailDemo />
-  }
-
-  // Welcome page - entry point after Aurora gate
-  if (currentView === 'welcome') {
-    return (
-      <WelcomePage
-        onEnterCode={handleEnterCode}
-        onShowAccountSystem={handleShowAccountSystem}
-        onShowFilmDemo={handleShowFilmDemo}
-        onGoToPortal={handleGoToPortal}
-      />
-    )
-  }
-
-  // Portal selection page - after code entry
-  if (currentView === 'portal-selection') {
-    return (
-      <>
-        <PortalSelectionPage
-          onSelectPortal={handleSelectPortal}
-          onBackToWelcome={handleBackToWelcome}
-        />
-      </>
-    )
-  }
-
-  // Individual portal views - Allow demo access or require authentication
-  if (currentView === 'filmmakers' || currentView === 'talent') {
-    // Allow demo access with valid code, or require authentication
+    // After Aurora Gate, check for authentication or valid code
     if (!isAuthenticated && !hasValidCode) {
-      setSelectedPortal(currentView === 'talent' ? 'talent' : 'filmmaker')
-      setShowAccountSystem(true)
-      return null
+      return <WelcomePage onEnterCode={handleEnterCode} />
     }
 
-    // If authenticated, check if user has access to this specific portal
-    // Allow demo users to access all portals for demonstration purposes
-    const requiredPortal = currentView === 'talent' ? 'talent' : 'filmmaker'
-    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
-    if (isAuthenticated && currentUser && currentUser.portal !== requiredPortal && !isDemoUser) {
-      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
-      setCurrentView(currentUser.portal)
-      return null
+    // Render MessagingPage if authenticated and currentView is 'messaging'
+    if (isAuthenticated && currentView === 'messaging') {
+      return <MessagingPage onBack={() => setCurrentView('investor')} user={currentUser} />
     }
 
-    // Map 'talent' to CreativePortal for backward compatibility
-    if (currentView === 'talent') {
-      return (
-        <>
-          <TalentPortalComponent
+    // Default fallback
+    switch (currentView) {
+      case 'welcome':
+        return <WelcomePage onEnterCode={handleEnterCode} />
+      case 'portal-selection':
+        return (
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="w-full max-w-4xl">
+              <PortalSelectionPage
+                onSelectPortal={handleSelectPortal}
+                onBack={handleBackToWelcome}
+              />
+            </div>
+          </div>
+        )
+      case 'multi-portal':
+        return (
+          <MultiPortalSystem
             onLogout={handleLogout}
-            onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-            user={currentUser}
-            isAuthenticated={isAuthenticated}
+            onSelectPortal={handleSelectPortal}
+            onBack={handleBackToWelcome}
           />
-          <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
-            <button
-              className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-              onClick={() => setCurrentView('discover-profiles')}
-              aria-label="Discover Profiles"
-            >
-              Discover Profiles
-            </button>
+        )
+      case 'demo-landing':
+        return <DemoLandingPage onSelectPortal={handleSelectPortal} onBack={handleBackToWelcome} />
+      case 'auth-portal-selection':
+        return (
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="w-full max-w-4xl">
+              <AuthPortalSelection
+                onSelectPortal={handleSelectPortal}
+                onBack={handleBackToWelcome}
+              />
+            </div>
           </div>
-        </>
-      )
+        )
+      case 'creative':
+        return <CreativePortal onLogout={handleLogout} />
+      case 'investor':
+        return (
+          <DashboardProvider>
+            <InvestorPortal onLogout={handleLogout} onShowFilmDemo={handleShowFilmDemo} />
+          </DashboardProvider>
+        )
+      case 'talent':
+        return <TalentPortalComponent onLogout={handleLogout} />
+      case 'brands':
+        return <BrandsPortal onLogout={handleLogout} />
+      case 'discover':
+        return <DiscoverProfiles onBack={() => setCurrentView(selectedPortal || 'investor')} />
+      case 'film-detail-demo':
+        return <FilmProjectDetailDemo onBack={() => setCurrentView(selectedPortal || 'investor')} />
+      case 'network-dashboard':
+        return <NetworkDashboard onBack={() => setCurrentView('investor')} />
+      default:
+        return <WelcomePage onEnterCode={handleEnterCode} />
     }
-    return (
-      <>
-        <CreativePortal
-          onLogout={handleLogout}
-          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-          user={currentUser}
-          isAuthenticated={isAuthenticated}
-        />
-        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-            onClick={() => setCurrentView('discover-profiles')}
-            aria-label="Discover Profiles"
-          >
-            Discover Profiles
-          </button>
-        </div>
-      </>
-    )
   }
 
-  if (currentView === 'investor') {
-    // Allow demo access with valid code, or require authentication
-    if (!isAuthenticated && !hasValidCode) {
-      setSelectedPortal('investor')
-      setShowAccountSystem(true)
-      return null
-    }
-
-    // If authenticated, check if user has access to this specific portal
-    // Allow demo users to access all portals for demonstration purposes
-    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
-    if (isAuthenticated && currentUser && currentUser.portal !== 'investor' && !isDemoUser) {
-      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
-      setCurrentView(currentUser.portal)
-      return null
-    }
-
-    return (
-      <>
-        <InvestorPortal
-          onLogout={handleLogout}
-          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-          user={currentUser}
-          isAuthenticated={isAuthenticated}
-        />
-        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-            onClick={() => setCurrentView('discover-profiles')}
-            aria-label="Discover Profiles"
-          >
-            Discover Profiles
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  if (currentView === 'filmmaker') {
-    // Allow demo access with valid code, or require authentication
-    if (!isAuthenticated && !hasValidCode) {
-      setSelectedPortal('filmmaker')
-      setShowAccountSystem(true)
-      return null
-    }
-
-    // If authenticated, check if user has access to this specific portal
-    // Allow demo users to access all portals for demonstration purposes
-    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
-    if (isAuthenticated && currentUser && currentUser.portal !== 'filmmaker' && !isDemoUser) {
-      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
-      setCurrentView(currentUser.portal)
-      return null
-    }
-
-    return (
-      <>
-        <CreativePortal
-          onLogout={handleLogout}
-          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-          user={currentUser}
-          isAuthenticated={isAuthenticated}
-        />
-        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-            onClick={() => setCurrentView('discover-profiles')}
-            aria-label="Discover Profiles"
-          >
-            Discover Profiles
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  if (currentView === 'talent-new') {
-    // Allow demo access with valid code, or require authentication
-    if (!isAuthenticated && !hasValidCode) {
-      setSelectedPortal('talent')
-      setShowAccountSystem(true)
-      return null
-    }
-
-    // If authenticated, check if user has access to this specific portal
-    // Allow demo users to access all portals for demonstration purposes
-    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
-    if (isAuthenticated && currentUser && currentUser.portal !== 'talent' && !isDemoUser) {
-      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
-      setCurrentView(currentUser.portal)
-      return null
-    }
-
-    return (
-      <>
-        <TalentPortalComponent
-          onLogout={handleLogout}
-          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-          user={currentUser}
-          isAuthenticated={isAuthenticated}
-        />
-        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-            onClick={() => setCurrentView('discover-profiles')}
-            aria-label="Discover Profiles"
-          >
-            Discover Profiles
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  if (currentView === 'brands' || currentView === 'brand') {
-    // Allow demo access with valid code, or require authentication
-    if (!isAuthenticated && !hasValidCode) {
-      setSelectedPortal('brand')
-      setShowAccountSystem(true)
-      return null
-    }
-
-    // If authenticated, check if user has access to this specific portal
-    // Allow demo users to access all portals for demonstration purposes
-    const isDemoUser = currentUser && currentUser.email && currentUser.email.includes('@demo.com')
-    if (isAuthenticated && currentUser && currentUser.portal !== 'brand' && !isDemoUser) {
-      alert(`Access denied. You are registered for the ${currentUser.portal} portal.`)
-      setCurrentView(currentUser.portal)
-      return null
-    }
-
-    return (
-      <>
-        <BrandsPortal
-          onLogout={handleLogout}
-          onBack={isAuthenticated ? () => setCurrentView('profile') : handleBackToPortalSelection}
-          user={currentUser}
-          isAuthenticated={isAuthenticated}
-        />
-        <div className="fixed bottom-6 right-6 z-50 flex space-x-4">
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-            onClick={() => setCurrentView('discover-profiles')}
-            aria-label="Discover Profiles"
-          >
-            Discover Profiles
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  // Demo Landing Page
-  if (currentView === 'demo-landing') {
-    return <DemoLandingPage onAccessMultiPortal={() => setCurrentView('multi-portal')} />
-  }
-
-  // Multi-Portal System
-  if (currentView === 'multi-portal') {
-    return <MultiPortalSystem />
-  }
-
-  // Render DiscoverProfiles page
-  if (currentView === 'discover-profiles') {
-    return (
-      <>
-        <DiscoverProfiles />
-        <div className="flex justify-center mt-6 space-x-4">
-          <button
-            className="bg-gray-700 text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition-all"
-            onClick={() => setCurrentView('portal-selection')}
-          >
-            Back to Portal Selection
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  // Render NetworkDashboard page
-  if (currentView === 'network-dashboard') {
-    return (
-      <>
-        <NetworkDashboard currentUserId={currentUser?.id || 'user-1'} />
-        <div className="flex justify-center mt-6 space-x-4">
-          <button
-            className="bg-gray-700 text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition-all"
-            onClick={() => setCurrentView('portal-selection')}
-          >
-            Back to Portal Selection
-          </button>
-          <button
-            className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700 transition-all"
-            onClick={() => setCurrentView('discover-profiles')}
-          >
-            Discover Profiles
-          </button>
-        </div>
-      </>
-    )
-  }
-
-  // Render MessagingPage
-  if (currentView === 'messages') {
-    return <MessagingPage onBack={() => setCurrentView('investor')} user={currentUser} />
-  }
-
-  // Default fallback
-  return <WelcomePage onEnterCode={handleEnterCode} />
+  return <Router>{renderContent()}</Router>
 }
 
 export default App

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { UserDiscoveryFilters, UserRole } from '../services/userService'
 
 interface ProfileFiltersProps {
@@ -11,13 +11,12 @@ interface ProfileFiltersProps {
 
 const defaultRoles: UserRole[] = ['investor', 'filmmaker', 'talent', 'brand']
 
-export const ProfileFilters: React.FC<ProfileFiltersProps> = ({
+export const ProfileFilters = ({
   value,
   onChange,
   availableRoles = defaultRoles,
   availableLocations = [],
-  availableInterests = [],
-}) => {
+}: ProfileFiltersProps) => {
   const [search, setSearch] = useState(value?.interests?.join(', ') || '')
   const [debouncedSearch, setDebouncedSearch] = useState(search)
 
@@ -34,7 +33,7 @@ export const ProfileFilters: React.FC<ProfileFiltersProps> = ({
       interests: debouncedSearch
         ? debouncedSearch
             .split(',')
-            .map(s => s.trim())
+            .map((s: string) => s.trim())
             .filter(Boolean)
         : [],
     })
@@ -49,7 +48,9 @@ export const ProfileFilters: React.FC<ProfileFiltersProps> = ({
         <select
           className="rounded px-2 py-1 bg-white/20 text-white focus:outline-none"
           value={value.role || ''}
-          onChange={e => onChange({ ...value, role: e.target.value as UserRole })}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+            onChange({ ...value, role: e.target.value as UserRole })
+          }
         >
           <option value="">All</option>
           {availableRoles.map(role => (
@@ -65,7 +66,9 @@ export const ProfileFilters: React.FC<ProfileFiltersProps> = ({
         <select
           className="rounded px-2 py-1 bg-white/20 text-white focus:outline-none"
           value={value.location || ''}
-          onChange={e => onChange({ ...value, location: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+            onChange({ ...value, location: e.target.value })
+          }
         >
           <option value="">All</option>
           {availableLocations.map(loc => (
@@ -83,7 +86,7 @@ export const ProfileFilters: React.FC<ProfileFiltersProps> = ({
           className="rounded px-2 py-1 bg-white/20 text-white focus:outline-none"
           placeholder="e.g. Drama, Tech, Acting"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
         />
       </label>
     </form>

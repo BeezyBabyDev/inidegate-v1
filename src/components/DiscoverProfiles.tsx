@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { User } from '../types/user'
-import { UserService, UserDiscoveryFilters, UserRole } from '../services/userService'
+import { UserService, UserDiscoveryFilters } from '../services/userService'
 import { SocialService } from '../services/socialService'
 import { MessageService } from '../services/messageService'
 import ProfileFilters from './ProfileFilters'
@@ -26,9 +26,9 @@ const DiscoverProfiles: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState<Record<string, boolean>>({})
   const [canMessage, setCanMessage] = useState<Record<string, boolean>>({})
   const [loadingFollow, setLoadingFollow] = useState<Record<string, boolean>>({})
-  const [currentUserId, setCurrentUserId] = useState<string>('user-1') // TODO: Replace with real auth
+  const [currentUserId] = useState<string>('user-1') // TODO: Replace with real auth
   const [messagingOpen, setMessagingOpen] = useState(false)
-  const [messagingUserId, setMessagingUserId] = useState<string | null>(null)
+  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null)
 
   // Fetch users
   const fetchUsers = useCallback(
@@ -92,9 +92,16 @@ const DiscoverProfiles: React.FC = () => {
     setIsFollowing(f => ({ ...f, [userId]: false }))
     setLoadingFollow(f => ({ ...f, [userId]: false }))
   }
-  const handleMessage = (userId: string) => {
-    setMessagingUserId(userId)
-    setMessagingOpen(true)
+  const handleMessage = async (userId: string) => {
+    try {
+      // Logic to find or create a conversation
+      const conversation = await MessageService.createConversation([currentUserId, userId])
+      setSelectedConversationId(conversation.id)
+      setMessagingOpen(true)
+    } catch (error) {
+      console.error('Failed to create or open conversation', error)
+      setError('Could not open conversation.')
+    }
   }
 
   // Collect available locations for filters
@@ -122,6 +129,7 @@ const DiscoverProfiles: React.FC = () => {
         )}
         <ProfileGrid
           users={users.filter(u => u.id !== currentUserId)}
+          currentUserId={currentUserId}
           isFollowing={isFollowing}
           canMessage={canMessage}
           loadingFollow={loadingFollow}
@@ -152,7 +160,10 @@ const DiscoverProfiles: React.FC = () => {
             >
               ✕
             </button>
-            <MessagingInterface currentUserId={currentUserId} />
+            <MessagingInterface
+              currentUserId={currentUserId}
+              initialConversationId={selectedConversationId || undefined}
+            />
           </div>
         </div>
       )}

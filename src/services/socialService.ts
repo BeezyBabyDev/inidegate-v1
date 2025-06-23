@@ -73,7 +73,7 @@ export class SocialService {
     return { data, total }
   }
 
-  static async markActivityAsRead(activityId: string, userId: string): Promise<boolean> {
+  static async markActivityAsRead(activityId: string, _userId: string): Promise<boolean> {
     await delay(50)
     const activity = mockActivities.find(a => a.id === activityId)
     if (!activity) return false
@@ -81,10 +81,13 @@ export class SocialService {
     return true
   }
 
-  static async markAllActivitiesAsRead(): Promise<boolean> {
+  static async markAllActivitiesAsRead(userId: string): Promise<boolean> {
     await delay(100)
     mockActivities.forEach(activity => {
-      if (!activity.read) {
+      if (
+        (activity.actor.id === userId || (activity.target && activity.target.id === userId)) &&
+        !activity.read
+      ) {
         activity.read = true
       }
     })

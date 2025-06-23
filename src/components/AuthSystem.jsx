@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import AccountLogin from './AccountLogin'
 import AccountRegistration from './AccountRegistration'
 
@@ -22,7 +22,7 @@ const AuthSystem = ({ portal, onAuthSuccess, onBack }) => {
   }
 
   // Default onLogin for test: always succeed
-  const testLogin = async (email, password) => {
+  const testLogin = async (email, _password) => {
     return { success: true, user: { email, portal } }
   }
 

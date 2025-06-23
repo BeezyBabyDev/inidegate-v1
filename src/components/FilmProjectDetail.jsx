@@ -1,28 +1,29 @@
-import React, { useState } from 'react'
-import { useScrollToTop } from '../hooks/useScrollToTop';
+import { useState } from 'react'
+import { useScrollToTop } from '../hooks/useScrollToTop'
 
 const FilmProjectDetail = ({ onBack, project = null }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
-  
-  const [activeTab, setActiveTab] = useState('overview');
+
+  const [activeTab, setActiveTab] = useState('overview')
 
   // Default project data for "Midnight in Brooklyn"
   const defaultProject = {
-    title: "Midnight in Brooklyn",
-    subtitle: "Drama • Pre-Production",
-    badge: "Hot Deal",
-    budget: "$2.8M",
-    seeking: "$1.2M",
-    equity: "15%",
-    roi: "280%",
-    description: "A young immigrant nurse navigates love, loss, and identity while working the night shift in a Brooklyn hospital during the height of the pandemic.",
-    director: "Sarah Chen",
-    genre: "Drama",
-    status: "Pre-Production"
-  };
+    title: 'Midnight in Brooklyn',
+    subtitle: 'Drama • Pre-Production',
+    badge: 'Hot Deal',
+    budget: '$2.8M',
+    seeking: '$1.2M',
+    equity: '15%',
+    roi: '280%',
+    description:
+      'A young immigrant nurse navigates love, loss, and identity while working the night shift in a Brooklyn hospital during the height of the pandemic.',
+    director: 'Sarah Chen',
+    genre: 'Drama',
+    status: 'Pre-Production',
+  }
 
-  const projectData = project || defaultProject;
+  const projectData = project || defaultProject
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: '📋', active: true },
@@ -31,20 +32,20 @@ const FilmProjectDetail = ({ onBack, project = null }) => {
     { id: 'financials', label: 'Financials', icon: '💰', active: false },
     { id: 'timeline', label: 'Timeline', icon: '📅', active: false },
     { id: 'distribution', label: 'Distribution', icon: '📡', active: false },
-    { id: 'legal', label: 'Legal & Risk', icon: '⚖️', active: false }
-  ];
+    { id: 'legal', label: 'Legal & Risk', icon: '⚖️', active: false },
+  ]
 
   const handleExpressInterest = () => {
-    alert(`Interest expressed in ${projectData.title}!`);
-  };
+    alert(`Interest expressed in ${projectData.title}!`)
+  }
 
   const handleScheduleMeeting = () => {
-    alert(`Meeting request sent for ${projectData.title}!`);
-  };
+    alert(`Meeting request sent for ${projectData.title}!`)
+  }
 
   const handleShareProject = () => {
-    alert(`Sharing ${projectData.title}...`);
-  };
+    alert(`Sharing ${projectData.title}...`)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
@@ -62,10 +63,10 @@ const FilmProjectDetail = ({ onBack, project = null }) => {
               </button>
             </div>
           )}
-          
+
           {/* Tab Navigation */}
           <div className="flex space-x-1 overflow-x-auto py-4">
-            {tabs.map((tab) => (
+            {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -91,12 +92,8 @@ const FilmProjectDetail = ({ onBack, project = null }) => {
             {/* Title and Badge Row */}
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h1 className="text-4xl font-bold text-white mb-2">
-                  {projectData.title}
-                </h1>
-                <p className="text-purple-200 text-lg">
-                  {projectData.subtitle}
-                </p>
+                <h1 className="text-4xl font-bold text-white mb-2">{projectData.title}</h1>
+                <p className="text-purple-200 text-lg">{projectData.subtitle}</p>
               </div>
               <div className="bg-green-500 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg">
                 {projectData.badge}
@@ -202,23 +199,33 @@ const FilmProjectDetail = ({ onBack, project = null }) => {
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-white text-sm font-medium">Experienced director with award-winning track record</p>
+                  <p className="text-white text-sm font-medium">
+                    Experienced director with award-winning track record
+                  </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-white text-sm font-medium">Strong market appeal for festival and streaming distribution</p>
+                  <p className="text-white text-sm font-medium">
+                    Strong market appeal for festival and streaming distribution
+                  </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-white text-sm font-medium">Timely social themes with broad audience appeal</p>
+                  <p className="text-white text-sm font-medium">
+                    Timely social themes with broad audience appeal
+                  </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-white text-sm font-medium">Strategic partnerships already secured for production</p>
+                  <p className="text-white text-sm font-medium">
+                    Strategic partnerships already secured for production
+                  </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-white text-sm font-medium">Clear path to profitability with multiple revenue streams</p>
+                  <p className="text-white text-sm font-medium">
+                    Clear path to profitability with multiple revenue streams
+                  </p>
                 </div>
               </div>
             </div>
@@ -233,14 +240,15 @@ const FilmProjectDetail = ({ onBack, project = null }) => {
               <h4 className="text-lg font-semibold text-white">Investment Disclosure</h4>
             </div>
             <p className="text-yellow-100 text-sm font-medium">
-              This is a high-risk investment opportunity. Film investments are speculative and may result in total loss of capital. 
-              Past performance does not guarantee future results. Please consult with your financial advisor before investing.
+              This is a high-risk investment opportunity. Film investments are speculative and may
+              result in total loss of capital. Past performance does not guarantee future results.
+              Please consult with your financial advisor before investing.
             </p>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FilmProjectDetail; 
+export default FilmProjectDetail

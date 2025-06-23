@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Button from './Button'
 import Card from './Card'
 import MessagingSystem from './MessagingSystem'
@@ -27,7 +27,7 @@ const SmartMatching = ({ userType = 'talent' }) => {
   })
 
   // Sample matching data - will be replaced with real AI matching
-  const generateMatches = () => {
+  const generateMatches = useCallback(() => {
     if (userType === 'talent') {
       return [
         {
@@ -202,14 +202,14 @@ const SmartMatching = ({ userType = 'talent' }) => {
         },
       ]
     }
-  }
+  }, [userType])
 
   useEffect(() => {
     const allMatches = generateMatches()
     // Filter matches based on minimum threshold
     const filteredMatches = allMatches.filter(match => match.matchScore >= minMatchThreshold)
     setMatches(filteredMatches)
-  }, [userType, filters, minMatchThreshold])
+  }, [userType, filters, minMatchThreshold, generateMatches])
 
   const currentMatch = matches[currentMatchIndex]
 

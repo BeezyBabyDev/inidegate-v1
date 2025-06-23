@@ -1,8 +1,7 @@
-import React from 'react'
 import Button from './Button'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 
-const PortalSelectionPage = ({ onSelectPortal, onBackToWelcome }) => {
+const PortalSelectionPage = ({ onSelectPortal }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
 

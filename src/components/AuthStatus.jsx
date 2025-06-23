@@ -1,4 +1,3 @@
-import React from 'react'
 import { authService } from '../config/auth.js'
 
 const AuthStatus = ({ user, onLogout, className = '' }) => {
@@ -47,4 +46,4 @@ const AuthStatus = ({ user, onLogout, className = '' }) => {
   )
 }
 
-export default AuthStatus 
+export default AuthStatus

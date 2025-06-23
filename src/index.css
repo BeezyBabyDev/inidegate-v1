@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #1a1d29;
+  color: white;
+}
+
+/* Custom Slick Carousel Styles */
+.deal-flow-carousel .slick-dots {
+  bottom: -25px;
+  display: flex !important;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.deal-flow-carousel .slick-dots li {
+  margin: 0 4px;
+  flex-grow: 1;
+  max-width: 40px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.deal-flow-carousel .slick-dots li.slick-active {
+  background-color: #8b5cf6; /* purple-500 */
+}
+
+.deal-flow-carousel .slick-dots li button {
+  display: none; /* Hide the default button */
+}
+
+/* Center Mode Fade Effect */
+.deal-flow-carousel .slick-slide {
+  transition:
+    transform 0.4s ease,
+    opacity 0.4s ease;
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+
+.deal-flow-carousel .slick-center {
+  opacity: 1;
+  transform: scale(1);
+}

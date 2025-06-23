@@ -14,7 +14,7 @@ export const dealFlow: Deal[] = [
     tag: {
       text: 'Hot Deal',
       style: 'hot',
-    }
+    },
   },
   {
     id: 'deal-2',
@@ -48,17 +48,47 @@ export const dealFlow: Deal[] = [
   },
   {
     id: 'deal-4',
-    title: 'Beneath them, The Lambs',
-    genre: 'Thriller',
-    stage: 'Pilot',
-    director: 'Jane Doe',
-    budget: 750000,
-    seeking: 300000,
-    equity: 25,
-    estROI: 220,
+    title: 'Beneath Them, Pilot',
+    genre: 'Sci-fi, Psychological Thriller',
+    stage: 'Series Concept',
+    director: 'Joe Bell & Kai Lilly Karpman (Writers)',
+    budget: 2000000,
+    seeking: 2000000,
+    equity: 30,
+    estROI: 400,
     tag: {
-      text: 'Pilot',
-      style: 'pilot',
+      text: 'Funding',
+      style: 'featured',
     },
-  }
-];
+  },
+  {
+    id: 'deal-5',
+    title: 'Tentative Feelings',
+    genre: 'RomCom, Adventure',
+    stage: 'Development',
+    director: 'Danielle Cherry',
+    budget: 1800000,
+    seeking: 900000,
+    equity: 18,
+    estROI: 250,
+    tag: {
+      text: 'New',
+      style: 'limited',
+    },
+  },
+  {
+    id: 'deal-6',
+    title: 'Snowed In',
+    genre: 'Thriller',
+    stage: 'Financing',
+    director: 'Danielle Cherry',
+    budget: 500000,
+    seeking: 500000,
+    equity: 22,
+    estROI: 300,
+    tag: {
+      text: 'Funding',
+      style: 'hot',
+    },
+  },
+]

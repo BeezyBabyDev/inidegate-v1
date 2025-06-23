@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import Button from './Button'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import { authService } from '../config/auth.js'

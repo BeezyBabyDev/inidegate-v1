@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import Button from './Button'
 import TalentProfile from './TalentProfile'
-import PortalHeader from './PortalHeader'
+import Sidebar from './Sidebar'
+import TopBar from './TopBar'
 
-const TalentPortalComponent = ({ onLogout, onBack }) => {
+const TalentPortalComponent = ({ onLogout }) => {
   // Automatically scroll to top when component mounts
   useScrollToTop()
 
@@ -22,6 +23,7 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
   const [activeTab, setActiveTab] = useState('👤 Profile')
   const [currentView, setCurrentView] = useState('dashboard')
   const [selectedProfile, setSelectedProfile] = useState(null)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   const tabs = ['👤 Profile', '🎯 Dashboard', '🎬 Auditions', '🌐 Network', '📊 Analytics']
 
@@ -30,33 +32,8 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
     setCurrentView('dashboard')
   }
 
-  const handleBackToHome = () => {
-    console.log('handleBackToHome called') // Debug log
-
-    // Multiple fallback strategies for reliable navigation
-    try {
-      // Method 1: Use provided callback
-      if (typeof onBack === 'function') {
-        console.log('Using onBack callback')
-        onBack()
-        return
-      }
-
-      // Method 2: Use onLogout if available
-      if (typeof onLogout === 'function') {
-        console.log('Using onLogout callback')
-        onLogout()
-        return
-      }
-
-      // Method 3: Direct window navigation
-      console.log('Using direct navigation')
-      window.location.href = '/'
-    } catch (error) {
-      console.error('Navigation error:', error)
-      // Final fallback
-      window.location.href = '/'
-    }
+  const handleTabClick = tab => {
+    setActiveTab(tab)
   }
 
   const renderDashboardTab = () => (
@@ -481,59 +458,77 @@ const TalentPortalComponent = ({ onLogout, onBack }) => {
     </div>
   )
 
+  const renderContent = () => {
+    switch (activeTab) {
+      case '👤 Profile':
+        return renderProfileTab()
+      case '🎯 Dashboard':
+        return renderDashboardTab()
+      case '🎬 Auditions':
+        return renderAuditionsTab()
+      case '🌐 Network':
+        return renderNetworkTab()
+      case '📊 Analytics':
+        return renderAnalyticsTab()
+      default:
+        return renderDashboardTab()
+    }
+  }
+
   if (currentView === 'profile' && selectedProfile) {
     return <TalentProfile talentData={selectedProfile} onBack={handleBackToDashboard} />
   }
 
   return (
-    <div className="portal-container">
-      <PortalHeader
-        title="IndieGate.io"
-        subtitle="Talent Network"
+    <div className="flex bg-gray-900 text-white min-h-screen">
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        activeTab={activeTab}
+        onTabClick={handleTabClick}
         onLogout={onLogout}
-        onBack={handleBackToHome}
+        portalType="talent"
       />
-      <main className="px-4 md:px-6 py-6 md:py-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Welcome Section - Mobile Optimized */}
-          <div className="mb-6 md:mb-8">
-            <h2 className="portal-heading-main portal-fade-in">Welcome to the Talent Network</h2>
-            <p className="portal-text-large text-pink-200 mb-6 md:mb-8 text-center">
-              Connect with casting directors, audition for roles, and showcase your talent to the
-              indie film community.
-            </p>
-          </div>
-
-          {/* Mobile-First Tab Navigation */}
-          <div className="mb-6 md:mb-8">
-            {/* Mobile: Horizontal Scroll Tabs */}
-            <div className="flex space-x-2 md:space-x-4 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-              {tabs.map((tab, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveTab(tab)}
-                  className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 border-0 outline-none focus:outline-none focus:ring-0 ${
-                    activeTab === tab
-                      ? 'bg-white text-pink-900 shadow-lg'
-                      : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}
+      >
+        <TopBar />
+        <main className="flex-1 overflow-y-auto p-8">
+          <div className="max-w-7xl mx-auto">
+            {/* Welcome Section - Mobile Optimized */}
+            <div className="mb-6 md:mb-8">
+              <h2 className="portal-heading-main portal-fade-in">Welcome to the Talent Network</h2>
+              <p className="portal-text-large text-pink-200 mb-6 md:mb-8 text-center">
+                Connect with casting directors, audition for roles, and showcase your talent to the
+                indie film community.
+              </p>
             </div>
-          </div>
 
-          {/* Tab Content with Mobile Optimization */}
-          <div className="mb-6 md:mb-8">
-            {activeTab === '👤 Profile' && renderProfileTab()}
-            {activeTab === '🎯 Dashboard' && renderDashboardTab()}
-            {activeTab === '🎬 Auditions' && renderAuditionsTab()}
-            {activeTab === '🌐 Network' && renderNetworkTab()}
-            {activeTab === '📊 Analytics' && renderAnalyticsTab()}
+            {/* Mobile-First Tab Navigation */}
+            <div className="mb-6 md:mb-8">
+              {/* Mobile: Horizontal Scroll Tabs */}
+              <div className="flex space-x-2 md:space-x-4 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                {tabs.map((tab, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveTab(tab)}
+                    className={`whitespace-nowrap text-xs md:text-sm lg:text-base px-3 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all flex-shrink-0 border-0 outline-none focus:outline-none focus:ring-0 ${
+                      activeTab === tab
+                        ? 'bg-white text-pink-900 shadow-lg'
+                        : 'bg-white/10 backdrop-blur-lg text-white hover:bg-white/20'
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Tab Content with Mobile Optimization */}
+            <div className="mb-6 md:mb-8">{renderContent()}</div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   )
 }

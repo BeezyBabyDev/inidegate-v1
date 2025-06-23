@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { User } from '../types/user'
+import React, { useState, useEffect, useCallback } from 'react'
 import { SocialService } from '../services/socialService'
-import { MessageService } from '../services/messageService'
 import { Activity } from '../types/social'
 
 interface ActivityFeedProps {
@@ -17,79 +15,58 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ currentUserId }) => {
   const [hasMore, setHasMore] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
 
-  useEffect(() => {
-    loadActivities()
-    loadUnreadCount()
-  }, [currentUserId])
-
-  const loadActivities = async (pageNum = 1) => {
-    if (pageNum === 1) {
-      setLoading(true)
-    } else {
-      setLoadingMore(true)
-    }
-    setError(null)
-    try {
-      const { data, total } = await SocialService.getActivities(currentUserId, pageNum)
-      if (pageNum === 1) {
-        setActivities(data)
-      } else {
-        setActivities(prev => [...prev, ...data])
-      }
-      setHasMore(activities.length < total)
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message || 'Failed to load activities')
-      } else {
-        setError('Failed to load activities')
-      }
-    } finally {
-      if (pageNum === 1) {
-        setLoading(false)
-      } else {
-        setLoadingMore(false)
-      }
-    }
-  }
-
-  const loadUnreadCount = async () => {
+  const loadUnreadCount = useCallback(async () => {
     try {
       const count = await SocialService.getUnreadActivityCount(currentUserId)
       setUnreadCount(count)
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.error('Failed to load unread count:', e)
-      } else {
-        console.error('Failed to load unread count')
-      }
+      console.error('Failed to load unread count', e)
     }
-  }
+  }, [currentUserId])
+
+  const loadActivities = useCallback(
+    async (pageNum = 1) => {
+      if (pageNum === 1) setLoading(true)
+      else setLoadingMore(true)
+      setError(null)
+      try {
+        const { data, total } = await SocialService.getActivities(currentUserId, pageNum)
+        setActivities((prev: Activity[]) => (pageNum === 1 ? data : [...prev, ...data]))
+        setHasMore(activities.length + data.length < total)
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : 'Failed to load activities')
+      } finally {
+        if (pageNum === 1) setLoading(false)
+        else setLoadingMore(false)
+      }
+    },
+    [currentUserId]
+  )
+
+  useEffect(() => {
+    loadActivities(1)
+    loadUnreadCount()
+  }, [currentUserId, loadActivities, loadUnreadCount])
 
   const markAsRead = async (activityId: string) => {
     try {
-      await SocialService.markActivityAsRead(activityId, currentUserId)
-      setActivities(prev => prev.map(a => (a.id === activityId ? { ...a, read: true } : a)))
-      setUnreadCount(prev => Math.max(0, prev - 1))
+      await SocialService.markActivityAsRead(currentUserId, activityId)
+      setActivities((prev: Activity[]) =>
+        prev.map(a => (a.id === activityId ? { ...a, read: true } : a))
+      )
+      setUnreadCount((prev: number) => Math.max(0, prev - 1))
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.error('Failed to mark activity as read:', e)
-      } else {
-        console.error('Failed to mark activity as read')
-      }
+      console.error('Failed to mark activity as read', e)
     }
   }
 
   const markAllAsRead = async () => {
     try {
       await SocialService.markAllActivitiesAsRead(currentUserId)
-      setActivities(prev => prev.map(a => ({ ...a, read: true })))
+      setActivities((prev: Activity[]) => prev.map(a => ({ ...a, read: true })))
       setUnreadCount(0)
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.error('Failed to mark all activities as read:', e)
-      } else {
-        console.error('Failed to mark all activities as read')
-      }
+      console.error('Failed to mark all activities as read', e)
     }
   }
 
@@ -152,7 +129,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ currentUserId }) => {
         <div className="text-blue-200">No activities yet</div>
       ) : (
         <div className="space-y-4">
-          {activities.map(activity => (
+          {activities.map((activity: Activity) => (
             <div
               key={activity.id}
               className={`flex items-start space-x-4 p-4 rounded-lg transition-colors ${

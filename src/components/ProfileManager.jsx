@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { PORTAL_CONFIGS } from '../config/auth.js'
 import { authService } from '../config/auth.js'
 
