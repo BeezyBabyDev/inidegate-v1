@@ -17,6 +17,7 @@ import NetworkDashboard from './components/NetworkDashboard'
 import MessagingPage from './components/MessagingPage'
 import ProjectAuroraGate from './components/ProjectAuroraGate'
 import { DashboardProvider } from './context/DashboardContext.tsx'
+import MainLandingPage from './components/MainLandingPage'
 
 function App() {
   const [currentView, setCurrentView] = useState('aurora-gate')
@@ -253,7 +254,8 @@ function App() {
   const renderContent = () => {
     // Render based on authentication and view state
     if (currentView === 'aurora-gate') {
-      return <ProjectAuroraGate onAccessGranted={handleAuroraAccess} />
+      // Show new landing page instead of ProjectAuroraGate
+      return <MainLandingPage />
     }
 
     // After Aurora Gate, check for authentication or valid code
