@@ -79,44 +79,121 @@ interface DealFlowFeedProps {
   onSelectDeal: (deal: Deal) => void
 }
 
-const getTransform = (offset: number) => {
-  // Center card
+const getTransform = (offset: number, isMobile: boolean, isTablet: boolean) => {
+  // Responsive values
+  let tx = 0,
+    tz = 0,
+    rot = 0,
+    scale = 1,
+    opacity = 1,
+    z = 10,
+    blur = 0,
+    shadow = ''
   if (offset === 0) {
+    // Center
+    tx = 0
+    tz = 0
+    rot = 0
+    scale = 1
+    opacity = 1
+    z = 10
+    blur = 0
+    shadow = '0 20px 40px rgba(0,0,0,0.3)'
     return {
-      transform: 'translateZ(0px) scale(1)',
-      opacity: 1,
-      zIndex: 3,
-      filter: 'none',
-      boxShadow: '0 8px 32px 0 rgba(80,0,160,0.25)',
+      transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${rot}deg) scale(${scale})`,
+      opacity,
+      zIndex: z,
+      pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+      filter: blur
+        ? `blur(${blur}px) brightness(${0.7 + 0.3 * opacity})`
+        : `brightness(${0.7 + 0.3 * opacity})`,
+      boxShadow: shadow,
+      willChange: 'transform, opacity',
+      backfaceVisibility: 'hidden' as React.CSSProperties['backfaceVisibility'],
+      transformOrigin: 'center center',
     }
-  }
-  // Adjacent cards
-  if (Math.abs(offset) === 1) {
+  } else if (offset === -1 || offset === 1 || offset === -2 || offset === 2) {
+    // Adjacent and far cards
+    tx =
+      offset === -1
+        ? isMobile
+          ? -100
+          : isTablet
+            ? -150
+            : -200
+        : offset === 1
+          ? isMobile
+            ? 100
+            : isTablet
+              ? 150
+              : 200
+          : offset === -2
+            ? isMobile
+              ? -175
+              : isTablet
+                ? -250
+                : -350
+            : isMobile
+              ? 175
+              : isTablet
+                ? 250
+                : 350
+    tz =
+      offset === -1
+        ? isMobile
+          ? -80
+          : isTablet
+            ? -100
+            : -150
+        : offset === 1
+          ? isMobile
+            ? -80
+            : isTablet
+              ? -100
+              : -150
+          : offset === -2
+            ? isMobile
+              ? -150
+              : isTablet
+                ? -200
+                : -300
+            : isMobile
+              ? -150
+              : isTablet
+                ? -200
+                : -300
+    rot = offset === -1 ? -45 : offset === 1 ? 45 : offset === -2 ? -75 : 75
+    scale = offset === -1 || offset === 1 ? 0.5 : 0.25
+    opacity = offset === -1 || offset === 1 ? 0.8 : 0.4
+    z = 5
+    blur = offset === -1 || offset === 1 ? 1 : 2
+    shadow = `0 ${blur * 10}px ${blur * 20}px rgba(0,0,0,${0.2 + 0.8 * opacity})`
     return {
-      transform: `translateZ(-${ADJACENT_DEPTH}px) rotateY(${offset * ROTATION_ANGLE}deg) scale(0.85)`,
-      opacity: 0.7,
-      zIndex: 2,
-      filter: 'blur(0.5px)',
-      boxShadow: '0 4px 16px 0 rgba(80,0,160,0.15)',
+      transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${rot}deg) scale(${scale})`,
+      opacity,
+      zIndex: z,
+      pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+      filter: blur
+        ? `blur(${blur}px) brightness(${0.7 + 0.3 * opacity})`
+        : `brightness(${0.7 + 0.3 * opacity})`,
+      boxShadow: shadow,
+      willChange: 'transform, opacity',
+      backfaceVisibility: 'hidden' as React.CSSProperties['backfaceVisibility'],
+      transformOrigin: 'center center',
     }
-  }
-  // Background cards
-  if (Math.abs(offset) === 2) {
+  } else {
+    // Hide further cards
     return {
-      transform: `translateZ(-${DEPTH}px) rotateY(${offset * ROTATION_ANGLE * 2}deg) scale(0.7)`,
-      opacity: 0.4,
-      zIndex: 1,
-      filter: 'blur(1.5px)',
-      boxShadow: '0 2px 8px 0 rgba(80,0,160,0.10)',
+      transform: 'scale(0.1) translateZ(-400px)',
+      opacity: 0,
+      zIndex: 0,
+      pointerEvents: 'none' as React.CSSProperties['pointerEvents'],
+      filter: 'blur(3px)',
+      boxShadow: 'none',
+      willChange: 'transform, opacity',
+      backfaceVisibility: 'hidden' as React.CSSProperties['backfaceVisibility'],
+      transformOrigin: 'center center',
     }
-  }
-  // Hide further cards
-  return {
-    transform: 'scale(0.5) translateZ(-300px)',
-    opacity: 0,
-    zIndex: 0,
-    pointerEvents: 'none',
-    filter: 'blur(2px)',
   }
 }
 
@@ -127,6 +204,16 @@ const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
   const touchStartX = useRef<number | null>(null)
   const touchDeltaX = useRef<number>(0)
   const animationTimeout = useRef<NodeJS.Timeout | null>(null)
+
+  // Responsive helpers
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  const isMobile = windowWidth < 768
+  const isTablet = windowWidth >= 768 && windowWidth < 1200
 
   // Keyboard navigation
   useEffect(() => {
@@ -194,10 +281,10 @@ const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
     }
   }, [activeIdx])
 
-  // Only render visible cards
+  // Only render 5 cards (center, ±1, ±2)
   const getVisibleCards = () => {
     const cards = []
-    for (let i = -3; i <= 3; i++) {
+    for (let i = -2; i <= 2; i++) {
       let idx = (activeIdx + i + dealFlow.length) % dealFlow.length
       cards.push({
         deal: dealFlow[idx],
@@ -211,7 +298,11 @@ const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
   return (
     <div
       className="deal-flow-carousel-container relative w-full h-full flex items-center justify-center select-none"
-      style={{ perspective: 1000 }}
+      style={{
+        perspective: isMobile ? 800 : isTablet ? 1000 : 1200,
+        perspectiveOrigin: 'center center',
+        height: isMobile ? 340 : 600,
+      }}
       ref={carouselRef}
       tabIndex={0}
       aria-roledescription="carousel"
@@ -238,25 +329,26 @@ const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
       />
       {/* 3D Cards */}
       <div
-        className="carousel-3d relative w-full h-80 flex items-center justify-center"
-        style={{ transformStyle: 'preserve-3d', height: 340 }}
+        className="carousel-3d relative w-full h-full flex items-center justify-center"
+        style={{ transformStyle: 'preserve-3d', width: '100%', height: isMobile ? 340 : 600 }}
       >
         {getVisibleCards().map(({ deal, offset, idx }) => (
           <div
             key={deal.id}
-            className="absolute top-0 left-1/2"
+            className="deal-card absolute top-1/2 left-1/2"
             style={{
-              ...getTransform(offset),
+              ...getTransform(offset, isMobile, isTablet),
               transition: `
-                transform ${ANIMATION_DURATION}ms cubic-bezier(0.25,0.46,0.45,0.94),
-                opacity 200ms ease-in-out,
-                filter 300ms ease,
-                box-shadow 300ms ease
+                transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
+                opacity 0.4s ease-in-out,
+                z-index 0s linear 0.3s,
+                filter 0.4s ease,
+                box-shadow 0.4s ease
               `,
-              pointerEvents: offset === 0 ? 'auto' : 'auto',
-              marginLeft: '-160px', // half card width
-              width: 320,
-              height: 320,
+              marginLeft: '-160px',
+              marginTop: isMobile ? '-170px' : '-300px',
+              width: isMobile ? 200 : 320,
+              height: isMobile ? 200 : 320,
             }}
             onClick={() => handleCardClick(idx)}
             tabIndex={offset === 0 ? 0 : -1}
