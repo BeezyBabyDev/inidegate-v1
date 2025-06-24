@@ -53,7 +53,7 @@ const ProjectAuroraGate = ({ onAccessGranted }) => {
               value={accessCode}
               onChange={e => setAccessCode(e.target.value)}
               className="w-full px-4 py-3 bg-[#23243a] border border-purple-700 rounded-xl text-white placeholder-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all text-lg"
-              placeholder="PA2025"
+              placeholder="Enter access code"
               autoComplete="off"
               spellCheck="false"
             />
