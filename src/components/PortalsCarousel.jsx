@@ -94,19 +94,20 @@ const getCardPositionClass = (offset, isMobile) => {
 }
 
 const getCardTransform = (offset, isMobile) => {
-  if (offset === 0) return 'translate(-50%, -50%) translateZ(0) rotateY(0deg) scale(1.0)'
+  // For center card, always use static transform, no movement
+  if (offset === 0) return undefined // Let CSS handle it
   if (offset === -1)
     return isMobile
       ? 'translate(-50%, -50%) translateX(-200px) translateZ(-100px) rotateY(-45deg) scale(0.6)'
-      : 'translate(-50%, -50%) translateX(-300px) translateZ(-150px) rotateY(-45deg) scale(0.7)'
+      : 'translate(-50%, -50%) translateX(-350px) translateZ(-150px) rotateY(-45deg) scale(0.7)'
   if (offset === 1)
     return isMobile
       ? 'translate(-50%, -50%) translateX(200px) translateZ(-100px) rotateY(45deg) scale(0.6)'
-      : 'translate(-50%, -50%) translateX(300px) translateZ(-150px) rotateY(45deg) scale(0.7)'
+      : 'translate(-50%, -50%) translateX(350px) translateZ(-150px) rotateY(45deg) scale(0.7)'
   if (offset === -2 && !isMobile)
-    return 'translate(-50%, -50%) translateX(-500px) translateZ(-300px) rotateY(-75deg) scale(0.4)'
+    return 'translate(-50%, -50%) translateX(-550px) translateZ(-300px) rotateY(-75deg) scale(0.4)'
   if (offset === 2 && !isMobile)
-    return 'translate(-50%, -50%) translateX(500px) translateZ(-300px) rotateY(75deg) scale(0.4)'
+    return 'translate(-50%, -50%) translateX(550px) translateZ(-300px) rotateY(75deg) scale(0.4)'
   return 'translate(-50%, -50%) scale(0.1)'
 }
 
@@ -245,16 +246,26 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
               key={portal.key}
               className={`portal-card ${positionClass}`}
               style={{
-                transform: getCardTransform(offset, isMobile),
+                ...(isCenter
+                  ? {
+                      // No transform for center card, let CSS handle it
+                      top: '50%',
+                      left: '50%',
+                      position: 'absolute',
+                      // No inline transform
+                    }
+                  : {
+                      transform: getCardTransform(offset, isMobile),
+                      top: '50%',
+                      left: '50%',
+                      position: 'absolute',
+                    }),
                 opacity: portal.disabled ? getComingSoonOpacity(offset) : undefined,
                 filter: portal.disabled
                   ? offset === 0
                     ? 'grayscale(0.5) brightness(0.8)'
                     : 'grayscale(0.8) brightness(0.7)'
                   : undefined,
-                top: '50%',
-                left: '50%',
-                position: 'absolute',
               }}
               tabIndex={isCenter ? 0 : -1}
               aria-hidden={!isCenter}

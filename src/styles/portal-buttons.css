@@ -49,24 +49,25 @@
 
 /* 3D Portals Carousel Styles */
 .explore-portals-carousel-container {
-  perspective: 1400px;
-  perspective-origin: center center;
+  position: relative;
   width: 100%;
   height: 500px;
-  overflow: visible;
-  position: relative;
-  margin: 2rem 0;
-}
-
-.portals-carousel-3d {
-  width: 100%;
-  max-width: 1200px;
-  height: 100%;
-  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  perspective: 1400px;
+  perspective-origin: center center;
+  overflow: visible;
+  margin: 2rem auto;
+}
+
+.portals-carousel-3d {
   position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform-style: preserve-3d;
 }
 
@@ -74,51 +75,91 @@
   position: absolute;
   width: 400px;
   height: 300px;
-  top: 0;
-  bottom: 0;
+  top: 50%;
   left: 50%;
-  margin: auto 0;
   transform-origin: center center;
   will-change: transform;
-  transition:
-    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    opacity 0.4s ease-in-out;
+  margin: 0;
+  /* Only allow transform transition for non-center cards */
+  transition: opacity 0.4s ease-in-out;
 }
 
 .portal-card.center {
-  transform: translateX(-50%) translateZ(0) rotateY(0deg) scale(1);
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) translateZ(0) rotateY(0deg) scale(1) !important;
   opacity: 1;
   z-index: 100;
   border: 2px solid #8b5cf6;
+  border-radius: 12px;
   box-shadow:
     0 25px 50px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(139, 92, 246, 0.3),
     0 0 20px rgba(139, 92, 246, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* Only allow border-color/box-shadow transitions */
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.portal-card.center:hover {
+  /* Only visual effects, NOT position */
+  border-color: #a855f7;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 2px rgba(168, 85, 247, 0.4),
+    0 0 25px rgba(168, 85, 247, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translate(-50%, -50%) translateZ(0) rotateY(0deg) scale(1) !important;
+  /* No transform transition */
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .portal-card.adjacent-left {
-  transform: translateX(-50%) translateX(-300px) translateZ(-150px) rotateY(-45deg) scale(0.7);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateX(-350px) translateZ(-150px) rotateY(-45deg) scale(0.7);
   opacity: 0.8;
   z-index: 50;
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s ease-in-out;
 }
 
 .portal-card.adjacent-right {
-  transform: translateX(-50%) translateX(300px) translateZ(-150px) rotateY(45deg) scale(0.7);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateX(350px) translateZ(-150px) rotateY(45deg) scale(0.7);
   opacity: 0.8;
   z-index: 50;
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s ease-in-out;
 }
 
 .portal-card.far-left {
-  transform: translateX(-50%) translateX(-500px) translateZ(-300px) rotateY(-75deg) scale(0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateX(-550px) translateZ(-300px) rotateY(-75deg) scale(0.4);
   opacity: 0.4;
   z-index: 25;
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s ease-in-out;
 }
 
 .portal-card.far-right {
-  transform: translateX(-50%) translateX(500px) translateZ(-300px) rotateY(75deg) scale(0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateX(550px) translateZ(-300px) rotateY(75deg) scale(0.4);
   opacity: 0.4;
   z-index: 25;
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s ease-in-out;
 }
 
 .portal-card.coming-soon {
@@ -166,10 +207,11 @@
     height: 250px;
   }
   .portal-card.adjacent-left {
-    transform: translateX(-50%) translateX(-200px) translateZ(-100px) rotateY(-45deg) scale(0.6);
+    transform: translate(-50%, -50%) translateX(-200px) translateZ(-100px) rotateY(-45deg)
+      scale(0.6);
   }
   .portal-card.adjacent-right {
-    transform: translateX(-50%) translateX(200px) translateZ(-100px) rotateY(45deg) scale(0.6);
+    transform: translate(-50%, -50%) translateX(200px) translateZ(-100px) rotateY(45deg) scale(0.6);
   }
   .portal-card.far-left,
   .portal-card.far-right {
