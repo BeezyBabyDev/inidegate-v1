@@ -124,13 +124,15 @@ const MainLandingPage = () => {
 
       {/* Platform Overview */}
       <section
-        className="py-12 px-4 max-w-6xl mx-auto"
+        className="explore-portals-section w-full flex flex-col items-center justify-center"
         style={{
-          minHeight: 600,
+          minHeight: 'calc(100vh - 160px)', // header/footer height estimate
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
+          padding: 0,
+          margin: 0,
         }}
       >
         <h2 className="text-3xl font-bold mb-8 text-center">Explore Our Portals</h2>
