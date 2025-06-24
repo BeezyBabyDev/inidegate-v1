@@ -83,6 +83,16 @@ const getTransform = (offset, isMobile, isTablet) => {
   }
 }
 
+// Helper to get class for each card position
+const getCardPositionClass = (offset, isMobile) => {
+  if (offset === 0) return 'center'
+  if (offset === -1) return isMobile ? 'adjacent-left' : 'adjacent-left'
+  if (offset === 1) return isMobile ? 'adjacent-right' : 'adjacent-right'
+  if (offset === -2 && !isMobile) return 'far-left'
+  if (offset === 2 && !isMobile) return 'far-right'
+  return ''
+}
+
 const PortalsCarousel = ({ portals, onPortalClick }) => {
   const [activeIdx, setActiveIdx] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -133,17 +143,6 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
     touchDeltaX.current = 0
   }
 
-  // Click navigation
-  const handleClickZone = dir => {
-    rotate(dir)
-  }
-
-  // Click on card
-  const handleCardClick = idx => {
-    if (idx === activeIdx) return
-    setActiveIdx(idx)
-  }
-
   // Rotation logic
   const rotate = dir => {
     if (isAnimating) return
@@ -173,18 +172,6 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
   }
 
   // Special styling for "Coming Soon" portal
-  const getCardClass = (portal, offset) => {
-    let base =
-      'portal-card absolute top-1/2 left-1/2 rounded-2xl p-8 flex flex-col items-start bg-gradient-to-br '
-    base += portal.color + ' '
-    if (portal.disabled) base += 'coming-soon '
-    if (offset === 0) base += 'center '
-    else if (Math.abs(offset) === 1) base += 'adjacent '
-    else if (Math.abs(offset) === 2) base += 'far '
-    return base
-  }
-
-  // Opacity for "Coming Soon"
   const getComingSoonOpacity = offset => {
     if (offset === 0) return 0.6
     if (Math.abs(offset) === 1) return 0.4
@@ -214,93 +201,90 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
       onMouseUp={handleTouchEnd}
       onMouseLeave={handleTouchEnd}
     >
-      {/* Left click zone */}
-      <div
-        className="absolute left-0 top-0 h-full w-1/4 z-10 cursor-pointer"
-        aria-hidden="true"
-        onClick={() => handleClickZone(-1)}
-      />
-      {/* Right click zone */}
-      <div
-        className="absolute right-0 top-0 h-full w-1/4 z-10 cursor-pointer"
-        aria-hidden="true"
-        onClick={() => handleClickZone(1)}
-      />
+      {/* Invisible navigation zones for left/right click */}
+      <div className="carousel-navigation-zones">
+        <div className="nav-zone nav-zone-left" onClick={() => rotate(-1)} />
+        <div className="nav-zone nav-zone-right" onClick={() => rotate(1)} />
+      </div>
       {/* 3D Cards */}
       <div
         className="portals-carousel-3d relative w-full h-full flex items-center justify-center"
         style={{ transformStyle: 'preserve-3d', width: '100%', height: isMobile ? 340 : 500 }}
       >
-        {getVisibleCards().map(({ portal, offset, idx }) => (
-          <div
-            key={portal.key}
-            className={getCardClass(portal, offset)}
-            style={{
-              ...getTransform(offset, isMobile, isTablet),
-              transition: `
-                transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
-                opacity 0.4s ease-in-out,
-                box-shadow 0.3s ease
-              `,
-              marginLeft: isMobile ? '-100px' : '-160px',
-              marginTop: isMobile ? '-100px' : '-160px',
-              width: isMobile ? 200 : 320,
-              height: isMobile ? 200 : 320,
-              opacity: portal.disabled ? getComingSoonOpacity(offset) : undefined,
-              filter: portal.disabled
-                ? offset === 0
-                  ? 'grayscale(0.5) brightness(0.8)'
-                  : 'grayscale(0.8) brightness(0.7)'
-                : undefined,
-              pointerEvents: portal.disabled ? 'none' : 'auto',
-            }}
-            onClick={() => !portal.disabled && handleCardClick(idx)}
-            tabIndex={offset === 0 ? 0 : -1}
-            aria-hidden={offset !== 0}
-            aria-label={portal.name + (offset === 0 ? ' (focused)' : '')}
-          >
-            <h3 className="text-2xl font-bold mb-2">{portal.name}</h3>
-            <p
-              className="mb-6 text-slate-100 text-base"
+        {getVisibleCards().map(({ portal, offset, idx }) => {
+          const positionClass = getCardPositionClass(offset, isMobile)
+          const isCenter = offset === 0
+          return (
+            <div
+              key={portal.key}
+              className={`portal-card ${positionClass}`}
               style={{
-                fontSize:
-                  offset === 0 ? '1.1rem' : offset === 1 || offset === -1 ? '1rem' : '0.9rem',
-                opacity: offset === 0 ? 1 : 0.8,
+                ...getTransform(offset, isMobile, isTablet),
+                transition: `
+                  transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
+                  opacity 0.4s ease-in-out,
+                  box-shadow 0.3s ease
+                `,
+                marginLeft: isMobile ? '-100px' : '-160px',
+                marginTop: isMobile ? '-100px' : '-160px',
+                width: isMobile ? 200 : 320,
+                height: isMobile ? 200 : 320,
+                opacity: portal.disabled ? getComingSoonOpacity(offset) : undefined,
+                filter: portal.disabled
+                  ? offset === 0
+                    ? 'grayscale(0.5) brightness(0.8)'
+                    : 'grayscale(0.8) brightness(0.7)'
+                  : undefined,
+                pointerEvents: isCenter && !portal.disabled ? 'all' : 'none',
               }}
-            >
-              {portal.desc}
-            </p>
-            <Button
-              variant="secondary"
-              className={portal.disabled ? 'coming-soon-button' : 'portal-cta'}
-              disabled={portal.disabled}
-              style={{
-                fontSize:
-                  offset === 0 ? '1rem' : offset === 1 || offset === -1 ? '0.95rem' : '0.85rem',
-                opacity: portal.disabled ? 0.7 : 1,
-                pointerEvents: portal.disabled ? 'none' : 'auto',
-                width: offset === 0 ? 180 : 140,
-                height: 44,
-                marginTop: 'auto',
-              }}
+              tabIndex={isCenter ? 0 : -1}
+              aria-hidden={!isCenter}
+              aria-label={portal.name + (isCenter ? ' (focused)' : '')}
               onClick={() => {
-                if (!portal.disabled && onPortalClick) {
+                if (isCenter && !portal.disabled && onPortalClick) {
                   onPortalClick(portal.key)
                 }
               }}
             >
-              {portal.cta}
-            </Button>
-            {portal.disabled && (
-              <span
-                className="absolute top-4 right-4 bg-slate-900/80 text-yellow-300 text-xs font-bold px-3 py-1 rounded-full coming-soon-badge"
-                style={{ opacity: offset === 0 ? 1 : 0.7 }}
+              <h3 className="text-2xl font-bold mb-2">{portal.name}</h3>
+              <p
+                className="mb-6 text-slate-100 text-base"
+                style={{ fontSize: isCenter ? '1.1rem' : '1rem', opacity: isCenter ? 1 : 0.8 }}
               >
-                Coming Soon
-              </span>
-            )}
-          </div>
-        ))}
+                {portal.desc}
+              </p>
+              <Button
+                variant="secondary"
+                className={portal.disabled ? 'coming-soon-button' : 'portal-cta'}
+                disabled={portal.disabled}
+                style={{
+                  fontSize: isCenter ? '1rem' : '0.95rem',
+                  opacity: portal.disabled ? 0.7 : 1,
+                  pointerEvents: portal.disabled ? 'none' : 'auto',
+                  width: isCenter ? 180 : 140,
+                  height: 44,
+                  marginTop: 'auto',
+                }}
+                onClick={e => {
+                  e.stopPropagation()
+                  if (!portal.disabled && onPortalClick && isCenter) {
+                    onPortalClick(portal.key)
+                  }
+                }}
+              >
+                {portal.cta}
+              </Button>
+              {portal.disabled && (
+                <span
+                  className="absolute top-4 right-4 bg-slate-900/80 text-yellow-300 text-xs font-bold px-3 py-1 rounded-full coming-soon-badge"
+                  style={{ opacity: isCenter ? 1 : 0.7 }}
+                >
+                  Coming Soon
+                </span>
+              )}
+            </div>
+          )
+        })}
       </div>
       {/* Live region for screen readers */}
       <div className="sr-only" aria-live="polite" />

@@ -308,3 +308,228 @@
 }
 
 /* --- End Carousel Fixes --- */
+
+/* --- Portal Carousel Centering & Clean Interactions --- */
+
+.explore-portals-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.explore-portals-section h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.explore-portals-carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1400px;
+  perspective-origin: center center;
+  width: 100%;
+  height: 500px;
+  overflow: visible;
+  position: relative;
+  margin: 2rem auto;
+}
+
+.portals-carousel-3d {
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Center Portal - Perfectly Centered */
+.portal-card.center {
+  transform: translateX(0) translateY(0) translateZ(0) rotateY(0deg) scale(0.85);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -200px;
+  margin-top: -150px;
+  opacity: 1;
+  z-index: 100;
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 0 20px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  filter: brightness(1.1) contrast(1.05);
+  backdrop-filter: blur(0);
+  pointer-events: all;
+}
+
+.portal-card.center:hover {
+  transform: translateX(0) translateY(0) translateZ(0) rotateY(0deg) scale(0.87);
+  border-color: #a855f7;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 2px rgba(168, 85, 247, 0.4),
+    0 0 24px rgba(168, 85, 247, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Left Adjacent Portal */
+.portal-card.adjacent-left {
+  transform: translateX(-280px) translateY(0) translateZ(-150px) rotateY(-45deg) scale(0.45);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -200px;
+  margin-top: -150px;
+  opacity: 0.8;
+  z-index: 50;
+}
+
+/* Right Adjacent Portal */
+.portal-card.adjacent-right {
+  transform: translateX(280px) translateY(0) translateZ(-150px) rotateY(45deg) scale(0.45);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -200px;
+  margin-top: -150px;
+  opacity: 0.8;
+  z-index: 50;
+}
+
+/* Far Left Portal */
+.portal-card.far-left {
+  transform: translateX(-450px) translateY(0) translateZ(-300px) rotateY(-75deg) scale(0.25);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -200px;
+  margin-top: -150px;
+  opacity: 0.4;
+  z-index: 25;
+}
+
+/* Far Right Portal */
+.portal-card.far-right {
+  transform: translateX(450px) translateY(0) translateZ(-300px) rotateY(75deg) scale(0.25);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -200px;
+  margin-top: -150px;
+  opacity: 0.4;
+  z-index: 25;
+}
+
+/* Remove ALL hover effects from non-center portals */
+.portal-card:not(.center) {
+  pointer-events: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  filter: brightness(0.8) contrast(0.95);
+}
+
+.portal-card:not(.center):hover {
+  transform: inherit !important;
+  scale: inherit !important;
+  z-index: inherit !important;
+  border: none !important;
+  box-shadow: inherit !important;
+}
+
+/* Only center portal can be hovered */
+.portal-card.center {
+  pointer-events: all;
+}
+
+/* Invisible click zones for left/right navigation */
+.carousel-navigation-zones {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.nav-zone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 40%;
+  pointer-events: all;
+  cursor: pointer;
+  background: transparent;
+  z-index: 200;
+}
+
+.nav-zone-left {
+  left: 0;
+}
+
+.nav-zone-right {
+  right: 0;
+}
+
+.nav-zone:hover {
+  background: transparent;
+}
+
+/* Consistent animation/timing */
+.portal-card {
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s ease-in-out,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-origin: center center;
+}
+
+.portal-card.rotating {
+  transition-duration: 0.6s;
+}
+
+/* Responsive adjustments for centering */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .explore-portals-carousel-container {
+    height: 400px;
+  }
+  .portal-card.center,
+  .portal-card.adjacent-left,
+  .portal-card.adjacent-right,
+  .portal-card.far-left,
+  .portal-card.far-right {
+    margin-left: -160px;
+    margin-top: -120px;
+  }
+}
+@media (max-width: 767px) {
+  .explore-portals-carousel-container {
+    height: 260px;
+  }
+  .portal-card.center,
+  .portal-card.adjacent-left,
+  .portal-card.adjacent-right,
+  .portal-card.far-left,
+  .portal-card.far-right {
+    margin-left: -100px;
+    margin-top: -100px;
+    width: 200px !important;
+    height: 200px !important;
+    font-size: 0.95rem;
+  }
+}
+
+/* --- End Portal Carousel Centering & Clean Interactions --- */
