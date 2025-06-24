@@ -28,6 +28,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [selectedPortal, setSelectedPortal] = useState(null)
   const [hasAuroraAccess, setHasAuroraAccess] = useState(false)
+  const [auroraAccessGranted, setAuroraAccessGranted] = useState(() => {
+    return sessionStorage.getItem('auroraAccessGranted') === 'true'
+  })
 
   useEffect(() => {
     // Check for existing authentication
@@ -331,6 +334,18 @@ function App() {
       default:
         return <WelcomePage onEnterCode={handleEnterCode} />
     }
+  }
+
+  // Overlay ProjectAuroraGate until access is granted
+  if (!auroraAccessGranted) {
+    return (
+      <ProjectAuroraGate
+        onAccessGranted={() => {
+          sessionStorage.setItem('auroraAccessGranted', 'true')
+          setAuroraAccessGranted(true)
+        }}
+      />
+    )
   }
 
   return (
