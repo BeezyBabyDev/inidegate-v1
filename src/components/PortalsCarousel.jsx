@@ -227,11 +227,13 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
       <div
         className="portals-carousel-3d"
         style={{
-          width: isMobile ? 300 : 400,
-          height: isMobile ? 350 : 400,
+          width: '100%',
+          maxWidth: 1200,
+          height: 500,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           position: 'relative',
-          margin: '0 auto',
-          display: 'block',
           transformStyle: 'preserve-3d',
         }}
       >
