@@ -93,6 +93,23 @@ const getCardPositionClass = (offset, isMobile) => {
   return ''
 }
 
+const getCardTransform = (offset, isMobile) => {
+  if (offset === 0) return 'translate(-50%, -50%) translateZ(0) rotateY(0deg) scale(1.0)'
+  if (offset === -1)
+    return isMobile
+      ? 'translate(-50%, -50%) translateX(-200px) translateZ(-100px) rotateY(-45deg) scale(0.6)'
+      : 'translate(-50%, -50%) translateX(-300px) translateZ(-150px) rotateY(-45deg) scale(0.7)'
+  if (offset === 1)
+    return isMobile
+      ? 'translate(-50%, -50%) translateX(200px) translateZ(-100px) rotateY(45deg) scale(0.6)'
+      : 'translate(-50%, -50%) translateX(300px) translateZ(-150px) rotateY(45deg) scale(0.7)'
+  if (offset === -2 && !isMobile)
+    return 'translate(-50%, -50%) translateX(-500px) translateZ(-300px) rotateY(-75deg) scale(0.4)'
+  if (offset === 2 && !isMobile)
+    return 'translate(-50%, -50%) translateX(500px) translateZ(-300px) rotateY(75deg) scale(0.4)'
+  return 'translate(-50%, -50%) scale(0.1)'
+}
+
 const PortalsCarousel = ({ portals, onPortalClick }) => {
   const [activeIdx, setActiveIdx] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -208,14 +225,14 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
       </div>
       {/* 3D Cards */}
       <div
-        className="portals-carousel-3d relative w-full h-full flex items-center justify-center"
+        className="portals-carousel-3d"
         style={{
-          width: '100%',
-          height: isMobile ? 340 : 500,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          width: isMobile ? 300 : 400,
+          height: isMobile ? 350 : 400,
           position: 'relative',
+          margin: '0 auto',
+          display: 'block',
+          transformStyle: 'preserve-3d',
         }}
       >
         {getVisibleCards().map(({ portal, offset, idx }) => {
@@ -226,12 +243,16 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
               key={portal.key}
               className={`portal-card ${positionClass}`}
               style={{
+                transform: getCardTransform(offset, isMobile),
                 opacity: portal.disabled ? getComingSoonOpacity(offset) : undefined,
                 filter: portal.disabled
                   ? offset === 0
                     ? 'grayscale(0.5) brightness(0.8)'
                     : 'grayscale(0.8) brightness(0.7)'
                   : undefined,
+                top: '50%',
+                left: '50%',
+                position: 'absolute',
               }}
               tabIndex={isCenter ? 0 : -1}
               aria-hidden={!isCenter}

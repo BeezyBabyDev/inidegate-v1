@@ -59,44 +59,61 @@
 }
 
 .portals-carousel-3d {
-  transform-style: preserve-3d;
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  display: block;
+  transform-style: preserve-3d;
 }
 
 .portal-card {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  will-change: transform;
   transition:
     transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    opacity 0.4s ease-in-out,
-    box-shadow 0.3s ease;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  border-radius: 1.25rem;
-  background-clip: padding-box;
-  color: #fff;
-  box-sizing: border-box;
-  user-select: none;
-  outline: none;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    opacity 0.4s ease-in-out;
 }
 
 .portal-card.center {
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-  z-index: 10;
+  transform: translate(-50%, -50%) translateZ(0) rotateY(0deg) scale(1);
+  opacity: 1;
+  z-index: 100;
+  border: 2px solid #8b5cf6;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 0 20px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.portal-card.adjacent {
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  filter: brightness(0.9);
-  z-index: 5;
+.portal-card.adjacent-left {
+  transform: translate(-50%, -50%) translateX(-300px) translateZ(-150px) rotateY(-45deg) scale(0.7);
+  opacity: 0.8;
+  z-index: 50;
 }
 
-.portal-card.far {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  filter: brightness(0.7);
-  z-index: 1;
+.portal-card.adjacent-right {
+  transform: translate(-50%, -50%) translateX(300px) translateZ(-150px) rotateY(45deg) scale(0.7);
+  opacity: 0.8;
+  z-index: 50;
+}
+
+.portal-card.far-left {
+  transform: translate(-50%, -50%) translateX(-500px) translateZ(-300px) rotateY(-75deg) scale(0.4);
+  opacity: 0.4;
+  z-index: 25;
+}
+
+.portal-card.far-right {
+  transform: translate(-50%, -50%) translateX(500px) translateZ(-300px) rotateY(75deg) scale(0.4);
+  opacity: 0.4;
+  z-index: 25;
 }
 
 .portal-card.coming-soon {
@@ -718,3 +735,133 @@
 }
 
 /* --- End Carousel Layout Fix --- */
+
+/* --- Carousel Centering & Navigation --- */
+.portals-carousel-3d {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  display: block;
+  transform-style: preserve-3d;
+}
+.portal-card {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  will-change: transform;
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s ease-in-out;
+}
+.portal-card.center {
+  transform: translate(-50%, -50%) translateZ(0) rotateY(0deg) scale(1);
+  opacity: 1;
+  z-index: 100;
+  border: 2px solid #8b5cf6;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 0 20px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.portal-card.adjacent-left {
+  transform: translate(-50%, -50%) translateX(-300px) translateZ(-150px) rotateY(-45deg) scale(0.7);
+  opacity: 0.8;
+  z-index: 50;
+}
+.portal-card.adjacent-right {
+  transform: translate(-50%, -50%) translateX(300px) translateZ(-150px) rotateY(45deg) scale(0.7);
+  opacity: 0.8;
+  z-index: 50;
+}
+.portal-card.far-left {
+  transform: translate(-50%, -50%) translateX(-500px) translateZ(-300px) rotateY(-75deg) scale(0.4);
+  opacity: 0.4;
+  z-index: 25;
+}
+.portal-card.far-right {
+  transform: translate(-50%, -50%) translateX(500px) translateZ(-300px) rotateY(75deg) scale(0.4);
+  opacity: 0.4;
+  z-index: 25;
+}
+@media (max-width: 768px) {
+  .portals-carousel-3d {
+    width: 300px;
+    height: 350px;
+  }
+  .portal-card {
+    width: 300px;
+    height: 250px;
+  }
+  .portal-card.adjacent-left {
+    transform: translate(-50%, -50%) translateX(-200px) translateZ(-100px) rotateY(-45deg)
+      scale(0.6);
+  }
+  .portal-card.adjacent-right {
+    transform: translate(-50%, -50%) translateX(200px) translateZ(-100px) rotateY(45deg) scale(0.6);
+  }
+  .portal-card.far-left,
+  .portal-card.far-right {
+    display: none;
+  }
+}
+.carousel-navigation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 200;
+}
+.nav-zone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 30%;
+  pointer-events: all;
+  cursor: pointer;
+  background: transparent;
+  z-index: 200;
+}
+.nav-zone-left {
+  left: 0;
+}
+.nav-zone-right {
+  right: 0;
+}
+.portal-card .portal-button {
+  position: relative;
+  z-index: 300;
+  pointer-events: all;
+  min-width: 180px;
+  font-size: 16px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+.portal-card.center:hover {
+  transform: translate(-50%, -50%) translateZ(0) rotateY(0deg) scale(1.05);
+  border-color: #a855f7;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 2px rgba(168, 85, 247, 0.4),
+    0 0 25px rgba(168, 85, 247, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.portal-card:not(.center):hover {
+  transform: inherit;
+  cursor: pointer;
+}
+/* --- End Carousel Centering & Navigation --- */
