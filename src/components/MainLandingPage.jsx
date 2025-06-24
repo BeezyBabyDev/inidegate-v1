@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from './Button'
+import { useNavigate } from 'react-router-dom'
 
 const portals = [
   {
@@ -64,6 +65,7 @@ const useCases = [
 ]
 
 const MainLandingPage = () => {
+  const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-purple-950 text-white">
       {/* Header */}
@@ -131,9 +133,13 @@ const MainLandingPage = () => {
               <h3 className="text-2xl font-bold mb-2">{portal.name}</h3>
               <p className="mb-6 text-slate-100">{portal.desc}</p>
               <Button
-                className={`mt-auto ${portal.disabled ? 'bg-slate-700 cursor-not-allowed' : 'bg-white text-slate-900 hover:bg-purple-100'}`}
+                className={`mt-auto bg-slate-800 text-white hover:bg-purple-600 ${portal.disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
                 disabled={portal.disabled}
-                onClick={() => !portal.disabled && window.location.assign(`/portal/${portal.key}`)}
+                onClick={() => {
+                  if (!portal.disabled) {
+                    navigate(`/portal/${portal.key}`)
+                  }
+                }}
               >
                 {portal.cta}
               </Button>

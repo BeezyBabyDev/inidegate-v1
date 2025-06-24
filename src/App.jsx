@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import CreativePortal from './components/CreativePortal'
 import InvestorPortal from './components/InvestorPortal'
 import TalentPortalComponent from './components/TalentPortalComponent'
@@ -18,6 +18,8 @@ import MessagingPage from './components/MessagingPage'
 import ProjectAuroraGate from './components/ProjectAuroraGate'
 import { DashboardProvider } from './context/DashboardContext.tsx'
 import MainLandingPage from './components/MainLandingPage'
+import DistributorsPlatform from './components/DistributorsPlatform'
+import FilmakersPortal from './components/FilmakersPortal'
 
 function App() {
   const [currentView, setCurrentView] = useState('aurora-gate')
@@ -322,12 +324,35 @@ function App() {
         return <FilmProjectDetailDemo onBack={() => setCurrentView(selectedPortal || 'investor')} />
       case 'network-dashboard':
         return <NetworkDashboard onBack={() => setCurrentView('investor')} />
+      case 'distributors':
+        return <DistributorsPlatform />
+      case 'filmmaker':
+        return <FilmakersPortal />
       default:
         return <WelcomePage onEnterCode={handleEnterCode} />
     }
   }
 
-  return <Router>{renderContent()}</Router>
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainLandingPage />} />
+        <Route
+          path="/portal/investor"
+          element={
+            <DashboardProvider>
+              <InvestorPortal />
+            </DashboardProvider>
+          }
+        />
+        <Route path="/portal/filmmaker" element={<FilmakersPortal />} />
+        <Route path="/portal/brands" element={<BrandsPortal />} />
+        <Route path="/portal/talent" element={<TalentPortalComponent />} />
+        <Route path="/portal/distributors" element={<DistributorsPlatform />} />
+        {/* fallback for unknown routes can be added here */}
+      </Routes>
+    </Router>
+  )
 }
 
 export default App
