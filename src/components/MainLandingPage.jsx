@@ -128,12 +128,12 @@ const MainLandingPage = () => {
           {portals.map(portal => (
             <div
               key={portal.key}
-              className={`rounded-2xl p-8 shadow-lg bg-gradient-to-br ${portal.color} relative flex flex-col items-start ${portal.disabled ? 'opacity-60 cursor-not-allowed' : 'hover:scale-105 transition-transform duration-200'}`}
+              className={`portal-card rounded-2xl p-8 shadow-lg bg-gradient-to-br ${portal.color} relative flex flex-col items-start ${portal.disabled ? 'opacity-60 cursor-not-allowed' : 'hover:scale-105 transition-transform duration-200'}`}
             >
               <h3 className="text-2xl font-bold mb-2">{portal.name}</h3>
               <p className="mb-6 text-slate-100">{portal.desc}</p>
               <Button
-                className={`mt-auto bg-slate-800 text-white hover:bg-purple-600 ${portal.disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
+                className={portal.disabled ? 'coming-soon-button' : ''}
                 disabled={portal.disabled}
                 onClick={() => {
                   if (!portal.disabled) {

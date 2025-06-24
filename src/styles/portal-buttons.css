@@ -1,0 +1,28 @@
+/* Portal Button Visibility & Accessibility Fix */
+.portal-card button,
+.portal-card a {
+  background: #fff !important;
+  color: #1a1a1a !important;
+  border: 2px solid #e2e8f0 !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.2s;
+  cursor: pointer !important;
+  min-width: 160px;
+  min-height: 44px;
+}
+.portal-card button:hover,
+.portal-card a:hover {
+  background: #f3f4f6 !important;
+  color: #2d3748 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-2px);
+}
+.coming-soon-button {
+  background: #e2e8f0 !important;
+  color: #a0aec0 !important;
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+}
