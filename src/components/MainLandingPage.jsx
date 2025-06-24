@@ -122,20 +122,17 @@ const MainLandingPage = () => {
         </div>
       </section>
 
-      {/* Platform Overview */}
+      {/* Platform Overview - Explore Our Portals Section Centering Fix */}
       <section
-        className="explore-portals-section w-full flex flex-col items-center justify-center px-4"
+        className="explore-portals-section w-full"
         style={{
           minHeight: 'calc(100vh - 160px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
+          display: 'block',
           padding: 0,
           margin: 0,
         }}
       >
-        <div className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
+        <div className="w-full max-w-6xl mx-auto flex flex-col items-center justify-center px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">Explore Our Portals</h2>
           <div className="w-full flex justify-center">
             <PortalsCarousel
