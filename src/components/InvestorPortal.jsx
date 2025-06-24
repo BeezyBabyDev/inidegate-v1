@@ -11,6 +11,7 @@ import AnalyticsPage from './AnalyticsPage' // Import the Analytics page
 import MessagesPage from './MessagesPage' // Import the Messages page
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import { useNavigate } from 'react-router-dom'
+import LogoutButton from './LogoutButton'
 
 const InvestorPortal = ({ onLogout }) => {
   useScrollToTop()

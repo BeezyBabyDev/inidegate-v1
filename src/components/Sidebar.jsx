@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
+import LogoutButton from './LogoutButton'
 
 const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => {
   const navItems = [
@@ -60,13 +61,7 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => 
       </nav>
 
       <div>
-        <button
-          onClick={onLogout}
-          className="flex items-center w-full p-3 rounded-lg text-gray-300 hover:bg-red-500/20 hover:text-red-300 transition-colors"
-        >
-          <LogOut size={20} />
-          {!isCollapsed && <span className="ml-4 font-semibold">Logout</span>}
-        </button>
+        <LogoutButton onClick={onLogout} className={!isCollapsed ? '' : 'justify-center'} />
       </div>
     </div>
   )

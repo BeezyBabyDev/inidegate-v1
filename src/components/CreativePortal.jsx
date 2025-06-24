@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useScrollToTop } from '../hooks/useScrollToTop'
+import LogoutButton from './LogoutButton'
 
 const sidebarItems = [
   'Dashboard',
@@ -52,12 +53,7 @@ const CreativePortal = ({ user = { profile: { displayName: 'Sarah Chen' } }, onL
           </nav>
         </div>
         <div className="mt-8">
-          <button
-            className="w-full text-left px-4 py-2 rounded-lg font-medium transition-colors text-slate-300 hover:bg-slate-800 hover:text-white"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+          <LogoutButton onClick={handleLogout} />
         </div>
       </aside>
 
