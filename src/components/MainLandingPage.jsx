@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from './Button'
 import { useNavigate } from 'react-router-dom'
-import PortalsCarousel from './PortalsCarousel'
+import PortalCard from './PortalCard'
 
 const portals = [
   {
@@ -138,15 +138,11 @@ const MainLandingPage = () => {
         <div className="w-full max-w-6xl mx-auto flex flex-col items-center justify-center h-full px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">Explore Our Portals</h2>
           <div className="w-full flex justify-center items-center h-full">
-            <PortalsCarousel
-              portals={portals}
-              onPortalClick={key => {
-                const portal = portals.find(p => p.key === key)
-                if (portal && !portal.disabled) {
-                  navigate(`/portal/${portal.key}`)
-                }
-              }}
-            />
+            <div className="portal-cards-row flex flex-wrap justify-center gap-8 w-full">
+              {portals.map((portal, idx) => (
+                <PortalCard key={portal.key} portal={portal} />
+              ))}
+            </div>
           </div>
         </div>
       </section>

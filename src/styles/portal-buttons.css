@@ -915,3 +915,65 @@
   cursor: pointer;
 }
 /* --- End Carousel Centering & Navigation --- */
+
+/* --- Portal Cards Static Row Layout --- */
+.portal-cards-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.portal-card {
+  width: 340px;
+  height: 260px;
+  background: rgba(30, 27, 54, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  border: 2px solid transparent;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.portal-card:hover {
+  border-color: #a855f7;
+  box-shadow:
+    0 0 0 4px rgba(139, 92, 246, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.22);
+  z-index: 2;
+}
+
+@media (max-width: 1200px) {
+  .portal-card {
+    width: 280px;
+    height: 220px;
+  }
+}
+@media (max-width: 900px) {
+  .portal-card {
+    width: 220px;
+    height: 180px;
+  }
+}
+@media (max-width: 600px) {
+  .portal-cards-row {
+    gap: 1rem;
+  }
+  .portal-card {
+    width: 100vw;
+    max-width: 340px;
+    min-width: 180px;
+    height: 140px;
+    font-size: 0.95rem;
+  }
+}
+/* --- End Portal Cards Static Row Layout --- */
