@@ -124,9 +124,9 @@ const MainLandingPage = () => {
 
       {/* Platform Overview */}
       <section
-        className="explore-portals-section w-full flex flex-col items-center justify-center"
+        className="explore-portals-section w-full flex flex-col items-center justify-center px-4"
         style={{
-          minHeight: 'calc(100vh - 160px)', // header/footer height estimate
+          minHeight: 'calc(100vh - 160px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -135,16 +135,20 @@ const MainLandingPage = () => {
           margin: 0,
         }}
       >
-        <h2 className="text-3xl font-bold mb-8 text-center">Explore Our Portals</h2>
-        <PortalsCarousel
-          portals={portals}
-          onPortalClick={key => {
-            const portal = portals.find(p => p.key === key)
-            if (portal && !portal.disabled) {
-              navigate(`/portal/${portal.key}`)
-            }
-          }}
-        />
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
+          <h2 className="text-3xl font-bold mb-12 text-center">Explore Our Portals</h2>
+          <div className="w-full flex justify-center">
+            <PortalsCarousel
+              portals={portals}
+              onPortalClick={key => {
+                const portal = portals.find(p => p.key === key)
+                if (portal && !portal.disabled) {
+                  navigate(`/portal/${portal.key}`)
+                }
+              }}
+            />
+          </div>
+        </div>
       </section>
 
       {/* Use Cases */}
