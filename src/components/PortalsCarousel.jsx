@@ -209,7 +209,14 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
       {/* 3D Cards */}
       <div
         className="portals-carousel-3d relative w-full h-full flex items-center justify-center"
-        style={{ width: '100%', height: isMobile ? 340 : 500 }}
+        style={{
+          width: '100%',
+          height: isMobile ? 340 : 500,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+        }}
       >
         {getVisibleCards().map(({ portal, offset, idx }) => {
           const positionClass = getCardPositionClass(offset, isMobile)
