@@ -4,8 +4,10 @@ import Button from './Button'
 import TalentProfile from './TalentProfile'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
+import { useNavigate } from 'react-router-dom'
 
 const TalentPortalComponent = ({ onLogout }) => {
+  const navigate = useNavigate()
   // Automatically scroll to top when component mounts
   useScrollToTop()
 
@@ -34,6 +36,10 @@ const TalentPortalComponent = ({ onLogout }) => {
 
   const handleTabClick = tab => {
     setActiveTab(tab)
+  }
+
+  const handleLogout = () => {
+    navigate('/')
   }
 
   const renderDashboardTab = () => (
@@ -486,7 +492,7 @@ const TalentPortalComponent = ({ onLogout }) => {
         onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         activeTab={activeTab}
         onTabClick={handleTabClick}
-        onLogout={onLogout}
+        onLogout={handleLogout}
         portalType="talent"
       />
       <div
@@ -495,6 +501,12 @@ const TalentPortalComponent = ({ onLogout }) => {
         <TopBar />
         <main className="flex-1 overflow-y-auto p-8">
           <div className="max-w-7xl mx-auto">
+            <button
+              className="mb-4 px-4 py-2 bg-slate-700 text-white rounded hover:bg-purple-700"
+              onClick={() => navigate('/')}
+            >
+              Back to Portals
+            </button>
             {/* Welcome Section - Mobile Optimized */}
             <div className="mb-6 md:mb-8">
               <h2 className="portal-heading-main portal-fade-in">Welcome to the Talent Network</h2>
