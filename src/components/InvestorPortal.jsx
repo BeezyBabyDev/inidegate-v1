@@ -11,9 +11,8 @@ import AnalyticsPage from './AnalyticsPage' // Import the Analytics page
 import MessagesPage from './MessagesPage' // Import the Messages page
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import { useNavigate } from 'react-router-dom'
-import LogoutButton from './LogoutButton'
 
-const InvestorPortal = ({ onLogout }) => {
+const InvestorPortal = () => {
   useScrollToTop()
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
@@ -66,12 +65,6 @@ const InvestorPortal = ({ onLogout }) => {
         className={`flex-1 flex flex-col h-screen transition-all duration-300 ${isSidebarCollapsed ? 'pl-20' : 'pl-64'}`}
       >
         <TopBar />
-        <button
-          className="mb-4 px-4 py-2 bg-slate-700 text-white rounded hover:bg-purple-700"
-          onClick={() => navigate('/')}
-        >
-          Back to Portals
-        </button>
         <main className="flex-1 overflow-y-auto p-8">{renderContent()}</main>
       </div>
     </div>

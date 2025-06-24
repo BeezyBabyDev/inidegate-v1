@@ -1,5 +1,4 @@
 import {
-  LogOut,
   User,
   Briefcase,
   DollarSign,
@@ -61,7 +60,11 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => 
       </nav>
 
       <div>
-        <LogoutButton onClick={onLogout} className={!isCollapsed ? '' : 'justify-center'} />
+        <LogoutButton
+          onClick={onLogout}
+          iconOnly={isCollapsed}
+          className={!isCollapsed ? '' : 'justify-center'}
+        />
       </div>
     </div>
   )

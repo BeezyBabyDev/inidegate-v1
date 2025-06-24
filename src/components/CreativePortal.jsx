@@ -1,23 +1,11 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import { useScrollToTop } from '../hooks/useScrollToTop'
-import LogoutButton from './LogoutButton'
+import Sidebar from './Sidebar'
 
-const sidebarItems = [
-  'Dashboard',
-  'Profile',
-  'My Projects',
-  'Funding Hub',
-  'Investor Relations',
-  'Smart Matching',
-  'Analytics',
-  'Messages',
-]
-
-const CreativePortal = ({ user = { profile: { displayName: 'Sarah Chen' } }, onLogout }) => {
+const CreativePortal = ({ onLogout }) => {
   useScrollToTop()
-  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('Dashboard')
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   const handleSidebarClick = label => {
     setActiveTab(label)
@@ -29,38 +17,19 @@ const CreativePortal = ({ user = { profile: { displayName: 'Sarah Chen' } }, onL
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-purple-950 text-white">
-      {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col py-8 px-4 justify-between">
-        <div>
-          <div className="mb-10 text-2xl font-extrabold tracking-tight">Filmmakers Portal</div>
-          <nav>
-            <ul className="space-y-2">
-              {sidebarItems.map(label => (
-                <li key={label}>
-                  <button
-                    className={`w-full text-left px-4 py-2 rounded-lg font-medium transition-colors ${
-                      activeTab === label
-                        ? 'bg-purple-700 text-white shadow-lg'
-                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                    }`}
-                    onClick={() => handleSidebarClick(label)}
-                  >
-                    {label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-        <div className="mt-8">
-          <LogoutButton onClick={handleLogout} />
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Dashboard Content */}
-        <main className="flex-1 p-8 overflow-y-auto">
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        activeTab={activeTab}
+        onTabClick={handleSidebarClick}
+        onLogout={handleLogout}
+        portalType="filmmaker"
+      />
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}
+      >
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto p-8">
           {activeTab === 'Dashboard' && (
             <div>
               <h2 className="text-2xl font-bold mb-6">Dashboard</h2>

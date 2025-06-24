@@ -5,7 +5,7 @@ import Sidebar from './Sidebar'
 import TopBar from './TopBar'
 import { useNavigate } from 'react-router-dom'
 
-const BrandsPortal = ({ onLogout }) => {
+const BrandsPortal = () => {
   const navigate = useNavigate()
   // Automatically scroll to top when component mounts
   useScrollToTop()
@@ -471,19 +471,12 @@ const BrandsPortal = ({ onLogout }) => {
         onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         activeTab={activeTab}
         onTabClick={handleTabClick}
-        onLogout={handleLogout}
         portalType="brands"
       />
       <div
         className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}
       >
         <TopBar />
-        <button
-          className="mb-4 px-4 py-2 bg-slate-700 text-white rounded hover:bg-purple-700"
-          onClick={() => navigate('/')}
-        >
-          Back to Portals
-        </button>
         <main className="flex-1 overflow-y-auto p-8">{renderContent()}</main>
       </div>
     </div>
