@@ -59,11 +59,14 @@
 }
 
 .portals-carousel-3d {
-  position: relative;
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  max-width: 1200px;
+  height: 500px;
   margin: 0 auto;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   transform-style: preserve-3d;
 }
 
@@ -145,20 +148,16 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 1199px) and (min-width: 768px) {
-  .explore-portals-carousel-container {
-    height: 400px;
-  }
+@media (max-width: 1200px) {
   .portals-carousel-3d {
+    max-width: 100vw;
     height: 400px;
   }
 }
-@media (max-width: 767px) {
-  .explore-portals-carousel-container {
-    height: 260px;
-  }
+@media (max-width: 768px) {
   .portals-carousel-3d {
-    height: 260px;
+    max-width: 100vw;
+    height: 350px;
   }
   .portal-card {
     width: 200px !important;
