@@ -80,7 +80,7 @@ interface DealFlowFeedProps {
 }
 
 const getTransform = (offset: number, isMobile: boolean, isTablet: boolean) => {
-  // Responsive values
+  // Desktop defaults
   let tx = 0,
     tz = 0,
     rot = 0,
@@ -94,93 +94,51 @@ const getTransform = (offset: number, isMobile: boolean, isTablet: boolean) => {
     tx = 0
     tz = 0
     rot = 0
-    scale = 1
+    scale = 0.85
     opacity = 1
     z = 10
     blur = 0
     shadow = '0 20px 40px rgba(0,0,0,0.3)'
-    return {
-      transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${rot}deg) scale(${scale})`,
-      opacity,
-      zIndex: z,
-      pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
-      filter: blur
-        ? `blur(${blur}px) brightness(${0.7 + 0.3 * opacity})`
-        : `brightness(${0.7 + 0.3 * opacity})`,
-      boxShadow: shadow,
-      willChange: 'transform, opacity',
-      backfaceVisibility: 'hidden' as React.CSSProperties['backfaceVisibility'],
-      transformOrigin: 'center center',
-    }
-  } else if (offset === -1 || offset === 1 || offset === -2 || offset === 2) {
-    // Adjacent and far cards
-    tx =
-      offset === -1
-        ? isMobile
-          ? -100
-          : isTablet
-            ? -150
-            : -200
-        : offset === 1
-          ? isMobile
-            ? 100
-            : isTablet
-              ? 150
-              : 200
-          : offset === -2
-            ? isMobile
-              ? -175
-              : isTablet
-                ? -250
-                : -350
-            : isMobile
-              ? 175
-              : isTablet
-                ? 250
-                : 350
-    tz =
-      offset === -1
-        ? isMobile
-          ? -80
-          : isTablet
-            ? -100
-            : -150
-        : offset === 1
-          ? isMobile
-            ? -80
-            : isTablet
-              ? -100
-              : -150
-          : offset === -2
-            ? isMobile
-              ? -150
-              : isTablet
-                ? -200
-                : -300
-            : isMobile
-              ? -150
-              : isTablet
-                ? -200
-                : -300
-    rot = offset === -1 ? -45 : offset === 1 ? 45 : offset === -2 ? -75 : 75
-    scale = offset === -1 || offset === 1 ? 0.5 : 0.25
-    opacity = offset === -1 || offset === 1 ? 0.8 : 0.4
+  } else if (offset === -1) {
+    // Left Adjacent
+    tx = isMobile ? -140 : isTablet ? -210 : -280
+    tz = isMobile ? -80 : isTablet ? -100 : -150
+    rot = -45
+    scale = 0.45
+    opacity = 0.8
     z = 5
-    blur = offset === -1 || offset === 1 ? 1 : 2
-    shadow = `0 ${blur * 10}px ${blur * 20}px rgba(0,0,0,${0.2 + 0.8 * opacity})`
-    return {
-      transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${rot}deg) scale(${scale})`,
-      opacity,
-      zIndex: z,
-      pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
-      filter: blur
-        ? `blur(${blur}px) brightness(${0.7 + 0.3 * opacity})`
-        : `brightness(${0.7 + 0.3 * opacity})`,
-      boxShadow: shadow,
-      willChange: 'transform, opacity',
-      backfaceVisibility: 'hidden' as React.CSSProperties['backfaceVisibility'],
-      transformOrigin: 'center center',
-    }
+    blur = 1
+    shadow = '0 10px 20px rgba(0,0,0,0.2)'
+  } else if (offset === 1) {
+    // Right Adjacent
+    tx = isMobile ? 140 : isTablet ? 210 : 280
+    tz = isMobile ? -80 : isTablet ? -100 : -150
+    rot = 45
+    scale = 0.45
+    opacity = 0.8
+    z = 5
+    blur = 1
+    shadow = '0 10px 20px rgba(0,0,0,0.2)'
+  } else if (offset === -2 && !isMobile) {
+    // Far Left (not shown on mobile)
+    tx = isTablet ? -340 : -450
+    tz = isTablet ? -200 : -300
+    rot = -75
+    scale = 0.25
+    opacity = 0.4
+    z = 1
+    blur = 2
+    shadow = '0 5px 10px rgba(0,0,0,0.1)'
+  } else if (offset === 2 && !isMobile) {
+    // Far Right (not shown on mobile)
+    tx = isTablet ? 340 : 450
+    tz = isTablet ? -200 : -300
+    rot = 75
+    scale = 0.25
+    opacity = 0.4
+    z = 1
+    blur = 2
+    shadow = '0 5px 10px rgba(0,0,0,0.1)'
   } else {
     // Hide further cards
     return {
@@ -194,6 +152,19 @@ const getTransform = (offset: number, isMobile: boolean, isTablet: boolean) => {
       backfaceVisibility: 'hidden' as React.CSSProperties['backfaceVisibility'],
       transformOrigin: 'center center',
     }
+  }
+  return {
+    transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${rot}deg) scale(${scale})`,
+    opacity,
+    zIndex: z,
+    pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+    filter: blur
+      ? `blur(${blur}px) brightness(${0.7 + 0.3 * opacity})`
+      : `brightness(${0.7 + 0.3 * opacity})`,
+    boxShadow: shadow,
+    willChange: 'transform, opacity',
+    backfaceVisibility: 'hidden' as React.CSSProperties['backfaceVisibility'],
+    transformOrigin: 'center center',
   }
 }
 
@@ -281,10 +252,10 @@ const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
     }
   }, [activeIdx])
 
-  // Only render 5 cards (center, ±1, ±2)
+  // Only render 5 cards (center, ±1, ±2), but only 3 on mobile
   const getVisibleCards = () => {
     const cards = []
-    for (let i = -2; i <= 2; i++) {
+    for (let i = isMobile ? -1 : -2; i <= (isMobile ? 1 : 2); i++) {
       let idx = (activeIdx + i + dealFlow.length) % dealFlow.length
       cards.push({
         deal: dealFlow[idx],
@@ -299,7 +270,7 @@ const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
     <div
       className="deal-flow-carousel-container relative w-full h-full flex items-center justify-center select-none"
       style={{
-        perspective: isMobile ? 800 : isTablet ? 1000 : 1200,
+        perspective: isMobile ? 800 : isTablet ? 1000 : 1400,
         perspectiveOrigin: 'center center',
         height: isMobile ? 340 : 600,
       }}
@@ -340,13 +311,10 @@ const DealFlowFeed: React.FC<DealFlowFeedProps> = ({ onSelectDeal }) => {
               ...getTransform(offset, isMobile, isTablet),
               transition: `
                 transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
-                opacity 0.4s ease-in-out,
-                z-index 0s linear 0.3s,
-                filter 0.4s ease,
-                box-shadow 0.4s ease
+                opacity 0.4s ease-in-out
               `,
               marginLeft: '-160px',
-              marginTop: isMobile ? '-170px' : '-300px',
+              marginTop: isMobile ? '-100px' : '-300px',
               width: isMobile ? 200 : 320,
               height: isMobile ? 200 : 320,
             }}
