@@ -123,7 +123,16 @@ const MainLandingPage = () => {
       </section>
 
       {/* Platform Overview */}
-      <section className="py-12 px-4 max-w-6xl mx-auto">
+      <section
+        className="py-12 px-4 max-w-6xl mx-auto"
+        style={{
+          minHeight: 600,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}
+      >
         <h2 className="text-3xl font-bold mb-8 text-center">Explore Our Portals</h2>
         <PortalsCarousel
           portals={portals}
