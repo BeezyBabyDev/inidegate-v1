@@ -133,7 +133,8 @@ const MainLandingPage = () => {
               <h3 className="text-2xl font-bold mb-2">{portal.name}</h3>
               <p className="mb-6 text-slate-100">{portal.desc}</p>
               <Button
-                className={portal.disabled ? 'coming-soon-button' : ''}
+                variant="secondary"
+                className={portal.disabled ? 'coming-soon-button' : 'portal-cta'}
                 disabled={portal.disabled}
                 onClick={() => {
                   if (!portal.disabled) {
