@@ -659,3 +659,62 @@
 .portal-card.rotating {
   transition-duration: 0.6s !important;
 }
+
+/* --- Carousel Layout: No Underlay, More Spacing --- */
+
+/* Center card: always solid, no overlap */
+.portal-card.center {
+  z-index: 100 !important;
+  background: rgba(30, 32, 44, 0.98) !important;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 0 20px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Space out left/right/far cards so they never underlay/interfere with center */
+@media (min-width: 1200px) {
+  .portal-card.adjacent-left {
+    transform: translateX(-420px) translateY(0) translateZ(-200px) rotateY(-45deg) scale(0.45) !important;
+  }
+  .portal-card.adjacent-right {
+    transform: translateX(420px) translateY(0) translateZ(-200px) rotateY(45deg) scale(0.45) !important;
+  }
+  .portal-card.far-left {
+    transform: translateX(-650px) translateY(0) translateZ(-400px) rotateY(-75deg) scale(0.25) !important;
+  }
+  .portal-card.far-right {
+    transform: translateX(650px) translateY(0) translateZ(-400px) rotateY(75deg) scale(0.25) !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .portal-card.adjacent-left {
+    transform: translateX(-320px) translateY(0) translateZ(-150px) rotateY(-45deg) scale(0.45) !important;
+  }
+  .portal-card.adjacent-right {
+    transform: translateX(320px) translateY(0) translateZ(-150px) rotateY(45deg) scale(0.45) !important;
+  }
+  .portal-card.far-left {
+    transform: translateX(-500px) translateY(0) translateZ(-300px) rotateY(-75deg) scale(0.25) !important;
+  }
+  .portal-card.far-right {
+    transform: translateX(500px) translateY(0) translateZ(-300px) rotateY(75deg) scale(0.25) !important;
+  }
+}
+@media (max-width: 767px) {
+  .portal-card.adjacent-left {
+    transform: translateX(-180px) translateY(0) translateZ(-80px) rotateY(-45deg) scale(0.45) !important;
+  }
+  .portal-card.adjacent-right {
+    transform: translateX(180px) translateY(0) translateZ(-80px) rotateY(45deg) scale(0.45) !important;
+  }
+}
+
+/* Always ensure only the center card is visually solid and prominent */
+.portal-card:not(.center) {
+  background: rgba(30, 32, 44, 0.7) !important;
+  filter: brightness(0.8) contrast(0.95);
+}
+
+/* --- End Carousel Layout Fix --- */
