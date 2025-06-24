@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from './Button'
 import { useNavigate } from 'react-router-dom'
+import PortalsCarousel from './PortalsCarousel'
 
 const portals = [
   {
@@ -124,29 +125,15 @@ const MainLandingPage = () => {
       {/* Platform Overview */}
       <section className="py-12 px-4 max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold mb-8 text-center">Explore Our Portals</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {portals.map(portal => (
-            <div
-              key={portal.key}
-              className={`portal-card rounded-2xl p-8 shadow-lg bg-gradient-to-br ${portal.color} relative flex flex-col items-start ${portal.disabled ? 'opacity-60 cursor-not-allowed' : 'hover:scale-105 transition-transform duration-200'}`}
-            >
-              <h3 className="text-2xl font-bold mb-2">{portal.name}</h3>
-              <p className="mb-6 text-slate-100">{portal.desc}</p>
-              <Button
-                variant="secondary"
-                className={portal.disabled ? 'coming-soon-button' : 'portal-cta'}
-                disabled={portal.disabled}
-                onClick={() => {
-                  if (!portal.disabled) {
-                    navigate(`/portal/${portal.key}`)
-                  }
-                }}
-              >
-                {portal.cta}
-              </Button>
-            </div>
-          ))}
-        </div>
+        <PortalsCarousel
+          portals={portals}
+          onPortalClick={key => {
+            const portal = portals.find(p => p.key === key)
+            if (portal && !portal.disabled) {
+              navigate(`/portal/${portal.key}`)
+            }
+          }}
+        />
       </section>
 
       {/* Use Cases */}
