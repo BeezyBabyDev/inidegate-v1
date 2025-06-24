@@ -492,6 +492,7 @@ const TalentPortalComponent = () => {
         onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         activeTab={activeTab}
         onTabClick={handleTabClick}
+        onLogout={handleLogout}
         portalType="talent"
       />
       <div

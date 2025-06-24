@@ -471,6 +471,7 @@ const BrandsPortal = () => {
         onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         activeTab={activeTab}
         onTabClick={handleTabClick}
+        onLogout={handleLogout}
         portalType="brands"
       />
       <div
