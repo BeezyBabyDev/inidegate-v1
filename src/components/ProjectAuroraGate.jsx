@@ -6,7 +6,7 @@ const ProjectAuroraGate = ({ onAccessGranted }) => {
   const [isVerifying, setIsVerifying] = useState(false)
 
   // The valid access code for Project Aurora
-  const AURORA_ACCESS_CODE = 'AURORA2024'
+  const AURORA_ACCESS_CODE = 'PA2025'
 
   const handleSubmit = e => {
     e.preventDefault()
