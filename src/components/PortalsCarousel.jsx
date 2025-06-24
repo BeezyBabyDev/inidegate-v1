@@ -209,7 +209,7 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
       {/* 3D Cards */}
       <div
         className="portals-carousel-3d relative w-full h-full flex items-center justify-center"
-        style={{ transformStyle: 'preserve-3d', width: '100%', height: isMobile ? 340 : 500 }}
+        style={{ width: '100%', height: isMobile ? 340 : 500 }}
       >
         {getVisibleCards().map(({ portal, offset, idx }) => {
           const positionClass = getCardPositionClass(offset, isMobile)
@@ -219,23 +219,12 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
               key={portal.key}
               className={`portal-card ${positionClass}`}
               style={{
-                ...getTransform(offset, isMobile, isTablet),
-                transition: `
-                  transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
-                  opacity 0.4s ease-in-out,
-                  box-shadow 0.3s ease
-                `,
-                marginLeft: isMobile ? '-100px' : '-160px',
-                marginTop: isMobile ? '-100px' : '-160px',
-                width: isMobile ? 200 : 320,
-                height: isMobile ? 200 : 320,
                 opacity: portal.disabled ? getComingSoonOpacity(offset) : undefined,
                 filter: portal.disabled
                   ? offset === 0
                     ? 'grayscale(0.5) brightness(0.8)'
                     : 'grayscale(0.8) brightness(0.7)'
                   : undefined,
-                pointerEvents: isCenter && !portal.disabled ? 'all' : 'none',
               }}
               tabIndex={isCenter ? 0 : -1}
               aria-hidden={!isCenter}
@@ -255,15 +244,26 @@ const PortalsCarousel = ({ portals, onPortalClick }) => {
               </p>
               <Button
                 variant="secondary"
-                className={portal.disabled ? 'coming-soon-button' : 'portal-cta'}
+                className={
+                  portal.disabled ? 'coming-soon-button portal-button' : 'portal-cta portal-button'
+                }
                 disabled={portal.disabled}
                 style={{
                   fontSize: isCenter ? '1rem' : '0.95rem',
                   opacity: portal.disabled ? 0.7 : 1,
-                  pointerEvents: portal.disabled ? 'none' : 'auto',
-                  width: isCenter ? 180 : 140,
+                  width: isCenter ? 220 : 180,
+                  minWidth: isCenter ? 220 : 180,
                   height: 44,
+                  minHeight: 44,
                   marginTop: 'auto',
+                  whiteSpace: 'nowrap',
+                  overflow: 'visible',
+                  textOverflow: 'clip',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: isCenter ? '14px 28px' : '12px 24px',
                 }}
                 onClick={e => {
                   e.stopPropagation()

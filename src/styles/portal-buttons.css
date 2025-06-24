@@ -172,15 +172,21 @@
 
 /* 1. Clean Center Portal Hover State */
 .portal-card.center:hover ~ .portal-card,
-.portal-card.center:hover + .portal-card {
-  background: none !important;
-  box-shadow: none !important;
-  filter: none !important;
+.portal-card.center:hover + .portal-card,
+.portal-card:not(.center) {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: inherit !important;
+  filter: inherit !important;
 }
 
-.portal-card.center:hover {
-  transform: translateX(0) translateZ(0) rotateY(0deg) scale(0.87);
-  transition: transform 0.3s ease;
+.portal-card:not(.center):hover,
+.portal-card:not(.center):focus {
+  background: transparent !important;
+  background-color: transparent !important;
+  transform: inherit !important;
+  scale: inherit !important;
+  opacity: inherit !important;
 }
 
 /* 2. Disable Background Portal Hover Effects */
@@ -533,3 +539,123 @@
 }
 
 /* --- End Portal Carousel Centering & Clean Interactions --- */
+
+/* Navigation zones: 40% width, 100% height, pointer-events: all */
+.nav-zone-left,
+.nav-zone-right {
+  width: 40%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  pointer-events: all;
+  cursor: pointer;
+  background: transparent;
+  z-index: 200;
+}
+.nav-zone-left {
+  left: 0;
+}
+.nav-zone-right {
+  right: 0;
+}
+
+/* Button text always visible and properly sized */
+.portal-card .portal-cta,
+.portal-card .portal-button {
+  width: auto;
+  min-width: 200px;
+  height: auto;
+  min-height: 44px;
+  padding: 12px 24px;
+  font-size: 16px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.portal-card.center .portal-cta,
+.portal-card.center .portal-button {
+  font-size: 16px;
+  min-width: 220px;
+  padding: 14px 28px;
+}
+
+/* Exact purple border and highlight for center card */
+.portal-card.center {
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 0 20px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  filter: brightness(1.1) contrast(1.05);
+  backdrop-filter: blur(0);
+  position: relative;
+}
+.portal-card.center:hover {
+  border-color: #a855f7;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 2px rgba(168, 85, 247, 0.4),
+    0 0 25px rgba(168, 85, 247, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateX(0) translateY(0) translateZ(0) rotateY(0deg) scale(0.87);
+  transition: all 0.3s ease;
+}
+
+/* Remove any borders from non-center cards except faint 1px white border */
+.portal-card:not(.center) {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  filter: brightness(0.8) contrast(0.95);
+}
+
+/* Z-index and isolation */
+.explore-portals-carousel-container {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  z-index: 1;
+}
+.portal-card {
+  isolation: isolate;
+  backface-visibility: hidden;
+  transform-origin: center center;
+}
+.portal-card.center {
+  z-index: 100 !important;
+}
+.portal-card.adjacent-left,
+.portal-card.adjacent-right {
+  z-index: 50 !important;
+}
+.portal-card.far-left,
+.portal-card.far-right {
+  z-index: 25 !important;
+}
+.carousel-navigation-zones {
+  z-index: 200 !important;
+}
+
+/* Animation/transition timing matches Deal Flow Feed */
+.portal-card {
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.4s ease-in-out,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+  will-change: transform, opacity;
+}
+.portal-card * {
+  transition: none;
+}
+.portal-card.rotating {
+  transition-duration: 0.6s !important;
+}
