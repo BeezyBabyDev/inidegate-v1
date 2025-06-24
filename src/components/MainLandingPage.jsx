@@ -123,26 +123,13 @@ const MainLandingPage = () => {
       </section>
 
       {/* Platform Overview - Explore Our Portals Section Vertical & Horizontal Centering Fix */}
-      <section
-        className="explore-portals-section w-full h-[calc(100vh-160px)] flex items-center justify-center"
-        style={{
-          minHeight: 'calc(100vh - 160px)',
-          height: 'calc(100vh - 160px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 0,
-          margin: 0,
-        }}
-      >
-        <div className="w-full max-w-6xl mx-auto flex flex-col items-center justify-center h-full px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">Explore Our Portals</h2>
-          <div className="w-full flex justify-center items-center h-full">
-            <div className="portal-cards-row flex flex-wrap justify-center gap-8 w-full">
-              {portals.map((portal, idx) => (
-                <PortalCard key={portal.key} portal={portal} />
-              ))}
-            </div>
+      <section className="explore-portals-section w-full py-20">
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center w-full">Explore Our Portals</h2>
+          <div className="portal-cards-row grid grid-cols-3 gap-y-10 gap-x-8 justify-items-center w-full mx-auto">
+            {portals.map((portal, idx) => (
+              <PortalCard key={portal.key} portal={portal} />
+            ))}
           </div>
         </div>
       </section>
