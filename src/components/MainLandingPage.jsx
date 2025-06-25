@@ -129,7 +129,7 @@ const MainLandingPage = () => {
       <section className="explore-portals-section w-full py-20">
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center px-4">
           <h2 className="text-3xl font-bold mb-12 text-center w-full">Explore Our Portals</h2>
-          <div className="portal-cards-row grid grid-cols-3 gap-10 w-full">
+          <div className="portal-cards-row grid grid-cols-3 gap-10 w-full justify-items-center">
             {portals.map((portal, idx) => (
               <PortalCard key={portal.key} portal={portal} onPortalClick={handlePortalClick} />
             ))}
