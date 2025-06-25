@@ -127,6 +127,8 @@ const MainLandingPage = () => {
           {portals.map(portal => (
             <PortalCard key={portal.key} portal={portal} onPortalClick={handlePortalClick} />
           ))}
+          {/* Add an empty cell for symmetry if only 5 portals */}
+          <div style={{ visibility: 'hidden' }}></div>
         </div>
       </section>
 

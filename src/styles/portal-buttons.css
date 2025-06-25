@@ -940,29 +940,44 @@
   width: 100%;
 }
 .portals-grid {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  gap: 32px !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 32px;
   width: 100%;
-  max-width: 420px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0 16px;
+  justify-items: center;
+  align-items: center;
+  padding: 0 32px;
   box-sizing: border-box;
 }
 .portals-grid .portal-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 320px;
+  min-width: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1100px) {
   .portals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    max-width: 700px;
+    gap: 24px;
+    padding: 0 16px;
+  }
+}
+@media (max-width: 700px) {
+  .portals-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
     max-width: 98vw;
-    gap: 18px !important;
+    gap: 18px;
     padding: 0 2vw;
   }
   .portals-grid .portal-card {
