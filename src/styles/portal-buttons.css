@@ -1017,19 +1017,21 @@
   flex-direction: column !important;
   position: relative;
 }
+.filmmaker-desc-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  margin: 1.2rem 0 1.2rem 0;
+}
 .filmmaker-title {
   font-size: 1.35rem;
   font-weight: 800;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   color: #f3e8ff;
   text-align: center;
-}
-.filmmaker-desc-wrap {
-  flex: 1;
-  display: flex;
-  align-items: center;
   width: 100%;
-  justify-content: center;
 }
 .filmmaker-desc {
   font-size: 1rem;
