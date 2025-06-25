@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const PortalCard = ({ portal, onPortalClick }) => (
   <div
@@ -24,16 +25,23 @@ const PortalCard = ({ portal, onPortalClick }) => (
       <p className="filmmaker-desc">{portal.desc}</p>
     </div>
     {!portal.disabled && (
-      <button
+      <Link
+        to={portal.url}
         className="portal-enter-btn filmmakers-btn"
         tabIndex={0}
-        onClick={e => {
-          e.stopPropagation()
-          onPortalClick(portal.url)
+        role="button"
+        aria-label={`Enter ${portal.name} Portal`}
+        title={`Enter ${portal.name} Portal`}
+        style={{
+          cursor: 'pointer',
+          textDecoration: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         Enter Portal
-      </button>
+      </Link>
     )}
     {portal.disabled && <span className="coming-soon-badge">Coming Soon</span>}
   </div>

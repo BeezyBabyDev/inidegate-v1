@@ -6,7 +6,7 @@ import PortalCard from './PortalCard'
 const portals = [
   {
     name: 'For Filmmakers',
-    desc: 'Access funding opportunities, project management tools, and industry connections to bring your vision to life.',
+    desc: 'Access funding, project tools, and industry connections to bring your vision to life.',
     key: 'filmmakers',
     url: '/portal/filmmakers',
   },
@@ -24,7 +24,7 @@ const portals = [
   },
   {
     name: 'For Talent',
-    desc: 'Connect with indie film projects, showcase your skills, and build meaningful relationships in the industry.',
+    desc: 'Connect with indie projects, showcase your talents, and build industry relationships.',
     key: 'talent',
     url: '/portal/talent',
   },
@@ -125,7 +125,7 @@ const MainLandingPage = () => {
         <h2 className="section-title">Explore Portals</h2>
         <div className="grid md:grid-cols-3 gap-8 portals-grid">
           {portals.map(portal => (
-            <PortalCard key={portal.key} portal={portal} onPortalClick={handlePortalClick} />
+            <PortalCard key={portal.key} portal={portal} />
           ))}
           {/* Add an empty cell for symmetry if only 5 portals */}
           <div style={{ visibility: 'hidden' }}></div>

@@ -360,6 +360,14 @@ function App() {
             </DashboardProvider>
           }
         />
+        <Route
+          path="/portal/investors"
+          element={
+            <DashboardProvider>
+              <InvestorPortal />
+            </DashboardProvider>
+          }
+        />
         <Route path="/portal/filmmaker" element={<FilmakersPortal />} />
         <Route path="/portal/brands" element={<BrandsPortal />} />
         <Route path="/portal/talent" element={<TalentPortalComponent />} />
