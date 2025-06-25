@@ -372,6 +372,18 @@ function App() {
         <Route path="/portal/brands" element={<BrandsPortal />} />
         <Route path="/portal/talent" element={<TalentPortalComponent />} />
         <Route path="/portal/distributors" element={<DistributorsPlatform />} />
+        <Route path="/filmmakers/dashboard" element={<FilmakersPortal />} />
+        <Route
+          path="/investors/dashboard"
+          element={
+            <DashboardProvider>
+              <InvestorPortal />
+            </DashboardProvider>
+          }
+        />
+        <Route path="/brands/dashboard" element={<BrandsPortal />} />
+        <Route path="/talent/dashboard" element={<TalentPortalComponent />} />
+        <Route path="/distributors/dashboard" element={<DistributorsPlatform />} />
         {/* fallback for unknown routes can be added here */}
       </Routes>
     </Router>

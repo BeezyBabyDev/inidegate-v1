@@ -1,12 +1,18 @@
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
 const DistributorsPlatform = () => {
+  const navigate = useNavigate()
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-500 to-yellow-700 text-white">
-      <h2 className="text-4xl font-bold mb-4">Distributors Platform</h2>
-      <p className="text-lg mb-8">
-        Distribution channels and reach optimization.
-        <br />
-        (Coming Soon)
-      </p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-purple-950 text-white">
+      <h1 className="text-3xl font-bold mb-6">Distributors Portal - Coming Soon</h1>
+      <button
+        className="portal-enter-btn filmmakers-btn"
+        style={{ marginTop: 24 }}
+        onClick={() => navigate('/')}
+      >
+        Back to Main Page
+      </button>
     </div>
   )
 }
