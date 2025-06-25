@@ -988,3 +988,22 @@
 .portals-grid .portal-card:nth-child(4) {
   margin-left: 0 !important;
 }
+
+/* --- Remove carousel/flex/absolute positioning for grid --- */
+.portal-card,
+.portal-card.center,
+.portal-card.adjacent-left,
+.portal-card.adjacent-right,
+.portal-card.far-left,
+.portal-card.far-right {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  z-index: auto !important;
+  opacity: 1 !important;
+  filter: none !important;
+  pointer-events: auto !important;
+  display: block !important;
+}
+/* --- End carousel/flex/absolute positioning removal --- */
