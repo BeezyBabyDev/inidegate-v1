@@ -122,7 +122,7 @@ const MainLandingPage = () => {
 
       {/* Platform Overview - Explore Our Portals Section Centered Grid Fix */}
       <section className="portals-section mt-20">
-        <h2 className="section-title">Who Is IndieGate.io For?</h2>
+        <h2 className="section-title">Explore Portals</h2>
         <div className="portals-grid">
           {portals.map(portal => (
             <PortalCard key={portal.key} portal={portal} onPortalClick={handlePortalClick} />
