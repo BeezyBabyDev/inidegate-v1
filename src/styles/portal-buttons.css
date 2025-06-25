@@ -916,21 +916,19 @@
 }
 /* --- End Carousel Centering & Navigation --- */
 
-/* --- Portal Cards Static Horizontal Row Layout --- */
+/* --- Portal Cards Static Row Layout --- */
 .portal-cards-row {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 1.2rem;
-  width: auto;
+  gap: 2rem;
+  width: 100%;
   margin: 0 auto;
 }
 
 .portal-card {
-  width: 140px;
-  height: 180px;
+  width: 340px;
+  height: 260px;
   background: rgba(30, 27, 54, 0.95);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
@@ -949,35 +947,33 @@
 .portal-card:hover {
   border-color: #a855f7;
   box-shadow:
-    0 0 0 2px rgba(139, 92, 246, 0.1),
+    0 0 0 4px rgba(139, 92, 246, 0.15),
     0 8px 32px rgba(0, 0, 0, 0.22);
   z-index: 2;
 }
 
 @media (max-width: 1200px) {
   .portal-card {
-    width: 110px;
-    height: 140px;
+    width: 280px;
+    height: 220px;
   }
 }
 @media (max-width: 900px) {
   .portal-card {
-    width: 90px;
-    height: 110px;
+    width: 220px;
+    height: 180px;
   }
 }
 @media (max-width: 600px) {
   .portal-cards-row {
-    gap: 0.5rem;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
+    gap: 1rem;
   }
   .portal-card {
-    width: 80vw;
-    max-width: 90px;
-    min-width: 60px;
-    height: 80px;
-    font-size: 0.85rem;
+    width: 100vw;
+    max-width: 340px;
+    min-width: 180px;
+    height: 140px;
+    font-size: 0.95rem;
   }
 }
-/* --- End Portal Cards Static Horizontal Row Layout --- */
+/* --- End Portal Cards Static Row Layout --- */
