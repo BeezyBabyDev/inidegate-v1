@@ -948,6 +948,8 @@
   width: 960px;
   margin-left: calc(50vw - 480px); /* Center the middle column on the page */
   justify-items: center;
+  padding: 0 32px;
+  box-sizing: border-box;
 }
 .portals-grid .portal-card {
   background: rgba(255, 255, 255, 0.1) !important;
@@ -1054,6 +1056,7 @@
     gap: 24px !important;
     width: 660px;
     margin-left: calc(50vw - 330px);
+    padding: 0 16px;
   }
 }
 @media (max-width: 700px) {
@@ -1063,6 +1066,7 @@
     gap: 16px !important;
     width: 95vw;
     margin-left: 2.5vw;
+    padding: 0 4vw;
   }
   .portals-grid .portal-card {
     padding: 18px 10px 48px 10px !important;
@@ -1071,20 +1075,8 @@
 }
 /* --- End Modern Portals Grid Layout --- */
 
+/* Remove negative margin from leftmost cards */
 .portals-grid .portal-card:nth-child(1),
 .portals-grid .portal-card:nth-child(4) {
-  margin-left: -40px !important;
-}
-
-@media (max-width: 1100px) {
-  .portals-grid .portal-card:nth-child(1),
-  .portals-grid .portal-card:nth-child(4) {
-    margin-left: -24px !important;
-  }
-}
-@media (max-width: 700px) {
-  .portals-grid .portal-card:nth-child(1),
-  .portals-grid .portal-card:nth-child(4) {
-    margin-left: 0 !important;
-  }
+  margin-left: 0 !important;
 }
