@@ -922,13 +922,13 @@
 }
 /* --- End Portal Cards Static Grid Layout Fix --- */
 
-/* --- Modern Portals Grid Layout --- */
+/* --- Optimized Modern Portals Grid Layout --- */
 .portals-section {
   margin-top: 80px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Shift grid left for custom centering */
-  width: 100vw;
+  align-items: center;
+  width: 100%;
   max-width: 100vw;
   position: relative;
 }
@@ -937,143 +937,60 @@
   font-weight: 700;
   margin-bottom: 50px;
   text-align: center;
-  width: 100vw;
+  width: 100%;
 }
-/* Custom centering: grid is shifted left by 1 column width to center the middle cards */
 .portals-grid {
   display: grid !important;
-  grid-template-columns: repeat(3, 320px) !important;
-  grid-template-rows: repeat(2, 1fr) !important;
-  gap: 32px !important;
-  width: 960px;
-  margin-left: calc(50vw - 480px); /* Center the middle column on the page */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, 1fr);
+  gap: 32px;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
   justify-items: center;
+  align-items: center;
   padding: 0 32px;
   box-sizing: border-box;
 }
 .portals-grid .portal-card {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1.5px solid transparent !important;
-  border-radius: 20px !important;
-  padding: 36px 28px 60px 28px !important;
-  text-align: center !important;
-  transition:
-    box-shadow 0.25s,
-    background 0.25s,
-    transform 0.2s,
-    border-color 0.2s !important;
-  cursor: pointer !important;
-  backdrop-filter: blur(16px) !important;
-  min-height: 180px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-  margin-bottom: 0 !important;
-  position: static !important;
-  transform: none !important;
-  opacity: 1 !important;
-  z-index: auto !important;
-  box-shadow:
-    0 4px 32px 0 rgba(80, 0, 120, 0.1),
-    0 1.5px 6px 0 rgba(80, 0, 120, 0.08);
-}
-.portals-grid .portal-card:hover {
-  transform: translateY(-7px) scale(1.025) !important;
-  background: rgba(168, 85, 247, 0.13) !important;
-  box-shadow:
-    0 8px 36px 0 rgba(139, 92, 246, 0.18),
-    0 2px 8px 0 rgba(80, 0, 120, 0.1) !important;
-  border-color: #232136 !important; /* Thin dark border highlight */
-}
-.portals-grid .portal-card.disabled {
-  opacity: 0.55 !important;
-  cursor: not-allowed !important;
-  pointer-events: none !important;
-}
-.portals-grid .portal-card.disabled:hover {
-  transform: none !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-  box-shadow:
-    0 4px 32px 0 rgba(80, 0, 120, 0.1),
-    0 1.5px 6px 0 rgba(80, 0, 120, 0.08) !important;
-  border-color: transparent !important;
-}
-.portals-grid .portal-card h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #f3e8ff;
-  letter-spacing: 0.01em;
-}
-.portals-grid .portal-card p {
-  font-size: 1rem;
-  color: #e0e7ef;
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-}
-/* Translucent Enter Portal button */
-.portal-enter-btn {
-  margin-top: 1.5rem;
-  padding: 0.75rem 2.25rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 999px;
-  background: rgba(139, 92, 246, 0.18);
-  color: #f3e8ff;
-  border: 1.5px solid rgba(139, 92, 246, 0.25);
-  box-shadow: 0 2px 8px 0 rgba(139, 92, 246, 0.08);
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-  cursor: pointer;
-  outline: none;
-  backdrop-filter: blur(4px);
-}
-.portal-enter-btn:hover,
-.portal-enter-btn:focus {
-  background: rgba(139, 92, 246, 0.32);
-  color: #fff;
-  border-color: #8b5cf6;
-}
-.coming-soon-badge {
-  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
-  color: white !important;
-  padding: 5px 15px !important;
-  border-radius: 20px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  display: inline-block !important;
-  margin-top: 15px !important;
+  width: 100%;
+  max-width: 320px;
+  min-width: 0;
+  height: 100%;
+  min-height: 180px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-/* Responsive grid adjustments */
 @media (max-width: 1100px) {
   .portals-grid {
-    grid-template-columns: repeat(2, 320px) !important;
-    grid-template-rows: repeat(3, 1fr) !important;
-    gap: 24px !important;
-    width: 660px;
-    margin-left: calc(50vw - 330px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, 1fr);
+    max-width: 700px;
+    gap: 24px;
     padding: 0 16px;
   }
 }
 @media (max-width: 700px) {
   .portals-grid {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: repeat(5, 1fr) !important;
-    gap: 16px !important;
-    width: 95vw;
-    margin-left: 2.5vw;
-    padding: 0 4vw;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    max-width: 95vw;
+    gap: 16px;
+    padding: 0 2vw;
   }
   .portals-grid .portal-card {
-    padding: 18px 10px 48px 10px !important;
-    min-height: 120px !important;
+    max-width: 100%;
+    min-width: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
-/* --- End Modern Portals Grid Layout --- */
+/* --- End Optimized Modern Portals Grid Layout --- */
 
 /* Remove negative margin from leftmost cards */
 .portals-grid .portal-card:nth-child(1),
