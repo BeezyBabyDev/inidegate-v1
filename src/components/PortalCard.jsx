@@ -11,6 +11,18 @@ const PortalCard = ({ portal, onPortalClick }) => (
   >
     <h3>{portal.name}</h3>
     <p>{portal.desc}</p>
+    {!portal.disabled && (
+      <button
+        className="portal-enter-btn"
+        tabIndex={0}
+        onClick={e => {
+          e.stopPropagation()
+          onPortalClick(portal.url)
+        }}
+      >
+        Enter Portal
+      </button>
+    )}
     {portal.disabled && <span className="coming-soon-badge">Coming Soon</span>}
   </div>
 )
