@@ -1070,3 +1070,21 @@
   }
 }
 /* --- End Modern Portals Grid Layout --- */
+
+.portals-grid .portal-card:nth-child(1),
+.portals-grid .portal-card:nth-child(4) {
+  margin-left: -40px !important;
+}
+
+@media (max-width: 1100px) {
+  .portals-grid .portal-card:nth-child(1),
+  .portals-grid .portal-card:nth-child(4) {
+    margin-left: -24px !important;
+  }
+}
+@media (max-width: 700px) {
+  .portals-grid .portal-card:nth-child(1),
+  .portals-grid .portal-card:nth-child(4) {
+    margin-left: 0 !important;
+  }
+}
