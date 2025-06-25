@@ -5,39 +5,34 @@ import PortalCard from './PortalCard'
 
 const portals = [
   {
-    name: 'Investor Portal',
-    desc: 'Investment opportunities and funding connections for film backers.',
-    color: 'from-green-500 to-green-700',
-    cta: 'Explore Investments',
-    key: 'investor',
+    name: 'For Filmmakers',
+    desc: 'Access funding opportunities, project management tools, and industry connections to bring your vision to life.',
+    key: 'filmmakers',
+    url: '/portal/filmmakers',
   },
   {
-    name: 'Filmmaker Portal',
-    desc: 'Creative tools, project management, and industry resources for indie filmmakers.',
-    color: 'from-purple-600 to-purple-800',
-    cta: 'For Filmmakers',
-    key: 'filmmaker',
+    name: 'For Investors',
+    desc: 'Discover promising independent film projects and connect with talented creators for strategic investments.',
+    key: 'investors',
+    url: '/portal/investors',
   },
   {
-    name: 'Brands Portal',
-    desc: 'Marketing partnerships and collaboration opportunities for brands.',
-    color: 'from-blue-500 to-blue-700',
-    cta: 'Brand Partnerships',
+    name: 'For Brands',
+    desc: 'Partner with independent filmmakers for authentic storytelling and targeted audience engagement.',
     key: 'brands',
+    url: '/portal/brands',
   },
   {
-    name: 'Talent/Influencers Portal',
-    desc: 'Networking and project participation for talent and influencers.',
-    color: 'from-pink-500 to-pink-700',
-    cta: 'Talent & Influencers',
+    name: 'For Talent',
+    desc: 'Connect with indie film projects, showcase your skills, and build meaningful relationships in the industry.',
     key: 'talent',
+    url: '/portal/talent',
   },
   {
-    name: 'Distributors Platform',
-    desc: 'Distribution channels and reach optimization. (Coming Soon)',
-    color: 'from-yellow-500 to-yellow-700',
-    cta: 'Coming Soon',
+    name: 'For Distributors',
+    desc: 'Discover unique independent content and expand your distribution network with quality films.',
     key: 'distributors',
+    url: '/portal/distributors',
     disabled: true,
   },
 ]
@@ -67,8 +62,8 @@ const useCases = [
 
 const MainLandingPage = () => {
   const navigate = useNavigate()
-  const handlePortalClick = key => {
-    navigate(`/portal/${key}`)
+  const handlePortalClick = url => {
+    if (url) navigate(url)
   }
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-purple-950 text-white">
@@ -126,14 +121,12 @@ const MainLandingPage = () => {
       </section>
 
       {/* Platform Overview - Explore Our Portals Section Centered Grid Fix */}
-      <section className="explore-portals-section w-full py-20">
-        <div className="w-full max-w-5xl mx-auto flex flex-col items-center px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center w-full">Explore Our Portals</h2>
-          <div className="portal-cards-row grid grid-cols-3 gap-10 w-full justify-items-center">
-            {portals.map((portal, idx) => (
-              <PortalCard key={portal.key} portal={portal} onPortalClick={handlePortalClick} />
-            ))}
-          </div>
+      <section className="portals-section mt-20">
+        <h2 className="section-title">Who Is IndieGate.io For?</h2>
+        <div className="portals-grid">
+          {portals.map(portal => (
+            <PortalCard key={portal.key} portal={portal} onPortalClick={handlePortalClick} />
+          ))}
         </div>
       </section>
 
