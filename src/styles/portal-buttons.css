@@ -1071,3 +1071,22 @@
   color: #fff !important;
   border-color: #8b5cf6 !important;
 }
+
+.static-highlight-btn:hover,
+.static-highlight-btn:focus {
+  box-shadow:
+    0 0 0 3px #a78bfa,
+    0 2px 8px rgba(80, 0, 180, 0.1);
+  border-color: #a78bfa;
+  outline: none;
+  /* No transform, scale, or movement */
+}
+
+.static-highlight-btn:active {
+  box-shadow:
+    0 0 0 4px #7c3aed,
+    0 2px 8px rgba(80, 0, 180, 0.15);
+  border-color: #7c3aed;
+  outline: none;
+  /* No transform, scale, or movement */
+}

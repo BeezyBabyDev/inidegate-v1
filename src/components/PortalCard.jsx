@@ -16,22 +16,7 @@ const PortalCard = ({ portal }) => {
   }
 
   return (
-    <div
-      className={`portal-card filmmakers-card${portal.disabled ? ' disabled' : ''}`}
-      tabIndex={portal.disabled ? -1 : 0}
-      role="region"
-      aria-disabled={portal.disabled}
-      style={{
-        pointerEvents: 'auto',
-        cursor: portal.disabled ? 'not-allowed' : 'pointer',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: '100%',
-      }}
-    >
+    <>
       <h2 className="filmmaker-title" style={{ textAlign: 'center', width: '100%' }}>
         {portal.name}
       </h2>
@@ -41,7 +26,7 @@ const PortalCard = ({ portal }) => {
       {!portal.disabled && (
         <button
           type="button"
-          className="portal-enter-btn filmmakers-btn"
+          className="portal-enter-btn filmmakers-btn static-highlight-btn"
           tabIndex={0}
           aria-label={`Enter ${portal.name} Portal`}
           title={`Enter ${portal.name} Portal`}
@@ -54,10 +39,9 @@ const PortalCard = ({ portal }) => {
             justifyContent: 'center',
             marginTop: '1.5rem',
             position: 'static',
+            transition: 'box-shadow 0.2s, border-color 0.2s',
           }}
           onClick={() => {
-            console.log('Button clicked', portal.key)
-            alert('Button clicked: ' + portal.key)
             handlePortalNavigation(portal.key)
           }}
           onKeyDown={e => {
@@ -71,7 +55,7 @@ const PortalCard = ({ portal }) => {
         </button>
       )}
       {portal.disabled && <span className="coming-soon-badge">Coming Soon</span>}
-    </div>
+    </>
   )
 }
 
