@@ -22,7 +22,12 @@ const PortalCard = ({ portal, onPortalClick }) => {
       {isFilmmaker ? (
         <>
           <h3 className="filmmaker-title">{portal.name}</h3>
-          <p className="filmmaker-desc">{portal.desc}</p>
+          <div
+            className="filmmaker-desc-wrap"
+            style={{ flex: 1, display: 'flex', alignItems: 'center', width: '100%' }}
+          >
+            <p className="filmmaker-desc">{portal.desc}</p>
+          </div>
           {!portal.disabled && (
             <button
               className="portal-enter-btn filmmakers-btn"
