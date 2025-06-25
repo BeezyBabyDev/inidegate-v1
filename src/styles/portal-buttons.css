@@ -1027,7 +1027,7 @@
 .filmmaker-desc {
   font-size: 1rem;
   color: #e0e7ef;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
   text-align: center;
 }
 .filmmakers-btn {
@@ -1035,7 +1035,7 @@
   left: 50%;
   bottom: 1.5rem;
   transform: translateX(-50%);
-  background: rgba(139, 92, 246, 0.13) !important;
+  background: rgba(139, 92, 246, 0.1) !important;
   color: #f3e8ff !important;
   border: 2px solid #a78bfa !important;
   box-shadow: 0 2px 8px 0 rgba(139, 92, 246, 0.08);
@@ -1048,6 +1048,10 @@
   padding: 0.75rem 2.25rem;
   outline: none;
   backdrop-filter: blur(4px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .filmmakers-btn:hover,
 .filmmakers-btn:focus {
