@@ -1009,14 +1009,23 @@
 /* --- End carousel/flex/absolute positioning removal --- */
 
 .filmmakers-card {
-  height: 320px;
-  min-height: 260px;
+  height: 240px;
+  min-height: 200px;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   align-items: center !important;
   position: relative;
-  padding-bottom: 3.5rem;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+}
+.filmmaker-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: #f3e8ff;
+  text-align: center;
+  width: 100%;
 }
 .filmmaker-desc-wrap {
   width: 100%;
@@ -1024,15 +1033,7 @@
   align-items: center;
   justify-content: center;
   height: auto;
-  margin: 0;
-}
-.filmmaker-title {
-  font-size: 1.35rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  color: #f3e8ff;
-  text-align: center;
-  width: 100%;
+  margin: 0.2rem 0 0.2rem 0;
 }
 .filmmaker-desc {
   font-size: 1rem;
@@ -1044,7 +1045,7 @@
 .filmmakers-btn {
   position: absolute;
   left: 50%;
-  bottom: 1.5rem;
+  bottom: 1.1rem;
   transform: translateX(-50%);
   background: rgba(139, 92, 246, 0.1) !important;
   color: #f3e8ff !important;
