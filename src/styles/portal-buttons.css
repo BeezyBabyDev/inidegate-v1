@@ -934,41 +934,83 @@
 }
 .portals-grid {
   display: grid !important;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 25px;
-  max-width: 900px;
-  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr) !important;
+  grid-template-rows: repeat(2, 1fr) !important;
+  gap: 25px !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
 }
-.portal-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 30px 20px;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.portals-grid .portal-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 15px !important;
+  padding: 30px 20px !important;
+  text-align: center !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  backdrop-filter: blur(10px) !important;
+  min-height: 180px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-bottom: 0 !important;
+  position: static !important;
+  transform: none !important;
+  opacity: 1 !important;
+  z-index: auto !important;
 }
-.portal-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(139, 92, 246, 0.5);
-  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+.portals-grid .portal-card:hover {
+  transform: translateY(-5px) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2) !important;
+}
+.portals-grid .portal-card.disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+.portals-grid .portal-card.disabled:hover {
+  transform: none !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
 }
 .coming-soon-badge {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  display: inline-block;
-  margin-top: 15px;
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: white !important;
+  padding: 5px 15px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  display: inline-block !important;
+  margin-top: 15px !important;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 768px) {
+  .portals-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(3, 1fr) !important;
+    gap: 20px !important;
+    max-width: 600px !important;
+  }
+  .portals-grid .portal-card {
+    padding: 25px 15px !important;
+    min-height: 160px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .portals-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: repeat(5, 1fr) !important;
+    gap: 15px !important;
+  }
+  .portals-grid .portal-card {
+    padding: 20px 15px !important;
+    min-height: 140px !important;
+  }
 }
 /* --- End Modern Portals Grid Layout --- */
