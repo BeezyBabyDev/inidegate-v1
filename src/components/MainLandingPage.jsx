@@ -123,7 +123,7 @@ const MainLandingPage = () => {
       {/* Platform Overview - Explore Our Portals Section Centered Grid Fix */}
       <section className="portals-section mt-20">
         <h2 className="section-title">Explore Portals</h2>
-        <div className="portals-grid">
+        <div className="grid md:grid-cols-3 gap-8 portals-grid">
           {portals.map(portal => (
             <PortalCard key={portal.key} portal={portal} onPortalClick={handlePortalClick} />
           ))}
