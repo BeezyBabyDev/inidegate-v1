@@ -122,14 +122,14 @@ const MainLandingPage = () => {
         </div>
       </section>
 
-      {/* Platform Overview - Explore Our Portals Section Vertical & Horizontal Centering Fix */}
+      {/* Platform Overview - Explore Our Portals Section Horizontal Row Fix */}
       <section className="explore-portals-section w-full py-20">
-        <div className="w-full max-w-5xl mx-auto flex flex-col items-center px-4">
+        <div className="w-full flex flex-col items-center px-4">
           <h2 className="text-3xl font-bold mb-12 text-center w-full">Explore Our Portals</h2>
-          <div className="portal-cards-row grid grid-cols-3 gap-y-10 gap-x-8 justify-items-center w-full mx-auto">
-            {portals.map((portal, idx) => (
-              <PortalCard key={portal.key} portal={portal} />
-            ))}
+          <div className="portal-cards-row flex flex-row flex-nowrap justify-center items-center gap-6 w-auto mx-auto">
+            {[portals[1], portals[0], portals[3], portals[2], portals[4], portals[5]].map(
+              (portal, idx) => portal && <PortalCard key={portal.key} portal={portal} />
+            )}
           </div>
         </div>
       </section>
