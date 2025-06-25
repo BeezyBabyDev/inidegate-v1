@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from './Button'
 
-const PortalCard = ({ portal }) => (
-  <div className="portal-card">
+const PortalCard = ({ portal, onPortalClick }) => (
+  <div className="portal-card cursor-pointer">
     <h3 className="text-2xl font-bold mb-2 text-white text-center">{portal.name}</h3>
     <p className="mb-6 text-slate-100 text-base text-center">{portal.desc}</p>
     <Button
@@ -25,6 +25,12 @@ const PortalCard = ({ portal }) => (
         justifyContent: 'center',
         textAlign: 'center',
         padding: '12px 24px',
+        cursor: portal.disabled ? 'not-allowed' : 'pointer',
+      }}
+      onClick={() => {
+        if (!portal.disabled && onPortalClick) {
+          onPortalClick(portal.key)
+        }
       }}
     >
       {portal.cta}
