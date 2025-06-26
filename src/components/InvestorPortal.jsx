@@ -51,7 +51,7 @@ const InvestorPortal = () => {
   }
 
   return (
-    <div className="flex bg-gray-900 text-white min-h-screen">
+    <div className="flex bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white min-h-screen">
       <div className="fixed top-0 left-0 h-full z-30">
         <Sidebar
           isCollapsed={isSidebarCollapsed}

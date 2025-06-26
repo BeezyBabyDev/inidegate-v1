@@ -465,7 +465,7 @@ const BrandsPortal = () => {
   }
 
   return (
-    <div className="flex bg-gray-900 text-white min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white flex flex-col">
       <Sidebar
         isCollapsed={isSidebarCollapsed}
         onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
