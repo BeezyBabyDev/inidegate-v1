@@ -18,14 +18,19 @@ const CreativePortal = ({ onLogout }) => {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
-      <Sidebar
-        isCollapsed={isSidebarCollapsed}
-        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        activeTab={activeTab}
-        onTabClick={handleSidebarClick}
-        onLogout={handleLogout}
-        portalType="filmmaker"
-      />
+      <div
+        className={`fixed top-0 left-0 h-screen z-30`}
+        style={{ width: isSidebarCollapsed ? '5rem' : '16rem' }}
+      >
+        <Sidebar
+          isCollapsed={isSidebarCollapsed}
+          onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          activeTab={activeTab}
+          onTabClick={handleSidebarClick}
+          onLogout={handleLogout}
+          portalType="filmmaker"
+        />
+      </div>
       <div
         className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}
       >
@@ -35,7 +40,7 @@ const CreativePortal = ({ onLogout }) => {
             <div>
               <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
               {/* Active Projects Feed Widget Placeholder */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
                 <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
                   <h3 className="text-xl font-semibold mb-2 text-purple-300">
                     Active Projects Feed
@@ -47,11 +52,10 @@ const CreativePortal = ({ onLogout }) => {
                 {/* Add more dashboard widgets here as needed */}
               </div>
               {/* New Matching Sections */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8">
                 {/* Section 1: Potential Investor Matches */}
                 <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
                   <div className="flex items-center mb-4">
-                    <span className="mr-2">💸</span>
                     <h3 className="text-lg font-bold">Potential Investor Matches</h3>
                     <a href="#" className="ml-auto text-purple-300 text-sm hover:underline">
                       View All
@@ -112,7 +116,6 @@ const CreativePortal = ({ onLogout }) => {
                 {/* Section 2: Potential Brand Partners */}
                 <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
                   <div className="flex items-center mb-4">
-                    <span className="mr-2">🏷️</span>
                     <h3 className="text-lg font-bold">Potential Brand Partners</h3>
                     <a href="#" className="ml-auto text-purple-300 text-sm hover:underline">
                       View All
@@ -176,7 +179,6 @@ const CreativePortal = ({ onLogout }) => {
                 {/* Section 3: Potential Influencer Pairings */}
                 <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
                   <div className="flex items-center mb-4">
-                    <span className="mr-2">📣</span>
                     <h3 className="text-lg font-bold">Potential Influencer Pairings</h3>
                     <a href="#" className="ml-auto text-purple-300 text-sm hover:underline">
                       View All
@@ -243,7 +245,6 @@ const CreativePortal = ({ onLogout }) => {
                 {/* Section 4: Potential Distributor Pairings */}
                 <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
                   <div className="flex items-center mb-4">
-                    <span className="mr-2">🎬</span>
                     <h3 className="text-lg font-bold">Potential Distributor Pairings</h3>
                     <a href="#" className="ml-auto text-purple-300 text-sm hover:underline">
                       View All
