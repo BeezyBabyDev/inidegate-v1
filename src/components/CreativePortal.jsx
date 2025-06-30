@@ -305,9 +305,9 @@ const CreativePortal = ({ onLogout }) => {
           )}
           {/* Placeholder for other tabs/subpages */}
           {activeTab === 'Profile' && (
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-0 md:p-8 text-left max-w-6xl mx-auto w-full">
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-0 md:p-8 text-left max-w-6xl mx-auto w-full shadow-xl">
               {/* Filmmaker Header Section */}
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-8 border-b border-white/10">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-8 border-b border-slate-700/50">
                 <div className="flex-shrink-0 w-32 h-32 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 flex items-center justify-center text-5xl font-bold text-white shadow-lg">
                   JB
                 </div>
@@ -317,7 +317,7 @@ const CreativePortal = ({ onLogout }) => {
                     {['Writer', 'Producer', 'Director', 'Actor'].map(role => (
                       <span
                         key={role}
-                        className="bg-purple-700/30 text-purple-200 px-3 py-1 rounded-full text-xs font-semibold"
+                        className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs font-semibold"
                       >
                         {role}
                       </span>
@@ -337,10 +337,10 @@ const CreativePortal = ({ onLogout }) => {
                 <h3 className="text-2xl font-bold text-white mb-6">Featured Projects</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                   {/* Project 1 */}
-                  <div className="bg-white/10 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-white/20">
+                  <div className="bg-slate-800/50 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-slate-700/50">
                     <h4 className="text-xl font-bold text-purple-200 mb-2">Tentative Feelings</h4>
                     <div className="flex flex-wrap gap-2 mb-2">
-                      <span className="bg-purple-700/30 text-purple-100 px-2 py-1 rounded-full text-xs">
+                      <span className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full text-xs">
                         Romantic Comedy
                       </span>
                       <span className="bg-indigo-700/30 text-indigo-100 px-2 py-1 rounded-full text-xs">
@@ -381,10 +381,10 @@ const CreativePortal = ({ onLogout }) => {
                     </div>
                   </div>
                   {/* Project 2 */}
-                  <div className="bg-white/10 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-white/20">
+                  <div className="bg-slate-800/50 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-slate-700/50">
                     <h4 className="text-xl font-bold text-purple-200 mb-2">Traded</h4>
                     <div className="flex flex-wrap gap-2 mb-2">
-                      <span className="bg-purple-700/30 text-purple-100 px-2 py-1 rounded-full text-xs">
+                      <span className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full text-xs">
                         Sports Drama
                       </span>
                       <span className="bg-indigo-700/30 text-indigo-100 px-2 py-1 rounded-full text-xs">
@@ -424,10 +424,10 @@ const CreativePortal = ({ onLogout }) => {
                     </div>
                   </div>
                   {/* Project 3 */}
-                  <div className="bg-white/10 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-white/20">
+                  <div className="bg-slate-800/50 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-slate-700/50">
                     <h4 className="text-xl font-bold text-purple-200 mb-2">The Lambs</h4>
                     <div className="flex flex-wrap gap-2 mb-2">
-                      <span className="bg-purple-700/30 text-purple-100 px-2 py-1 rounded-full text-xs">
+                      <span className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full text-xs">
                         Sci-Fi Psychological Thriller
                       </span>
                       <span className="bg-indigo-700/30 text-indigo-100 px-2 py-1 rounded-full text-xs">
@@ -471,10 +471,10 @@ const CreativePortal = ({ onLogout }) => {
                 </div>
               </div>
               {/* Collaboration & Contact Section */}
-              <div className="py-8 border-t border-white/10">
+              <div className="py-8 border-t border-slate-700/50">
                 <h3 className="text-2xl font-bold text-white mb-4">Collaboration & Contact</h3>
                 <div className="flex flex-col md:flex-row gap-6">
-                  <div className="flex-1 bg-white/5 rounded-xl p-6 border border-white/10">
+                  <div className="flex-1 bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50">
                     <h4 className="text-lg font-semibold text-purple-200 mb-2">
                       Collaboration Opportunities
                     </h4>
@@ -485,7 +485,7 @@ const CreativePortal = ({ onLogout }) => {
                       <li>Interested in cross-industry innovation</li>
                     </ul>
                   </div>
-                  <div className="flex-1 bg-white/5 rounded-xl p-6 border border-white/10 flex flex-col items-start justify-between">
+                  <div className="flex-1 bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 flex flex-col items-start justify-between">
                     <h4 className="text-lg font-semibold text-purple-200 mb-2">
                       Contact & Connect
                     </h4>
