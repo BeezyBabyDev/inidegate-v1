@@ -304,12 +304,201 @@ const CreativePortal = ({ onLogout }) => {
             </div>
           )}
           {/* Placeholder for other tabs/subpages */}
-          {activeTab !== 'Dashboard' && (
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-8 text-center">
-              <h2 className="text-2xl font-bold mb-4">{activeTab}</h2>
-              <p className="text-slate-200">
-                This page is under construction. Content for {activeTab} will be added soon.
-              </p>
+          {activeTab === 'Profile' && (
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-0 md:p-8 text-left max-w-6xl mx-auto w-full">
+              {/* Filmmaker Header Section */}
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-8 border-b border-white/10">
+                <div className="flex-shrink-0 w-32 h-32 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 flex items-center justify-center text-5xl font-bold text-white shadow-lg">
+                  JB
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-3xl font-extrabold text-white mb-2">Joe Bell</h2>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {['Writer', 'Producer', 'Director', 'Actor'].map(role => (
+                      <span
+                        key={role}
+                        className="bg-purple-700/30 text-purple-200 px-3 py-1 rounded-full text-xs font-semibold"
+                      >
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-purple-100 mb-4">
+                    Creative visionary with expertise across multiple filmmaking disciplines.
+                  </p>
+                  <button className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-semibold shadow transition-all">
+                    Message Joe
+                  </button>
+                </div>
+              </div>
+              {/* Project Filters (future) */}
+              {/* Featured Projects Grid */}
+              <div className="py-8">
+                <h3 className="text-2xl font-bold text-white mb-6">Featured Projects</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                  {/* Project 1 */}
+                  <div className="bg-white/10 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-white/20">
+                    <h4 className="text-xl font-bold text-purple-200 mb-2">Tentative Feelings</h4>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <span className="bg-purple-700/30 text-purple-100 px-2 py-1 rounded-full text-xs">
+                        Romantic Comedy
+                      </span>
+                      <span className="bg-indigo-700/30 text-indigo-100 px-2 py-1 rounded-full text-xs">
+                        In Development
+                      </span>
+                    </div>
+                    <p className="text-purple-100 text-sm mb-3">
+                      Modern romantic comedy exploring authentic connections in the digital dating
+                      era.
+                    </p>
+                    <div className="mb-2">
+                      <span className="font-semibold text-white text-xs">
+                        Character Opportunities:
+                      </span>
+                      <ul className="list-disc list-inside text-purple-200 text-xs mt-1">
+                        <li>Lead romantic interests (ages 25-35)</li>
+                        <li>Supporting comedic roles</li>
+                        <li>Social media influencer cameos</li>
+                        <li>Tech industry characters</li>
+                      </ul>
+                    </div>
+                    <div className="mb-2">
+                      <span className="font-semibold text-white text-xs">Brand Placement:</span>
+                      <ul className="list-disc list-inside text-purple-200 text-xs mt-1">
+                        <li>Dating app partnerships</li>
+                        <li>Coffee shops/restaurants</li>
+                        <li>Fashion/lifestyle brands</li>
+                        <li>Technology companies</li>
+                      </ul>
+                    </div>
+                    <div className="flex flex-col gap-1 mt-2">
+                      <span className="text-xs text-purple-300">
+                        Investment Needs: <span className="font-bold text-green-300">$2.5M</span>
+                      </span>
+                      <span className="text-xs text-purple-300">
+                        ROI Potential: Streaming rights, theatrical release, brand partnerships
+                      </span>
+                    </div>
+                  </div>
+                  {/* Project 2 */}
+                  <div className="bg-white/10 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-white/20">
+                    <h4 className="text-xl font-bold text-purple-200 mb-2">Traded</h4>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <span className="bg-purple-700/30 text-purple-100 px-2 py-1 rounded-full text-xs">
+                        Sports Drama
+                      </span>
+                      <span className="bg-indigo-700/30 text-indigo-100 px-2 py-1 rounded-full text-xs">
+                        Pre-Production
+                      </span>
+                    </div>
+                    <p className="text-purple-100 text-sm mb-3">
+                      Intense drama following a professional athlete through career-defining trades.
+                    </p>
+                    <div className="mb-2">
+                      <span className="font-semibold text-white text-xs">
+                        Character Opportunities:
+                      </span>
+                      <ul className="list-disc list-inside text-purple-200 text-xs mt-1">
+                        <li>Professional athlete lead (ages 25-40)</li>
+                        <li>Sports agents/managers</li>
+                        <li>Coaches and team staff</li>
+                        <li>Sports media personalities</li>
+                      </ul>
+                    </div>
+                    <div className="mb-2">
+                      <span className="font-semibold text-white text-xs">Brand Placement:</span>
+                      <ul className="list-disc list-inside text-purple-200 text-xs mt-1">
+                        <li>Sports equipment manufacturers</li>
+                        <li>Athletic apparel brands</li>
+                        <li>Energy drinks/supplements</li>
+                        <li>Sports broadcasting networks</li>
+                      </ul>
+                    </div>
+                    <div className="flex flex-col gap-1 mt-2">
+                      <span className="text-xs text-purple-300">
+                        Investment Needs: <span className="font-bold text-green-300">$8M</span>
+                      </span>
+                      <span className="text-xs text-purple-300">
+                        ROI Potential: Theatrical release, international sales, merchandising
+                      </span>
+                    </div>
+                  </div>
+                  {/* Project 3 */}
+                  <div className="bg-white/10 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all border border-white/20">
+                    <h4 className="text-xl font-bold text-purple-200 mb-2">The Lambs</h4>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <span className="bg-purple-700/30 text-purple-100 px-2 py-1 rounded-full text-xs">
+                        Sci-Fi Psychological Thriller
+                      </span>
+                      <span className="bg-indigo-700/30 text-indigo-100 px-2 py-1 rounded-full text-xs">
+                        Script Development
+                      </span>
+                    </div>
+                    <p className="text-purple-100 text-sm mb-3">
+                      Mind-bending thriller exploring memory manipulation technology and reality
+                      perception.
+                    </p>
+                    <div className="mb-2">
+                      <span className="font-semibold text-white text-xs">
+                        Character Opportunities:
+                      </span>
+                      <ul className="list-disc list-inside text-purple-200 text-xs mt-1">
+                        <li>Complex lead protagonist (ages 30-45)</li>
+                        <li>Mysterious scientist/antagonist</li>
+                        <li>Tech industry whistleblower</li>
+                        <li>Ensemble supporting cast</li>
+                      </ul>
+                    </div>
+                    <div className="mb-2">
+                      <span className="font-semibold text-white text-xs">Brand Placement:</span>
+                      <ul className="list-disc list-inside text-purple-200 text-xs mt-1">
+                        <li>Technology companies (subtle integration)</li>
+                        <li>Medical device manufacturers</li>
+                        <li>VR/AR technology brands</li>
+                        <li>Pharmaceutical companies</li>
+                      </ul>
+                    </div>
+                    <div className="flex flex-col gap-1 mt-2">
+                      <span className="text-xs text-purple-300">
+                        Investment Needs: <span className="font-bold text-green-300">$12M</span>
+                      </span>
+                      <span className="text-xs text-purple-300">
+                        ROI Potential: Premium content with franchise potential, international
+                        appeal
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Collaboration & Contact Section */}
+              <div className="py-8 border-t border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-4">Collaboration & Contact</h3>
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div className="flex-1 bg-white/5 rounded-xl p-6 border border-white/10">
+                    <h4 className="text-lg font-semibold text-purple-200 mb-2">
+                      Collaboration Opportunities
+                    </h4>
+                    <ul className="list-disc list-inside text-purple-200 text-sm mb-2">
+                      <li>Open to co-writing, producing, and directing partnerships</li>
+                      <li>Seeking talent, brands, and investors for current projects</li>
+                      <li>Available for speaking engagements and panels</li>
+                      <li>Interested in cross-industry innovation</li>
+                    </ul>
+                  </div>
+                  <div className="flex-1 bg-white/5 rounded-xl p-6 border border-white/10 flex flex-col items-start justify-between">
+                    <h4 className="text-lg font-semibold text-purple-200 mb-2">
+                      Contact & Connect
+                    </h4>
+                    <p className="text-purple-100 text-sm mb-4">
+                      Connect with Joe Bell directly through IndieGate.io's messaging system for
+                      collaboration, investment, or project inquiries.
+                    </p>
+                    <button className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-semibold shadow transition-all">
+                      Message Joe
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </main>
