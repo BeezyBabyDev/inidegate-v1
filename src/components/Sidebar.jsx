@@ -12,8 +12,8 @@ import {
 } from 'lucide-react'
 import LogoutButton from './LogoutButton'
 
-const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => {
-  const navItems = [
+const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout, portalType }) => {
+  let navItems = [
     { icon: Home, label: 'Dashboard' },
     { icon: User, label: 'Profile' },
     { icon: Briefcase, label: 'Portfolio' },
@@ -23,6 +23,18 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout }) => 
     { icon: BarChart2, label: 'Analytics' },
     { icon: MessageSquare, label: 'Messages' },
   ]
+  if (portalType === 'filmmaker') {
+    navItems = [
+      { icon: Home, label: 'Dashboard' },
+      { icon: User, label: 'Profile' },
+      { icon: Briefcase, label: 'Investors' },
+      { icon: DollarSign, label: 'Brands' },
+      { icon: Users, label: 'Influencers' },
+      { icon: Search, label: 'Distributors' },
+      { icon: BarChart2, label: 'Community' },
+      { icon: MessageSquare, label: 'Messages' },
+    ]
+  }
 
   return (
     <div
