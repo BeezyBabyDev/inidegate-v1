@@ -9,6 +9,10 @@ import {
   Home,
   ChevronLeft,
   ChevronRight,
+  Tag,
+  UserRoundStar,
+  Globe,
+  Mail,
 } from 'lucide-react'
 import LogoutButton from './LogoutButton'
 
@@ -27,12 +31,12 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout, porta
     navItems = [
       { icon: Home, label: 'Dashboard' },
       { icon: User, label: 'Profile' },
-      { icon: Briefcase, label: 'Investors' },
-      { icon: DollarSign, label: 'Brands' },
-      { icon: Users, label: 'Influencers' },
-      { icon: Search, label: 'Distributors' },
-      { icon: BarChart2, label: 'Community' },
-      { icon: MessageSquare, label: 'Messages' },
+      { icon: DollarSign, label: 'Investors' },
+      { icon: Tag, label: 'Brands' },
+      { icon: UserRoundStar, label: 'Influencers' },
+      { icon: Globe, label: 'Distributors' },
+      { icon: Users, label: 'Community' },
+      { icon: Mail, label: 'Messages' },
     ]
   }
 
