@@ -303,8 +303,7 @@ const CreativePortal = ({ onLogout }) => {
               </div>
             </div>
           )}
-          {/* Placeholder for other tabs/subpages */}
-          {activeTab === 'Investors' && (
+          {activeTab === 'Profile' && (
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-0 md:p-8 text-left max-w-6xl mx-auto w-full shadow-xl">
               {/* Filmmaker Header Section */}
               <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-8 border-b border-slate-700/50">
@@ -331,7 +330,6 @@ const CreativePortal = ({ onLogout }) => {
                   </button>
                 </div>
               </div>
-              {/* Project Filters (future) */}
               {/* Featured Projects Grid */}
               <div className="py-8">
                 <h3 className="text-2xl font-bold text-white mb-6">Featured Projects</h3>
@@ -470,35 +468,14 @@ const CreativePortal = ({ onLogout }) => {
                   </div>
                 </div>
               </div>
-              {/* Collaboration & Contact Section */}
-              <div className="py-8 border-t border-slate-700/50">
-                <h3 className="text-2xl font-bold text-white mb-4">Collaboration & Contact</h3>
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="flex-1 bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50">
-                    <h4 className="text-lg font-semibold text-purple-200 mb-2">
-                      Collaboration Opportunities
-                    </h4>
-                    <ul className="list-disc list-inside text-purple-200 text-sm mb-2">
-                      <li>Open to co-writing, producing, and directing partnerships</li>
-                      <li>Seeking talent, brands, and investors for current projects</li>
-                      <li>Available for speaking engagements and panels</li>
-                      <li>Interested in cross-industry innovation</li>
-                    </ul>
-                  </div>
-                  <div className="flex-1 bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 flex flex-col items-start justify-between">
-                    <h4 className="text-lg font-semibold text-purple-200 mb-2">
-                      Contact & Connect
-                    </h4>
-                    <p className="text-purple-100 text-sm mb-4">
-                      Connect with Joe Bell directly through IndieGate.io's messaging system for
-                      collaboration, investment, or project inquiries.
-                    </p>
-                    <button className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-semibold shadow transition-all">
-                      Message Joe
-                    </button>
-                  </div>
-                </div>
-              </div>
+            </div>
+          )}
+          {activeTab === 'Investors' && (
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+              <h2 className="text-3xl font-bold text-white mb-4">Investors Portal</h2>
+              <p className="text-purple-200 text-lg mb-6">
+                This section is coming soon. Stay tuned for updates!
+              </p>
             </div>
           )}
           {activeTab === 'Brands' && (
