@@ -3,6 +3,7 @@ import { useScrollToTop } from '../hooks/useScrollToTop'
 import Sidebar from './Sidebar'
 import Card from './Card'
 import Button from './Button'
+import { Mail, Phone, Linkedin, Twitter, Instagram, Globe } from 'lucide-react'
 
 const CreativePortal = ({ onLogout }) => {
   useScrollToTop()
@@ -20,6 +21,23 @@ const CreativePortal = ({ onLogout }) => {
     stage: '',
     locations: '',
   })
+
+  // Dummy profile data
+  const profile = {
+    name: 'Joe Bell',
+    roles: ['Writer', 'Producer', 'Director', 'Actor'],
+    bio: 'Creative visionary with expertise across multiple filmmaking disciplines. Passionate about storytelling, innovation, and building meaningful industry connections. Experienced in leading projects from concept to completion.',
+    contact: {
+      email: 'joe.bell@email.com',
+      phone: '+1 (555) 123-4567',
+      website: 'https://joebellfilms.com',
+    },
+    social: {
+      linkedin: 'https://linkedin.com/in/joebell',
+      twitter: 'https://twitter.com/joebellfilms',
+      instagram: 'https://instagram.com/joebellfilms',
+    },
+  }
 
   // Dummy project data for demonstration
   const projects = [
@@ -116,15 +134,15 @@ const CreativePortal = ({ onLogout }) => {
   // Profile card
   const renderProfileCard = () => (
     <div className="mb-6">
-      <div className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div className="flex items-center gap-6">
+      <div className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <div className="flex flex-col md:flex-row md:items-center gap-6 w-full md:w-auto">
           <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 flex items-center justify-center text-4xl font-bold text-white shadow-lg">
             JB
           </div>
           <div>
-            <h2 className="text-3xl font-extrabold text-white mb-1">Joe Bell</h2>
+            <h2 className="text-3xl font-extrabold text-white mb-1">{profile.name}</h2>
             <div className="flex flex-wrap gap-2 mb-1">
-              {['Writer', 'Producer', 'Director', 'Actor'].map(role => (
+              {profile.roles.map(role => (
                 <span
                   key={role}
                   className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs font-semibold"
@@ -133,12 +151,71 @@ const CreativePortal = ({ onLogout }) => {
                 </span>
               ))}
             </div>
-            <p className="text-purple-100 text-sm">
-              Creative visionary with expertise across multiple filmmaking disciplines.
-            </p>
+            {/* Bio Description */}
+            <div className="mb-2">
+              <h4 className="text-purple-300 text-xs font-bold mb-1">Bio Description</h4>
+              <p className="text-purple-100 text-sm">{profile.bio}</p>
+            </div>
+            {/* Contact Info */}
+            <div className="flex flex-col gap-1 mb-2">
+              <h4 className="text-purple-300 text-xs font-bold mb-1">Contact Information</h4>
+              <div className="flex items-center gap-3 text-purple-100 text-sm">
+                <Mail size={16} className="inline-block mr-1" />
+                <a href={`mailto:${profile.contact.email}`} className="hover:underline">
+                  {profile.contact.email}
+                </a>
+              </div>
+              <div className="flex items-center gap-3 text-purple-100 text-sm">
+                <Phone size={16} className="inline-block mr-1" />
+                <a href={`tel:${profile.contact.phone}`} className="hover:underline">
+                  {profile.contact.phone}
+                </a>
+              </div>
+              <div className="flex items-center gap-3 text-purple-100 text-sm">
+                <Globe size={16} className="inline-block mr-1" />
+                <a
+                  href={profile.contact.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  {profile.contact.website}
+                </a>
+              </div>
+            </div>
+            {/* Social Media Links */}
+            <div className="flex items-center gap-4 mt-2">
+              <a
+                href={profile.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="LinkedIn"
+                className="text-purple-200 hover:text-white"
+              >
+                <Linkedin size={20} />
+              </a>
+              <a
+                href={profile.social.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Twitter"
+                className="text-purple-200 hover:text-white"
+              >
+                <Twitter size={20} />
+              </a>
+              <a
+                href={profile.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram"
+                className="text-purple-200 hover:text-white"
+              >
+                <Instagram size={20} />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col md:items-end gap-2">
+        <div className="flex flex-col md:items-end gap-2 mt-6 md:mt-0">
           <ProfileViewToggle />
           <Button className="bg-purple-600 hover:bg-purple-700 text-white mt-2 w-full md:w-auto">
             Edit Profile
@@ -210,7 +287,7 @@ const CreativePortal = ({ onLogout }) => {
 
   // Profile page layout
   const renderProfilePage = () => (
-    <div className="max-w-7xl mx-auto w-full">
+    <div className="max-w-screen-2xl mx-auto w-full px-2 md:px-6">
       {renderProfileCard()}
       {renderInvestorCriteria()}
       {/* Script Upload */}
@@ -230,11 +307,11 @@ const CreativePortal = ({ onLogout }) => {
         )}
       </div>
       {/* Project Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {projects.map(project => (
           <div
             key={project.id}
-            className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all"
+            className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all min-w-0"
           >
             <h4 className="text-xl font-bold text-purple-200 mb-2">{project.title}</h4>
             <div className="flex flex-wrap gap-2 mb-2">
@@ -249,7 +326,7 @@ const CreativePortal = ({ onLogout }) => {
             <Button
               size="sm"
               className="w-full bg-purple-600 hover:bg-purple-700 text-white mt-auto"
-              onClick={() => setExpandedProject(project.id)}
+              onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)}
             >
               View More
             </Button>
