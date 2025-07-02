@@ -31,46 +31,11 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout, porta
     navItems = [
       { icon: Home, label: 'Dashboard' },
       { icon: User, label: 'Profile' },
-      {
-        icon: () => (
-          <span style={{ fontSize: 20, display: 'inline-block', width: 20, textAlign: 'center' }}>
-            💲
-          </span>
-        ),
-        label: 'Investors',
-      },
-      {
-        icon: () => (
-          <span style={{ fontSize: 20, display: 'inline-block', width: 20, textAlign: 'center' }}>
-            🏷️
-          </span>
-        ),
-        label: 'Brands',
-      },
-      {
-        icon: () => (
-          <span style={{ fontSize: 20, display: 'inline-block', width: 20, textAlign: 'center' }}>
-            🌟
-          </span>
-        ),
-        label: 'Influencers',
-      },
-      {
-        icon: () => (
-          <span style={{ fontSize: 20, display: 'inline-block', width: 20, textAlign: 'center' }}>
-            🌐
-          </span>
-        ),
-        label: 'Distributors',
-      },
-      {
-        icon: () => (
-          <span style={{ fontSize: 20, display: 'inline-block', width: 20, textAlign: 'center' }}>
-            👥
-          </span>
-        ),
-        label: 'Community',
-      },
+      { icon: DollarSign, label: 'Investors' },
+      { icon: Tag, label: 'Brands' },
+      { icon: UserRoundStar, label: 'Influencers' },
+      { icon: Globe, label: 'Distributors' },
+      { icon: Users, label: 'Community' },
       { icon: Mail, label: 'Messages' },
     ]
   }
@@ -102,7 +67,7 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout, porta
                     : 'text-gray-300 hover:bg-white/10'
                 }`}
               >
-                <Icon />
+                <Icon size={20} color="white" />
                 {!isCollapsed && <span className="ml-4 font-semibold">{label}</span>}
               </a>
             </li>
