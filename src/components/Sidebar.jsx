@@ -10,7 +10,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Tag,
-  UserRoundStar,
   Globe,
   Mail,
 } from 'lucide-react'
@@ -33,7 +32,7 @@ const Sidebar = ({ isCollapsed, onToggle, activeTab, onTabClick, onLogout, porta
       { icon: User, label: 'Profile' },
       { icon: DollarSign, label: 'Investors' },
       { icon: Tag, label: 'Brands' },
-      { icon: UserRoundStar, label: 'Influencers' },
+      { icon: User, label: 'Influencers' },
       { icon: Globe, label: 'Distributors' },
       { icon: Users, label: 'Community' },
       { icon: Mail, label: 'Messages' },
