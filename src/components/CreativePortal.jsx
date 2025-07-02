@@ -12,6 +12,14 @@ const CreativePortal = ({ onLogout }) => {
   const [scriptFile, setScriptFile] = useState(null)
   const [scriptAnalysis, setScriptAnalysis] = useState(null)
   const [expandedProject, setExpandedProject] = useState(null)
+  // Investor Criteria State
+  const [investorCriteria, setInvestorCriteria] = useState({
+    genres: '',
+    budgetMin: '',
+    budgetMax: '',
+    stage: '',
+    locations: '',
+  })
 
   // Dummy project data for demonstration
   const projects = [
@@ -105,11 +113,11 @@ const CreativePortal = ({ onLogout }) => {
     </div>
   )
 
-  // Profile page layout
-  const renderProfilePage = () => (
-    <div className="max-w-7xl mx-auto w-full">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <div className="flex items-center gap-4">
+  // Profile card
+  const renderProfileCard = () => (
+    <div className="mb-6">
+      <div className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="flex items-center gap-6">
           <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 flex items-center justify-center text-4xl font-bold text-white shadow-lg">
             JB
           </div>
@@ -137,6 +145,74 @@ const CreativePortal = ({ onLogout }) => {
           </Button>
         </div>
       </div>
+    </div>
+  )
+
+  // Investor Criteria card
+  const renderInvestorCriteria = () => (
+    <div className="mb-6">
+      <div className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-6 flex flex-col gap-4">
+        <h3 className="text-xl font-bold text-white mb-2">Investor Criteria</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-sm text-purple-200 mb-1">Preferred Genres</label>
+            <input
+              type="text"
+              className="w-full rounded bg-slate-900/60 border border-slate-700 text-white px-3 py-2"
+              value={investorCriteria.genres}
+              onChange={e => setInvestorCriteria(c => ({ ...c, genres: e.target.value }))}
+              placeholder="e.g. Drama, Comedy"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-purple-200 mb-1">Budget Range ($)</label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                className="w-1/2 rounded bg-slate-900/60 border border-slate-700 text-white px-3 py-2"
+                value={investorCriteria.budgetMin}
+                onChange={e => setInvestorCriteria(c => ({ ...c, budgetMin: e.target.value }))}
+                placeholder="Min"
+              />
+              <input
+                type="number"
+                className="w-1/2 rounded bg-slate-900/60 border border-slate-700 text-white px-3 py-2"
+                value={investorCriteria.budgetMax}
+                onChange={e => setInvestorCriteria(c => ({ ...c, budgetMax: e.target.value }))}
+                placeholder="Max"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm text-purple-200 mb-1">Project Stage</label>
+            <input
+              type="text"
+              className="w-full rounded bg-slate-900/60 border border-slate-700 text-white px-3 py-2"
+              value={investorCriteria.stage}
+              onChange={e => setInvestorCriteria(c => ({ ...c, stage: e.target.value }))}
+              placeholder="e.g. Development, Production"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-purple-200 mb-1">Preferred Locations</label>
+            <input
+              type="text"
+              className="w-full rounded bg-slate-900/60 border border-slate-700 text-white px-3 py-2"
+              value={investorCriteria.locations}
+              onChange={e => setInvestorCriteria(c => ({ ...c, locations: e.target.value }))}
+              placeholder="e.g. Los Angeles, New York"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Profile page layout
+  const renderProfilePage = () => (
+    <div className="max-w-7xl mx-auto w-full">
+      {renderProfileCard()}
+      {renderInvestorCriteria()}
       {/* Script Upload */}
       <div className="mb-6 flex flex-col md:flex-row md:items-center gap-4">
         <label className="block text-sm font-medium text-purple-200">
@@ -156,9 +232,9 @@ const CreativePortal = ({ onLogout }) => {
       {/* Project Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {projects.map(project => (
-          <Card
+          <div
             key={project.id}
-            className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all"
+            className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-6 flex flex-col shadow-lg hover:shadow-xl transition-all"
           >
             <h4 className="text-xl font-bold text-purple-200 mb-2">{project.title}</h4>
             <div className="flex flex-wrap gap-2 mb-2">
@@ -179,7 +255,7 @@ const CreativePortal = ({ onLogout }) => {
             </Button>
             {/* Expanded Project View */}
             {expandedProject === project.id && (
-              <div className="mt-4 bg-slate-900/80 rounded-xl p-4 border border-purple-700">
+              <div className="mt-4 bg-black/60 backdrop-blur-lg rounded-xl p-4 border border-purple-700">
                 <h5 className="text-lg font-bold text-white mb-2">Project Matches</h5>
                 <div className="mb-2">
                   <span className="font-semibold text-purple-300">Brand Matches:</span>
@@ -222,7 +298,7 @@ const CreativePortal = ({ onLogout }) => {
                 </Button>
               </div>
             )}
-          </Card>
+          </div>
         ))}
       </div>
     </div>
