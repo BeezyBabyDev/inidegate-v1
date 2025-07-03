@@ -134,90 +134,149 @@ const CreativePortal = ({ onLogout }) => {
   // Profile card
   const renderProfileCard = () => (
     <div className="mb-6">
-      <div className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+      <div className="bg-slate-800/70 backdrop-blur-lg border border-slate-700/50 rounded-2xl px-8 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        {/* Left: Profile Image */}
         <div className="flex flex-col md:flex-row md:items-center gap-6 w-full md:w-auto">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 flex items-center justify-center text-4xl font-bold text-white shadow-lg">
-            JB
+          <div className="flex-shrink-0 flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 flex items-center justify-center text-5xl font-bold text-white shadow-lg border-4 border-purple-500/40">
+              JB
+            </div>
           </div>
-          <div>
-            <h2 className="text-3xl font-extrabold text-white mb-1">{profile.name}</h2>
-            <div className="flex flex-wrap gap-2 mb-1">
-              {profile.roles.map(role => (
-                <span
-                  key={role}
-                  className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs font-semibold"
+          {/* Center: Name, Roles, Bio, Location, Member Since */}
+          <div className="flex flex-col justify-center gap-2">
+            <div className="flex flex-col md:flex-row md:items-center gap-2">
+              <h2 className="text-4xl font-extrabold text-white mr-4">{profile.name}</h2>
+              <div className="flex flex-wrap gap-2">
+                {profile.roles.map(role => (
+                  <span
+                    key={role}
+                    className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm font-semibold"
+                  >
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Location and Member Since */}
+            <div className="flex flex-wrap gap-4 items-center text-purple-200 text-base mt-1">
+              <span className="flex items-center gap-1">
+                <svg
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-map-pin"
                 >
-                  {role}
-                </span>
-              ))}
+                  <path d="M12 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+                  <path d="M8 2v2" />
+                  <path d="M8 14v2" />
+                  <path d="M2 8h2" />
+                  <path d="M12 8h2" />
+                </svg>{' '}
+                Los Angeles, CA
+              </span>
+              <span className="flex items-center gap-1">
+                <svg
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-calendar"
+                >
+                  <rect width="16" height="16" x="2" y="4" rx="2" />
+                  <path d="M16 2v4" />
+                  <path d="M8 2v4" />
+                  <path d="M2 10h16" />
+                </svg>{' '}
+                Member since January 2023
+              </span>
             </div>
             {/* Bio Description */}
-            <div className="mb-2">
-              <h4 className="text-purple-300 text-xs font-bold mb-1">Bio Description</h4>
-              <p className="text-purple-100 text-sm">{profile.bio}</p>
+            <div className="mt-2">
+              <p className="text-purple-100 text-lg max-w-2xl">{profile.bio}</p>
             </div>
-            {/* Contact Info */}
-            <div className="flex flex-col gap-1 mb-2">
-              <h4 className="text-purple-300 text-xs font-bold mb-1">Contact Information</h4>
-              <div className="flex items-center gap-3 text-purple-100 text-sm">
-                <Mail size={16} className="inline-block mr-1" />
-                <a href={`mailto:${profile.contact.email}`} className="hover:underline">
-                  {profile.contact.email}
-                </a>
+            {/* Contact Info & Socials */}
+            <div className="flex flex-col md:flex-row md:items-center gap-4 mt-4">
+              <div className="flex flex-col gap-1 text-purple-100 text-base">
+                <div className="flex items-center gap-2">
+                  <Mail size={18} className="inline-block" />
+                  <a href={`mailto:${profile.contact.email}`} className="hover:underline">
+                    {profile.contact.email}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone size={18} className="inline-block" />
+                  <a href={`tel:${profile.contact.phone}`} className="hover:underline">
+                    {profile.contact.phone}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Globe size={18} className="inline-block" />
+                  <a
+                    href={profile.contact.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {profile.contact.website}
+                  </a>
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-purple-100 text-sm">
-                <Phone size={16} className="inline-block mr-1" />
-                <a href={`tel:${profile.contact.phone}`} className="hover:underline">
-                  {profile.contact.phone}
-                </a>
-              </div>
-              <div className="flex items-center gap-3 text-purple-100 text-sm">
-                <Globe size={16} className="inline-block mr-1" />
+              <div className="flex items-center gap-4 ml-1 mt-2 md:mt-0">
                 <a
-                  href={profile.contact.website}
+                  href={profile.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline"
+                  title="LinkedIn"
+                  className="text-purple-200 hover:text-white"
                 >
-                  {profile.contact.website}
+                  <Linkedin size={22} />
+                </a>
+                <a
+                  href={profile.social.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Twitter"
+                  className="text-purple-200 hover:text-white"
+                >
+                  <Twitter size={22} />
+                </a>
+                <a
+                  href={profile.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Instagram"
+                  className="text-purple-200 hover:text-white"
+                >
+                  <Instagram size={22} />
                 </a>
               </div>
-            </div>
-            {/* Social Media Links */}
-            <div className="flex items-center gap-4 mt-2">
-              <a
-                href={profile.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LinkedIn"
-                className="text-purple-200 hover:text-white"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href={profile.social.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Twitter"
-                className="text-purple-200 hover:text-white"
-              >
-                <Twitter size={20} />
-              </a>
-              <a
-                href={profile.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Instagram"
-                className="text-purple-200 hover:text-white"
-              >
-                <Instagram size={20} />
-              </a>
             </div>
           </div>
         </div>
-        <div className="flex flex-col md:items-end gap-2 mt-6 md:mt-0">
-          <ProfileViewToggle />
-          <Button className="bg-purple-600 hover:bg-purple-700 text-white mt-2 w-full md:w-auto">
+        {/* Right: Toggle and Edit Profile Button */}
+        <div className="flex flex-col items-end gap-4 mt-8 md:mt-0 md:ml-8">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setProfileView('public')}
+              className={`px-5 py-2 text-base font-semibold rounded-full transition-colors shadow ${profileView === 'public' ? 'bg-purple-600 text-white' : 'bg-slate-700 text-purple-200'}`}
+            >
+              Public View
+            </button>
+            <button
+              onClick={() => setProfileView('editor')}
+              className={`px-5 py-2 text-base font-semibold rounded-full transition-colors shadow ${profileView === 'editor' ? 'bg-purple-600 text-white' : 'bg-slate-700 text-purple-200'}`}
+            >
+              Editor View
+            </button>
+          </div>
+          <Button className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold px-6 py-2 rounded-full shadow-lg mt-2 w-full md:w-auto">
             Edit Profile
           </Button>
         </div>
