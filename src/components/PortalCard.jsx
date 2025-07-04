@@ -54,7 +54,26 @@ const PortalCard = ({ portal }) => {
           Enter Portal
         </button>
       )}
-      {portal.disabled && <span className="coming-soon-badge">Coming Soon</span>}
+      {portal.disabled && (
+        <span
+          className="coming-soon-badge"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            maxWidth: '220px',
+            height: '48px',
+            margin: '1.5rem auto 0 auto',
+            fontWeight: 600,
+            fontSize: '1.125rem',
+            borderRadius: '9999px',
+            background: 'inherit',
+          }}
+        >
+          Coming Soon
+        </span>
+      )}
     </>
   )
 }
