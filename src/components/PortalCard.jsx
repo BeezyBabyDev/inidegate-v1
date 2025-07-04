@@ -55,24 +55,38 @@ const PortalCard = ({ portal }) => {
         </button>
       )}
       {portal.disabled && (
-        <span
-          className="coming-soon-badge"
+        <button
+          type="button"
+          className="portal-enter-btn filmmakers-btn"
+          tabIndex={-1}
+          aria-label="Coming Soon"
+          title="Coming Soon"
+          disabled
           style={{
+            pointerEvents: 'none',
+            cursor: 'not-allowed',
+            textDecoration: 'none',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '100%',
-            maxWidth: '220px',
-            height: '48px',
-            margin: '1.5rem auto 0 auto',
+            marginTop: '1.5rem',
+            position: 'static',
+            transition: 'box-shadow 0.2s, border-color 0.2s',
+            background: '#1a1625',
+            border: '2px solid #FFD600',
+            color: '#FFD600',
             fontWeight: 600,
             fontSize: '1.125rem',
             borderRadius: '9999px',
-            background: 'inherit',
+            width: '100%',
+            maxWidth: '220px',
+            height: '48px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
           }}
         >
           Coming Soon
-        </span>
+        </button>
       )}
     </>
   )
