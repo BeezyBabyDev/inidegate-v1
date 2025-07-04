@@ -63,26 +63,9 @@ const PortalCard = ({ portal }) => {
           title="Coming Soon"
           disabled
           style={{
-            pointerEvents: 'none',
-            cursor: 'not-allowed',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: '1.5rem',
-            position: 'static',
-            transition: 'box-shadow 0.2s, border-color 0.2s',
-            background: '#1a1625',
             border: '2px solid #FFD600',
             color: '#FFD600',
-            fontWeight: 600,
-            fontSize: '1.125rem',
-            borderRadius: '9999px',
-            width: '100%',
-            maxWidth: '220px',
-            height: '48px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
+            background: 'rgba(139, 92, 246, 0.1)',
           }}
         >
           Coming Soon
