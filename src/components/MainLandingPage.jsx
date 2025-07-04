@@ -113,7 +113,7 @@ const MainLandingPage = () => {
           </Button>
           <Button
             className="bg-slate-800 hover:bg-slate-700 px-8 py-3 text-lg font-semibold"
-            onClick={() => (window.location.href = '/demo')}
+            onClick={() => (window.location.href = 'https://calendly.com/joe-fbfmh/30min')}
           >
             Schedule a Demo
           </Button>
@@ -163,7 +163,7 @@ const MainLandingPage = () => {
           </Button>
           <Button
             className="bg-slate-800 hover:bg-slate-700 px-8 py-3 text-lg font-semibold"
-            onClick={() => (window.location.href = '/demo')}
+            onClick={() => (window.location.href = 'https://calendly.com/joe-fbfmh/30min')}
           >
             Book a Demo
           </Button>
