@@ -13,6 +13,10 @@ import {
   BookOpen,
   CheckCircle,
   Clock,
+  Search,
+  Mic,
+  Video,
+  Cpu,
 } from 'lucide-react'
 
 const CreativePortal = ({ onLogout }) => {
@@ -530,6 +534,31 @@ const CreativePortal = ({ onLogout }) => {
     </div>
   )
 
+  const resourceFormats = ['Read', 'Listen', 'Watch', 'Immersive']
+  const formatIcons = {
+    Read: <BookOpen size={16} />,
+    Listen: <Mic size={16} />,
+    Watch: <Video size={16} />,
+    Immersive: <Cpu size={16} />,
+  }
+  const resourceLevels = ['Beginner', 'Intermediate', 'Advanced']
+  const [learningTab, setLearningTab] = useState('All Resources')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [levelFilters, setLevelFilters] = useState([])
+  const [formatFilter, setFormatFilter] = useState('All')
+
+  const handleLevelFilter = level => {
+    setLevelFilters(prev =>
+      prev.includes(level) ? prev.filter(l => l !== level) : [...prev, level]
+    )
+  }
+  const filteredResources = learningResources.filter(res => {
+    const matchesSearch = res.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesLevel = levelFilters.length === 0 || levelFilters.includes(res.type)
+    const matchesFormat = formatFilter === 'All' || res.format === formatFilter
+    return matchesSearch && matchesLevel && matchesFormat
+  })
+
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
       <div
@@ -835,42 +864,110 @@ const CreativePortal = ({ onLogout }) => {
                       <span className="font-bold text-white">{progress}%</span>
                     </div>
                   </div>
+                  {/* Tabs */}
                   <div className="flex border-b border-white/10 mb-6">
-                    <button className="px-4 py-2 text-sm font-medium border-b-2 border-purple-500 text-white">
-                      All Resources
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {learningResources.map(resource => (
-                      <div
-                        key={resource.id}
-                        className="bg-black/20 p-4 rounded-lg flex flex-col h-full border border-transparent hover:border-purple-500 transition-all group"
+                    {['All Resources', 'Learning Paths', 'Team Activity'].map(tab => (
+                      <button
+                        key={tab}
+                        onClick={() => setLearningTab(tab)}
+                        className={`px-4 py-2 text-sm font-medium ${learningTab === tab ? 'border-b-2 border-purple-500 text-white' : 'text-gray-400'}`}
                       >
-                        <div className="flex justify-between items-start mb-3">
-                          <span
-                            className={`px-2 py-1 text-xs font-semibold rounded-full ${levelColor[resource.type]}`}
-                          >
-                            {resource.type}
-                          </span>
-                          {resource.isCompleted && (
-                            <CheckCircle size={18} className="text-green-500" />
-                          )}
-                        </div>
-                        <h4 className="font-bold text-white mb-2 flex-grow">{resource.title}</h4>
-                        <div className="flex justify-between items-center text-xs text-gray-400 mb-4">
-                          <span className="flex items-center">
-                            <Clock size={12} className="mr-1" /> {resource.duration} min
-                          </span>
-                        </div>
-                        <button
-                          onClick={() => handleToggleComplete(resource.id)}
-                          className={`w-full py-2 rounded text-sm font-semibold transition-colors ${resource.isCompleted ? 'bg-green-600/50' : 'bg-purple-600 hover:bg-purple-700'} text-white`}
-                        >
-                          {resource.isCompleted ? 'Completed' : 'Mark as Complete'}
-                        </button>
-                      </div>
+                        {tab}
+                      </button>
                     ))}
                   </div>
+                  {/* Tab Content */}
+                  {learningTab === 'All Resources' && (
+                    <div className="relative">
+                      {/* Search and Filters */}
+                      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                        <div className="relative flex-grow w-full md:w-auto">
+                          <Search
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            size={18}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Search resources..."
+                            value={searchTerm}
+                            onChange={e => setSearchTerm(e.target.value)}
+                            className="w-full bg-black/20 pl-10 pr-4 py-2 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {resourceLevels.map(level => (
+                            <button
+                              key={level}
+                              onClick={() => handleLevelFilter(level)}
+                              className={`px-4 py-2 text-sm rounded-lg transition-colors ${levelFilters.includes(level) ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-300'}`}
+                            >
+                              {level}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex justify-center items-center gap-2 mb-6 border-b border-t border-white/10 py-3">
+                        <button
+                          onClick={() => setFormatFilter('All')}
+                          className={`px-4 py-2 text-sm rounded-lg transition-colors flex items-center gap-2 ${formatFilter === 'All' ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-300'}`}
+                        >
+                          All Formats
+                        </button>
+                        {resourceFormats.map(format => (
+                          <button
+                            key={format}
+                            onClick={() => setFormatFilter(format)}
+                            className={`px-4 py-2 text-sm rounded-lg transition-colors flex items-center gap-2 ${formatFilter === format ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-300'}`}
+                          >
+                            {formatIcons[format]} {format}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filteredResources.map(resource => (
+                          <div
+                            key={resource.id}
+                            className="bg-black/20 p-4 rounded-lg flex flex-col h-full border border-transparent hover:border-purple-500 transition-all group"
+                          >
+                            <div className="flex justify-between items-start mb-3">
+                              <span
+                                className={`px-2 py-1 text-xs font-semibold rounded-full ${levelColor[resource.type]}`}
+                              >
+                                {resource.type}
+                              </span>
+                              {resource.isCompleted && (
+                                <CheckCircle size={18} className="text-green-500" />
+                              )}
+                            </div>
+                            <h4 className="font-bold text-white mb-2 flex-grow">
+                              {resource.title}
+                            </h4>
+                            <div className="flex justify-between items-center text-xs text-gray-400 mb-4">
+                              <span className="flex items-center">
+                                <Clock size={12} className="mr-1" /> {resource.duration} min
+                              </span>
+                            </div>
+                            <button
+                              onClick={() => handleToggleComplete(resource.id)}
+                              className={`w-full py-2 rounded text-sm font-semibold transition-colors ${resource.isCompleted ? 'bg-green-600/50' : 'bg-purple-600 hover:bg-purple-700'} text-white`}
+                            >
+                              {resource.isCompleted ? 'Completed' : 'Mark as Complete'}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {learningTab === 'Learning Paths' && (
+                    <div className="text-purple-200 text-center py-12 text-lg">
+                      Learning Paths coming soon!
+                    </div>
+                  )}
+                  {learningTab === 'Team Activity' && (
+                    <div className="text-purple-200 text-center py-12 text-lg">
+                      Team Activity coming soon!
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
