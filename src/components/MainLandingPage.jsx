@@ -132,19 +132,6 @@ const MainLandingPage = () => {
         </div>
       </section>
 
-      {/* Use Cases */}
-      <section className="py-12 px-4 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8 text-center">Who Is IndieGate.io For?</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {useCases.map(use => (
-            <div key={use.title} className="bg-slate-800/80 rounded-xl p-6 shadow-md">
-              <h4 className="text-xl font-semibold mb-2 text-purple-300">{use.title}</h4>
-              <p className="text-slate-200">{use.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* About Us */}
       <section className="py-16 px-4 max-w-4xl mx-auto text-center">
         <h2 className="text-3xl font-bold mb-4">About IndieGate.io</h2>
